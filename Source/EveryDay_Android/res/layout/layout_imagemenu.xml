@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/fragment_header"
+        layout="@layout/fragment_header" />
+
+    <LinearLayout
+        android:id="@+id/lay_menu_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <ImageView
+            android:id="@+id/img_menu_appicon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/addcontact_icon" />
+
+        <common.component.ui.MyTextView
+            android:id="@+id/text_menu_appname"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/green2"
+            android:text="App name" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lay_menu_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <common.component.ui.MyButton
+            android:id="@+id/btn_menu_recent"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="Last" />
+
+        <common.component.ui.MyButton
+            android:id="@+id/btn_menu_namedstar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:text="Named Star" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lay_menu_3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <common.component.ui.MyButton
+            android:id="@+id/btn_menu_friends"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Friends" />
+
+        <common.component.ui.MyButton
+            android:id="@+id/btn_menu_personal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Personal" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lay_menu_4"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:gravity="center">
+
+        <ImageView
+            android:id="@+id/img_menu_cameraicon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/camera_icon" />
+
+    </LinearLayout>
+
+</LinearLayout>

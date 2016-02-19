@@ -1,0 +1,67 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+    
+    <include
+        android:id="@+id/fragment_header"
+        layout="@layout/fragment_header" />
+    
+    <ImageView
+        android:id="@+id/img_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/member_login_mark" />
+
+    <EditText
+        android:id="@+id/txt_login_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:hint="User Name"
+        android:gravity="center"
+        android:textColor="@color/black" />
+    
+    <EditText
+        android:id="@+id/txt_login_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:hint="Password"
+        android:gravity="center"
+        android:textColor="@color/black" />
+    
+    <common.component.ui.MyButton
+        android:id="@+id/btn_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_signup_bg"
+        android:text="Login"
+        android:textColor="@color/pink1" />
+
+    <LinearLayout
+        android:id="@+id/lay_login"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <common.component.ui.MyTextView
+            android:id="@+id/txt_login_register"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:textColor="@color/green2"
+            android:text="@string/register" />
+
+        <common.component.ui.MyTextView
+            android:id="@+id/txt_login_forgot"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:textColor="@color/green2"
+            android:text="@string/forgot_password" />
+
+    </LinearLayout>
+
+</LinearLayout>

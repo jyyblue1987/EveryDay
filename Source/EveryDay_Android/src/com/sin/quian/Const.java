@@ -68,6 +68,7 @@ public class Const {
 	
 	// Contact table
 	public static final String USERNAME = "username";
+	public static final String PASSWORD = "password";
 	public static final String NICKNAME = "nickname";
 	public static final String EMAIL = "email";
 	public static final String FAVORITE = "favorite";

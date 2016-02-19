@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+        <include android:id="@+id/fragment_header"
+		layout="@layout/fragment_header" />
+
+        <LinearLayout
+            android:id="@+id/lay_stage_1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <ImageView
+                android:id="@+id/img_stage_icon"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/addcontact_icon" />
+
+            <common.component.ui.MyTextView
+                android:id="@+id/text_stage_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="Jang"
+                android:textColor="@color/black" />
+
+            <ImageView
+                android:id="@+id/img_stage_hard"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/emoji_1f49b" />
+
+            <common.component.ui.MyTextView
+                android:id="@+id/text_stage_hard_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="200"
+                android:textColor="@color/black" />
+
+            <ImageView
+                android:id="@+id/img_stage_star"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:src="@drawable/star" />
+
+            <common.component.ui.MyTextView
+                android:id="@+id/text_stage_star_num"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:text="100"
+                android:textColor="@color/black" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lay_stage_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+
+            <common.component.ui.MyButton
+                android:id="@+id/btn_stage_favorite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MyButton" />
+
+            <common.component.ui.MyButton
+                android:id="@+id/btn_stage_edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MyButton" />
+
+            <common.component.ui.MyButton
+                android:id="@+id/btn_stage_aid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MyButton" />
+
+            <common.component.ui.MyButton
+                android:id="@+id/btn_stage_friendAdd"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="MyButton" />
+
+        </LinearLayout>
+        
+		<com.handmark.pulltorefresh.library.PullToRefreshListView 
+		     android:id="@+id/list_stage"
+		     android:layout_width="match_parent" 
+		     android:layout_height="match_parent" 
+		     android:listSelector="@drawable/item_white_selector"
+		     android:cacheColorHint="#00000000" 
+		     android:divider="@color/transparent">
+	        
+    	</com.handmark.pulltorefresh.library.PullToRefreshListView>
+		
+	    <TextView
+	        android:id="@+id/txt_stage"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:gravity="center"
+	        android:text="There is no stage"
+	        android:textColor="@color/green2"
+	        android:ems="10" />
+</LinearLayout>

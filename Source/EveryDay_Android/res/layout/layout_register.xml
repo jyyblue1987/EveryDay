@@ -1,0 +1,57 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+    
+    <include
+        android:id="@+id/fragment_header"
+        layout="@layout/fragment_header" />
+    
+
+    <EditText
+        android:id="@+id/txt_register_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:hint="User Name"
+        android:gravity="center"
+        android:textColor="@color/black" />
+    
+    <EditText
+        android:id="@+id/txt_register_password"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:hint="Password"
+        android:gravity="center"
+        android:textColor="@color/black" />        
+    
+    <EditText
+        android:id="@+id/txt_register_email"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:hint="Email"
+        android:gravity="center"
+        android:textColor="@color/black" />        
+    
+    <EditText
+        android:id="@+id/txt_register_phone"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@color/transparent"
+        android:hint="Phone Number"
+        android:gravity="center"
+        android:textColor="@color/black" />        
+    
+    <common.component.ui.MyButton
+        android:id="@+id/btn_register"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/btn_signup_bg"
+        android:text="Register"
+        android:textColor="@color/white" />
+
+</LinearLayout>
