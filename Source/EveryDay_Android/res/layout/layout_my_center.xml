@@ -15,6 +15,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:layout_marginTop="20dip"
+        android:layout_marginBottom="20dip"
+        android:background="@drawable/list_item_bg"
         android:clickable="true"        
         >
         <LinearLayout
