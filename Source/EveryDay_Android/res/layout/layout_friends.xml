@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+    
+        <include android:id="@+id/fragment_header"
+		layout="@layout/fragment_header" />
+        
+		<com.handmark.pulltorefresh.library.PullToRefreshListView 
+		     android:id="@+id/list_friends"
+		     android:layout_width="match_parent" 
+		     android:layout_height="match_parent" 
+		     android:listSelector="@drawable/item_white_selector"
+		     android:cacheColorHint="#00000000" 
+		     android:divider="@color/transparent">
+	        
+    	</com.handmark.pulltorefresh.library.PullToRefreshListView>
+	    <TextView
+	        android:id="@+id/txt_friends"
+	        android:layout_width="match_parent"
+	        android:layout_height="match_parent"
+	        android:gravity="center"
+	        android:text="There is no friends"
+	        android:textColor="@color/green"
+	        android:ems="10" />
+</LinearLayout>
