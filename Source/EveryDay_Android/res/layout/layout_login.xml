@@ -39,7 +39,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/btn_signup_bg"
         android:text="Login"
-        android:textColor="@color/pink1" />
+        android:textColor="@color/pink" />
 
     <LinearLayout
         android:id="@+id/lay_login"
@@ -51,7 +51,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:textColor="@color/green2"
+            android:textColor="@color/green"
             android:text="@string/register" />
 
         <common.component.ui.MyTextView
@@ -59,7 +59,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:textColor="@color/green2"
+            android:textColor="@color/green"
             android:text="@string/forgot_password" />
 
     </LinearLayout>

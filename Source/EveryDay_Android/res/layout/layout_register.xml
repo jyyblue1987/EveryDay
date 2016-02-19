@@ -9,49 +9,47 @@
         android:id="@+id/fragment_header"
         layout="@layout/fragment_header" />
     
-
-    <EditText
-        android:id="@+id/txt_register_username"
-        android:layout_width="wrap_content"
+    <ScrollView 
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/transparent"
-        android:hint="User Name"
-        android:gravity="center"
-        android:textColor="@color/black" />
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center_horizontal"
+            android:orientation="vertical" 
+            >
+            
+            <ImageView
+                android:id="@+id/img_photo_icon" 
+                android:layout_width="30dip"
+                android:layout_height="30dip"
+                android:src="@drawable/contact_icon"
+                />
+            <include
+		        android:id="@+id/fragment_username"
+		        layout="@layout/fragment_label_edit" />
+            <include
+		        android:id="@+id/fragment_email"
+		        layout="@layout/fragment_label_edit" />
+		    <include
+		        android:id="@+id/fragment_password"
+		        layout="@layout/fragment_label_edit" />
+		    <include
+		        android:id="@+id/fragment_confirm_password"
+		        layout="@layout/fragment_label_edit" />
+		    		    
+		    
+		    <common.component.ui.MyButton
+		        android:id="@+id/btn_register"
+		        android:layout_width="100dip"
+		        android:layout_height="30dip"
+		        android:background="@drawable/button_greeen_bg"
+		        android:text="Register"
+		        android:textColor="@color/white" />       
+            
+            
+        </LinearLayout>
+    </ScrollView>
     
-    <EditText
-        android:id="@+id/txt_register_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/transparent"
-        android:hint="Password"
-        android:gravity="center"
-        android:textColor="@color/black" />        
-    
-    <EditText
-        android:id="@+id/txt_register_email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/transparent"
-        android:hint="Email"
-        android:gravity="center"
-        android:textColor="@color/black" />        
-    
-    <EditText
-        android:id="@+id/txt_register_phone"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/transparent"
-        android:hint="Phone Number"
-        android:gravity="center"
-        android:textColor="@color/black" />        
-    
-    <common.component.ui.MyButton
-        android:id="@+id/btn_register"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/btn_signup_bg"
-        android:text="Register"
-        android:textColor="@color/white" />
-
 </LinearLayout>

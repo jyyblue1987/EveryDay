@@ -104,6 +104,6 @@
 	        android:layout_height="match_parent"
 	        android:gravity="center"
 	        android:text="There is no stage"
-	        android:textColor="@color/green2"
+	        android:textColor="@color/green"
 	        android:ems="10" />
 </LinearLayout>

@@ -3,7 +3,7 @@
 				android:id="@+id/lay_fragment"
 				android:layout_width="fill_parent" 
 				android:layout_height="wrap_content"
-				android:background="@color/yellow1"
+				android:background="@color/orange"
 	>
 	<Button
 	    android:id="@+id/btn_left_button"
@@ -34,6 +34,6 @@
 	    android:textColorHighlight="#FFFF9200"
 	    android:textSize="17sp"
 	    android:text="每天"
-	    android:textColor="@color/pink1"
+	    android:textColor="@color/white"
 		/>
 </RelativeLayout>
