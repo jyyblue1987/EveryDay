@@ -103,7 +103,7 @@ public class MainMenuActivity extends HeaderBarActivity
 			
 			@Override
 			public void onClick(View paramView) {
-				onClickAlarm();				
+				gotoPersonalCenterPage();				
 			}
 		});
 
@@ -114,12 +114,17 @@ public class MainMenuActivity extends HeaderBarActivity
 				onClickAlarm();				
 			}
 		});
-}
+	}
 	
 	private void onClickAlarm()
 	{
+		
+	}
+	
+	private void gotoPersonalCenterPage()
+	{
 		Bundle bundle = new Bundle();
-		ActivityManager.changeActivity(MainMenuActivity.this, UserActivity.class, bundle, false, null );		
+		ActivityManager.changeActivity(MainMenuActivity.this, MyCenterActivity.class, bundle, false, null );		
 	}
 
 	protected void layoutControls()

@@ -1,6 +1,7 @@
 
 package com.sin.quian.pages;
 
+import com.sin.quian.AppContext;
 import com.sin.quian.Const;
 import com.sin.quian.R;
 import com.sin.quian.network.ServerManager;
@@ -168,7 +169,7 @@ public class RegisterActivity extends HeaderBarActivity
 					 DataUtils.savePreference(Const.LOGIN_OK, "0");
 					 return;
 				 }
-				
+				 AppContext.setProfile(result.getContentData());
 				 DataUtils.savePreference(Const.LOGIN_OK, "1");
 				 gotoMainPage();
 			 }
