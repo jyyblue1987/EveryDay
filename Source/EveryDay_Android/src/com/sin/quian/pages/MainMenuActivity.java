@@ -27,6 +27,9 @@ public class MainMenuActivity extends HeaderBarActivity
 	MyButton 		m_btnPersonal = null;
 	ImageView 		m_imgCameraIcon = null;
 	
+	int				parentWidth = 0;
+	int 			parentHeight = 0;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -45,6 +48,9 @@ public class MainMenuActivity extends HeaderBarActivity
 		m_btnFriends = (MyButton) findViewById(R.id.btn_menu_friends);
 		m_btnPersonal = (MyButton) findViewById(R.id.btn_menu_personal);
 		m_imgCameraIcon = (ImageView) findViewById(R.id.img_menu_cameraicon);
+		
+		parentWidth = ScreenAdapter.getDeviceWidth();
+		parentHeight = ScreenAdapter.getDeviceHeight()-findViewById(R.id.fragment_header).getHeight();
 	}
 
 	protected void initData()
@@ -82,28 +88,31 @@ public class MainMenuActivity extends HeaderBarActivity
 			
 			@Override
 			public void onClick(View paramView) {
-				onClickAlarm();				
+				onClickRecent();				
 			}
 		});
+		
 		m_btnNamedStar.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View paramView) {
-				onClickAlarm();				
+				onClickStar();				
 			}
 		});
+		
 		m_btnFriends.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View paramView) {
-				onClickAlarm();				
+				onClickFriends();				
 			}
 		});
+		
 		m_btnPersonal.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View paramView) {
-				onClickAlarm();				
+				onClickPersonal();				
 			}
 		});
 
@@ -111,130 +120,84 @@ public class MainMenuActivity extends HeaderBarActivity
 			
 			@Override
 			public void onClick(View paramView) {
-				onClickAlarm();				
+				onClickCamera();				
 			}
 		});
 }
 	
-	private void onClickAlarm()
+	private void onClickRecent()
+	{
+		Bundle bundle = new Bundle();
+		ActivityManager.changeActivity(MainMenuActivity.this, HistoryActivity.class, bundle, false, null );		
+	}
+
+	private void onClickStar()
 	{
 		Bundle bundle = new Bundle();
 		ActivityManager.changeActivity(MainMenuActivity.this, UserActivity.class, bundle, false, null );		
 	}
 
+	private void onClickFriends()
+	{
+		Bundle bundle = new Bundle();
+		ActivityManager.changeActivity(MainMenuActivity.this, FriendsActivity.class, bundle, false, null );		
+	}
+	
+	private void onClickPersonal()
+	{
+//		Bundle bundle = new Bundle();
+//		ActivityManager.changeActivity(MainMenuActivity.this, UserActivity.class, bundle, false, null );		
+	}
+	
+	private void onClickCamera()
+	{
+//		Bundle bundle = new Bundle();
+//		ActivityManager.changeActivity(MainMenuActivity.this, UserActivity.class, bundle, false, null );		
+	}
+	
 	protected void layoutControls()
 	{
 		super.layoutControls();
+		int heightUnit = parentHeight/20;
+		int widthUnit = parentWidth/9;
 
-		LayoutUtils.setSize(findViewById(R.id.lay_menu_1), LayoutParams.MATCH_PARENT, 200, true);
+		LayoutUtils.setSize(findViewById(R.id.lay_divide_0), LayoutParams.MATCH_PARENT, heightUnit/2, true);
 
-		LayoutUtils.setSize(m_imgAppIcon, 150, 150, true);
-		LayoutUtils.setMargin(m_imgAppIcon, 100, 50, 50, 50, true);
-//		LayoutUtils.setPadding(m_imgSport1, 20, 20, 20, 20, true);
+		LayoutUtils.setSize(findViewById(R.id.lay_menu_1), LayoutParams.MATCH_PARENT, heightUnit*4, true);
+
+		LayoutUtils.setSize(m_imgAppIcon, heightUnit*3, heightUnit*3, true);
+		LayoutUtils.setMargin(m_imgAppIcon, widthUnit, heightUnit/2, 0, heightUnit/2, true);
 		
-		LayoutUtils.setMargin(m_textAppName, 20, 20, 20, 20, true);
+		LayoutUtils.setMargin(m_textAppName, widthUnit, heightUnit, 0, heightUnit, true);
 		m_textAppName.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
-		LayoutUtils.setPadding(m_textAppName, 20, 0, 20, 0, true);
 		
-		LayoutUtils.setSize(findViewById(R.id.lay_menu_2), LayoutParams.MATCH_PARENT, 600, true);
+		LayoutUtils.setSize(findViewById(R.id.lay_divide_1), LayoutParams.MATCH_PARENT, heightUnit/2, true);
+
+		LayoutUtils.setSize(findViewById(R.id.lay_menu_2), LayoutParams.MATCH_PARENT, heightUnit*7, true);
 		
-		LayoutUtils.setSize(m_btnRecent, 400, 500, true);
-		LayoutUtils.setMargin(m_btnRecent, 100, 50, 40, 50, true);
+		LayoutUtils.setSize(m_btnRecent, widthUnit*4, heightUnit*6, true);
+		LayoutUtils.setMargin(m_btnRecent, widthUnit, heightUnit/2, 0, heightUnit/2, true);
 		m_btnRecent.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 
-		LayoutUtils.setSize(m_btnNamedStar, 400, 500, true);
-		LayoutUtils.setMargin(m_btnNamedStar, 40, 50, 100, 50, true);
+		LayoutUtils.setSize(m_btnNamedStar, widthUnit*4, heightUnit*6, true);
+		LayoutUtils.setMargin(m_btnNamedStar, widthUnit, heightUnit/2, widthUnit, heightUnit/2, true);
 		m_btnNamedStar.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 
-		LayoutUtils.setSize(findViewById(R.id.lay_menu_3), LayoutParams.MATCH_PARENT, 600, true);
+		LayoutUtils.setSize(findViewById(R.id.lay_menu_3), LayoutParams.MATCH_PARENT, heightUnit*7, true);
 
-		LayoutUtils.setSize(m_btnFriends, 400, 500, true);
-		LayoutUtils.setMargin(m_btnFriends, 100, 50, 40, 50, true);
+		LayoutUtils.setSize(m_btnFriends, widthUnit*4, heightUnit*6, true);
+		LayoutUtils.setMargin(m_btnFriends, widthUnit, heightUnit/2, 0, heightUnit/2, true);
 		m_btnFriends.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 
-		LayoutUtils.setSize(m_btnPersonal, 400, 500, true);
-		LayoutUtils.setMargin(m_btnPersonal, 40, 50, 100, 50, true);
+		LayoutUtils.setSize(m_btnPersonal, widthUnit*4, heightUnit*6, true);
+		LayoutUtils.setMargin(m_btnPersonal, widthUnit, heightUnit/2, widthUnit, heightUnit/2, true);
 		m_btnPersonal.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 		
-		LayoutUtils.setSize(findViewById(R.id.lay_menu_4), LayoutParams.MATCH_PARENT, 200, true);
+		LayoutUtils.setSize(findViewById(R.id.lay_menu_4), LayoutParams.MATCH_PARENT, heightUnit*3, true);
 
-		LayoutUtils.setSize(m_imgCameraIcon, 150, 150, true);
-		LayoutUtils.setMargin(m_imgCameraIcon, 100, 25, 100, 25, true);
+		LayoutUtils.setSize(m_imgCameraIcon, heightUnit*2, heightUnit*2, true);
+		LayoutUtils.setMargin(m_imgCameraIcon, 0, heightUnit/2, 0, heightUnit/2, true);
 
-}
-	 
-//	 private void onClickLogin()
-//	 {
-//		 String mobile = m_txtLoginUserName.getText().toString();
-//		 if( CheckUtils.isEmpty(mobile) )
-//		 {
-//			 DialogFactory.getInstance().showMessageDialog(this, "You must be input phonenumber", false, null);
-//			 return;
-//		 }
-//		 login(m_selectedCountry.code, mobile);
-//	 }
-
-//	 private void login(final String username, final String password)
-//	 {	
-//		 DataUtils.savePreference(Const.USERNAME, username);
-//		 DataUtils.savePreference(Const.PASSWORD, password);
-//		 
-//		 showLoadingProgress();
-//		 ServerManager.login(username, password, DataUtils.getPreference(Const.GCM_PUSH_KEY, ""), new ResultCallBack() {
-//			
-//			@Override
-//			public void doAction(LogicResult result) {
-//				hideProgress();
-//				if( result.mResult == LogicResult.RESULT_OK )	// login ok
-//				{
-//					DataUtils.savePreference(Const.LOGIN_OK, "1");		
-//					loginChatServer(username, password);					
-//					return;
-//				}
-//				
-//				
-//				DataUtils.savePreference(Const.LOGIN_OK, "0");
-//				
-//				if( result.mResult == LogicResult.RESULT_NO_VERIFIED )
-//				{
-//					DataUtils.savePreference(Const.VCODE, result.getContentData().optString("vcode", "") );
-//					gotoVerifyPage();
-//					return;
-//				}
-//				else
-//				{
-//					DialogFactory.getInstance().showMessageDialog(RegisterActivity.this, result.mMessage, false, null);
-//				}
-//			}
-//		});
-//	 }
-	 
-//	 private void loginChatServer(final String countryCode, final String mobile)
-//	 {
-//		 String username = countryCode + "_" + mobile;
-//		 String password = AlgorithmUtils.invert(username);
-//		 mChatServiceInterface.login(username, password, null);
-//		 
-//		 gotoChattingPage();
-//	 }
-	 
-//	 private void gotoVerifyPage()
-//	 {
-//		DialogFactory.getInstance().showMessageDialog(this, "We will send the verify code to this phone number.", false, new ItemCallBack() {
-//			
-//			@Override
-//			public void doClick(ItemResult result) {
-//				Bundle bundle = new Bundle();
-//				ActivityManager.changeActivity(RegisterActivity.this, VerifyActivity.class, bundle, false, null );		
-//				
-//			}
-//		});
-//	 }
-	 
-//	 private void gotoChattingPage()
-//	 {		 
-//		 Bundle bundle = new Bundle();
-//		 ActivityManager.changeActivity(this, ChattingHistoryActiviry.class, bundle, true, null );
-//	 }
+	}
 
 }

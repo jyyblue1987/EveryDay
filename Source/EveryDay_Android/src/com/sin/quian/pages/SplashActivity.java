@@ -65,7 +65,6 @@ public class SplashActivity extends BaseActivity {
 						DataUtils.savePreference(Const.LOGIN_OK, "0");
 						gotoLoginPage();
 					}
-					
 					gotoMainPage();
 				}
 			});

@@ -84,7 +84,6 @@ public class StageActivity extends HeaderBarActivity
 		m_btnEdit = (MyButton)findViewById(R.id.btn_stage_edit);
 		m_btnAid = (MyButton)findViewById(R.id.btn_stage_aid);
 		m_btnFriendAdd = (MyButton)findViewById(R.id.btn_stage_friendAdd);
-
 	}
 	
 	protected void layoutControls()
