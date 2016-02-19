@@ -53,7 +53,7 @@ public class UserActivity extends HeaderBarActivity {
 	protected void layoutControls()
 	{
 		super.layoutControls();
-		m_listItems.setDivider(getResources().getDrawable(R.drawable.devider_line));
+//		m_listItems.setDivider(getResources().getDrawable(R.drawable.devider_line));
 		m_listItems.setDividerHeight(ScreenAdapter.computeWidth(3));
 		
 		m_emptyView.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(55));
@@ -71,7 +71,7 @@ public class UserActivity extends HeaderBarActivity {
 		
 		m_listPullItems.setMode(Mode.DISABLED);
 		
-		m_txtPageTitle.setText("user");
+		m_txtPageTitle.setText("用户们");
 //		m_btnRight.setVisibility(View.INVISIBLE);
  
 //		List<JSONObject> list = DBManager.getNotificationList(this, 0, 100);
@@ -140,7 +140,7 @@ public class UserActivity extends HeaderBarActivity {
 //			((TextView)rowView.findViewById(R.id.txt_user_info)).setText(item.optString(Const.DISP_DATE, MyTime.getCurrentDate()));
 
 			LayoutUtils.setSize(((ImageView)rowView.findViewById(R.id.img_useritem_hard)), 50, 50, true);
-			LayoutUtils.setMargin(((ImageView)rowView.findViewById(R.id.img_useritem_hard)), 300, 20, 10, 20, true);
+			LayoutUtils.setMargin(((ImageView)rowView.findViewById(R.id.img_useritem_hard)), 50, 20, 10, 20, true);
 
 			((TextView)rowView.findViewById(R.id.text_useritem_hard_num)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
 			LayoutUtils.setMargin(rowView.findViewById(R.id.text_useritem_hard_num), 10, 20, 20, 20, true);
@@ -149,19 +149,16 @@ public class UserActivity extends HeaderBarActivity {
 			LayoutUtils.setMargin(((ImageView)rowView.findViewById(R.id.img_useritem_star)), 50, 20, 10, 20, true);
 
 			((TextView)rowView.findViewById(R.id.text_useritem_star_num)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-			LayoutUtils.setMargin(rowView.findViewById(R.id.text_useritem_star_num), 10, 20, 10, 20, true);
+			LayoutUtils.setMargin(rowView.findViewById(R.id.text_useritem_star_num), 10, 20, 70, 20, true);
 
 			LayoutUtils.setSize(findViewById(R.id.lay_useritem_2), LayoutParams.MATCH_PARENT, 70, true);
 
-			((TextView)rowView.findViewById(R.id.text_useritem_address)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+			((TextView)rowView.findViewById(R.id.text_useritem_address)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(40));
 			LayoutUtils.setMargin(rowView.findViewById(R.id.text_useritem_address), 70, 10, 10, 10, true);
 
-			((TextView)rowView.findViewById(R.id.text_useritem_hisaddress)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+			((TextView)rowView.findViewById(R.id.text_useritem_hisaddress)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(40));
 			LayoutUtils.setMargin(rowView.findViewById(R.id.text_useritem_hisaddress), 10, 10, 10, 10, true);
 
-			((TextView)rowView.findViewById(R.id.text_useritem_favorite)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-			LayoutUtils.setMargin(rowView.findViewById(R.id.text_useritem_favorite), 450, 10, 50, 10, true);
-			
 
 			rowView.setOnClickListener(new View.OnClickListener() {
 				
@@ -171,8 +168,6 @@ public class UserActivity extends HeaderBarActivity {
 					ActivityManager.changeActivity(UserActivity.this, HistoryActivity.class, bundle, false, null );		
 				}
 			});		
-
-			
 			
 		}	
 	}
