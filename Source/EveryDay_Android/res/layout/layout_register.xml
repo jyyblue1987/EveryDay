@@ -22,8 +22,8 @@
             
             <ImageView
                 android:id="@+id/img_photo_icon" 
-                android:layout_width="30dip"
-                android:layout_height="30dip"
+                android:layout_width="100dip"
+                android:layout_height="100dip"
                 android:src="@drawable/contact_icon"
                 />
             <include

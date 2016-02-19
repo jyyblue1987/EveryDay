@@ -11,46 +11,36 @@
     
     <ImageView
         android:id="@+id/img_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/member_login_mark" />
-
-    <EditText
-        android:id="@+id/txt_login_username"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/transparent"
-        android:hint="User Name"
-        android:gravity="center"
-        android:textColor="@color/black" />
-    
-    <EditText
-        android:id="@+id/txt_login_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@color/transparent"
-        android:hint="Password"
-        android:gravity="center"
-        android:textColor="@color/black" />
-    
+        android:layout_width="100dip"
+        android:layout_height="100dip"
+        android:src="@drawable/contact_icon"
+        />
+ 
+	<include
+	    android:id="@+id/fragment_username"
+	    layout="@layout/fragment_label_edit" />
+	<include
+	    android:id="@+id/fragment_password"
+	    layout="@layout/fragment_label_edit" />
+     
     <common.component.ui.MyButton
         android:id="@+id/btn_login"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/btn_signup_bg"
+	    android:layout_width="100dip"
+        android:layout_height="30dip"
+        android:background="@drawable/button_greeen_bg"
         android:text="Login"
-        android:textColor="@color/pink" />
+        android:textColor="@color/white" />       
 
-    <LinearLayout
+    <RelativeLayout
         android:id="@+id/lay_login"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content"
+        >
 
         <common.component.ui.MyTextView
             android:id="@+id/txt_login_register"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
             android:textColor="@color/green"
             android:text="@string/register" />
 
@@ -58,10 +48,10 @@
             android:id="@+id/txt_login_forgot"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_weight="0.5"
+            android:layout_alignParentRight="true"
             android:textColor="@color/green"
             android:text="@string/forgot_password" />
 
-    </LinearLayout>
+    </RelativeLayout>
 
 </LinearLayout>

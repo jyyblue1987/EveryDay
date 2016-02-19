@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.LinearLayout.LayoutParams;
 import common.component.ui.MyButton;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
@@ -76,8 +77,8 @@ public class RegisterActivity extends HeaderBarActivity
 			((TextView)findViewById(m_field_item[i]).findViewById(R.id.edit_content)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 		}
 		
-		LayoutUtils.setMargin(m_btnRegister, 0, 200, 0, 200, true);
-		LayoutUtils.setSize(m_btnRegister, 582, 117, true);
+		LayoutUtils.setMargin(m_btnRegister, 80, 130, 80, 100, true);
+		LayoutUtils.setSize(m_btnRegister, LayoutParams.MATCH_PARENT, 114, true);
 		m_btnRegister.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 	}
 	
@@ -170,31 +171,9 @@ public class RegisterActivity extends HeaderBarActivity
 	
 	private void gotoMainPage()
 	{
+		ActivityManager.getInstance().popAllActivity();
 		Bundle bundle = new Bundle();
-		ActivityManager.changeActivity(RegisterActivity.this, MainMenuActivity.class, bundle, false, null );
+		ActivityManager.changeActivity(this, MainMenuActivity.class, bundle, false, null );
 	}
 	
-	
-
-
-	 
-//	 private void gotoVerifyPage()
-//	 {
-//		DialogFactory.getInstance().showMessageDialog(this, "We will send the verify code to this phone number.", false, new ItemCallBack() {
-//			
-//			@Override
-//			public void doClick(ItemResult result) {
-//				Bundle bundle = new Bundle();
-//				ActivityManager.changeActivity(RegisterActivity.this, VerifyActivity.class, bundle, false, null );		
-//				
-//			}
-//		});
-//	 }
-	 
-//	 private void gotoChattingPage()
-//	 {		 
-//		 Bundle bundle = new Bundle();
-//		 ActivityManager.changeActivity(this, ChattingHistoryActiviry.class, bundle, true, null );
-//	 }
-
 }

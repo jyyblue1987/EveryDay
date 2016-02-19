@@ -34,7 +34,7 @@ public class HeaderBarActivity extends BaseActivity {
 		ResourceUtils.addClickEffect(m_btnLeft);
 		ResourceUtils.addClickEffect(m_btnRight);
 		
-		m_txtPageTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(54));
+		m_txtPageTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(60));
 		
 	}
 	
