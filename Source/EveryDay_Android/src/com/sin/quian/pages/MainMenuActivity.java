@@ -2,7 +2,6 @@ package com.sin.quian.pages;
 
 import com.sin.quian.R;
 
-import android.hardware.Camera;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
@@ -56,7 +55,7 @@ public class MainMenuActivity extends HeaderBarActivity
 	protected void initData()
 	{
 		super.initData();
-		m_txtPageTitle.setText("返回");
+		m_txtPageTitle.setText("Main menu");
 		m_btnRight.setVisibility(View.INVISIBLE);
 
 		
@@ -140,19 +139,19 @@ public class MainMenuActivity extends HeaderBarActivity
 	private void onClickFriends()
 	{
 		Bundle bundle = new Bundle();
-//		ActivityManager.changeActivity(MainMenuActivity.this, FriendsActivity.class, bundle, false, null );		
+		ActivityManager.changeActivity(MainMenuActivity.this, FriendsActivity.class, bundle, false, null );		
 	}
 	
 	private void onClickPersonal()
 	{
-//		Bundle bundle = new Bundle();
-//		ActivityManager.changeActivity(MainMenuActivity.this, UserActivity.class, bundle, false, null );		
+		Bundle bundle = new Bundle();
+		ActivityManager.changeActivity(MainMenuActivity.this, UserActivity.class, bundle, false, null );		
 	}
 	
 	private void onClickCamera()
 	{
-//		Bundle bundle = new Bundle();
-//		ActivityManager.changeActivity(MainMenuActivity.this, UserActivity.class, bundle, false, null );		
+		Bundle bundle = new Bundle();
+		ActivityManager.changeActivity(MainMenuActivity.this, UserActivity.class, bundle, false, null );		
 	}
 	
 	protected void layoutControls()
@@ -161,7 +160,7 @@ public class MainMenuActivity extends HeaderBarActivity
 		int heightUnit = parentHeight/20;
 		int widthUnit = parentWidth/9;
 
-		LayoutUtils.setSize(findViewById(R.id.lay_divide_0), LayoutParams.MATCH_PARENT, heightUnit/2, true);
+		LayoutUtils.setSize(findViewById(R.id.lay_divide_0), LayoutParams.MATCH_PARENT, heightUnit/4, true);
 
 		LayoutUtils.setSize(findViewById(R.id.lay_menu_1), LayoutParams.MATCH_PARENT, heightUnit*4, true);
 
@@ -171,7 +170,7 @@ public class MainMenuActivity extends HeaderBarActivity
 		LayoutUtils.setMargin(m_textAppName, widthUnit, heightUnit, 0, heightUnit, true);
 		m_textAppName.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 		
-		LayoutUtils.setSize(findViewById(R.id.lay_divide_1), LayoutParams.MATCH_PARENT, heightUnit/2, true);
+		LayoutUtils.setSize(findViewById(R.id.lay_divide_1), LayoutParams.MATCH_PARENT, heightUnit/4, true);
 
 		LayoutUtils.setSize(findViewById(R.id.lay_menu_2), LayoutParams.MATCH_PARENT, heightUnit*7, true);
 		
@@ -193,10 +192,14 @@ public class MainMenuActivity extends HeaderBarActivity
 		LayoutUtils.setMargin(m_btnPersonal, widthUnit, heightUnit/2, widthUnit, heightUnit/2, true);
 		m_btnPersonal.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 		
+		LayoutUtils.setSize(findViewById(R.id.lay_divide_2), LayoutParams.MATCH_PARENT, heightUnit/4, true);
+		
 		LayoutUtils.setSize(findViewById(R.id.lay_menu_4), LayoutParams.MATCH_PARENT, heightUnit*3, true);
 
 		LayoutUtils.setSize(m_imgCameraIcon, heightUnit*2, heightUnit*2, true);
 		LayoutUtils.setMargin(m_imgCameraIcon, 0, heightUnit/2, 0, heightUnit/2, true);
+		
+		LayoutUtils.setSize(findViewById(R.id.lay_divide_3), LayoutParams.MATCH_PARENT, heightUnit/4, true);
 
 	}
 
