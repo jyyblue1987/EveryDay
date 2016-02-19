@@ -119,7 +119,7 @@ public class MainMenuActivity extends HeaderBarActivity
 	private void onClickAlarm()
 	{
 		Bundle bundle = new Bundle();
-		ActivityManager.changeActivity(MainMenuActivity.this, HistoryActivity.class, bundle, false, null );		
+		ActivityManager.changeActivity(MainMenuActivity.this, UserActivity.class, bundle, false, null );		
 	}
 
 	protected void layoutControls()

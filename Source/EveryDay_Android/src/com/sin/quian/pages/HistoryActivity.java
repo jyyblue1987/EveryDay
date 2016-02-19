@@ -132,20 +132,20 @@ public class HistoryActivity extends HeaderBarActivity {
 			LayoutUtils.setSize(findViewById(R.id.lay_historyitem_1), LayoutParams.MATCH_PARENT, 100, true);
 
 			LayoutUtils.setSize(((ImageView)rowView.findViewById(R.id.img_historyitem_icon)), 80, 80, true);
-			LayoutUtils.setMargin(((ImageView)rowView.findViewById(R.id.img_historyitem_icon)), 50, 10, 20, 10, true);
+			LayoutUtils.setMargin(((ImageView)rowView.findViewById(R.id.img_historyitem_icon)), 70, 10, 20, 10, true);
 
 			((TextView)rowView.findViewById(R.id.text_historyitem_name)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
 			LayoutUtils.setMargin(rowView.findViewById(R.id.text_historyitem_name), 20, 20, 50, 20, true);
 //			((TextView)rowView.findViewById(R.id.txt_History_info)).setText(item.optString(Const.DISP_DATE, MyTime.getCurrentDate()));
 
-			LayoutUtils.setSize(((ImageView)rowView.findViewById(R.id.img_historyitem_hard)), 200, 50, true);
-			LayoutUtils.setMargin(((ImageView)rowView.findViewById(R.id.img_historyitem_hard)), 20, 20, 10, 20, true);
+			LayoutUtils.setSize(((ImageView)rowView.findViewById(R.id.img_historyitem_hard)), 50, 50, true);
+			LayoutUtils.setMargin(((ImageView)rowView.findViewById(R.id.img_historyitem_hard)), 300, 20, 10, 20, true);
 
 			((TextView)rowView.findViewById(R.id.text_historyitem_hard_num)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
 			LayoutUtils.setMargin(rowView.findViewById(R.id.text_historyitem_hard_num), 10, 20, 20, 20, true);
 
-			LayoutUtils.setSize(((ImageView)rowView.findViewById(R.id.img_historyitem_star)), 100, 50, true);
-			LayoutUtils.setMargin(((ImageView)rowView.findViewById(R.id.img_historyitem_star)), 20, 20, 10, 20, true);
+			LayoutUtils.setSize(((ImageView)rowView.findViewById(R.id.img_historyitem_star)), 50, 50, true);
+			LayoutUtils.setMargin(((ImageView)rowView.findViewById(R.id.img_historyitem_star)), 50, 20, 10, 20, true);
 
 			((TextView)rowView.findViewById(R.id.text_historyitem_star_num)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
 			LayoutUtils.setMargin(rowView.findViewById(R.id.text_historyitem_star_num), 10, 20, 10, 20, true);
@@ -153,13 +153,13 @@ public class HistoryActivity extends HeaderBarActivity {
 			LayoutUtils.setSize(findViewById(R.id.lay_historyitem_2), LayoutParams.MATCH_PARENT, 70, true);
 
 			((TextView)rowView.findViewById(R.id.text_historyitem_address)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-			LayoutUtils.setMargin(rowView.findViewById(R.id.text_historyitem_address), 50, 10, 10, 10, true);
+			LayoutUtils.setMargin(rowView.findViewById(R.id.text_historyitem_address), 70, 10, 10, 10, true);
 
 			((TextView)rowView.findViewById(R.id.text_historyitem_hisaddress)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
 			LayoutUtils.setMargin(rowView.findViewById(R.id.text_historyitem_hisaddress), 10, 10, 10, 10, true);
 
 			((TextView)rowView.findViewById(R.id.text_historyitem_favorite)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-			LayoutUtils.setMargin(rowView.findViewById(R.id.text_historyitem_favorite), 400, 10, 50, 10, true);
+			LayoutUtils.setMargin(rowView.findViewById(R.id.text_historyitem_favorite), 450, 10, 50, 10, true);
 			
 			LayoutUtils.setSize(((ImageView)rowView.findViewById(R.id.img_historyitem_photo)), 300, 300, true);
 			LayoutUtils.setMargin(((ImageView)rowView.findViewById(R.id.img_historyitem_photo)), 50, 10, 50, 10, true);
@@ -167,7 +167,6 @@ public class HistoryActivity extends HeaderBarActivity {
 			((TextView)rowView.findViewById(R.id.text_historyitem_note)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
 			LayoutUtils.setMargin(rowView.findViewById(R.id.text_historyitem_note), 10, 10, 10, 10, true);
 			
-			final int pos = position;
 			rowView.setOnClickListener(new View.OnClickListener() {
 				
 				@Override
@@ -176,9 +175,6 @@ public class HistoryActivity extends HeaderBarActivity {
 					ActivityManager.changeActivity(HistoryActivity.this, StageActivity.class, bundle, false, null );		
 				}
 			});		
-
-			
-			
 		}	
 	}
 	

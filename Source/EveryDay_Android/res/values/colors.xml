@@ -16,5 +16,8 @@
     
     <color name="green_button_color">#60aa17</color>
     <color name="green_darker_button_color">#4c8415</color>
+    
+    <color name="orange_darker">#b5791f</color>
+    
 	
 </resources>

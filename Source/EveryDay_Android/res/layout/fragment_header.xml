@@ -5,23 +5,61 @@
 				android:layout_height="wrap_content"
 				android:background="@color/orange"
 	>
-	<Button
-	    android:id="@+id/btn_left_button"
+	<RelativeLayout
+	    android:id="@+id/lay_left"
 	    android:layout_width="30dip"
-	    android:layout_height="20dip"
+	    android:layout_height="20dip"	
 	    android:layout_centerVertical="true"
-	    android:textColor="@color/white"
-	    android:background="@drawable/left_arrow" />
+	    android:clickable="true"    
+	    android:background="@drawable/nav_button_bg"
+	    >
+		<Button
+		    android:id="@+id/btn_left_button"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_centerInParent="true"
+		    android:textColor="@color/white"
+		    android:text=""
+		    android:clickable="false"
+		    android:background="@drawable/back_arrow"
+		    />
+		<common.component.ui.MyBKTextView
+	        android:id="@+id/txt_notify_count"
+	        android:layout_width="15dip"
+	        android:layout_height="15dip"
+	        android:gravity="center"
+	        android:text="2"
+	        android:textColor="@color/white"
+	        android:textStyle="bold"
+	        android:textSize="10sp"
+	        android:visibility="gone"
+	        />	    
+	    	    
+	</RelativeLayout>
 	
-	<Button
-		android:id="@+id/btn_right_button"
-		android:layout_width="30dip"
-		android:layout_height="20dip" 
-		android:layout_alignParentRight="true"
-		android:layout_centerVertical="true"
-		android:textColor="@color/white"
-		android:background="@drawable/menu"
-		/>
+	<RelativeLayout
+	    android:id="@+id/lay_right"
+	    android:layout_width="30dip"
+	    android:layout_height="20dip"	
+	    android:layout_centerVertical="true"
+	    android:layout_alignParentRight="true"
+	    android:clickable="true"
+	    android:background="@drawable/nav_button_bg"
+	    android:visibility="invisible"
+	    >
+		<Button
+		    android:id="@+id/btn_right_button"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:layout_centerInParent="true"
+		    android:clickable="false"
+		    android:text=""
+		    android:textColor="@color/white"
+		    android:background="@color/transparent"
+		    />			    
+	</RelativeLayout>
+
+	
 	<TextView
 	    android:id="@+id/txt_navigate_bar_title"
 	    android:layout_width="wrap_content"
@@ -31,9 +69,8 @@
 	    android:gravity="center_horizontal"
 	    android:layout_centerInParent="true"
 	    android:singleLine="true"
-	    android:textColorHighlight="#FFFF9200"
 	    android:textSize="17sp"
-	    android:text="每天"
+	    android:text="Account Summary/Call"
 	    android:textColor="@color/white"
 		/>
 </RelativeLayout>

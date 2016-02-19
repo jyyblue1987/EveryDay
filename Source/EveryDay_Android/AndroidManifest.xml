@@ -33,6 +33,7 @@
         <activity android:name=".pages.RegisterActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.ChangePasswordActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.MainMenuActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".pages.UserActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.HistoryActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.StageActivity" android:screenOrientation="portrait"/>
         

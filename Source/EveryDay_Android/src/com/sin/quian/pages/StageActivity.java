@@ -39,6 +39,12 @@ public class StageActivity extends HeaderBarActivity
 	MyTextView						m_textHardNum = null;
 	ImageView 						m_imgStar = null;
 	MyTextView						m_textStarNum = null;
+	MyTextView						m_textAddress = null;
+	MyTextView						m_textHisAddress = null;
+	MyTextView						m_textFavorite = null;
+	
+	MyButton						m_btnComment = null;	
+
 	MyButton						m_btnFavorite = null;	
 	MyButton						m_btnEdit = null;	
 	MyButton						m_btnAid = null;	
@@ -68,6 +74,12 @@ public class StageActivity extends HeaderBarActivity
 		m_imgStar = (ImageView)findViewById(R.id.img_stage_star);
 		m_textStarNum = (MyTextView) findViewById(R.id.text_stage_star_num);
 		
+		m_textAddress = (MyTextView) findViewById(R.id.text_stage_address);
+		m_textHisAddress = (MyTextView) findViewById(R.id.text_stage_hisaddress);
+		m_textFavorite = (MyTextView) findViewById(R.id.text_stage_favorite);
+		
+		m_btnComment = (MyButton)findViewById(R.id.btn_stage_comment);
+
 		m_btnFavorite = (MyButton)findViewById(R.id.btn_stage_favorite);
 		m_btnEdit = (MyButton)findViewById(R.id.btn_stage_edit);
 		m_btnAid = (MyButton)findViewById(R.id.btn_stage_aid);
@@ -81,33 +93,46 @@ public class StageActivity extends HeaderBarActivity
 		m_listItems.setDivider(getResources().getDrawable(R.drawable.devider_line));
 		m_listItems.setDividerHeight(ScreenAdapter.computeWidth(3));
 		
-		m_emptyView.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(55));
-		LayoutUtils.setMargin(m_emptyView, 0, 0, 0, 600, true);
+		m_emptyView.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+		LayoutUtils.setMargin(m_emptyView, 0, 0, 0, 500, true);
 		
-		LayoutUtils.setSize(findViewById(R.id.lay_stage_1), LayoutParams.MATCH_PARENT, 100, true);
+		LayoutUtils.setSize(findViewById(R.id.lay_stage_1), LayoutParams.MATCH_PARENT, 150, true);
 		
-		LayoutUtils.setSize(m_imgUserPhoto, LayoutParams.MATCH_PARENT, 80, true);
-		LayoutUtils.setMargin(m_imgUserPhoto, 20, 10, 10, 10, true);
+		LayoutUtils.setSize(m_imgUserPhoto, 120, 120, true);
+		LayoutUtils.setMargin(m_imgUserPhoto, 70, 15, 10, 15, true);
 		
-		m_textUserName.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(55));
-		LayoutUtils.setMargin(m_textUserName, 0, 0, 0, 600, true);
+		m_textUserName.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+		LayoutUtils.setMargin(m_textUserName, 10, 45, 10, 45, true);
 
-		LayoutUtils.setSize(m_imgHard, LayoutParams.MATCH_PARENT, 60, true);
-		LayoutUtils.setMargin(m_imgHard, 20, 20, 10, 20, true);
+		LayoutUtils.setSize(m_imgHard, 50, 50, true);
+		LayoutUtils.setMargin(m_imgHard, 300, 50, 10, 50, true);
 		
-		m_textHardNum.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(60));
-		LayoutUtils.setMargin(m_textHardNum, 20, 20, 10, 20, true);
+		m_textHardNum.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+		LayoutUtils.setMargin(m_textHardNum, 10, 45, 10, 45, true);
 
-		LayoutUtils.setSize(m_imgStar, LayoutParams.MATCH_PARENT, 60, true);
-		LayoutUtils.setMargin(m_imgStar, 20, 20, 10, 20, true);
+		LayoutUtils.setSize(m_imgStar, 50, 50, true);
+		LayoutUtils.setMargin(m_imgStar, 50, 50, 10, 50, true);
 		
-		m_textStarNum.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(60));
-		LayoutUtils.setMargin(m_textStarNum, 20, 20, 10, 20, true);
-
+		m_textStarNum.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+		LayoutUtils.setMargin(m_textStarNum, 10, 45, 10, 45, true);
+		
 		LayoutUtils.setSize(findViewById(R.id.lay_stage_2), LayoutParams.MATCH_PARENT, 100, true);
 
-		LayoutUtils.setSize(m_btnFavorite, LayoutParams.MATCH_PARENT, 60, true);
-		LayoutUtils.setMargin(m_btnFavorite, 20, 20, 10, 20, true);
+		m_textAddress.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+		LayoutUtils.setMargin(m_textAddress, 70, 20, 10, 20, true);
+
+		m_textHisAddress.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+		LayoutUtils.setMargin(m_textHisAddress, 10, 20, 10, 20, true);
+
+		m_textFavorite.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+		LayoutUtils.setMargin(m_textFavorite, 200, 20, 10, 20, true);
+		
+		LayoutUtils.setSize(m_btnComment, 270, 100, true);
+		LayoutUtils.setMargin(m_btnComment, 40, 0, 10, 0, true);
+		m_btnComment.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+
+		LayoutUtils.setSize(findViewById(R.id.lay_stage_3), LayoutParams.MATCH_PARENT, 100, true);
+		LayoutUtils.setMargin(findViewById(R.id.lay_stage_3), 10, 0, 10, 0, true);
 		
 	}
 	
@@ -181,20 +206,9 @@ public class StageActivity extends HeaderBarActivity
 		{
 			final JSONObject item = getItem(position);
 			
-			LayoutUtils.setSize(findViewById(R.id.lay_stageitem_1), LayoutParams.MATCH_PARENT, 100, true);
+			LayoutUtils.setSize(findViewById(R.id.lay_stageitem_2), LayoutParams.MATCH_PARENT, 700, true);
 
-			((TextView)rowView.findViewById(R.id.text_stageitem_address)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-			LayoutUtils.setMargin(rowView.findViewById(R.id.text_stageitem_address), 50, 10, 10, 10, true);
-
-			((TextView)rowView.findViewById(R.id.text_stageitem_hisaddress)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-			LayoutUtils.setMargin(rowView.findViewById(R.id.text_stageitem_hisaddress), 10, 10, 10, 10, true);
-
-			((TextView)rowView.findViewById(R.id.text_stageitem_favorite)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-			LayoutUtils.setMargin(rowView.findViewById(R.id.text_stageitem_favorite), 400, 10, 50, 10, true);
-			
-			LayoutUtils.setSize(findViewById(R.id.lay_stageitem_2), LayoutParams.MATCH_PARENT, 450, true);
-
-			LayoutUtils.setSize(((ImageView)rowView.findViewById(R.id.img_stageitem_photo)), 300, 300, true);
+			LayoutUtils.setSize(((ImageView)rowView.findViewById(R.id.img_stageitem_photo)), LayoutParams.MATCH_PARENT, 600, true);
 			LayoutUtils.setMargin(((ImageView)rowView.findViewById(R.id.img_stageitem_photo)), 50, 10, 50, 10, true);
 			
 			((TextView)rowView.findViewById(R.id.text_stageitem_note)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));

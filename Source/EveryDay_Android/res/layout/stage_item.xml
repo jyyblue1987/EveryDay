@@ -6,34 +6,6 @@
 
 
     <LinearLayout
-        android:id="@+id/lay_stageitem_1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
-
-        <common.component.ui.MyTextView
-            android:id="@+id/text_stageitem_address"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black" 
-            android:text="address" />
-
-        <common.component.ui.MyTextView
-            android:id="@+id/text_stageitem_hisaddress"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black" 
-            android:text="China" />
-
-        <common.component.ui.MyTextView
-            android:id="@+id/text_stageitem_favorite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black" 
-            android:text="favorite" />
-
-    </LinearLayout>
-
-    <LinearLayout
         android:id="@+id/lay_stageitem_2"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

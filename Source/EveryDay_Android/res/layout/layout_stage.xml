@@ -55,10 +55,49 @@
                 android:layout_gravity="center_vertical"
                 android:text="100"
                 android:textColor="@color/black" />
+            
         </LinearLayout>
-
+        
         <LinearLayout
             android:id="@+id/lay_stage_2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" >
+            
+             <common.component.ui.MyTextView
+		           android:id="@+id/text_stage_address"
+		           android:layout_width="wrap_content"
+		           android:layout_height="wrap_content"
+		           android:textColor="@color/black" 
+	               android:layout_gravity="center_vertical"
+		           android:text="Address:" />
+		
+		     <common.component.ui.MyTextView
+		           android:id="@+id/text_stage_hisaddress"
+		           android:layout_width="wrap_content"
+		           android:layout_height="wrap_content"
+		           android:textColor="@color/black" 
+	               android:layout_gravity="center_vertical"
+		           android:text="China" />
+		     
+		     <common.component.ui.MyTextView
+		            android:id="@+id/text_stage_favorite"
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"
+	                android:layout_gravity="center_vertical"
+		            android:textColor="@color/black" 
+		            android:text="favorite" />
+            
+             <common.component.ui.MyButton
+	                android:id="@+id/btn_stage_comment"
+	                android:layout_width="wrap_content"
+	                android:layout_height="wrap_content"
+	                android:layout_gravity="center_vertical"
+	                android:text="comment" />
+
+		</LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/lay_stage_3"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" >
 
@@ -66,25 +105,29 @@
                 android:id="@+id/btn_stage_favorite"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="MyButton" />
+                android:layout_weight="0.25"
+                android:text="fabo" />
 
             <common.component.ui.MyButton
                 android:id="@+id/btn_stage_edit"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="MyButton" />
+                android:layout_weight="0.25"
+                android:text="edit" />
 
             <common.component.ui.MyButton
                 android:id="@+id/btn_stage_aid"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="MyButton" />
+                android:layout_weight="0.25"
+                android:text="aid" />
 
             <common.component.ui.MyButton
                 android:id="@+id/btn_stage_friendAdd"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="MyButton" />
+                android:layout_weight="0.25"
+                android:text="add" />
 
         </LinearLayout>
         

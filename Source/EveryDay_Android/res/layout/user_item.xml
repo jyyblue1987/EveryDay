@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/lay_useritem_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:layout_gravity="center">
+
+        <ImageView
+            android:id="@+id/img_useritem_icon"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/addcontact_icon" />
+
+        <common.component.ui.MyTextView
+            android:id="@+id/text_useritem_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/black" 
+            android:text="Jang" />
+
+        <ImageView
+            android:id="@+id/img_useritem_hard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/emoji_1f49b" />
+
+        <common.component.ui.MyTextView
+            android:id="@+id/text_useritem_hard_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/black" 
+            android:text="200" />
+
+        <ImageView
+            android:id="@+id/img_useritem_star"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/star" />
+
+        <common.component.ui.MyTextView
+            android:id="@+id/text_useritem_star_num"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:textColor="@color/black" 
+            android:text="100" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/lay_useritem_2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <common.component.ui.MyTextView
+            android:id="@+id/text_useritem_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black" 
+            android:text="Address:" />
+
+        <common.component.ui.MyTextView
+            android:id="@+id/text_useritem_hisaddress"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black" 
+            android:text="China" />
+
+        <common.component.ui.MyTextView
+            android:id="@+id/text_useritem_favorite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black" 
+            android:text="favorite" />
+
+    </LinearLayout>
+
+</LinearLayout>
