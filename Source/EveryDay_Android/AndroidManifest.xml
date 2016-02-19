@@ -37,6 +37,8 @@
         <activity android:name=".pages.HistoryActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.StageActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.FriendsActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".pages.MyCenterActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".pages.StageListActivity" android:screenOrientation="portrait"/>
         
     </application>
 

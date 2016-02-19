@@ -111,7 +111,7 @@ public class MainMenuActivity extends HeaderBarActivity
 			
 			@Override
 			public void onClick(View paramView) {
-				onClickPersonal();				
+				gotoPersonalCenterPage();				
 			}
 		});
 
@@ -122,7 +122,7 @@ public class MainMenuActivity extends HeaderBarActivity
 				onClickCamera();				
 			}
 		});
-}
+	}
 	
 	private void onClickRecent()
 	{
@@ -132,8 +132,13 @@ public class MainMenuActivity extends HeaderBarActivity
 
 	private void onClickStar()
 	{
+		
+	}
+	
+	private void gotoPersonalCenterPage()
+	{
 		Bundle bundle = new Bundle();
-		ActivityManager.changeActivity(MainMenuActivity.this, UserActivity.class, bundle, false, null );		
+		ActivityManager.changeActivity(MainMenuActivity.this, MyCenterActivity.class, bundle, false, null );		
 	}
 
 	private void onClickFriends()

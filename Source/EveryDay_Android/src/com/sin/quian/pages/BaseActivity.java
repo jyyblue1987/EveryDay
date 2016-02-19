@@ -165,7 +165,7 @@ public class BaseActivity extends Activity implements BaseView {
     
     protected void showLoadingProgress()
     {
-    	showProgress("", "Please wait");
+    	showProgress("Loading", "Please wait");
     }
     
 	protected void onResume( ) {

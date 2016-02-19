@@ -19,7 +19,8 @@
     
     <color name="orange_darker">#b5791f</color>
     
+
     <color name="white_darker">#f2f0f1</color>
-    
+    <color name="light_grey">#dedede</color>
 	
 </resources>

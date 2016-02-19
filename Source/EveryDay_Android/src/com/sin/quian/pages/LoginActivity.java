@@ -1,5 +1,6 @@
 package com.sin.quian.pages;
 
+import com.sin.quian.AppContext;
 import com.sin.quian.Const;
 import com.sin.quian.R;
 import com.sin.quian.network.ServerManager;
@@ -180,6 +181,7 @@ public class LoginActivity extends HeaderBarActivity
 				if( result.mResult == LogicResult.RESULT_OK )	// login ok
 				{
 					DataUtils.savePreference(Const.LOGIN_OK, "1");
+					AppContext.setProfile(result.getContentData());
 					gotoMainPage();
 					
 					return;
