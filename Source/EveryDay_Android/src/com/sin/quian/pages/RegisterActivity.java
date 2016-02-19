@@ -1,6 +1,7 @@
 
 package com.sin.quian.pages;
 
+import com.sin.quian.Const;
 import com.sin.quian.R;
 import com.sin.quian.network.ServerManager;
 
@@ -17,6 +18,7 @@ import common.component.ui.MyButton;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
 import common.library.utils.CheckUtils;
+import common.library.utils.DataUtils;
 import common.library.utils.MessageUtils;
 import common.manager.activity.ActivityManager;
 import common.network.utils.LogicResult;
@@ -150,23 +152,27 @@ public class RegisterActivity extends HeaderBarActivity
 	
 	private void register(String username, String email, String password)
 	{
+		 DataUtils.savePreference(Const.USERNAME, username);
+		 DataUtils.savePreference(Const.PASSWORD, password);
 
-		showProgress("Loading", "Please wait");
+		 showLoadingProgress();
 		
-		ServerManager.register(username, email, password, new ResultCallBack() {
+		 ServerManager.register(username, email, password, new ResultCallBack() {
 			
-			@Override
-			public void doAction(LogicResult result) {
-				hideProgress();		
+			 @Override
+			 public void doAction(LogicResult result) {
+				 hideProgress();		
 				
-				if( result.mResult != LogicResult.RESULT_OK )
-				{
-					return;
-				}
+				 if( result.mResult != LogicResult.RESULT_OK )
+				 {
+					 DataUtils.savePreference(Const.LOGIN_OK, "0");
+					 return;
+				 }
 				
-				gotoMainPage();
-			}
-		});
+				 DataUtils.savePreference(Const.LOGIN_OK, "1");
+				 gotoMainPage();
+			 }
+		 });
 	}
 	
 	private void gotoMainPage()
