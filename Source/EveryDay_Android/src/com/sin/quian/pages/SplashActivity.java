@@ -19,9 +19,6 @@ import common.network.utils.ResultCallBack;
 public class SplashActivity extends BaseActivity {
 	ImageView m_imgSplash = null;
 	
-	int m_nTotalProcCount = 2;
-	int m_nProcessedCount = 0;
-	
 	int m_nLoginState = 0;
 	
 	@Override
@@ -40,51 +37,43 @@ public class SplashActivity extends BaseActivity {
 	
 	protected void initData()
 	{
-		m_nProcessedCount = 0;
-	
 		startAlphaAnimation();
+		
+		m_nLoginState = 0;
+		autoLogin();
 	}
-	
-	protected void onServiceConnected() {
-		autoLogin();		
-    }
 	
 	private void autoLogin()
 	{
 		String loginOK = DataUtils.getPreference(Const.LOGIN_OK, "0");
 		
-		final String countryCode = DataUtils.getPreference(Const.COUNTRY_CODE, "");
-		final String mobile = DataUtils.getPreference(Const.MOBILE, "");
-		if( CheckUtils.isEmpty(countryCode) || CheckUtils.isEmpty(mobile) || loginOK.equals("1") == false )
+		String username = DataUtils.getPreference(Const.USERNAME, "");
+		String password = DataUtils.getPreference(Const.PASSWORD, "");
+		if( CheckUtils.isEmpty(username) || CheckUtils.isEmpty(password) || loginOK.equals("1") == false )
 		{
 			m_nLoginState = 0; // not auto login
 		}
 		else
 		{
-			loginChatServer(countryCode, mobile);
-			ServerManager.login(countryCode, mobile, DataUtils.getPreference(Const.GCM_PUSH_KEY, ""), new ResultCallBack() {
+			m_nLoginState = 1;
+			ServerManager.login(username, password, DataUtils.getPreference(Const.GCM_PUSH_KEY, ""), new ResultCallBack() {
 				
 				@Override
 				public void doAction(LogicResult result) {
-					if( result.mResult == LogicResult.RESULT_NO_VERIFIED || result.mResult == LogicResult.RESULT_NO_USER_EXIST )
+					if( result.mResult != LogicResult.RESULT_OK )
 					{
 						DataUtils.savePreference(Const.LOGIN_OK, "0");
+						gotoLoginPage();
 					}
+					
+					gotoMainPage();
 				}
 			});
 			
-			m_nLoginState = 1; // goto chatting page.	
 		}
 				
-		m_nProcessedCount++;
-		onFinishAnimation();	
 	}
 	
-	 private void loginChatServer(final String countryCode, final String mobile)
-	 {
-		 String username = countryCode + "_" + mobile;
-		 String password = AlgorithmUtils.invert(username);
-	 }
 	private void startAlphaAnimation()
 	{
 		AlphaAnimation face_in_out_anim = new AlphaAnimation(0.1f, 1.0f);
@@ -101,7 +90,6 @@ public class SplashActivity extends BaseActivity {
 			
 			@Override
 			public void run() {
-				m_nProcessedCount++;
 				onFinishAnimation();
 			}
 		}, 1500);
@@ -109,13 +97,7 @@ public class SplashActivity extends BaseActivity {
 	
 	private void onFinishAnimation()
 	{
-//		if( m_nProcessedCount < m_nTotalProcCount )
-//			return;
-		
-//		if( m_nLoginState == 0 )
-//			gotoSignUpPage();
-//		else
-//			gotoChattingPage();
+		if( m_nLoginState == 0 )
 			gotoLoginPage();
 	}
 	
@@ -124,16 +106,10 @@ public class SplashActivity extends BaseActivity {
 		Bundle bundle = new Bundle();
 		ActivityManager.changeActivity(this, LoginActivity.class, bundle, true, null );		
 	}
-	
-//	private void gotoSignUpPage()
-//	{
-//		Bundle bundle = new Bundle();
-//		ActivityManager.changeActivity(this, SignUpActivity.class, bundle, true, null );		
-//	}
-//	
-//	private void gotoChattingPage()
-//	{		 
-//		 Bundle bundle = new Bundle();
-//		 ActivityManager.changeActivity(this, ChattingHistoryActiviry.class, bundle, true, null );
-//	}
+
+	private void gotoMainPage()
+	{
+		Bundle bundle = new Bundle();
+		ActivityManager.changeActivity(this, MainMenuActivity.class, bundle, true, null );
+	}
 }
