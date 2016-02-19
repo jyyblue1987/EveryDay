@@ -179,7 +179,7 @@ public class MainMenuActivity extends HeaderBarActivity
 		m_btnRecent.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 
 		LayoutUtils.setSize(m_btnNamedStar, widthUnit*4, heightUnit*6, true);
-		LayoutUtils.setMargin(m_btnNamedStar, widthUnit, heightUnit/2, widthUnit, heightUnit/2, true);
+		LayoutUtils.setMargin(m_btnNamedStar, widthUnit-15, heightUnit/2, widthUnit, heightUnit/2, true);
 		m_btnNamedStar.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 
 		LayoutUtils.setSize(findViewById(R.id.lay_menu_3), LayoutParams.MATCH_PARENT, heightUnit*7, true);
@@ -189,7 +189,7 @@ public class MainMenuActivity extends HeaderBarActivity
 		m_btnFriends.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 
 		LayoutUtils.setSize(m_btnPersonal, widthUnit*4, heightUnit*6, true);
-		LayoutUtils.setMargin(m_btnPersonal, widthUnit, heightUnit/2, widthUnit, heightUnit/2, true);
+		LayoutUtils.setMargin(m_btnPersonal, widthUnit-15, heightUnit/2, widthUnit, heightUnit/2, true);
 		m_btnPersonal.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 		
 		LayoutUtils.setSize(findViewById(R.id.lay_divide_2), LayoutParams.MATCH_PARENT, heightUnit/4, true);

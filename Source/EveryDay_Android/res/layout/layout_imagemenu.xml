@@ -42,8 +42,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:textColor="@color/green"
-            android:text="App name" />
+            android:textColor="@color/orange"
+            android:text="每天" />
 
     </LinearLayout>
     
@@ -71,14 +71,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Last" />
+            android:background="@color/orange"
+            android:textColor="@color/white"
+            android:text="最新" />
 
         <common.component.ui.MyButton
             android:id="@+id/btn_menu_namedstar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:text="Named Star" />
+            android:background="@color/orange"
+            android:textColor="@color/white"
+            android:text="明星页" />
 
     </LinearLayout>
 
@@ -91,13 +95,17 @@
             android:id="@+id/btn_menu_friends"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Friends" />
+            android:background="@color/orange"
+            android:textColor="@color/white"
+            android:text="好友" />
 
         <common.component.ui.MyButton
             android:id="@+id/btn_menu_personal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Personal" />
+            android:background="@color/orange"
+            android:textColor="@color/white"
+            android:text="个人中心" />
 
     </LinearLayout>
     
@@ -126,7 +134,7 @@
             android:id="@+id/img_menu_cameraicon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/camera_icon" />
+            android:src="@drawable/camera" />
 
     </LinearLayout>
     
