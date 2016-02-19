@@ -129,36 +129,37 @@ public class MainMenuActivity extends HeaderBarActivity
 		LayoutUtils.setSize(findViewById(R.id.lay_menu_1), LayoutParams.MATCH_PARENT, 200, true);
 
 		LayoutUtils.setSize(m_imgAppIcon, 150, 150, true);
-		LayoutUtils.setMargin(m_imgAppIcon, 50, 50, 50, 50, true);
+		LayoutUtils.setMargin(m_imgAppIcon, 100, 50, 50, 50, true);
 //		LayoutUtils.setPadding(m_imgSport1, 20, 20, 20, 20, true);
 		
 		LayoutUtils.setMargin(m_textAppName, 20, 20, 20, 20, true);
 		m_textAppName.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 		LayoutUtils.setPadding(m_textAppName, 20, 0, 20, 0, true);
 		
-		LayoutUtils.setSize(findViewById(R.id.lay_menu_2), LayoutParams.MATCH_PARENT, 700, true);
+		LayoutUtils.setSize(findViewById(R.id.lay_menu_2), LayoutParams.MATCH_PARENT, 600, true);
 		
-		LayoutUtils.setSize(m_btnRecent, 400, 550, true);
-		LayoutUtils.setMargin(m_btnRecent, 100, 100, 40, 50, true);
+		LayoutUtils.setSize(m_btnRecent, 400, 500, true);
+		LayoutUtils.setMargin(m_btnRecent, 100, 50, 40, 50, true);
 		m_btnRecent.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 
-		LayoutUtils.setSize(m_btnNamedStar, 400, 550, true);
-		LayoutUtils.setMargin(m_btnNamedStar, 40, 100, 100, 50, true);
+		LayoutUtils.setSize(m_btnNamedStar, 400, 500, true);
+		LayoutUtils.setMargin(m_btnNamedStar, 40, 50, 100, 50, true);
 		m_btnNamedStar.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 
-		LayoutUtils.setSize(findViewById(R.id.lay_menu_3), LayoutParams.MATCH_PARENT, 700, true);
+		LayoutUtils.setSize(findViewById(R.id.lay_menu_3), LayoutParams.MATCH_PARENT, 600, true);
 
-		LayoutUtils.setSize(m_btnFriends, 400, 550, true);
-		LayoutUtils.setMargin(m_btnFriends, 100, 50, 40, 100, true);
+		LayoutUtils.setSize(m_btnFriends, 400, 500, true);
+		LayoutUtils.setMargin(m_btnFriends, 100, 50, 40, 50, true);
 		m_btnFriends.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 
-		LayoutUtils.setSize(m_btnPersonal, 400, 550, true);
-		LayoutUtils.setMargin(m_btnPersonal, 40, 50, 100, 100, true);
+		LayoutUtils.setSize(m_btnPersonal, 400, 500, true);
+		LayoutUtils.setMargin(m_btnPersonal, 40, 50, 100, 50, true);
 		m_btnPersonal.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 		
 		LayoutUtils.setSize(findViewById(R.id.lay_menu_4), LayoutParams.MATCH_PARENT, 200, true);
 
 		LayoutUtils.setSize(m_imgCameraIcon, 150, 150, true);
+		LayoutUtils.setMargin(m_imgCameraIcon, 100, 25, 100, 25, true);
 
 }
 	 

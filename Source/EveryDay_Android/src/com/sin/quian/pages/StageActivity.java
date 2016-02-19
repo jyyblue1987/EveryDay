@@ -43,7 +43,7 @@ public class StageActivity extends HeaderBarActivity
 	MyTextView						m_textHisAddress = null;
 	MyTextView						m_textFavorite = null;
 	
-	MyButton						m_btnComment = null;	
+	MyTextView						m_textComment = null;	
 
 	MyButton						m_btnFavorite = null;	
 	MyButton						m_btnEdit = null;	
@@ -78,7 +78,7 @@ public class StageActivity extends HeaderBarActivity
 		m_textHisAddress = (MyTextView) findViewById(R.id.text_stage_hisaddress);
 		m_textFavorite = (MyTextView) findViewById(R.id.text_stage_favorite);
 		
-		m_btnComment = (MyButton)findViewById(R.id.btn_stage_comment);
+		m_textComment = (MyTextView)findViewById(R.id.btn_stage_comment);
 
 		m_btnFavorite = (MyButton)findViewById(R.id.btn_stage_favorite);
 		m_btnEdit = (MyButton)findViewById(R.id.btn_stage_edit);
@@ -111,7 +111,7 @@ public class StageActivity extends HeaderBarActivity
 		LayoutUtils.setMargin(m_textHardNum, 10, 45, 10, 45, true);
 
 		LayoutUtils.setSize(m_imgStar, 50, 50, true);
-		LayoutUtils.setMargin(m_imgStar, 50, 50, 10, 50, true);
+		LayoutUtils.setMargin(m_imgStar, 100, 50, 10, 50, true);
 		
 		m_textStarNum.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
 		LayoutUtils.setMargin(m_textStarNum, 10, 45, 10, 45, true);
@@ -127,9 +127,8 @@ public class StageActivity extends HeaderBarActivity
 		m_textFavorite.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
 		LayoutUtils.setMargin(m_textFavorite, 200, 20, 10, 20, true);
 		
-		LayoutUtils.setSize(m_btnComment, 270, 100, true);
-		LayoutUtils.setMargin(m_btnComment, 40, 0, 10, 0, true);
-		m_btnComment.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+		m_textComment.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+		LayoutUtils.setMargin(m_textComment, 50, 20, 10, 20, true);
 
 		LayoutUtils.setSize(findViewById(R.id.lay_stage_3), LayoutParams.MATCH_PARENT, 100, true);
 		LayoutUtils.setMargin(findViewById(R.id.lay_stage_3), 10, 0, 10, 0, true);

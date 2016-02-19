@@ -85,14 +85,14 @@
 		            android:layout_height="wrap_content"
 	                android:layout_gravity="center_vertical"
 		            android:textColor="@color/black" 
-		            android:text="favorite" />
+		            android:text="Favorite" />
             
-             <common.component.ui.MyButton
+             <common.component.ui.MyTextView
 	                android:id="@+id/btn_stage_comment"
 	                android:layout_width="wrap_content"
 	                android:layout_height="wrap_content"
 	                android:layout_gravity="center_vertical"
-	                android:text="comment" />
+	                android:text="Comment" />
 
 		</LinearLayout>
 
