@@ -10,7 +10,7 @@
         android:id="@+id/fragment_header"
         layout="@layout/fragment_header" />
     
-     <LinearLayout
+    <LinearLayout
         android:id="@+id/lay_divide_0"
         android:layout_width="match_parent"
         android:layout_height="10dp" >
@@ -21,13 +21,12 @@
            android:layout_height="match_parent" 
            android:background="@color/transparent"/>
 	            
-        
      </LinearLayout>
+    
 
     <LinearLayout
         android:id="@+id/lay_menu_1"
         android:layout_width="match_parent"
-        android:background ="@color/white_darker"
         android:layout_height="wrap_content" >
 
         <ImageView
@@ -47,22 +46,24 @@
 
     </LinearLayout>
     
-     <LinearLayout
+    <LinearLayout
         android:id="@+id/lay_divide_1"
         android:layout_width="match_parent"
         android:layout_height="10dp" >
+        
         <common.component.ui.MyTextView
-	          android:id="@+id/text_divide_1"
-	          android:layout_width="match_parent"
-	          android:layout_height="match_parent" 
-	          android:background="@color/transparent"/>
-	      
+           android:id="@+id/text_divide_1"
+           android:layout_width="match_parent"
+           android:layout_height="match_parent" 
+           android:background="@color/transparent"/>
+	            
      </LinearLayout>
     
+    
+
     <LinearLayout
         android:id="@+id/lay_menu_2"
         android:layout_width="match_parent"
-        android:background ="@color/white_darker"
         android:layout_height="wrap_content" >
 
         <common.component.ui.MyButton
@@ -84,7 +85,6 @@
     <LinearLayout
         android:id="@+id/lay_menu_3"
         android:layout_width="match_parent"
-        android:background ="@color/white_darker"
         android:layout_height="wrap_content" >
 
         <common.component.ui.MyButton
@@ -111,7 +111,7 @@
             android:id="@+id/img_menu_cameraicon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/camera" />
+            android:src="@drawable/camera_icon" />
 
     </LinearLayout>
 

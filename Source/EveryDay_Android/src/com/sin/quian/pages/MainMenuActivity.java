@@ -2,6 +2,7 @@ package com.sin.quian.pages;
 
 import com.sin.quian.R;
 
+import android.hardware.Camera;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
@@ -26,7 +27,6 @@ public class MainMenuActivity extends HeaderBarActivity
 	MyButton 		m_btnFriends = null;
 	MyButton 		m_btnPersonal = null;
 	ImageView 		m_imgCameraIcon = null;
-	
 	int				parentWidth = 0;
 	int 			parentHeight = 0;
 	
@@ -56,7 +56,7 @@ public class MainMenuActivity extends HeaderBarActivity
 	protected void initData()
 	{
 		super.initData();
-		m_txtPageTitle.setText("Main Menu");
+		m_txtPageTitle.setText("返回");
 		m_btnRight.setVisibility(View.INVISIBLE);
 
 		
@@ -140,7 +140,7 @@ public class MainMenuActivity extends HeaderBarActivity
 	private void onClickFriends()
 	{
 		Bundle bundle = new Bundle();
-		ActivityManager.changeActivity(MainMenuActivity.this, FriendsActivity.class, bundle, false, null );		
+//		ActivityManager.changeActivity(MainMenuActivity.this, FriendsActivity.class, bundle, false, null );		
 	}
 	
 	private void onClickPersonal()
