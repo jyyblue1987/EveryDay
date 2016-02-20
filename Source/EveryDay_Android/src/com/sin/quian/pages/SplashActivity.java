@@ -60,9 +60,11 @@ public class SplashActivity extends BaseActivity {
 				
 				@Override
 				public void doAction(LogicResult result) {
+					if( result.mResult == LogicResult.RESULT_NO_USER_EXIST )
+						DataUtils.savePreference(Const.LOGIN_OK, "0");
+					
 					if( result.mResult != LogicResult.RESULT_OK )
 					{
-						DataUtils.savePreference(Const.LOGIN_OK, "0");
 						gotoLoginPage();
 					}
 					gotoMainPage();

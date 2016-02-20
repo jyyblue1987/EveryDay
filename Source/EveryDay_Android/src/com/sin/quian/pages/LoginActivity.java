@@ -66,8 +66,11 @@ public class LoginActivity extends HeaderBarActivity
 	{
 		super.initData();
 		
-		m_editName.setText("");
-		m_editPassword.setText("");
+		String username = DataUtils.getPreference(Const.USERNAME, "");
+		String password = DataUtils.getPreference(Const.PASSWORD, "");
+		 
+		m_editName.setText(username);
+		m_editPassword.setText(password);
 		m_txtPageTitle.setText("Login");
 		m_btnRight.setVisibility(View.INVISIBLE);
 		

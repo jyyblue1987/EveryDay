@@ -15,4 +15,12 @@ public class AppContext {
 	{
 		return g_MyProfile;
 	}
+	
+	public static String getUserID()
+	{
+		if( g_MyProfile == null )
+			return "0";
+		
+		return g_MyProfile.optString("id", "0");
+	}
 }

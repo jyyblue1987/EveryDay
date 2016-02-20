@@ -138,7 +138,8 @@ public class MainMenuActivity extends HeaderBarActivity
 
 	private void onClickStar()
 	{
-		
+		Bundle bundle = new Bundle();
+		ActivityManager.changeActivity(MainMenuActivity.this, UserActivity.class, bundle, false, null );		
 	}
 	
 	private void gotoPersonalCenterPage()

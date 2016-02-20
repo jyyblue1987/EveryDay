@@ -3,6 +3,7 @@ package com.sin.quian.pages;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -12,9 +13,15 @@ import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.sin.quian.AppContext;
 import com.sin.quian.Const;
 import com.sin.quian.R;
+import com.sin.quian.network.ServerManager;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.Message;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -25,16 +32,24 @@ import android.widget.ListView;
 import android.widget.TextView;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
+import common.image.load.ImageUtils;
+import common.library.utils.MediaUtils;
 import common.list.adapter.ItemCallBack;
 import common.list.adapter.MyListAdapter;
 import common.list.adapter.ViewHolder;
 import common.manager.activity.ActivityManager;
+import common.network.utils.LogicResult;
+import common.network.utils.ResultCallBack;
 
 
 public class MyCenterActivity extends HeaderBarActivity
 {
+	String			m_cameraTempPath = "";
 	ImageView 		m_imgPhoto = null;
 	TextView 		m_txtName = null;
+	
+	private static int	PICK_GALLERY_CODE = 100;
+	private static int	COMMENT_REQUEST_CODE = 200;
 	
 	int [] m_field_item = {
 			R.id.fragment_username,
@@ -75,13 +90,8 @@ public class MyCenterActivity extends HeaderBarActivity
 		
 		m_listPullItems.setMode(Mode.PULL_FROM_END);
 		
-		List<JSONObject> list = new ArrayList<JSONObject>();
-		for(int i = 0; i < 10; i++)
-		{
-			list.add(new JSONObject());
-		}
 		
-		showHistoryListData(list);
+		getHistoryListData();
 	}
 	
 	protected void initEvents()
@@ -92,7 +102,6 @@ public class MyCenterActivity extends HeaderBarActivity
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
 				
 			}
 		});
@@ -138,7 +147,43 @@ public class MyCenterActivity extends HeaderBarActivity
 		LayoutUtils.setMargin(findViewById(R.id.img_nav_icon), 40, 0, 40, 0, true);
 	}
 	
-	public void showHistoryListData(List<JSONObject> list) {
+	public void getHistoryListData() {
+		final List<JSONObject> list = new ArrayList<JSONObject>();
+		
+		showLoadingProgress();
+		// get temp stage
+		ServerManager.getTempStages(AppContext.getUserID(), new ResultCallBack() {
+			
+			@Override
+			public void doAction(LogicResult result) {
+				if( result.mResult == LogicResult.RESULT_OK )
+				{
+					JSONArray tempStageArray = result.getContentArray();
+					if( tempStageArray != null && tempStageArray.length() > 0 )
+						list.add(tempStageArray.optJSONObject(0));
+					else
+						list.add(new JSONObject());
+				}
+				else
+					list.add(new JSONObject());
+				ServerManager.getOwnHistory(AppContext.getUserID(), 0, new ResultCallBack() {
+					
+					@Override
+					public void doAction(LogicResult result) {
+						hideProgress();
+						showHistoryListData(list);
+					}
+				});
+				
+			}
+		});
+		
+	
+		
+	}
+	
+	private void showHistoryListData(List<JSONObject> list)
+	{
 		if( list.size() < 1 )
 		{
 			m_listItems.setVisibility(View.GONE);
@@ -151,7 +196,6 @@ public class MyCenterActivity extends HeaderBarActivity
 			
 			m_listItems.setAdapter(m_adapterHistoryList);	
 		}
-		
 	}
 	
 	private void gotoStageListPage(int pos)
@@ -171,6 +215,38 @@ public class MyCenterActivity extends HeaderBarActivity
 		ActivityManager.changeActivity(this, ProfileActivity.class, bundle, false, null );
 	}
 	
+	private void uploadStage()
+	{
+		m_cameraTempPath = Environment.getExternalStorageDirectory() + "/";
+		m_cameraTempPath += "camera_temp.jpg";
+
+		MediaUtils.showCameraGalleryPage(this, PICK_GALLERY_CODE, m_cameraTempPath);
+	}
+	
+	private void processFile(String path)
+	{
+		Bundle bundle = new Bundle();
+		ActivityManager.changeActivity(this, CommentDetailActivity.class, bundle, false, COMMENT_REQUEST_CODE);	
+	}
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == 0)
+			return;		
+		
+		if( requestCode == PICK_GALLERY_CODE + 1 )
+		{
+			Uri selectedImage = data.getData();			
+			String picturePath = MediaUtils.getPathFromURI(this, selectedImage);
+			
+			processFile(picturePath);
+		}
+		
+		if (requestCode == PICK_GALLERY_CODE ) {
+			processFile(m_cameraTempPath);
+		}	
+
+		super.onActivityResult(requestCode, resultCode, data);	
+	}
 	class HistoryListAdapter extends MyListAdapter {
 		public HistoryListAdapter(Context context, List<JSONObject> data,
 				int resource, ItemCallBack callback) {
@@ -181,6 +257,7 @@ public class MyCenterActivity extends HeaderBarActivity
 		{
 			final JSONObject item = getItem(position);
 			
+			// layout controls
 			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_history_info), 30, 30, 0, 30, true);
 			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 40);
 			
@@ -202,6 +279,38 @@ public class MyCenterActivity extends HeaderBarActivity
 			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 30);
 			
 			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_delete_history), 140, 60, true);
+			
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_camera_icon), 200, 200, true);
+			
+			
+			if( position == 1 )
+				ViewHolder.get(rowView, R.id.img_camera_icon).setVisibility(View.GONE);
+			else
+				ViewHolder.get(rowView, R.id.img_camera_icon).setVisibility(View.VISIBLE);
+			
+			if( item.has("thumb_url") )
+			{
+				ViewHolder.get(rowView, R.id.txt_history).setVisibility(View.VISIBLE);
+				ViewHolder.get(rowView, R.id.img_delete_history).setVisibility(View.VISIBLE);
+				ViewHolder.get(rowView, R.id.lay_comment_like).setVisibility(View.VISIBLE);
+			}
+			else
+			{
+				ViewHolder.get(rowView, R.id.txt_history).setVisibility(View.INVISIBLE);
+				ViewHolder.get(rowView, R.id.img_delete_history).setVisibility(View.INVISIBLE);
+				ViewHolder.get(rowView, R.id.lay_comment_like).setVisibility(View.INVISIBLE);
+			}
+			
+			// show data
+
+			// events
+			ViewHolder.get(rowView, R.id.img_camera_icon).setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					uploadStage();					
+				}
+			});			
 		}	
 	}
 	

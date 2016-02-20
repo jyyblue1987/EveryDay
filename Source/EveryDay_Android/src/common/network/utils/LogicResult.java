@@ -4,7 +4,7 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 /**
- * bo?规硶?勭粨?滅被??
+ * bo?锟芥硶?锟界粨?锟界被??
  * @author zhaoq
  *
  */
@@ -45,6 +45,18 @@ public class LogicResult {
 		JSONObject content = mData.optJSONObject("content");
 		if( content == null )
 			return new JSONObject();
+		
+		return content;
+	}
+	
+	public JSONArray getContentArray()
+	{
+		if( mData == null )
+			return new JSONArray();
+		
+		JSONArray content = mData.optJSONArray("content");
+		if( content == null )
+			return new JSONArray();
 		
 		return content;
 	}

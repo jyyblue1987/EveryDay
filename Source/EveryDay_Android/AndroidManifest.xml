@@ -5,13 +5,23 @@
     android:versionName="1.0" >
 
     <uses-sdk
-        android:minSdkVersion="9"
+        android:minSdkVersion="10"
         android:targetSdkVersion="19" />
 
     <!-- Network permission -->
     <uses-permission android:name="android.permission.INTERNET" />	
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE"></uses-permission>
+	
+	<!-- Camera permission -->
+	<uses-feature android:name="android.hardware.camera"  android:required="false"/>
+    <uses-feature android:name="android.hardware.camera.autofocus" android:required="false" />
+	<uses-permission android:name="android.permission.CAMERA" android:required="false" />
+	<uses-permission android:name="android.permission.FLASHLIGHT" />
+	
+	<!-- File Read & Write -->
+	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	
     <application
         android:allowBackup="true"

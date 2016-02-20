@@ -18,6 +18,7 @@
 	        android:text="Feb 16\n2016"
 	        />
 	    <LinearLayout
+	        android:id="@+id/lay_comment_like"
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content" 
 	        android:orientation="vertical"
@@ -100,7 +101,14 @@
 		    android:text="I am very happy"
 		    android:textColor="@color/white"
 		    android:background="#BB000000" 
-		    />   	    
+		    />   	 
+		<ImageView
+	        android:id="@+id/img_camera_icon"
+	        android:layout_width="50dip"
+	        android:layout_height="50dip"
+	        android:layout_centerInParent="true"
+	        android:background="@drawable/camera_bg"
+	        />   
 	</RelativeLayout>
 
 	
