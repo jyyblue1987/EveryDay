@@ -68,7 +68,7 @@ public class MyCenterActivity extends HeaderBarActivity
 		super.initData();
 		
 		m_txtPageTitle.setText("Personal Center");
-		m_btnRight.setVisibility(View.INVISIBLE);
+//		m_btnRight.setVisibility(View.INVISIBLE);
 		
 		JSONObject profile = AppContext.getProfile();
 		m_txtName.setText(profile.optString(Const.USERNAME, ""));
@@ -121,6 +121,10 @@ public class MyCenterActivity extends HeaderBarActivity
 	{
 		super.layoutControls();
 		
+		m_layRight.setVisibility(View.VISIBLE);
+		m_btnRight.setBackgroundResource(R.drawable.profile_white_icon);
+		LayoutUtils.setSize(m_btnRight, 55, 48, true);
+		
 		LayoutUtils.setMargin(findViewById(R.id.lay_contact_info), 0, 50, 0, 0, true);
 		LayoutUtils.setMargin(findViewById(R.id.lay_contact_item), 0, 30, 0, 30, true);
 		
@@ -153,9 +157,18 @@ public class MyCenterActivity extends HeaderBarActivity
 	private void gotoStageListPage(int pos)
 	{
 		Bundle bundle = new Bundle();
-		ActivityManager.changeActivity(this, StageListActivity.class, bundle, false, null );	
-
-		
+		ActivityManager.changeActivity(this, StageListActivity.class, bundle, false, null );			
+	}
+	
+	protected void gotoNextPage()
+	{
+		gotoProfilePage();
+	}
+	
+	private void gotoProfilePage()
+	{
+		Bundle bundle = new Bundle();
+		ActivityManager.changeActivity(this, ProfileActivity.class, bundle, false, null );
 	}
 	
 	class HistoryListAdapter extends MyListAdapter {

@@ -4,6 +4,7 @@ import com.sin.quian.R;
 
 import android.os.Bundle;
 import android.util.TypedValue;
+import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
@@ -28,6 +29,10 @@ public class MainMenuActivity extends HeaderBarActivity
 	ImageView 		m_imgCameraIcon = null;
 	int				parentWidth = 0;
 	int 			parentHeight = 0;
+
+//	Display display = null;//getWindowManager().getDefaultDisplay(); 
+//	int width = display.getWidth();  // deprecated
+//	int height = display.getHeight();  // deprecated
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +55,7 @@ public class MainMenuActivity extends HeaderBarActivity
 		
 		parentWidth = ScreenAdapter.getDeviceWidth();
 		parentHeight = ScreenAdapter.getDeviceHeight()-findViewById(R.id.fragment_header).getHeight();
+		
 	}
 
 	protected void initData()
@@ -165,46 +171,46 @@ public class MainMenuActivity extends HeaderBarActivity
 		int heightUnit = parentHeight/20;
 		int widthUnit = parentWidth/9;
 
-		LayoutUtils.setSize(findViewById(R.id.lay_divide_0), LayoutParams.MATCH_PARENT, heightUnit/4, true);
+		LayoutUtils.setSize(findViewById(R.id.lay_divide_0), LayoutParams.MATCH_PARENT, heightUnit/2, true);
 
-		LayoutUtils.setSize(findViewById(R.id.lay_menu_1), LayoutParams.MATCH_PARENT, heightUnit*4, true);
+		LayoutUtils.setSize(findViewById(R.id.lay_menu_1), LayoutParams.MATCH_PARENT, heightUnit*3, true);
 
-		LayoutUtils.setSize(m_imgAppIcon, heightUnit*3, heightUnit*3, true);
+		LayoutUtils.setSize(m_imgAppIcon, heightUnit*2, heightUnit*2, true);
 		LayoutUtils.setMargin(m_imgAppIcon, widthUnit, heightUnit/2, 0, heightUnit/2, true);
 		
 		LayoutUtils.setMargin(m_textAppName, widthUnit, heightUnit, 0, heightUnit, true);
 		m_textAppName.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 		
-		LayoutUtils.setSize(findViewById(R.id.lay_divide_1), LayoutParams.MATCH_PARENT, heightUnit/4, true);
+		LayoutUtils.setSize(findViewById(R.id.lay_divide_1), LayoutParams.MATCH_PARENT, heightUnit/2, true);
 
-		LayoutUtils.setSize(findViewById(R.id.lay_menu_2), LayoutParams.MATCH_PARENT, heightUnit*7, true);
+		LayoutUtils.setSize(findViewById(R.id.lay_menu_2), LayoutParams.MATCH_PARENT, heightUnit*6, true);
 		
-		LayoutUtils.setSize(m_btnRecent, widthUnit*4, heightUnit*6, true);
-		LayoutUtils.setMargin(m_btnRecent, widthUnit, heightUnit/2, 0, heightUnit/2, true);
+		LayoutUtils.setSize(m_btnRecent, widthUnit*3, heightUnit*5, true);
+		LayoutUtils.setMargin(m_btnRecent, widthUnit, heightUnit, 0, 0, true);
 		m_btnRecent.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 
-		LayoutUtils.setSize(m_btnNamedStar, widthUnit*4, heightUnit*6, true);
-		LayoutUtils.setMargin(m_btnNamedStar, widthUnit-15, heightUnit/2, widthUnit, heightUnit/2, true);
+		LayoutUtils.setSize(m_btnNamedStar, widthUnit*3, heightUnit*5, true);
+		LayoutUtils.setMargin(m_btnNamedStar, widthUnit, heightUnit, widthUnit, 0, true);
 		m_btnNamedStar.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 
-		LayoutUtils.setSize(findViewById(R.id.lay_menu_3), LayoutParams.MATCH_PARENT, heightUnit*7, true);
+		LayoutUtils.setSize(findViewById(R.id.lay_menu_3), LayoutParams.MATCH_PARENT, heightUnit*6, true);
 
-		LayoutUtils.setSize(m_btnFriends, widthUnit*4, heightUnit*6, true);
-		LayoutUtils.setMargin(m_btnFriends, widthUnit, heightUnit/2, 0, heightUnit/2, true);
+		LayoutUtils.setSize(m_btnFriends, widthUnit*3, heightUnit*5, true);
+		LayoutUtils.setMargin(m_btnFriends, widthUnit, heightUnit, 0, 0, true);
 		m_btnFriends.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 
-		LayoutUtils.setSize(m_btnPersonal, widthUnit*4, heightUnit*6, true);
-		LayoutUtils.setMargin(m_btnPersonal, widthUnit-15, heightUnit/2, widthUnit, heightUnit/2, true);
+		LayoutUtils.setSize(m_btnPersonal, widthUnit*3, heightUnit*5, true);
+		LayoutUtils.setMargin(m_btnPersonal, widthUnit, heightUnit, widthUnit, 0, true);
 		m_btnPersonal.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 		
-		LayoutUtils.setSize(findViewById(R.id.lay_divide_2), LayoutParams.MATCH_PARENT, heightUnit/4, true);
+		LayoutUtils.setSize(findViewById(R.id.lay_divide_2), LayoutParams.MATCH_PARENT, heightUnit/2, true);
 		
 		LayoutUtils.setSize(findViewById(R.id.lay_menu_4), LayoutParams.MATCH_PARENT, heightUnit*3, true);
 
 		LayoutUtils.setSize(m_imgCameraIcon, heightUnit*2, heightUnit*2, true);
 		LayoutUtils.setMargin(m_imgCameraIcon, 0, heightUnit/2, 0, heightUnit/2, true);
 		
-		LayoutUtils.setSize(findViewById(R.id.lay_divide_3), LayoutParams.MATCH_PARENT, heightUnit/4, true);
+		LayoutUtils.setSize(findViewById(R.id.lay_divide_3), LayoutParams.MATCH_PARENT, heightUnit/2, true);
 
 	}
 
