@@ -293,12 +293,12 @@ public class MyCenterActivity extends HeaderBarActivity
 			processFile(m_cameraTempPath);
 		}	
 		
-		if (requestCode == PICK_GALLERY_CODE ) {
+		if (requestCode == PICK_GALLERY_CODE + 2 ) {
 			processFile(m_cameraTempPath);
 		}	
 		
 		if (requestCode == COMMENT_REQUEST_CODE ) {
-//			processFile(m_cameraTempPath);
+			getHistoryListData();
 		}	
 
 		super.onActivityResult(requestCode, resultCode, data);	
