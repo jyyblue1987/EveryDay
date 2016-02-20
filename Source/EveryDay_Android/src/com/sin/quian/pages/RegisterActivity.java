@@ -147,7 +147,6 @@ public class RegisterActivity extends HeaderBarActivity
 			return;
 		}
 		
-		
 		register(username, email, password);
 	}
 	

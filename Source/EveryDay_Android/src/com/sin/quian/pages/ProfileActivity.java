@@ -9,6 +9,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
+import common.component.ui.MyButton;
 import common.component.ui.MyTextView;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
@@ -34,12 +35,15 @@ public class ProfileActivity extends HeaderBarActivity
 	ImageView		m_imgHard1 = null;
 	ImageView		m_imgHard2 = null;
 	ImageView		m_imgHard3 = null;
-	ImageView		m_imgHard4 = null;
 	
 	MyTextView		m_txtHard1 = null;
 	MyTextView		m_txtHard2 = null;
 	MyTextView		m_txtHard3 = null;
-	MyTextView		m_txtHard4 = null;
+	
+	MyButton		m_btnSave = null;
+	MyButton		m_btnChangePassword= null;
+	MyButton		m_btnBuy = null;
+
 	
 	int [] m_field_item = {
 		R.id.fragment_profile_fullname,
@@ -74,15 +78,17 @@ public class ProfileActivity extends HeaderBarActivity
 		m_editAddress = (EditText) findViewById(R.id.fragment_profile_address).findViewById(R.id.edit_content);
 		m_editModifiedData = (EditText) findViewById(R.id.fragment_profile_modifieddate).findViewById(R.id.edit_content);
 
+		m_btnSave = (MyButton) findViewById(R.id.btn_profile_save);
+		m_btnChangePassword = (MyButton) findViewById(R.id.btn_profile_change);
+		m_btnBuy = (MyButton) findViewById(R.id.btn_profile_buy);
+
 		m_imgHard1 = (ImageView) findViewById(R.id.img_profile_icon1);
 		m_imgHard2 = (ImageView) findViewById(R.id.img_profile_icon2);
 		m_imgHard3 = (ImageView) findViewById(R.id.img_profile_icon3);
-		m_imgHard4 = (ImageView) findViewById(R.id.img_profile_icon4);
 
 		m_txtHard1 = (MyTextView) findViewById(R.id.text_profile_num1);
 		m_txtHard2 = (MyTextView) findViewById(R.id.text_profile_num2);
 		m_txtHard3 = (MyTextView) findViewById(R.id.text_profile_num3);
-		m_txtHard4 = (MyTextView) findViewById(R.id.text_profile_num4);
 }
 	
 	protected void layoutControls()
@@ -121,11 +127,18 @@ public class ProfileActivity extends HeaderBarActivity
 		LayoutUtils.setMargin(m_txtHard3, 20, 0, 0, 0, true);
 		m_txtHard3.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
 
-		LayoutUtils.setMargin(m_imgHard4, 40, 0, 0, 0, true);
-		LayoutUtils.setSize(m_imgHard4, 50, 50, true);
-		
-		LayoutUtils.setMargin(m_txtHard4, 20, 0, 70, 0, true);
-		m_txtHard4.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+		LayoutUtils.setMargin(m_btnSave, 80, 60, 80, 0, true);
+		LayoutUtils.setSize(m_btnSave, LayoutParams.MATCH_PARENT, 114, true);
+		m_btnSave.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+
+		LayoutUtils.setMargin(m_btnChangePassword, 80, 60, 80, 0, true);
+		LayoutUtils.setSize(m_btnChangePassword, LayoutParams.MATCH_PARENT, 114, true);
+		m_btnChangePassword.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+
+		LayoutUtils.setMargin(m_btnBuy, 80, 60, 80, 60, true);
+		LayoutUtils.setSize(m_btnBuy, LayoutParams.MATCH_PARENT, 114, true);
+		m_btnBuy.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+
 	}
 
 	protected void initData()
@@ -134,14 +147,14 @@ public class ProfileActivity extends HeaderBarActivity
 		m_btnRight.setVisibility(View.INVISIBLE);
 		m_txtPageTitle.setText("注册");
 		
-		((TextView) findViewById(R.id.fragment_profile_fullname).findViewById(R.id.txt_label)).setText("Full Name");
-		((TextView) findViewById(R.id.fragment_profile_username).findViewById(R.id.txt_label)).setText("User Name");
-		((TextView) findViewById(R.id.fragment_profile_thumbnail).findViewById(R.id.txt_label)).setText("Thumbnail");
-		((TextView) findViewById(R.id.fragment_profile_email).findViewById(R.id.txt_label)).setText("Email");
-		((TextView) findViewById(R.id.fragment_profile_phonenumber).findViewById(R.id.txt_label)).setText("Phone Number");
-		((TextView) findViewById(R.id.fragment_profile_birthday).findViewById(R.id.txt_label)).setText("Birthday");
-		((TextView) findViewById(R.id.fragment_profile_address).findViewById(R.id.txt_label)).setText("Address");
-		((TextView) findViewById(R.id.fragment_profile_modifieddate).findViewById(R.id.txt_label)).setText("Modified Date");
+		((TextView) findViewById(R.id.fragment_profile_fullname).findViewById(R.id.txt_label)).setText("全名");
+		((TextView) findViewById(R.id.fragment_profile_username).findViewById(R.id.txt_label)).setText("用户名称");
+		((TextView) findViewById(R.id.fragment_profile_thumbnail).findViewById(R.id.txt_label)).setText("缩图");
+		((TextView) findViewById(R.id.fragment_profile_email).findViewById(R.id.txt_label)).setText("邮箱");
+		((TextView) findViewById(R.id.fragment_profile_phonenumber).findViewById(R.id.txt_label)).setText("手机号码");
+		((TextView) findViewById(R.id.fragment_profile_birthday).findViewById(R.id.txt_label)).setText("生日");
+		((TextView) findViewById(R.id.fragment_profile_address).findViewById(R.id.txt_label)).setText("地址");
+		((TextView) findViewById(R.id.fragment_profile_modifieddate).findViewById(R.id.txt_label)).setText("修改日期");
 		
 //		((EditText) findViewById(R.id.fragment_profile_email).findViewById(R.id.edit_content)).setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 		
@@ -151,16 +164,30 @@ public class ProfileActivity extends HeaderBarActivity
 	{ 
 		super.initEvents();
 
-//		m_btnRegister.setOnClickListener(new View.OnClickListener() {
-//			
-//			@Override
-//			public void onClick(View paramView) {
-//				onClickRegister();				
-//			}
-//		});
+		m_btnSave.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View paramView) {
+				onClickSave();				
+			}
+		});
+		m_btnChangePassword.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View paramView) {
+				onClickChange();				
+			}
+		});
+		m_btnBuy.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View paramView) {
+				onClickBuy();				
+			}
+		});
 	}
-	
-	private void onClickRegister()
+
+	private void onClickSave()
 	{
 		String fullname = ((TextView) findViewById(R.id.fragment_profile_fullname).findViewById(R.id.edit_content)).getText().toString();
 		String username = ((TextView) findViewById(R.id.fragment_profile_username).findViewById(R.id.edit_content)).getText().toString();
@@ -211,6 +238,18 @@ public class ProfileActivity extends HeaderBarActivity
 			MessageUtils.showMessageDialog(this, "Please input modified date.");
 			return;
 		}
+		
+//		register(username, email, password);
 	}
+	
+	
+	private void onClickChange(){
+		
+	}
+	
+	private void onClickBuy(){
+		
+	}
+
 	
 }

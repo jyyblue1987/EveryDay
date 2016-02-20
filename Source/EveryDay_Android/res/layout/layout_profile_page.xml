@@ -58,6 +58,31 @@
 		    <include
 		        android:id="@+id/fragment_profile_modifieddate"
 		        layout="@layout/fragment_label_edit" />
+		    
+		    <common.component.ui.MyButton
+		        android:id="@+id/btn_profile_save"
+		        android:layout_width="100dip"
+		        android:layout_height="30dip"
+		        android:background="@drawable/button_greeen_bg"
+		        android:text="存储"
+		        android:textColor="@color/white" />     
+		          
+		    <common.component.ui.MyButton
+		        android:id="@+id/btn_profile_change"
+		        android:layout_width="100dip"
+		        android:layout_height="30dip"
+		        android:background="@drawable/button_greeen_bg"
+		        android:text="修改密码"
+		        android:textColor="@color/white" /> 
+		              
+		    <common.component.ui.MyButton
+		        android:id="@+id/btn_profile_buy"
+		        android:layout_width="100dip"
+		        android:layout_height="30dip"
+		        android:background="@drawable/button_greeen_bg"
+		        android:text="购买"
+		        android:textColor="@color/white" />       
+		    		    
             
         </LinearLayout>
         
@@ -75,7 +100,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content" 
             android:layout_gravity="center_vertical"
-	        android:layout_weight="0.25">
+	        android:layout_weight="0.33">
         
 	        <ImageView
 	            android:id="@+id/img_profile_icon1"
@@ -95,7 +120,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content" 
             android:layout_gravity="center_vertical"
-	        android:layout_weight="0.25">
+	        android:layout_weight="0.33">
 	       <ImageView
 	           android:id="@+id/img_profile_icon2"
 	           android:layout_width="wrap_content"
@@ -114,7 +139,7 @@
 	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content" 
             android:layout_gravity="center_vertical"
-	        android:layout_weight="0.25">
+	        android:layout_weight="0.33">
 	   
 	        <ImageView
 	            android:id="@+id/img_profile_icon3"
@@ -129,23 +154,6 @@
 	            android:textColor="@color/black" 
 	            android:text="300" />
 	    </LinearLayout>
-		<LinearLayout
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content" 
-            android:layout_gravity="center_vertical"
-	        android:layout_weight="0.25">
-	        <ImageView
-	            android:id="@+id/img_profile_icon4"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:src="@drawable/star" />
-	        <common.component.ui.MyTextView
-	            android:id="@+id/text_profile_num4"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:textColor="@color/black" 
-	            android:text="400" />
-        </LinearLayout>
 	
     </LinearLayout>
 
