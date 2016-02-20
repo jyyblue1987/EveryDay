@@ -100,9 +100,9 @@
 				for(int i = 0; i < m_field_item.length; i++ )
 				{
 					if(i==0){
-						LayoutUtils.setMargin(findViewById(m_field_item[i]), 80, 400, 80, 0, true);
+						LayoutUtils.setMargin(findViewById(m_field_item[i]), 80, 200, 80, 0, true);
 					}else{
-						LayoutUtils.setMargin(findViewById(m_field_item[i]), 80, 170, 80, 0, true);
+						LayoutUtils.setMargin(findViewById(m_field_item[i]), 80, 100, 80, 0, true);
 					}
 					LayoutUtils.setPadding(findViewById(m_field_item[i]).findViewById(R.id.lay_info), 20, 0, 20, 0, true);
 					
@@ -110,7 +110,7 @@
 					((TextView)findViewById(m_field_item[i]).findViewById(R.id.edit_content)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 				}
 				
-				LayoutUtils.setMargin(m_btnChange, 80, 250, 80, 100, true);
+				LayoutUtils.setMargin(m_btnChange, 80, 170, 80, 100, true);
 				LayoutUtils.setSize(m_btnChange, LayoutParams.MATCH_PARENT, 114, true);
 				m_btnChange.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 			}
