@@ -75,9 +75,9 @@ public class ProfileActivity extends HeaderBarActivity
 		m_editModifiedData = (EditText) findViewById(R.id.fragment_profile_modifieddate).findViewById(R.id.edit_content);
 
 		m_imgHard1 = (ImageView) findViewById(R.id.img_profile_icon1);
-		m_imgHard1 = (ImageView) findViewById(R.id.img_profile_icon2);
-		m_imgHard1 = (ImageView) findViewById(R.id.img_profile_icon3);
-		m_imgHard1 = (ImageView) findViewById(R.id.img_profile_icon4);
+		m_imgHard2 = (ImageView) findViewById(R.id.img_profile_icon2);
+		m_imgHard3 = (ImageView) findViewById(R.id.img_profile_icon3);
+		m_imgHard4 = (ImageView) findViewById(R.id.img_profile_icon4);
 
 		m_txtHard1 = (MyTextView) findViewById(R.id.text_profile_num1);
 		m_txtHard2 = (MyTextView) findViewById(R.id.text_profile_num2);
@@ -103,28 +103,28 @@ public class ProfileActivity extends HeaderBarActivity
 		
 		LayoutUtils.setSize(findViewById(R.id.lay_profile_1),LayoutParams.MATCH_PARENT, 130, true);
 
-		LayoutUtils.setMargin(m_imgHard1, 40, 0, 0, 0, true);
-		LayoutUtils.setSize(m_imgHard1, 55, 55, true);
+		LayoutUtils.setMargin(m_imgHard1, 70, 0, 0, 0, true);
+		LayoutUtils.setSize(m_imgHard1, 50, 50, true);
 		
-		LayoutUtils.setMargin(m_txtHard1, 40, 0, 0, 0, true);
+		LayoutUtils.setMargin(m_txtHard1, 20, 0, 0, 0, true);
 		m_txtHard1.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
 
 		LayoutUtils.setMargin(m_imgHard2, 40, 0, 0, 0, true);
-		LayoutUtils.setSize(m_imgHard2, 55, 55, true);
+		LayoutUtils.setSize(m_imgHard2, 50, 50, true);
 		
-		LayoutUtils.setMargin(m_txtHard2, 40, 0, 0, 0, true);
+		LayoutUtils.setMargin(m_txtHard2, 20, 0, 0, 0, true);
 		m_txtHard2.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
 
 		LayoutUtils.setMargin(m_imgHard3, 40, 0, 0, 0, true);
-		LayoutUtils.setSize(m_imgHard3, 55, 55, true);
+		LayoutUtils.setSize(m_imgHard3, 50, 50, true);
 		
-		LayoutUtils.setMargin(m_txtHard3, 40, 0, 0, 0, true);
+		LayoutUtils.setMargin(m_txtHard3, 20, 0, 0, 0, true);
 		m_txtHard3.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
 
 		LayoutUtils.setMargin(m_imgHard4, 40, 0, 0, 0, true);
-		LayoutUtils.setSize(m_imgHard4, 55, 55, true);
+		LayoutUtils.setSize(m_imgHard4, 50, 50, true);
 		
-		LayoutUtils.setMargin(m_txtHard4, 40, 0, 40, 0, true);
+		LayoutUtils.setMargin(m_txtHard4, 20, 0, 70, 0, true);
 		m_txtHard4.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
 	}
 

@@ -68,39 +68,39 @@
         android:id="@+id/lay_profile_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" 
-        android:layout_gravity="center_horizontal">
+        android:layout_gravity="center_horizontal"
+        android:background="@color/orange">
 
         <LinearLayout
-	        android:layout_width="match_parent"
+	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content" 
+            android:layout_gravity="center_vertical"
 	        android:layout_weight="0.25">
         
 	        <ImageView
 	            android:id="@+id/img_profile_icon1"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:layout_gravity="center_vertical"
 	            android:src="@drawable/hard" />
 	
 	        <common.component.ui.MyTextView
 	            android:id="@+id/text_profile_num1"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:layout_gravity="center_vertical"
 	            android:textColor="@color/black" 
 	            android:text="100" />
 	   </LinearLayout>
-	   <LinearLayout
-	        android:layout_width="match_parent"
+
+       <LinearLayout
+	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content" 
+            android:layout_gravity="center_vertical"
 	        android:layout_weight="0.25">
 	       <ImageView
 	           android:id="@+id/img_profile_icon2"
 	           android:layout_width="wrap_content"
 	           android:layout_height="wrap_content"
-	           android:layout_gravity="center_vertical"
 	           android:src="@drawable/star" />
-	
 	       <common.component.ui.MyTextView
 	           android:id="@+id/text_profile_num2"
 	           android:layout_width="wrap_content"
@@ -109,44 +109,40 @@
 	           android:textColor="@color/black" 
 	           android:text="200" />
 	    </LinearLayout>
-		<LinearLayout
-	        android:layout_width="match_parent"
+
+	   	<LinearLayout
+	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content" 
+            android:layout_gravity="center_vertical"
 	        android:layout_weight="0.25">
 	   
 	        <ImageView
 	            android:id="@+id/img_profile_icon3"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:layout_gravity="center_vertical"
 	            android:src="@drawable/hard" />
 	
 	        <common.component.ui.MyTextView
 	            android:id="@+id/text_profile_num3"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:layout_gravity="center_vertical"
 	            android:textColor="@color/black" 
 	            android:text="300" />
 	    </LinearLayout>
 		<LinearLayout
-	        android:layout_width="match_parent"
+	        android:layout_width="wrap_content"
 	        android:layout_height="wrap_content" 
+            android:layout_gravity="center_vertical"
 	        android:layout_weight="0.25">
-	   
-			        	
 	        <ImageView
 	            android:id="@+id/img_profile_icon4"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:layout_gravity="center_vertical"
 	            android:src="@drawable/star" />
-	
 	        <common.component.ui.MyTextView
 	            android:id="@+id/text_profile_num4"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:layout_gravity="center_vertical"
 	            android:textColor="@color/black" 
 	            android:text="400" />
         </LinearLayout>
