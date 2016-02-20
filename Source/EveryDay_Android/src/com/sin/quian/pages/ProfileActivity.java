@@ -15,6 +15,7 @@ import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
 import common.library.utils.CheckUtils;
 import common.library.utils.MessageUtils;
+import common.manager.activity.ActivityManager;
 
 
 public class ProfileActivity extends HeaderBarActivity
@@ -243,8 +244,10 @@ public class ProfileActivity extends HeaderBarActivity
 	}
 	
 	
-	private void onClickChange(){
-		
+	private void onClickChange()
+	{
+		Bundle bundle = new Bundle();
+		ActivityManager.changeActivity(ProfileActivity.this, ChangePasswordActivity.class, bundle, false, null );		
 	}
 	
 	private void onClickBuy(){

@@ -134,7 +134,7 @@ public class LoginActivity extends HeaderBarActivity
 	 private void onClickForgot()
 	 {
 		Bundle bundle = new Bundle();
-		ActivityManager.changeActivity(LoginActivity.this, ChangePasswordActivity.class, bundle, false, null );		
+		ActivityManager.changeActivity(LoginActivity.this, ForgotPasswordActivity.class, bundle, false, null );		
 	 }
 
 	
