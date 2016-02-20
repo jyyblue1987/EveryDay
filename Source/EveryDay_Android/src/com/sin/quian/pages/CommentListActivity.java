@@ -24,6 +24,7 @@ import common.design.layout.ScreenAdapter;
 import common.list.adapter.ItemCallBack;
 import common.list.adapter.MyListAdapter;
 import common.list.adapter.ViewHolder;
+import common.manager.activity.ActivityManager;
 
 
 public class CommentListActivity extends HeaderBarActivity
@@ -112,10 +113,8 @@ public class CommentListActivity extends HeaderBarActivity
 	
 	private void gotoCommentPage(int pos)
 	{
-//		Bundle bundle = new Bundle();
-//		ActivityManager.changeActivity(this, CommentListActivity.class, bundle, false, null );	
-
-		
+		Bundle bundle = new Bundle();
+		ActivityManager.changeActivity(this, CommentDetailActivity.class, bundle, false, null );	
 	}
 	
 	class CommentListAdapter extends MyListAdapter {
