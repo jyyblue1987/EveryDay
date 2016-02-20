@@ -122,4 +122,10 @@ public class Const {
     public static final String THUMBNAIL = "thumbnail";
     public static final String CONTENT = "content";
     public static final String MODIFY_DATE = "modifydate";
+    
+    public static final int		TEMP_STAGE_MODE = 0;
+    public static final int		SELF_STAGE_MODE = 1;
+    public static final int		OTHER_STAGE_MODE = 2;
+    
+    public static final String MODE = "mode";
 }

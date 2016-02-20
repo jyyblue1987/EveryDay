@@ -8,6 +8,7 @@ import com.sin.quian.Const;
 import com.sin.quian.R;
 import com.sin.quian.network.ServerManager;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -87,7 +88,7 @@ public class CommentDetailActivity extends HeaderBarActivity
 				
 			 	Intent intent = new Intent();
 		    	intent.putExtra(INTENT_EXTRA, m_editContent.getText().toString());	
-		        setResult(0, intent);    
+		        setResult(Activity.RESULT_OK, intent);    
 		        onFinishActivity();				
 			}
 		});

@@ -3,11 +3,16 @@ package com.sin.quian.pages;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
+import com.sin.quian.AppContext;
+import com.sin.quian.Const;
 import com.sin.quian.R;
+import com.sin.quian.network.ServerTask;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -21,9 +26,12 @@ import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
 import common.design.layout.LayoutUtils;
+import common.design.layout.ScreenAdapter;
 import common.image.load.ImageUtils;
+import common.library.utils.MyTime;
 import common.list.adapter.ItemCallBack;
 import common.list.adapter.MyPagerAdapter;
+import common.list.adapter.ViewHolder;
 import common.manager.activity.ActivityManager;
 
 
@@ -34,6 +42,7 @@ public class StageListActivity extends HeaderBarActivity
 	
 	int			m_nCurrentPage = 0;
 	
+	TextView	m_txtSubTitle = null;
 	TextView	m_txtComment = null;
 	
 	ImageView	m_imgLikeIcon = null;
@@ -48,6 +57,9 @@ public class StageListActivity extends HeaderBarActivity
 	
 	Button		m_btnPublish = null;
 	
+	int m_nMode = Const.TEMP_STAGE_MODE;
+	List<JSONObject> m_stageList = null;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -61,6 +73,7 @@ public class StageListActivity extends HeaderBarActivity
 		
 		m_photoPager = (ViewPager) findViewById(R.id.img_gallery_view);
 
+		m_txtSubTitle  = (TextView) findViewById(R.id.fragment_header).findViewById(R.id.txt_navigate_sub_title);
 		m_txtComment = (TextView) findViewById(R.id.txt_comment);
 		m_imgLikeIcon = (ImageView) findViewById(R.id.img_like_icon);
 		m_txtLike = (TextView) findViewById(R.id.txt_like);
@@ -79,6 +92,7 @@ public class StageListActivity extends HeaderBarActivity
 	{
 		super.layoutControls();
 		
+		m_txtSubTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(40));
 		m_layRight.setVisibility(View.VISIBLE);
 		m_btnRight.setBackgroundResource(R.drawable.comment_list);
 		LayoutUtils.setSize(m_btnRight, 55, 48, true);
@@ -120,12 +134,46 @@ public class StageListActivity extends HeaderBarActivity
 	protected void initData()
 	{
 		super.initData();
-		List<JSONObject> list = new ArrayList<JSONObject>();
-		for(int i = 0; i < 11; i++ )
+		
+		Bundle bundle = getIntent().getExtras();
+		
+		if( bundle != null )
 		{
-			JSONObject data = new JSONObject();			
-			list.add(data);
+			String data = bundle.getString(INTENT_EXTRA, "");
+			try {
+				JSONObject stage = new JSONObject(data);
+				m_nMode = stage.optInt(Const.MODE, Const.TEMP_STAGE_MODE);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 		}
+		
+		if( m_nMode == Const.TEMP_STAGE_MODE ) // self temp stage mode 
+		{
+			findViewById(R.id.lay_input_action).setVisibility(View.GONE);
+			findViewById(R.id.lay_count).setVisibility(View.GONE);
+			
+			JSONArray tempStageArray = AppContext.getTempStageArray();
+			List<JSONObject> list = new ArrayList<JSONObject>();
+			for(int i = 0; i < tempStageArray.length(); i++ )
+				list.add(tempStageArray.optJSONObject(i));
+			
+			m_stageList = list;
+			showStageList(list);
+		} 
+		else if( m_nMode == Const.SELF_STAGE_MODE ) // self published stage mode
+		{
+			findViewById(R.id.lay_input_action).setVisibility(View.GONE);
+			findViewById(R.id.lay_count).setVisibility(View.GONE);
+			m_btnPublish.setVisibility(View.GONE);
+		}
+		
+
+		
+	}
+	
+	private void showStageList(List<JSONObject> list)
+	{
 		m_photoAdapter = new PhotoPagerAdapter(this, list, null);
 		m_photoPager.setAdapter(m_photoAdapter);
 		
@@ -140,11 +188,21 @@ public class StageListActivity extends HeaderBarActivity
 		    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 		    	m_photoPager.getParent().requestDisallowInterceptTouchEvent(true);
 		    	m_nCurrentPage = position;
+		    	showStageInfo(position);
 		    }
 		});
-		
 	}
 	
+	private void showStageInfo(int num)
+	{
+		JSONObject item = m_stageList.get(m_nCurrentPage);
+		m_txtComment.setText(item.optString(Const.CONTENT, ""));
+		
+		String time = item.optString(Const.MODIFY_DATE, MyTime.getCurrentTime());
+		String date = MyTime.getChinaDate(time);
+		m_txtPageTitle.setText(date);
+		m_txtSubTitle.setText((num + 1) + "/" + m_stageList.size());
+	}
 	protected void gotoNextPage()
 	{
 		gotoCommentListPage();
@@ -166,13 +224,11 @@ public class StageListActivity extends HeaderBarActivity
 		protected View loadItemViews(int position)
 		{
 			ImageView view = new ImageView(m_context);
-	    	view.setScaleType(ScaleType.FIT_XY);
+//	    	view.setScaleType(ScaleType.FIT_XY);
 	    	
 	    	JSONObject item = getItem(position);
-	    	String url = item.optString("thumb_url", "1");	    		    
 	    	
-			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.ic_launcher).cacheOnDisk(false).build();
-			ImageLoader.getInstance().displayImage(url, view, options);
+			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + item.optString(Const.THUMBNAIL, ""), view);
 			
 			return view;
 		}  

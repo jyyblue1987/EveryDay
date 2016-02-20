@@ -200,6 +200,8 @@ public class MyCenterActivity extends HeaderBarActivity
 						list.add(tempStageArray.optJSONObject(0));
 					else
 						list.add(new JSONObject());
+					
+					AppContext.setTempStageArray(tempStageArray);
 				}
 				else
 					list.add(new JSONObject());
@@ -238,6 +240,20 @@ public class MyCenterActivity extends HeaderBarActivity
 	private void gotoStageListPage(int pos)
 	{
 		Bundle bundle = new Bundle();
+		
+		JSONObject param = new JSONObject();
+		
+		try {
+			if( pos <= 1 )
+				param.put(Const.MODE, Const.TEMP_STAGE_MODE);
+			else
+				param.put(Const.MODE, Const.SELF_STAGE_MODE);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		bundle.putString(INTENT_EXTRA, param.toString());
+		
 		ActivityManager.changeActivity(this, StageListActivity.class, bundle, false, null );			
 	}
 	
@@ -353,8 +369,8 @@ public class MyCenterActivity extends HeaderBarActivity
 			}
 			
 			// show data
-			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.default_image_bg).build();
-			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + item.optString(Const.THUMBNAIL, ""), (ImageView)ViewHolder.get(rowView, R.id.img_history_preview), options);
+//			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.default_image_bg).build();
+			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + item.optString(Const.THUMBNAIL, ""), (ImageView)ViewHolder.get(rowView, R.id.img_history_preview));
 			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setText(item.optString(Const.CONTENT, ""));
 			
 			String time = item.optString(Const.MODIFY_DATE, MyTime.getCurrentTime());

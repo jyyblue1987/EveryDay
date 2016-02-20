@@ -163,6 +163,21 @@ public class MyTime {
 		return "";
 	}
 	
+	public static String getChinaDate(String datetime)
+	{
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+		try {  
+		    Date date = format.parse(datetime);  
+			SimpleDateFormat chinaFormat = new SimpleDateFormat("yyyy MM dd HH:mm:ss");
+			return chinaFormat.format(date);
+		}catch (ParseException e) {  
+		    // TODO Auto-generated catch block  
+		    e.printStackTrace();  
+		}
+		
+		return "";
+	}
+	
 	public static String formatTimespan(long timespan) {
         long totalSeconds = timespan / 1000;
         long minutes = totalSeconds / 60;
