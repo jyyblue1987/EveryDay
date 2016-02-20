@@ -251,6 +251,8 @@ public class ProfileActivity extends HeaderBarActivity
 	}
 	
 	private void onClickBuy(){
+		Bundle bundle = new Bundle();
+		ActivityManager.changeActivity(ProfileActivity.this, BuyActivity.class, bundle, false, null );		
 		
 	}
 
