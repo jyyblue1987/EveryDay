@@ -1,0 +1,250 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <include
+        android:id="@+id/fragment_header"
+        layout="@layout/fragment_header" />
+
+    <ScrollView
+        android:id="@+id/scrollView1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" >
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical" >
+
+            <common.component.ui.CircularImageView
+                android:id="@+id/img_profile_photo"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
+                android:src="@drawable/contact_bg" />
+
+            <LinearLayout
+                android:id="@+id/lay_profile0"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/underline13" >
+
+                <common.component.ui.MyTextView
+                    android:id="@+id/txt_profile_mobile"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Mobile"
+                    android:textStyle="bold"
+                    android:textColor="@color/gray" />
+
+                <EditText
+                    android:id="@+id/edit_profile_mobile"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:ems="10"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:inputType="phone" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/lay_profile1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/underline13" >
+
+                <common.component.ui.MyTextView
+                    android:id="@+id/txt_profile_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Name"
+                    android:textStyle="bold"
+                    android:textColor="@color/green" />
+
+                <EditText
+                    android:id="@+id/edit_profile_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:ems="10"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:inputType="textPersonName" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/lay_profile2"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/underline13" >
+
+                <common.component.ui.MyTextView
+                    android:id="@+id/txt_profile_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Nick Name"
+                    android:textStyle="bold"
+                    android:textColor="@color/green" />
+
+                <EditText
+                    android:id="@+id/edit_profile_nickname"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:ems="10"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:inputType="textPersonName" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lay_profile3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/underline13" >
+
+                <common.component.ui.MyTextView
+                    android:id="@+id/txt_profile_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Email"
+                    android:textStyle="bold"
+                    android:textColor="@color/green" />
+
+                <EditText
+                    android:id="@+id/edit_profile_email"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:inputType="textEmailAddress" />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/lay_profile4"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/underline13" >
+
+                <common.component.ui.MyTextView
+                    android:id="@+id/txt_profile_job"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Job"
+                    android:textStyle="bold"
+                    android:textColor="@color/green" />
+
+                 <TextView
+                    android:id="@+id/txt_profile_select"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="none"
+                    android:textStyle="bold"
+                    android:textColor="@color/black"
+                    android:hint="Select job"
+                    />
+            </LinearLayout>
+            <LinearLayout
+                android:id="@+id/lay_profile5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/underline13" >
+
+                <common.component.ui.MyTextView
+                    android:id="@+id/txt_profile_company"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:text="Company"
+                    android:textStyle="bold"
+                    android:textColor="@color/green" />
+
+                <EditText
+                    android:id="@+id/edit_profile_company"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:textStyle="bold"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="textPersonName" >
+
+                    <requestFocus />
+                </EditText>
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lay_profile6"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/underline13" >
+
+                <common.component.ui.MyTextView
+                    android:id="@+id/txt_profile_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:textStyle="bold"
+                    android:text="Address"
+                    android:textColor="@color/green" />
+
+                <EditText
+                    android:id="@+id/edit_profile_address"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:textStyle="bold"
+                    android:ems="10"
+                    android:gravity="center"
+                    android:inputType="textPersonName" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/lay_profile7"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/underline13" >
+
+                <common.component.ui.MyTextView
+                    android:id="@+id/txt_profile_postalcode"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    android:text="Postal Code"
+                    android:textColor="@color/green" />
+
+                <EditText
+                    android:id="@+id/edit_profile_postalcode"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/transparent"
+                    android:inputType="number"
+                    android:ems="10"
+                    android:textStyle="bold"
+                    android:gravity="center"
+                    />
+            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
+
+</LinearLayout>

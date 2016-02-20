@@ -151,14 +151,14 @@ public class MainMenuActivity extends HeaderBarActivity
 	private void onClickFriends()
 	{
 		Bundle bundle = new Bundle();
-		ActivityManager.changeActivity(MainMenuActivity.this, FriendsActivity.class, bundle, false, null );		
-	}
-	
-	private void onClickPersonal()
-	{
-		Bundle bundle = new Bundle();
 		ActivityManager.changeActivity(MainMenuActivity.this, UserActivity.class, bundle, false, null );		
 	}
+	
+//	private void onClickPersonal()
+//	{
+//		Bundle bundle = new Bundle();
+//		ActivityManager.changeActivity(MainMenuActivity.this, UserActivity.class, bundle, false, null );		
+//	}
 	
 	private void onClickCamera()
 	{

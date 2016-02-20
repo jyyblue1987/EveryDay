@@ -9,59 +9,99 @@
     <include
         android:id="@+id/fragment_header"
         layout="@layout/fragment_header" />
+
+    <LinearLayout
+            android:id="@+id/lay_empty_1"
+            android:layout_width="match_parent"
+            android:layout_height="10dip" 
+            android:background="@color/white_darker"
+            >            
+    </LinearLayout>
     
     <LinearLayout
         android:id="@+id/lay_contact_info"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="20dip"
-        android:layout_marginBottom="20dip"
         android:background="@drawable/list_item_bg"
         android:clickable="true"        
         >
         <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="2dip" 
-            android:background="@color/gray"
-            >            
-        </LinearLayout>
-        <LinearLayout
-            android:id="@+id/lay_contact_item"
+            android:id="@+id/lay_my_center_1"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center_vertical" 
             android:orientation="horizontal"            
             >
             <ImageView
-		        android:id="@+id/img_contact_icon"
+		        android:id="@+id/img_my_center_icon"
 		        android:layout_width="50dip"
 		        android:layout_height="50dip"
 		        android:src="@drawable/contact_icon"
 		        />
 	        <common.component.ui.MyTextView
-	            android:id="@+id/txt_name"
+	            android:id="@+id/text_my_center_name"
 	            android:layout_width="0dip"
 	            android:layout_height="wrap_content"
 	            android:layout_weight="1.0" 
+	            android:text="明星页"
+	            />
+            <ImageView
+		        android:id="@+id/img_my_center_hard"
+		        android:layout_width="50dip"
+		        android:layout_height="50dip"
+		        android:src="@drawable/emoji_1f49b"
+		        />
+	        <common.component.ui.MyTextView
+	            android:id="@+id/txt_my_center_hard"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="100"
 	            />
 	        <ImageView
-	            android:id="@+id/img_nav_icon"
-		        android:layout_width="10dip"
-		        android:layout_height="15dip"
-		        android:layout_marginRight="10dip"
-		        android:background="@drawable/tabel_cell_nav_icon" 
-		       />
-        </LinearLayout>
+		        android:id="@+id/img_my_center_star"
+		        android:layout_width="50dip"
+		        android:layout_height="50dip"
+		        android:src="@drawable/star"
+		        />
+	        <common.component.ui.MyTextView
+	            android:id="@+id/txt_my_center_star"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="100"
+	            />
+	        </LinearLayout>
        
         <LinearLayout
+            android:id="@+id/lay_my_center_2"
             android:layout_width="match_parent"
-            android:layout_height="2dip" 
-            android:background="@color/gray"
-            >            
+            android:layout_height="wrap_content" 
+            >  
+	        <common.component.ui.MyTextView
+	            android:id="@+id/txt_my_center_address"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="明星页:"
+	            />
+            <common.component.ui.MyTextView
+	            android:id="@+id/txt_my_center_hisaddress"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="明星页"
+	            />
+            
         </LinearLayout>
     </LinearLayout>
-	<com.handmark.pulltorefresh.library.PullToRefreshListView 
+
+    <LinearLayout
+            android:id="@+id/lay_empty_2"
+            android:layout_width="match_parent"
+            android:layout_height="10dip" 
+            android:background="@color/white_darker"
+            >            
+    </LinearLayout>
+    
+    <com.handmark.pulltorefresh.library.PullToRefreshListView 
 	    android:id="@+id/list_items"
 	    android:layout_width="match_parent"
 	    android:layout_height="match_parent"	     

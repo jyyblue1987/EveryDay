@@ -51,6 +51,13 @@ public class MyCenterActivity extends HeaderBarActivity
 	private static int	PICK_GALLERY_CODE = 100;
 	private static int	COMMENT_REQUEST_CODE = 200;
 	
+	ImageView 		m_imgHard = null;
+	TextView 		m_txtHard = null;
+	ImageView 		m_imgStar = null;
+	TextView 		m_txtStar = null;
+	TextView 		m_txtAddress = null;
+	TextView 		m_txtHisAddress = null;
+
 	int [] m_field_item = {
 			R.id.fragment_username,
 			R.id.fragment_password,
@@ -71,9 +78,16 @@ public class MyCenterActivity extends HeaderBarActivity
 	{
 		super.findViews();
 
-		m_imgPhoto = (ImageView) findViewById(R.id.img_contact_icon);
-		m_txtName = (TextView) findViewById(R.id.txt_name);
+		m_imgPhoto = (ImageView) findViewById(R.id.img_my_center_icon);
+		m_txtName = (TextView) findViewById(R.id.text_my_center_name);
+		m_imgHard = (ImageView) findViewById(R.id.img_my_center_hard);
+		m_txtHard = (TextView) findViewById(R.id.txt_my_center_hard);
+		m_imgStar = (ImageView) findViewById(R.id.img_my_center_star);
+		m_txtStar = (TextView) findViewById(R.id.txt_my_center_star);
 		
+		m_txtAddress = (TextView) findViewById(R.id.txt_my_center_address);
+		m_txtHisAddress = (TextView) findViewById(R.id.txt_my_center_hisaddress);
+
 		m_listPullItems = (PullToRefreshListView)findViewById(R.id.list_items);
 		m_listItems = m_listPullItems.getRefreshableView();
 	}
@@ -82,7 +96,8 @@ public class MyCenterActivity extends HeaderBarActivity
 	{
 		super.initData();
 		
-		m_txtPageTitle.setText("Personal Center");
+
+		m_txtPageTitle.setText("个人中心");
 //		m_btnRight.setVisibility(View.INVISIBLE);
 		
 		JSONObject profile = AppContext.getProfile();
@@ -97,14 +112,6 @@ public class MyCenterActivity extends HeaderBarActivity
 	protected void initEvents()
 	{ 
 		super.initEvents();
-		
-		findViewById(R.id.lay_contact_info).setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				
-			}
-		});
 		
 		m_listPullItems.setOnRefreshListener(new OnRefreshListener2<ListView>() {
 			@Override
@@ -130,21 +137,48 @@ public class MyCenterActivity extends HeaderBarActivity
 	{
 		super.layoutControls();
 		
+
+		LayoutUtils.setSize(findViewById(R.id.lay_empty_1),LayoutParams.MATCH_PARENT, 50, true);
+		
 		m_layRight.setVisibility(View.VISIBLE);
 		m_btnRight.setBackgroundResource(R.drawable.profile_white_icon);
 		LayoutUtils.setSize(m_btnRight, 55, 48, true);
 		
 		LayoutUtils.setMargin(findViewById(R.id.lay_contact_info), 0, 50, 0, 0, true);
-		LayoutUtils.setMargin(findViewById(R.id.lay_contact_item), 0, 30, 0, 30, true);
+//		LayoutUtils.setMargin(findViewById(R.id.lay_contact_item), 0, 30, 0, 30, true);
+
 		
+		LayoutUtils.setSize(findViewById(R.id.lay_my_center_1), LayoutParams.MATCH_PARENT, 300, true);
+
 		LayoutUtils.setMargin(m_imgPhoto, 40, 0, 0, 0, true);
 		LayoutUtils.setSize(m_imgPhoto, 200, 200, true);
 		
 		LayoutUtils.setMargin(m_txtName, 40, 0, 0, 0, true);
-		m_txtName.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+		m_txtName.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
 
-		LayoutUtils.setSize(findViewById(R.id.img_nav_icon), 25, 40, true);
-		LayoutUtils.setMargin(findViewById(R.id.img_nav_icon), 40, 0, 40, 0, true);
+		LayoutUtils.setMargin(m_imgHard, 40, 0, 0, 0, true);
+		LayoutUtils.setSize(m_imgHard, 55, 55, true);
+		
+		LayoutUtils.setMargin(m_txtHard, 20, 0, 0, 0, true);
+		m_txtHard.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+
+		LayoutUtils.setMargin(m_imgStar, 40, 0, 0, 0, true);
+		LayoutUtils.setSize(m_imgStar, 55, 55, true);
+		
+		LayoutUtils.setMargin(m_txtStar, 20, 0, 40, 0, true);
+		m_txtStar.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+
+		LayoutUtils.setSize(findViewById(R.id.lay_my_center_2), LayoutParams.MATCH_PARENT, 70, true);
+
+		LayoutUtils.setMargin(m_txtAddress, 40, 0, 0, 0, true);
+		m_txtAddress.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+
+		LayoutUtils.setMargin(m_txtHisAddress, 40, 0, 0, 0, true);
+		m_txtHisAddress.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+		
+		LayoutUtils.setSize(findViewById(R.id.lay_empty_2),LayoutParams.MATCH_PARENT, 50, true);
+
+
 	}
 	
 	public void getHistoryListData() {
