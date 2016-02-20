@@ -62,7 +62,7 @@ public class MediaUtils {
 	{
 		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 
-		String items[] = {"Camera", "Gallery"};
+		String items[] = {"Take Photo", "Take photo from Gallery", "Take Video"};
 		
 		dialog.setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {			
 			public void onClick(DialogInterface dialog, int whichButton) {
@@ -71,6 +71,8 @@ public class MediaUtils {
 					doTakePhotoFromCamera(context, requestCode, output );
 				} else if (picture_mode == 1) {
 					doTakePhotoFromGallery(context, requestCode + 1 );
+				} else if (picture_mode == 2) {
+					doTakeVideoFromCamera(context, requestCode + 2, output );
 				}
 				dialog.dismiss();
 			}
@@ -81,6 +83,24 @@ public class MediaUtils {
 		
 		alertDialog.show();
 		alertDialog.setCanceledOnTouchOutside(true);
+	}
+	
+	public static void doTakeVideoFromCamera(Context context, int requestCode, String output )
+	{
+		Activity activity = (Activity) context;
+		
+		Intent 	intent = new Intent(MediaStore.ACTION_VIDEO_CAPTURE);
+		
+		File photo = new File(output);
+		
+		Uri imageUri = Uri.fromFile(photo);
+		
+		intent.putExtra(android.provider.MediaStore.EXTRA_OUTPUT, imageUri);   // does file create?
+		intent.putExtra(android.provider.MediaStore.EXTRA_SCREEN_ORIENTATION,
+				activity.getWindowManager().getDefaultDisplay().getOrientation());
+		intent.putExtra("return-data", true);		
+		
+		activity.startActivityForResult(intent, requestCode);
 	}
 	
 	public static void doTakePhotoFromCamera(Context context, int requestCode, String output )

@@ -112,18 +112,14 @@ public class Const {
     public static final int RECORD_START = 100;
     public static final int RECORD_STOP = 101;
     
-    // Phone Country code
-    public static final String PHONE_INTERNATIONAL_CODE = "phone_international_code";
-    
-    // Invite Message
-    public static final String INVITE_MESSAGE = "Please download and install  Healthcare App on phone from app store. And contact me on Healthcare App.";
-    
-    public static List<String> setting_group = null;
-    public static Map<String, List<String>> setting_group_child = null;
-    
-    
     // Record Path
     public static final String RECORD_PATH = "record_path";
     
     public static final String UPLOAD_PATH = "filename";
+    public static final String FILE_PATH = "filepath";
+    
+    // stage list
+    public static final String THUMBNAIL = "thumbnail";
+    public static final String CONTENT = "content";
+    public static final String MODIFY_DATE = "modifydate";
 }

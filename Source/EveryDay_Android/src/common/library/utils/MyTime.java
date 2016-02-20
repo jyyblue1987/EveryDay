@@ -1,10 +1,12 @@
 package common.library.utils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
+
 
 
 public class MyTime {
@@ -133,10 +135,32 @@ public class MyTime {
 	
 	public static String getOnlyMonthDate(String datetime)
 	{
-		Date date = new Date(datetime);
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+		try {  
+		    Date date = format.parse(datetime);  
+			SimpleDateFormat chinalFormat = new SimpleDateFormat("MMM dd",  Locale.CHINA);
+			return chinalFormat.format(date);
+		}catch (ParseException e) {  
+		    // TODO Auto-generated catch block  
+		    e.printStackTrace();  
+		}
 		
-		SimpleDateFormat format = new SimpleDateFormat("dd MMM",  Locale.ENGLISH);
-		return format.format(date);
+		return "";
+	}
+	
+	public static String getOnlyYear(String datetime)
+	{
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+		try {  
+		    Date date = format.parse(datetime);  
+			SimpleDateFormat chinalFormat = new SimpleDateFormat("yyyy",  Locale.CHINA);
+			return chinalFormat.format(date);
+		}catch (ParseException e) {  
+		    // TODO Auto-generated catch block  
+		    e.printStackTrace();  
+		}
+		
+		return "";
 	}
 	
 	public static String formatTimespan(long timespan) {

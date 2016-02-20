@@ -4,24 +4,26 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sin.quian.AppContext;
 import com.sin.quian.Const;
 import com.sin.quian.R;
 import com.sin.quian.network.ServerManager;
+import com.sin.quian.network.ServerTask;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Message;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -34,6 +36,7 @@ import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
 import common.image.load.ImageUtils;
 import common.library.utils.MediaUtils;
+import common.library.utils.MyTime;
 import common.list.adapter.ItemCallBack;
 import common.list.adapter.MyListAdapter;
 import common.list.adapter.ViewHolder;
@@ -260,8 +263,19 @@ public class MyCenterActivity extends HeaderBarActivity
 	private void processFile(String path)
 	{
 		Bundle bundle = new Bundle();
+		
+		JSONObject data = new JSONObject();
+		
+		try {
+			data.put(Const.FILE_PATH, path);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		bundle.putString(INTENT_EXTRA, data.toString());
 		ActivityManager.changeActivity(this, CommentDetailActivity.class, bundle, false, COMMENT_REQUEST_CODE);	
 	}
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == 0)
@@ -277,6 +291,14 @@ public class MyCenterActivity extends HeaderBarActivity
 		
 		if (requestCode == PICK_GALLERY_CODE ) {
 			processFile(m_cameraTempPath);
+		}	
+		
+		if (requestCode == PICK_GALLERY_CODE ) {
+			processFile(m_cameraTempPath);
+		}	
+		
+		if (requestCode == COMMENT_REQUEST_CODE ) {
+//			processFile(m_cameraTempPath);
 		}	
 
 		super.onActivityResult(requestCode, resultCode, data);	
@@ -317,26 +339,28 @@ public class MyCenterActivity extends HeaderBarActivity
 			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_camera_icon), 200, 200, true);
 			
 			
-			if( position == 1 )
-				ViewHolder.get(rowView, R.id.img_camera_icon).setVisibility(View.GONE);
-			else
-				ViewHolder.get(rowView, R.id.img_camera_icon).setVisibility(View.VISIBLE);
-			
-			if( item.has("thumb_url") )
+			if( position == 0 )
 			{
-				ViewHolder.get(rowView, R.id.txt_history).setVisibility(View.VISIBLE);
+				ViewHolder.get(rowView, R.id.img_camera_icon).setVisibility(View.VISIBLE);
+				ViewHolder.get(rowView, R.id.img_delete_history).setVisibility(View.GONE);
+				ViewHolder.get(rowView, R.id.lay_comment_like).setVisibility(View.GONE);
+			}
+			else
+			{
+				ViewHolder.get(rowView, R.id.img_camera_icon).setVisibility(View.GONE);
 				ViewHolder.get(rowView, R.id.img_delete_history).setVisibility(View.VISIBLE);
 				ViewHolder.get(rowView, R.id.lay_comment_like).setVisibility(View.VISIBLE);
 			}
-			else
-			{
-				ViewHolder.get(rowView, R.id.txt_history).setVisibility(View.INVISIBLE);
-				ViewHolder.get(rowView, R.id.img_delete_history).setVisibility(View.INVISIBLE);
-				ViewHolder.get(rowView, R.id.lay_comment_like).setVisibility(View.INVISIBLE);
-			}
 			
 			// show data
-
+			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.default_image_bg).build();
+			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + item.optString(Const.THUMBNAIL, ""), (ImageView)ViewHolder.get(rowView, R.id.img_history_preview), options);
+			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setText(item.optString(Const.CONTENT, ""));
+			
+			String time = item.optString(Const.MODIFY_DATE, MyTime.getCurrentTime());
+			String date = MyTime.getOnlyMonthDate(time) + "\n" + MyTime.getOnlyYear(time);
+			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setText(date);
+			
 			// events
 			ViewHolder.get(rowView, R.id.img_camera_icon).setOnClickListener(new View.OnClickListener() {
 				
