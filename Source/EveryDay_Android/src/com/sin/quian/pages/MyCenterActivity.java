@@ -17,14 +17,17 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.AdapterView.OnItemClickListener;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
 import common.list.adapter.ItemCallBack;
 import common.list.adapter.MyListAdapter;
 import common.list.adapter.ViewHolder;
+import common.manager.activity.ActivityManager;
 
 
 public class MyCenterActivity extends HeaderBarActivity
@@ -107,6 +110,13 @@ public class MyCenterActivity extends HeaderBarActivity
 //				presenter.getContactList();
 			}
 		});
+		m_listItems.setOnItemClickListener(new OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> arg0, View arg1, int arg2, long arg3) {		
+				gotoStageListPage(arg2);
+			}
+		});
 	}
 		
 	protected void layoutControls()
@@ -142,6 +152,14 @@ public class MyCenterActivity extends HeaderBarActivity
 		
 	}
 	
+	private void gotoStageListPage(int pos)
+	{
+		Bundle bundle = new Bundle();
+		ActivityManager.changeActivity(this, StageListActivity.class, bundle, false, null );	
+
+		
+	}
+	
 	class HistoryListAdapter extends MyListAdapter {
 		public HistoryListAdapter(Context context, List<JSONObject> data,
 				int resource, ItemCallBack callback) {
@@ -158,8 +176,7 @@ public class MyCenterActivity extends HeaderBarActivity
 			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.img_history_preview), 10, 0, 0, 0, true);
 			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_history_preview), 300, 300, true);
 			
-			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 45);
-			
+			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 45);			
 		}	
 	}
 	
