@@ -2,14 +2,155 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"    
+    android:gravity="center_horizontal"
     android:orientation="vertical" >
     
     <include
         android:id="@+id/fragment_header"
         layout="@layout/fragment_header" />
     
-  
+    <ScrollView 
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1.0"
+        >
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:orientation="vertical" 
+            >
+            
+            <ImageView
+                android:id="@+id/img_profile_icon" 
+                android:layout_width="100dip"
+                android:layout_height="100dip"
+                android:src="@drawable/contact_icon" />
+            
+            <include
+		        android:id="@+id/fragment_profile_fullname"
+		        layout="@layout/fragment_label_edit" />
+            
+            <include
+		        android:id="@+id/fragment_profile_username"
+		        layout="@layout/fragment_label_edit" />
+            
+		    <include
+		        android:id="@+id/fragment_profile_thumbnail"
+		        layout="@layout/fragment_label_edit" />
+		    
+		    <include
+		        android:id="@+id/fragment_profile_email"
+		        layout="@layout/fragment_label_edit" />
+		    
+            <include
+		        android:id="@+id/fragment_profile_phonenumber"
+		        layout="@layout/fragment_label_edit" />
 
+            <include
+		        android:id="@+id/fragment_profile_birthday"
+		        layout="@layout/fragment_label_edit" />
+
+            <include
+                android:id="@+id/fragment_profile_address"
+                layout="@layout/fragment_label_edit" />
+            
+		    <include
+		        android:id="@+id/fragment_profile_modifieddate"
+		        layout="@layout/fragment_label_edit" />
+            
+        </LinearLayout>
+        
+
+    </ScrollView>
+    
+    <LinearLayout
+        android:id="@+id/lay_profile_1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        android:layout_gravity="center_horizontal">
+
+        <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" 
+	        android:layout_weight="0.25">
+        
+	        <ImageView
+	            android:id="@+id/img_profile_icon1"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center_vertical"
+	            android:src="@drawable/hard" />
 	
+	        <common.component.ui.MyTextView
+	            android:id="@+id/text_profile_num1"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center_vertical"
+	            android:textColor="@color/black" 
+	            android:text="100" />
+	   </LinearLayout>
+	   <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" 
+	        android:layout_weight="0.25">
+	       <ImageView
+	           android:id="@+id/img_profile_icon2"
+	           android:layout_width="wrap_content"
+	           android:layout_height="wrap_content"
+	           android:layout_gravity="center_vertical"
+	           android:src="@drawable/star" />
+	
+	       <common.component.ui.MyTextView
+	           android:id="@+id/text_profile_num2"
+	           android:layout_width="wrap_content"
+	           android:layout_height="wrap_content"
+	           android:layout_gravity="center_vertical"
+	           android:textColor="@color/black" 
+	           android:text="200" />
+	    </LinearLayout>
+		<LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" 
+	        android:layout_weight="0.25">
+	   
+	        <ImageView
+	            android:id="@+id/img_profile_icon3"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center_vertical"
+	            android:src="@drawable/hard" />
+	
+	        <common.component.ui.MyTextView
+	            android:id="@+id/text_profile_num3"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center_vertical"
+	            android:textColor="@color/black" 
+	            android:text="300" />
+	    </LinearLayout>
+		<LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" 
+	        android:layout_weight="0.25">
+	   
+			        	
+	        <ImageView
+	            android:id="@+id/img_profile_icon4"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center_vertical"
+	            android:src="@drawable/star" />
+	
+	        <common.component.ui.MyTextView
+	            android:id="@+id/text_profile_num4"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:layout_gravity="center_vertical"
+	            android:textColor="@color/black" 
+	            android:text="400" />
+        </LinearLayout>
+	
+    </LinearLayout>
+
 </LinearLayout>

@@ -61,7 +61,7 @@ public class MainMenuActivity extends HeaderBarActivity
 	protected void initData()
 	{
 		super.initData();
-		m_txtPageTitle.setText("Main menu");
+		m_txtPageTitle.setText("分享生活");
 		m_btnRight.setVisibility(View.INVISIBLE);
 
 		

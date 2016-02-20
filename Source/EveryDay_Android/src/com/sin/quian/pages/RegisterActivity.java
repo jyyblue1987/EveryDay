@@ -90,7 +90,7 @@ public class RegisterActivity extends HeaderBarActivity
 	{
 		super.initData();
 		m_btnRight.setVisibility(View.INVISIBLE);
-		m_txtPageTitle.setText("Register");
+		m_txtPageTitle.setText("注册");
 		
 		((TextView) findViewById(R.id.fragment_username).findViewById(R.id.txt_label)).setText("User Name");
 		((TextView) findViewById(R.id.fragment_email).findViewById(R.id.txt_label)).setText("Email");
