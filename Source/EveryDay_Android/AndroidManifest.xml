@@ -39,6 +39,9 @@
         <activity android:name=".pages.FriendsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.MyCenterActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.StageListActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".pages.CommentListActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".pages.CommentDetailActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".pages.ProfileActivity" android:screenOrientation="portrait"/>
         
     </application>
 

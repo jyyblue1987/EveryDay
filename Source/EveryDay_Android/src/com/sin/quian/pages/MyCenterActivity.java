@@ -33,9 +33,6 @@ import common.manager.activity.ActivityManager;
 
 public class MyCenterActivity extends HeaderBarActivity
 {
-	static final int DIALOG_PAUSED_ID = 0;
-	static final int DIALOG_GAMEOVER_ID = 1;
-	
 	ImageView 		m_imgPhoto = null;
 	TextView 		m_txtName = null;
 	ImageView 		m_imgHard = null;
@@ -83,8 +80,9 @@ public class MyCenterActivity extends HeaderBarActivity
 	{
 		super.initData();
 		
+
 		m_txtPageTitle.setText("个人中心");
-		m_btnRight.setVisibility(View.INVISIBLE);
+//		m_btnRight.setVisibility(View.INVISIBLE);
 		
 		JSONObject profile = AppContext.getProfile();
 		m_txtName.setText(profile.optString(Const.USERNAME, ""));
@@ -137,7 +135,16 @@ public class MyCenterActivity extends HeaderBarActivity
 	{
 		super.layoutControls();
 		
+
 		LayoutUtils.setSize(findViewById(R.id.lay_empty_1),LayoutParams.MATCH_PARENT, 50, true);
+		
+		m_layRight.setVisibility(View.VISIBLE);
+		m_btnRight.setBackgroundResource(R.drawable.profile_white_icon);
+		LayoutUtils.setSize(m_btnRight, 55, 48, true);
+		
+		LayoutUtils.setMargin(findViewById(R.id.lay_contact_info), 0, 50, 0, 0, true);
+//		LayoutUtils.setMargin(findViewById(R.id.lay_contact_item), 0, 30, 0, 30, true);
+
 		
 		LayoutUtils.setSize(findViewById(R.id.lay_my_center_1), LayoutParams.MATCH_PARENT, 300, true);
 
@@ -191,9 +198,18 @@ public class MyCenterActivity extends HeaderBarActivity
 	private void gotoStageListPage(int pos)
 	{
 		Bundle bundle = new Bundle();
-		ActivityManager.changeActivity(this, StageListActivity.class, bundle, false, null );	
-
-		
+		ActivityManager.changeActivity(this, StageListActivity.class, bundle, false, null );			
+	}
+	
+	protected void gotoNextPage()
+	{
+		gotoProfilePage();
+	}
+	
+	private void gotoProfilePage()
+	{
+		Bundle bundle = new Bundle();
+		ActivityManager.changeActivity(this, ProfileActivity.class, bundle, false, null );
 	}
 	
 	class HistoryListAdapter extends MyListAdapter {
@@ -226,8 +242,7 @@ public class MyCenterActivity extends HeaderBarActivity
 			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_history_preview), LayoutParams.MATCH_PARENT, 500, true);
 			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 30);
 			
-			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.btn_delete_history), 140, 60, true);
-			((TextView)ViewHolder.get(rowView, R.id.btn_delete_history)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 15);
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_delete_history), 140, 60, true);
 		}	
 	}
 	
