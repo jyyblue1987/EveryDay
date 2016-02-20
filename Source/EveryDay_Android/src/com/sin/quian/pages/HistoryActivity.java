@@ -70,7 +70,7 @@ public class HistoryActivity extends HeaderBarActivity {
 		
 		m_listPullItems.setMode(Mode.DISABLED);
 		
-		m_txtPageTitle.setText("History");
+		m_txtPageTitle.setText("历史");
 //		m_btnRight.setVisibility(View.INVISIBLE);
  
 //		List<JSONObject> list = DBManager.getNotificationList(this, 0, 100);
@@ -139,7 +139,7 @@ public class HistoryActivity extends HeaderBarActivity {
 //			((TextView)rowView.findViewById(R.id.txt_History_info)).setText(item.optString(Const.DISP_DATE, MyTime.getCurrentDate()));
 
 			LayoutUtils.setSize(((ImageView)rowView.findViewById(R.id.img_historyitem_hard)), 50, 50, true);
-			LayoutUtils.setMargin(((ImageView)rowView.findViewById(R.id.img_historyitem_hard)), 300, 20, 10, 20, true);
+			LayoutUtils.setMargin(((ImageView)rowView.findViewById(R.id.img_historyitem_hard)), 50, 20, 10, 20, true);
 
 			((TextView)rowView.findViewById(R.id.text_historyitem_hard_num)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
 			LayoutUtils.setMargin(rowView.findViewById(R.id.text_historyitem_hard_num), 10, 20, 20, 20, true);
@@ -148,7 +148,7 @@ public class HistoryActivity extends HeaderBarActivity {
 			LayoutUtils.setMargin(((ImageView)rowView.findViewById(R.id.img_historyitem_star)), 50, 20, 10, 20, true);
 
 			((TextView)rowView.findViewById(R.id.text_historyitem_star_num)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-			LayoutUtils.setMargin(rowView.findViewById(R.id.text_historyitem_star_num), 10, 20, 10, 20, true);
+			LayoutUtils.setMargin(rowView.findViewById(R.id.text_historyitem_star_num), 10, 20, 70, 20, true);
 
 			LayoutUtils.setSize(findViewById(R.id.lay_historyitem_2), LayoutParams.MATCH_PARENT, 70, true);
 
@@ -157,9 +157,6 @@ public class HistoryActivity extends HeaderBarActivity {
 
 			((TextView)rowView.findViewById(R.id.text_historyitem_hisaddress)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
 			LayoutUtils.setMargin(rowView.findViewById(R.id.text_historyitem_hisaddress), 10, 10, 10, 10, true);
-
-			((TextView)rowView.findViewById(R.id.text_historyitem_favorite)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-			LayoutUtils.setMargin(rowView.findViewById(R.id.text_historyitem_favorite), 450, 10, 50, 10, true);
 			
 			LayoutUtils.setSize(((ImageView)rowView.findViewById(R.id.img_historyitem_photo)), 300, 300, true);
 			LayoutUtils.setMargin(((ImageView)rowView.findViewById(R.id.img_historyitem_photo)), 50, 10, 50, 10, true);

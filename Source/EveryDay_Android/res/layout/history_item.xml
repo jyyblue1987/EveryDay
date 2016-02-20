@@ -5,6 +5,13 @@
     android:orientation="vertical" >
 
     <LinearLayout
+        android:id="@+id/lay_historydivide_0"
+        android:layout_width="match_parent"
+        android:layout_height="10dp" 
+        android:background="@color/white_darker">
+    </LinearLayout>
+
+    <LinearLayout
         android:id="@+id/lay_historyitem_1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" 
@@ -14,15 +21,16 @@
             android:id="@+id/img_historyitem_icon"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/addcontact_icon" />
+            android:src="@drawable/contact_icon" />
 
         <common.component.ui.MyTextView
             android:id="@+id/text_historyitem_name"
-            android:layout_width="wrap_content"
+            android:layout_width="0dip"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
+            android:layout_weight="1.0"
             android:textColor="@color/black" 
-            android:text="Jang" />
+            android:text="明星页" />
 
         <ImageView
             android:id="@+id/img_historyitem_hard"
@@ -66,21 +74,14 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black" 
-            android:text="address" />
+            android:text="地址:" />
 
         <common.component.ui.MyTextView
             android:id="@+id/text_historyitem_hisaddress"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textColor="@color/black" 
-            android:text="China" />
-
-        <common.component.ui.MyTextView
-            android:id="@+id/text_historyitem_favorite"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black" 
-            android:text="favorite" />
+            android:text="位置名字" />
 
     </LinearLayout>
 
@@ -104,7 +105,7 @@
             android:layout_height="wrap_content"
             android:textColor="@color/black" 
             android:layout_gravity="center_horizontal"
-            android:text="Tae Guon Do" />
+            android:text="位名字" />
 
     </LinearLayout>
 
