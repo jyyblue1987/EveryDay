@@ -2,19 +2,19 @@
 		package com.sin.quian.pages;
 
 		import com.sin.quian.R;
+import com.sin.quian.network.ServerManager;
 
-		import android.os.Bundle;
-		import android.util.TypedValue;
-		import android.view.View;
-		import android.widget.EditText;
-		import android.widget.TextView;
-		import android.widget.LinearLayout.LayoutParams;
-		import common.component.ui.MyButton;
-		import common.design.layout.LayoutUtils;
-		import common.design.layout.ScreenAdapter;
-		import common.list.adapter.ItemCallBack;
-		import common.list.adapter.ItemResult;
-		import common.manager.activity.ActivityManager;
+import android.os.Bundle;
+import android.util.TypedValue;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.LinearLayout.LayoutParams;
+import android.widget.TextView;
+import common.component.ui.MyButton;
+import common.design.layout.LayoutUtils;
+import common.design.layout.ScreenAdapter;
+import common.library.utils.MessageUtils;
+import common.manager.activity.ActivityManager;
 
 
 		public class ChangePasswordActivity extends HeaderBarActivity
@@ -75,20 +75,27 @@
 			
 			private void onClickchange()
 			{
-				String strPassword = m_txtNew.getText().toString();
-				String strConfirm = m_txtConfirm.getText().toString();
-				if(strPassword.equals(strConfirm) && strPassword != null ){
+				String oldPassword = m_txtLast.getText().toString();
+				String newPassword = m_txtNew.getText().toString();
+				String confirmPassword = m_txtConfirm.getText().toString();
+				if(newPassword.equals(confirmPassword) && newPassword != null ){
+//					JSONObject profile = AppContext.getProfile();
+////					m_txtName.setText(profile.optString(Const.USERNAME, ""));	
+//					String str = null;
+					ServerManager.changePassword(null, oldPassword, newPassword, null);
 				
-//					DialogFactory.getInstance().showMessageDialog(this, "Changing your password is successful.", false, new ItemCallBack() {
-//						
-//						@Override
-//						public void doClick(ItemResult result) {
+////					DialogFactory.getInstance().showMessageDialog(this, "Changing your password is successful.", false, new ItemCallBack() {
+////						
+////						@Override
+////						public void doClick(ItemResult result) {
+							MessageUtils.showMessageDialog(this, "Changing your password is successful.");
 							Bundle bundle = new Bundle();
-							ActivityManager.changeActivity(ChangePasswordActivity.this, LoginActivity.class, bundle, false, null );		
-//						}
-//					});
+							ActivityManager.changeActivity(ChangePasswordActivity.this, ProfileActivity.class, bundle, false, null );		
+////						}
+////					});
 				}else {
 //					DialogFactory.getInstance().showMessageDialog(this, "Please enter the password again.", false, null);
+					MessageUtils.showMessageDialog(this, "Please enter the password again.");
 					return;
 				}
 			}

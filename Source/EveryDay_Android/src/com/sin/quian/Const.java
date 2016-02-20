@@ -67,11 +67,14 @@ public class Const {
 	// Table field name
 	
 	// Contact table
+	public static final String FULLNAME = "fullname";
 	public static final String USERNAME = "username";
 	public static final String PASSWORD = "password";
 	public static final String NICKNAME = "nickname";
 	public static final String EMAIL = "email";
 	public static final String FAVORITE = "favorite";
+	public static final String PHONENUMBER= "phonenumber";
+	public static final String BIRTHDAY = "birthday";
 	public static final String ROLE = "role";
 	public static final String DOMAIN = "domain";
 	public static final String CREATOR = "creator";

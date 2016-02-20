@@ -1,6 +1,11 @@
 package com.sin.quian.pages;
 
+import org.json.JSONObject;
+
+import com.sin.quian.AppContext;
+import com.sin.quian.Const;
 import com.sin.quian.R;
+import com.sin.quian.network.ServerManager;
 
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -16,6 +21,7 @@ import common.design.layout.ScreenAdapter;
 import common.library.utils.CheckUtils;
 import common.library.utils.MessageUtils;
 import common.manager.activity.ActivityManager;
+import common.network.utils.ResultCallBack;
 
 
 public class ProfileActivity extends HeaderBarActivity
@@ -44,7 +50,9 @@ public class ProfileActivity extends HeaderBarActivity
 	MyButton		m_btnSave = null;
 	MyButton		m_btnChangePassword= null;
 	MyButton		m_btnBuy = null;
-
+	
+	ResultCallBack  callback = null;
+	String 			userID = null;
 	
 	int [] m_field_item = {
 		R.id.fragment_profile_fullname,
@@ -157,6 +165,17 @@ public class ProfileActivity extends HeaderBarActivity
 		((TextView) findViewById(R.id.fragment_profile_address).findViewById(R.id.txt_label)).setText("地址");
 		((TextView) findViewById(R.id.fragment_profile_modifieddate).findViewById(R.id.txt_label)).setText("修改日期");
 		
+		JSONObject profile = AppContext.getProfile();
+		((TextView) findViewById(R.id.fragment_profile_fullname).findViewById(R.id.edit_content)).setText(profile.optString(Const.FULLNAME));
+		((TextView) findViewById(R.id.fragment_profile_username).findViewById(R.id.edit_content)).setText(profile.optString(Const.USERNAME));
+		((TextView) findViewById(R.id.fragment_profile_thumbnail).findViewById(R.id.edit_content)).setText(profile.optString(Const.THUMBNAIL));
+		((TextView) findViewById(R.id.fragment_profile_email).findViewById(R.id.edit_content)).setText(profile.optString(Const.EMAIL));
+		((TextView) findViewById(R.id.fragment_profile_phonenumber).findViewById(R.id.edit_content)).setText(profile.optString(Const.PHONENUMBER));
+		((TextView) findViewById(R.id.fragment_profile_birthday).findViewById(R.id.edit_content)).setText(profile.optString(Const.BIRTHDAY));
+		((TextView) findViewById(R.id.fragment_profile_address).findViewById(R.id.edit_content)).setText(profile.optString(Const.ADDRESS));
+		((TextView) findViewById(R.id.fragment_profile_modifieddate).findViewById(R.id.edit_content)).setText(profile.optString(Const.MODIFY_DATE));
+
+		
 //		((EditText) findViewById(R.id.fragment_profile_email).findViewById(R.id.edit_content)).setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 		
 	}
@@ -240,7 +259,7 @@ public class ProfileActivity extends HeaderBarActivity
 			return;
 		}
 		
-//		register(username, email, password);
+		ServerManager.updateProfile(userID, username, fullname, thumbnail, email, phonenumber, birthday, address, modified, callback); 
 	}
 	
 	
