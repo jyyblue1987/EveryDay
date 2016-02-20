@@ -17,11 +17,12 @@ import android.content.Context;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
+import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.AdapterView.OnItemClickListener;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
 import common.list.adapter.ItemCallBack;
@@ -170,13 +171,28 @@ public class MyCenterActivity extends HeaderBarActivity
 		{
 			final JSONObject item = getItem(position);
 			
-			LayoutUtils.setPadding(ViewHolder.get(rowView, R.id.lay_fragment), 30, 30, 30, 30, true);
-			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 50);
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_history_info), 30, 30, 0, 30, true);
+			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 40);
 			
-			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.img_history_preview), 10, 0, 0, 0, true);
-			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_history_preview), 300, 300, true);
+			int iconsize = 40;
+			int fontsize = 25;
+			int padding = 10;
 			
-			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 45);			
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_like_count_icon), iconsize, iconsize, true);
+			((TextView)ViewHolder.get(rowView, R.id.txt_like_count)).setTextSize(TypedValue.COMPLEX_UNIT_PX, fontsize);
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_like_count), padding, 0, 0, 0, true);
+			
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_comment_count_icon), iconsize, iconsize, true);
+			((TextView)ViewHolder.get(rowView, R.id.txt_comment_count)).setTextSize(TypedValue.COMPLEX_UNIT_PX, fontsize);
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_comment_count), padding, 0, 0, 0, true);
+			
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_history_content), 30, 30, 30, 30, true);
+			
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_history_preview), LayoutParams.MATCH_PARENT, 500, true);
+			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 30);
+			
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.btn_delete_history), 140, 60, true);
+			((TextView)ViewHolder.get(rowView, R.id.btn_delete_history)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 15);
 		}	
 	}
 	
