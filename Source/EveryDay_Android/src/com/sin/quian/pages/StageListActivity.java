@@ -94,6 +94,7 @@ public class StageListActivity extends HeaderBarActivity
 		LayoutUtils.setMargin(findViewById(R.id.lay_input_action), 0, 0, padding, 0, true);
 		LayoutUtils.setSize(m_imgLikeIcon, iconsize, iconsize, true);
 		m_txtLike.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontsize);
+		LayoutUtils.setMargin(m_txtLike, padding, 0, 0, 0, true);
 		
 		LayoutUtils.setMargin(findViewById(R.id.img_divider), padding, 0, 0, 0, true);
 		LayoutUtils.setSize(m_imgCommentIcon, iconsize, iconsize, true);

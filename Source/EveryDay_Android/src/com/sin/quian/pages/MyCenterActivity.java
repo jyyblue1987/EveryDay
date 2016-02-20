@@ -191,8 +191,7 @@ public class MyCenterActivity extends HeaderBarActivity
 			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_history_preview), LayoutParams.MATCH_PARENT, 500, true);
 			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 30);
 			
-			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.btn_delete_history), 140, 60, true);
-			((TextView)ViewHolder.get(rowView, R.id.btn_delete_history)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 15);
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_delete_history), 140, 60, true);
 		}	
 	}
 	
