@@ -33,9 +33,6 @@ import common.manager.activity.ActivityManager;
 
 public class MyCenterActivity extends HeaderBarActivity
 {
-	static final int DIALOG_PAUSED_ID = 0;
-	static final int DIALOG_GAMEOVER_ID = 1;
-	
 	ImageView 		m_imgPhoto = null;
 	TextView 		m_txtName = null;
 	

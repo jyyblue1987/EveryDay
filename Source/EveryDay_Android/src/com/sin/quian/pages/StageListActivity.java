@@ -24,6 +24,7 @@ import common.design.layout.LayoutUtils;
 import common.image.load.ImageUtils;
 import common.list.adapter.ItemCallBack;
 import common.list.adapter.MyPagerAdapter;
+import common.manager.activity.ActivityManager;
 
 
 public class StageListActivity extends HeaderBarActivity
@@ -144,6 +145,16 @@ public class StageListActivity extends HeaderBarActivity
 		
 	}
 	
+	protected void gotoNextPage()
+	{
+		gotoCommentListPage();
+	}
+	
+	private void gotoCommentListPage()
+	{
+		Bundle bundle = new Bundle();
+		ActivityManager.changeActivity(this, CommentListActivity.class, bundle, false, null );
+	}
 	
 	
 	class PhotoPagerAdapter extends MyPagerAdapter {
