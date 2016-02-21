@@ -6,154 +6,83 @@
     android:gravity="center_horizontal"
     android:orientation="vertical" >
 
-    <include
-        android:id="@+id/fragment_header"
-        layout="@layout/fragment_header" />
-    
     <LinearLayout
-        android:id="@+id/lay_divide_0"
+        android:id="@+id/lay_main_head"
         android:layout_width="match_parent"
-        android:layout_height="10dp" 
-        android:background="@color/white_darker">
-        
-        <common.component.ui.MyTextView
-           android:id="@+id/text_divide_0"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent" 
-           android:background="@color/transparent"/>
-	            
-     </LinearLayout>
+        android:layout_height="273dip" 
+        android:gravity="center_horizontal"
+        android:background="@drawable/head"
+        >
+    </LinearLayout>
     
     <LinearLayout
         android:id="@+id/lay_menu_1"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="0dip"
+        android:layout_weight="0.5"
+        android:gravity="center_horizontal"
+        android:background="@color/menu_background_color"
+        >
 
         <ImageView
-            android:id="@+id/img_menu_appicon"
+            android:id="@+id/img_menu_new"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/contact_icon" />
+            android:layout_weight="0.5"
+            android:src="@drawable/recent" />
 
-        <common.component.ui.MyTextView
-            android:id="@+id/text_menu_appname"
+        <ImageView
+            android:id="@+id/img_menu_star"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:textColor="@color/orange"
-            android:text="每天" />
+            android:layout_weight="0.5"
+            android:src="@drawable/favorite" />
 
     </LinearLayout>
-    
-    <LinearLayout
-        android:id="@+id/lay_divide_1"
-        android:layout_width="match_parent"
-        android:layout_height="10dp" 
-        android:background="@color/white_darker">
-        
-        <common.component.ui.MyTextView
-           android:id="@+id/text_divide_1"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent" 
-           android:background="@color/transparent"/>
-	            
-     </LinearLayout>
     
     <LinearLayout
         android:id="@+id/lay_menu_2"
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="0.5"
-        android:gravity="center_horizontal" >
-
-        <common.component.ui.MyButton
-            android:id="@+id/btn_menu_recent"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:background="@color/orange"
-            android:textColor="@color/white"
-            android:text="最新" />
-
-        <common.component.ui.MyButton
-            android:id="@+id/btn_menu_namedstar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
-            android:background="@color/orange"
-            android:textColor="@color/white"
-            android:text="明星页" />
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:id="@+id/lay_menu_3"
-        android:layout_width="match_parent"
-        android:layout_height="0dip"
-        android:layout_weight="0.5"
-        android:gravity="center_horizontal" >
-
-        <common.component.ui.MyButton
-            android:id="@+id/btn_menu_friends"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/orange"
-            android:textColor="@color/white"
-            android:text="好友" />
-
-        <common.component.ui.MyButton
-            android:id="@+id/btn_menu_personal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@color/orange"
-            android:textColor="@color/white"
-            android:text="个人中心" />
-
-    </LinearLayout>
-    
-    <LinearLayout
-        android:id="@+id/lay_divide_2"
-        android:layout_width="match_parent"
-        android:layout_height="10dp" 
-        android:background="@color/white_darker">
-        
-        <common.component.ui.MyTextView
-           android:id="@+id/text_divide_2"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent" 
-           android:background="@color/transparent"/>
-	            
-     </LinearLayout>
-    
-
-    <LinearLayout
-        android:id="@+id/lay_menu_4"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:gravity="center">
+        android:gravity="center_horizontal"
+        android:background="@color/menu_background_color"
+         >
 
         <ImageView
-            android:id="@+id/img_menu_cameraicon"
+            android:id="@+id/img_menu_friend"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/camera" />
+            android:layout_weight="0.5"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/friend" />
+
+        <ImageView
+            android:id="@+id/img_menu_personal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="0.5"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/personal" />
 
     </LinearLayout>
     
-        <LinearLayout
-        android:id="@+id/lay_divide_3"
+    <LinearLayout
+        android:id="@+id/lay_main_base"
         android:layout_width="match_parent"
-        android:layout_height="10dp" 
-        android:background="@color/white_darker">
-        
-        <common.component.ui.MyTextView
-           android:id="@+id/text_divide_3"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent" 
-           android:background="@color/transparent"/>
-	            
-     </LinearLayout>
+        android:layout_height="wrap_content" 
+        android:gravity="center_horizontal"
+        android:background="@drawable/base"
+        >
+        <ImageView
+            android:id="@+id/img_menu_camera"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:src="@drawable/camera" />
+    </LinearLayout>
     
 
 </LinearLayout>

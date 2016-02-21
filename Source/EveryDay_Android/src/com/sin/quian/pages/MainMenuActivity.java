@@ -15,20 +15,16 @@ import common.design.layout.ScreenAdapter;
 import common.manager.activity.ActivityManager;
 
 
-public class MainMenuActivity extends HeaderBarActivity
+public class MainMenuActivity extends BaseActivity
 {
 	static final int DIALOG_PAUSED_ID = 0;
 	static final int DIALOG_GAMEOVER_ID = 1;
 	
-	ImageView 		m_imgAppIcon = null;
-	MyTextView 		m_textAppName= null;
-	MyButton 		m_btnRecent = null;
-	MyButton 		m_btnNamedStar = null;
-	MyButton 		m_btnFriends = null;
-	MyButton 		m_btnPersonal = null;
-	ImageView 		m_imgCameraIcon = null;
-	int				parentWidth = 0;
-	int 			parentHeight = 0;
+	ImageView 		m_imgMenu_New = null;
+	ImageView 		m_imgMenu_Star = null;
+	ImageView 		m_imgMenu_Friend = null;
+	ImageView 		m_imgMenu_Personal = null;
+	ImageView 		m_imgCamera = null;
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -41,31 +37,25 @@ public class MainMenuActivity extends HeaderBarActivity
 	{
 		super.findViews();
 
-		m_imgAppIcon = (ImageView) findViewById(R.id.img_menu_appicon);
-		m_textAppName = (MyTextView) findViewById(R.id.text_menu_appname);
-		m_btnRecent = (MyButton) findViewById(R.id.btn_menu_recent);
-		m_btnNamedStar = (MyButton) findViewById(R.id.btn_menu_namedstar);
-		m_btnFriends = (MyButton) findViewById(R.id.btn_menu_friends);
-		m_btnPersonal = (MyButton) findViewById(R.id.btn_menu_personal);
-		m_imgCameraIcon = (ImageView) findViewById(R.id.img_menu_cameraicon);
-		
-		parentWidth = ScreenAdapter.getDeviceWidth();
-		parentHeight = ScreenAdapter.getDeviceHeight()-findViewById(R.id.fragment_header).getHeight();
-		
+		m_imgMenu_New = (ImageView) findViewById(R.id.img_menu_new);
+		m_imgMenu_Star = (ImageView) findViewById(R.id.img_menu_star);
+		m_imgMenu_Friend = (ImageView) findViewById(R.id.img_menu_friend);
+		m_imgMenu_Personal = (ImageView) findViewById(R.id.img_menu_personal);
+		m_imgCamera = (ImageView) findViewById(R.id.img_menu_camera);
 	}
 
 	protected void initData()
 	{
 		super.initData();
-		m_txtPageTitle.setText("分享生活");
-		m_btnRight.setVisibility(View.INVISIBLE);
+//		m_txtPageTitle.setText("分享生活");
+//		m_btnRight.setVisibility(View.INVISIBLE);
 	}
 	
 	protected void initEvents()
 	{ 
 		super.initEvents();
 //		ResourceUtils.addClickEffect(m_btnSignUp);
-		m_btnRecent.setOnClickListener(new View.OnClickListener() {
+		m_imgMenu_New.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View paramView) {
@@ -73,7 +63,7 @@ public class MainMenuActivity extends HeaderBarActivity
 			}
 		});
 		
-		m_btnNamedStar.setOnClickListener(new View.OnClickListener() {
+		m_imgMenu_Star.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View paramView) {
@@ -81,7 +71,7 @@ public class MainMenuActivity extends HeaderBarActivity
 			}
 		});
 		
-		m_btnFriends.setOnClickListener(new View.OnClickListener() {
+		m_imgMenu_Friend.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View paramView) {
@@ -89,7 +79,7 @@ public class MainMenuActivity extends HeaderBarActivity
 			}
 		});
 		
-		m_btnPersonal.setOnClickListener(new View.OnClickListener() {
+		m_imgMenu_Personal.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View paramView) {
@@ -97,7 +87,7 @@ public class MainMenuActivity extends HeaderBarActivity
 			}
 		});
 
-		m_imgCameraIcon.setOnClickListener(new View.OnClickListener() {
+		m_imgCamera.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View paramView) {
@@ -146,52 +136,62 @@ public class MainMenuActivity extends HeaderBarActivity
 	{
 		super.layoutControls();
 		
-		m_layLeft.setVisibility(View.INVISIBLE);
+//		LayoutUtils.setMargin(findViewById(R.id.lay_menu_1), 96, 218,0.0, true);
+//		LayoutUtils.setMargin(findViewById(R.id.lay_menu_1), 96, 218,0.0, true);
+//
+		LayoutUtils.setSize(findViewById(R.id.lay_main_head), LayoutParams.MATCH_PARENT, 273, true);
+//
+		LayoutUtils.setSize(m_imgMenu_New, 418, 402, true);
+		LayoutUtils.setMargin(m_imgMenu_New, 96, 214, 0, 0, true);
+
+		LayoutUtils.setSize(m_imgMenu_New, 418, 402, true);
+		LayoutUtils.setMargin(m_imgMenu_New, 68, 214, 0, 0, true);
+
+		LayoutUtils.setSize(m_imgMenu_Friend, 418, 402, true);
+		LayoutUtils.setMargin(m_imgMenu_Friend, 96, 102, 0, 0, true);
+
+		LayoutUtils.setSize(m_imgMenu_Personal, 418, 402, true);
+		LayoutUtils.setMargin(m_imgMenu_Personal, 68, 102, 0, 0, true);
+
 		
-		int heightUnit = parentHeight/20;
-		int widthUnit = parentWidth/9;
-
-		LayoutUtils.setSize(findViewById(R.id.lay_divide_0), LayoutParams.MATCH_PARENT, heightUnit/2, true);
-
-		LayoutUtils.setSize(findViewById(R.id.lay_menu_1), LayoutParams.MATCH_PARENT, heightUnit*3, true);
-
-		LayoutUtils.setSize(m_imgAppIcon, heightUnit*2, heightUnit*2, true);
-		LayoutUtils.setMargin(m_imgAppIcon, widthUnit, heightUnit/2, 0, heightUnit/2, true);
 		
-		LayoutUtils.setMargin(m_textAppName, widthUnit, heightUnit, 0, heightUnit, true);
-		m_textAppName.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+		LayoutUtils.setSize(m_imgCamera, 156, 154, true);
+		LayoutUtils.setMargin(m_imgCamera, 0, 30, 0, 30, true);
 		
-		LayoutUtils.setSize(findViewById(R.id.lay_divide_1), LayoutParams.MATCH_PARENT, heightUnit/2, true);
-
-		LayoutUtils.setSize(findViewById(R.id.lay_menu_2), LayoutParams.MATCH_PARENT, heightUnit*6, true);
-		
-		LayoutUtils.setSize(m_btnRecent, widthUnit*3, heightUnit*5, true);
-		LayoutUtils.setMargin(m_btnRecent, widthUnit, heightUnit, 0, 0, true);
-		m_btnRecent.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
-
-		LayoutUtils.setSize(m_btnNamedStar, widthUnit*3, heightUnit*5, true);
-		LayoutUtils.setMargin(m_btnNamedStar, widthUnit, heightUnit, widthUnit, 0, true);
-		m_btnNamedStar.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
-
-		LayoutUtils.setSize(findViewById(R.id.lay_menu_3), LayoutParams.MATCH_PARENT, heightUnit*6, true);
-
-		LayoutUtils.setSize(m_btnFriends, widthUnit*3, heightUnit*5, true);
-		LayoutUtils.setMargin(m_btnFriends, widthUnit, heightUnit, 0, 0, true);
-		m_btnFriends.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
-
-		LayoutUtils.setSize(m_btnPersonal, widthUnit*3, heightUnit*5, true);
-		LayoutUtils.setMargin(m_btnPersonal, widthUnit, heightUnit, widthUnit, 0, true);
-		m_btnPersonal.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
-		
-		LayoutUtils.setSize(findViewById(R.id.lay_divide_2), LayoutParams.MATCH_PARENT, heightUnit/2, true);
-		
-		LayoutUtils.setSize(findViewById(R.id.lay_menu_4), LayoutParams.MATCH_PARENT, heightUnit*3, true);
-
-		LayoutUtils.setSize(m_imgCameraIcon, heightUnit*2, heightUnit*2, true);
-		LayoutUtils.setMargin(m_imgCameraIcon, 0, heightUnit/2, 0, heightUnit/2, true);
-		
-		LayoutUtils.setSize(findViewById(R.id.lay_divide_3), LayoutParams.MATCH_PARENT, heightUnit/2, true);
-
+//		LayoutUtils.setMargin(m_textAppName, widthUnit, heightUnit, 0, heightUnit, true);
+//		m_textAppName.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+//		
+//		LayoutUtils.setSize(findViewById(R.id.lay_divide_1), LayoutParams.MATCH_PARENT, heightUnit/2, true);
+//
+//		LayoutUtils.setSize(findViewById(R.id.lay_menu_2), LayoutParams.MATCH_PARENT, heightUnit*6, true);
+//		
+//		LayoutUtils.setSize(m_btnRecent, widthUnit*3, heightUnit*5, true);
+//		LayoutUtils.setMargin(m_btnRecent, widthUnit, heightUnit, 0, 0, true);
+//		m_btnRecent.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+//
+//		LayoutUtils.setSize(m_btnNamedStar, widthUnit*3, heightUnit*5, true);
+//		LayoutUtils.setMargin(m_btnNamedStar, widthUnit, heightUnit, widthUnit, 0, true);
+//		m_btnNamedStar.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+//
+//		LayoutUtils.setSize(findViewById(R.id.lay_menu_3), LayoutParams.MATCH_PARENT, heightUnit*6, true);
+//
+//		LayoutUtils.setSize(m_btnFriends, widthUnit*3, heightUnit*5, true);
+//		LayoutUtils.setMargin(m_btnFriends, widthUnit, heightUnit, 0, 0, true);
+//		m_btnFriends.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+//
+//		LayoutUtils.setSize(m_btnPersonal, widthUnit*3, heightUnit*5, true);
+//		LayoutUtils.setMargin(m_btnPersonal, widthUnit, heightUnit, widthUnit, 0, true);
+//		m_btnPersonal.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+//		
+//		LayoutUtils.setSize(findViewById(R.id.lay_divide_2), LayoutParams.MATCH_PARENT, heightUnit/2, true);
+//		
+//		LayoutUtils.setSize(findViewById(R.id.lay_menu_4), LayoutParams.MATCH_PARENT, heightUnit*3, true);
+//
+//		LayoutUtils.setSize(m_imgCameraIcon, heightUnit*2, heightUnit*2, true);
+//		LayoutUtils.setMargin(m_imgCameraIcon, 0, heightUnit/2, 0, heightUnit/2, true);
+//		
+//		LayoutUtils.setSize(findViewById(R.id.lay_divide_3), LayoutParams.MATCH_PARENT, heightUnit/2, true);
+//
 	}
 
 }
