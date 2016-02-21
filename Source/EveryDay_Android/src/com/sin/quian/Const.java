@@ -127,6 +127,12 @@ public class Const {
     public static final String COMMENT_COUNT = "commentnum";
     public static final String LIKE_COUNT = "favonum";
     
+    // User List
+    public static final String USER_THUMBNAIL = "userthumb";
+    public static final String USER_RECEIVE_NUM = "userreceivenum";
+    public static final String USER_POINT_NUM = "userpointnum";
+    public static final String USER_ADDRESS = "useraddr";
+    
     public static final int		TEMP_STAGE_MODE = 0;
     public static final int		SELF_STAGE_MODE = 1;
     public static final int		OTHER_STAGE_MODE = 2;

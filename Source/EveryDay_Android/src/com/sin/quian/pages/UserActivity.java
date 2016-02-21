@@ -9,11 +9,14 @@ import org.json.JSONObject;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.sin.quian.AppContext;
+import com.sin.quian.Const;
 import com.sin.quian.R;
 import com.sin.quian.network.ServerManager;
+import com.sin.quian.network.ServerTask;
 import com.sin.quian.pages.HistoryActivity.HistoryListAdapter;
 
 import android.content.Context;
@@ -217,6 +220,15 @@ public class UserActivity extends HeaderBarActivity {
 			LayoutUtils.setMargin(rowView.findViewById(R.id.text_historyitem_hisaddress), 10, 0, 0, 0, true);
 			
 			ViewHolder.get(rowView, R.id.lay_historyitem_3).setVisibility(View.GONE);
+			
+			// userinfo
+			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + item.optString(Const.USER_THUMBNAIL, ""), (ImageView)ViewHolder.get(rowView, R.id.img_historyitem_icon));
+			
+			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_name)).setText(item.optString(Const.USERNAME, ""));
+			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_hard_num)).setText(item.optString(Const.USER_RECEIVE_NUM, ""));
+			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_star_num)).setText(item.optString(Const.USER_POINT_NUM, ""));
+			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_address)).setText("地址: " + item.optString(Const.USER_ADDRESS, ""));			
+			
 		}	
 	}
 	
