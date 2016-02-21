@@ -165,6 +165,9 @@ public class MainMenuActivity extends HeaderBarActivity
 	protected void layoutControls()
 	{
 		super.layoutControls();
+		
+		m_layLeft.setVisibility(View.INVISIBLE);
+		
 		int heightUnit = parentHeight/20;
 		int widthUnit = parentWidth/9;
 

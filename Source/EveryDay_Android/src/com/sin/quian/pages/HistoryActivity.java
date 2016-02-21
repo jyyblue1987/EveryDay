@@ -3,16 +3,24 @@ package com.sin.quian.pages;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
-import com.nostra13.universalimageloader.core.ImageLoader;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.sin.quian.AppContext;
 import com.sin.quian.Const;
 import com.sin.quian.R;
+import com.sin.quian.network.ServerManager;
 import com.sin.quian.network.ServerTask;
 
 import android.content.Context;
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
@@ -24,20 +32,25 @@ import android.widget.ListView;
 import android.widget.TextView;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
+import common.library.utils.AlgorithmUtils;
+import common.library.utils.MediaUtils;
 import common.library.utils.MyTime;
 import common.list.adapter.ItemCallBack;
 import common.list.adapter.MyListAdapter;
 import common.list.adapter.ViewHolder;
 import common.manager.activity.ActivityManager;
+import common.network.utils.LogicResult;
+import common.network.utils.ResultCallBack;
 
 public class HistoryActivity extends HeaderBarActivity {
 	PullToRefreshListView			m_listPullItems = null;
 	ListView						m_listItems = null;
-	TextView						m_emptyView = null;
+	TextView						m_txtEmptyView = null;
+	
 	MyListAdapter					m_adapterHistoryList = null;
-//	int								m_nHistoryType = 0;
-//	int								m_nParentID = 0;
-
+	int								m_nPageNum = 0;
+	
+	private static int	STAGE_LIST_CODE = 201;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -51,55 +64,103 @@ public class HistoryActivity extends HeaderBarActivity {
 	
 		m_listPullItems = (PullToRefreshListView)findViewById(R.id.list_history); 
 		m_listItems = m_listPullItems.getRefreshableView();
-		m_emptyView = (TextView) findViewById(R.id.txt_history);
+		m_txtEmptyView = (TextView) findViewById(R.id.txt_empty_view);
 	}
 	
 	protected void layoutControls()
 	{
 		super.layoutControls();
+		
 		m_listItems.setDivider(getResources().getDrawable(R.drawable.devider_line));
 		m_listItems.setDividerHeight(ScreenAdapter.computeWidth(3));
 		
-		m_emptyView.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(55));
-		LayoutUtils.setMargin(m_emptyView, 0, 0, 0, 600, true);
+		m_txtEmptyView.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+		LayoutUtils.setPadding(m_txtEmptyView, 0, 0, 0, ScreenAdapter.getDeviceHeight() / 5, false);
 	}
 	
 	protected void initData()
 	{
 		super.initData();
 		
-//		m_nSelectedPage = 5;
+		m_txtPageTitle.setText("最新史");
 		
-		m_adapterHistoryList = new HistoryListAdapter(this, new ArrayList<JSONObject>(), R.layout.history_item, null);
-		m_listItems.setAdapter(m_adapterHistoryList);
-		
-		m_listPullItems.setMode(Mode.DISABLED);
-		
-		m_txtPageTitle.setText("历史");
-//		m_btnRight.setVisibility(View.INVISIBLE);
- 
-//		List<JSONObject> list = DBManager.getNotificationList(this, 0, 100);
-//		HealthcareUtils.changeDateFormat(list);
-		
-		List<JSONObject> list = new ArrayList<JSONObject>();
-		for(int i = 0; i < 10; i++ )
+		m_nPageNum = 0;
+		getHistoryList();
+			
+	}
+	
+	private void getHistoryList()
+	{
+		showLoadingProgress();
+		ServerManager.getRecentHistory(AppContext.getUserID(), m_nPageNum, new ResultCallBack() {
+			
+			@Override
+			public void doAction(LogicResult result) {
+				hideProgress();
+				
+				JSONArray array = result.getContentArray();
+				
+				List<JSONObject> list = new ArrayList<JSONObject>();
+				for(int i = 0; i < array.length(); i++ )
+					list.add(array.optJSONObject(i));
+				showHistoryList(list);
+			}
+		});
+	}
+	
+	private void getMoreHistoryList()
+	{
+		ServerManager.getRecentHistory(AppContext.getUserID(), m_nPageNum + 1, new ResultCallBack() {
+			
+			@Override
+			public void doAction(LogicResult result) {
+				hideProgress();
+				
+				JSONArray array = result.getContentArray();
+				
+				List<JSONObject> list = new ArrayList<JSONObject>();
+				for(int i = 0; i < array.length(); i++ )
+					list.add(array.optJSONObject(i));
+				addHistoryList(list);
+			}
+		});
+	}
+	
+	public void addHistoryList(List<JSONObject> list) {
+		m_listPullItems.onRefreshComplete();
+		if( list.size() < 1 )
 		{
-			JSONObject item = new JSONObject();
-			list.add(item);
+			m_listPullItems.setMode(Mode.DISABLED);
+		}
+		else
+		{
+			m_nPageNum++;
+			m_adapterHistoryList.addItemList(list);
 		}
 		
-		showHistoryListData(list);	
 	}
 	
 	protected void initEvents()
 	{
 		super.initEvents();
 				
+		m_listPullItems.setOnRefreshListener(new OnRefreshListener2<ListView>() {
+			@Override
+			public void onPullDownToRefresh(final PullToRefreshBase<ListView> refreshView)
+			{
+			}
+			@Override
+			public void onPullUpToRefresh(final PullToRefreshBase<ListView> refreshView)
+			{
+				getMoreHistoryList();
+			}
+		});
+		
 		m_listItems.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {	
-//				gotoHistoryDetailPage(pos);
+				gotoStageListPage(pos);
 			}
 		});
 	}
@@ -110,18 +171,53 @@ public class HistoryActivity extends HeaderBarActivity {
 		ActivityManager.changeActivity(this, MainMenuActivity.class, bundle, false, null );
 	}
 	
-	public void showHistoryListData(List<JSONObject> list) {
-		m_listPullItems.onRefreshComplete();
+	private void gotoStageListPage(int pos)
+	{
+		Bundle bundle = new Bundle();
+		
+		JSONObject param = new JSONObject();
+		
+		try {
+			JSONObject item = m_adapterHistoryList.getItem(pos - 1);
+			param.put(Const.MODE, Const.OTHER_STAGE_MODE);
+			AlgorithmUtils.bindJSONObject(param, item);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		bundle.putString(INTENT_EXTRA, param.toString());
+		
+		ActivityManager.changeActivity(this, StageListActivity.class, bundle, false, STAGE_LIST_CODE );			
+	}
+	
+	public void showHistoryList(List<JSONObject> list) {
 		if( list.size() < 1 )
 		{
+			m_listItems.setVisibility(View.GONE);
 			m_listPullItems.setVisibility(View.GONE);
-			m_emptyView.setText("There is no History list.");
+			m_listPullItems.setMode(Mode.DISABLED);
 		}
 		else
 		{
+			m_listItems.setVisibility(View.VISIBLE);
 			m_listPullItems.setVisibility(View.VISIBLE);
-			m_adapterHistoryList.setData(list);
+
+			m_adapterHistoryList = new HistoryListAdapter(this, list, R.layout.history_item, null);
+			
+			m_listItems.setAdapter(m_adapterHistoryList);
 		}		
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == 0)
+			return;		
+		
+		if (requestCode == STAGE_LIST_CODE ) {
+			getHistoryList();
+		}	
+
+		super.onActivityResult(requestCode, resultCode, data);	
 	}
 	
 	class HistoryListAdapter extends MyListAdapter {

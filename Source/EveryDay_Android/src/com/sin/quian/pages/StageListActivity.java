@@ -172,7 +172,25 @@ public class StageListActivity extends HeaderBarActivity
 		if( m_nMode == Const.SELF_STAGE_MODE ) // self published stage mode
 		{
 			findViewById(R.id.lay_input_action).setVisibility(View.GONE);
-			findViewById(R.id.lay_count).setVisibility(View.VISIBLE);
+			m_btnPublish.setVisibility(View.GONE);
+			
+			m_txtLikeCount.setText(m_historyInfo.optString(Const.LIKE_COUNT, "0"));
+			m_txtCommentCount.setText(m_historyInfo.optString(Const.COMMENT_COUNT, "0"));
+			String hno = m_historyInfo.optString(Const.ID, "0");
+			showLoadingProgress();
+			ServerManager.getStages(AppContext.getUserID(), hno, new ResultCallBack() {
+				
+				@Override
+				public void doAction(LogicResult result) {
+					hideProgress();
+					
+					showStageList(result.getContentArray());
+				}
+			});
+		}
+		
+		if( m_nMode == Const.OTHER_STAGE_MODE ) // self published stage mode
+		{
 			m_btnPublish.setVisibility(View.GONE);
 			
 			m_txtLikeCount.setText(m_historyInfo.optString(Const.LIKE_COUNT, "0"));
