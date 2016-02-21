@@ -3,13 +3,18 @@ package com.sin.quian.pages;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.sin.quian.AppContext;
+import com.sin.quian.Const;
 import com.sin.quian.R;
+import com.sin.quian.network.ServerManager;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -25,6 +30,8 @@ import common.list.adapter.ItemCallBack;
 import common.list.adapter.MyListAdapter;
 import common.list.adapter.ViewHolder;
 import common.manager.activity.ActivityManager;
+import common.network.utils.LogicResult;
+import common.network.utils.ResultCallBack;
 
 
 public class CommentListActivity extends HeaderBarActivity
@@ -32,7 +39,10 @@ public class CommentListActivity extends HeaderBarActivity
 	PullToRefreshListView		m_listPullItems = null;
 	ListView					m_listItems = null;
 	CommentListAdapter			m_adapterCommentList = null;
+	TextView					m_txtEmptyView = null;
 	
+	int							m_nPageNum = 0;
+	JSONObject					m_historyInfo = new JSONObject();
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -46,6 +56,8 @@ public class CommentListActivity extends HeaderBarActivity
 
 		m_listPullItems = (PullToRefreshListView)findViewById(R.id.list_items);
 		m_listItems = m_listPullItems.getRefreshableView();
+		
+		m_txtEmptyView = (TextView) findViewById(R.id.txt_empty_view);
 	}
 
 	protected void initData()
@@ -57,15 +69,65 @@ public class CommentListActivity extends HeaderBarActivity
 		
 		m_listPullItems.setMode(Mode.PULL_FROM_END);
 		
-		List<JSONObject> list = new ArrayList<JSONObject>();
-		for(int i = 0; i < 10; i++)
+		Bundle bundle = getIntent().getExtras();
+		
+		if( bundle != null )
 		{
-			list.add(new JSONObject());
+			String data = bundle.getString(INTENT_EXTRA, "");
+			try {
+				JSONObject stage = new JSONObject(data);
+				m_historyInfo = stage;
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
 		}
 		
-		showHistoryListData(list);
+		m_nPageNum = 0;
+		getCommentList();
 	}
 	
+	public void layoutControls()
+	{
+		super.layoutControls();
+		
+		m_txtEmptyView.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+		LayoutUtils.setPadding(m_txtEmptyView, 0, 0, 0, ScreenAdapter.getDeviceHeight() / 5, false);
+	}
+	
+	private void getCommentList()
+	{
+		showLoadingProgress();
+			
+		ServerManager.getCommentList(AppContext.getUserID(), m_historyInfo.optString(Const.ID, "0"), m_nPageNum + "", new ResultCallBack() {
+			@Override
+			public void doAction(LogicResult result) {
+				hideProgress();
+				JSONArray array = result.getContentArray();
+				
+				List<JSONObject> list = new ArrayList<JSONObject>();
+				for(int i = 0; i < array.length(); i++ )
+					list.add(array.optJSONObject(i));
+				showCommentListData(list);
+				
+				
+			}
+		});
+	}
+	
+	private void getMoreCommentList()
+	{
+		ServerManager.getCommentList(AppContext.getUserID(), m_historyInfo.optString(Const.ID, "0"), (m_nPageNum + 1) + "", new ResultCallBack() {
+			@Override
+			public void doAction(LogicResult result) {
+				JSONArray array = result.getContentArray();
+				
+				List<JSONObject> list = new ArrayList<JSONObject>();
+				for(int i = 0; i < array.length(); i++ )
+					list.add(array.optJSONObject(i));
+				addCommentList(list);				
+			}
+		});
+	}
 	protected void initEvents()
 	{ 
 		super.initEvents();
@@ -78,7 +140,7 @@ public class CommentListActivity extends HeaderBarActivity
 			@Override
 			public void onPullUpToRefresh(final PullToRefreshBase<ListView> refreshView)
 			{
-//				presenter.getContactList();
+				getMoreCommentList();
 			}
 		});
 		m_listItems.setOnItemClickListener(new OnItemClickListener() {
@@ -89,24 +151,36 @@ public class CommentListActivity extends HeaderBarActivity
 			}
 		});
 	}
-		
-	protected void layoutControls()
-	{
-		super.layoutControls();		
-	}
 	
-	public void showHistoryListData(List<JSONObject> list) {
+	public void showCommentListData(List<JSONObject> list) {
 		if( list.size() < 1 )
 		{
 			m_listItems.setVisibility(View.GONE);
+			m_listPullItems.setVisibility(View.GONE);
+			m_listPullItems.setMode(Mode.DISABLED);
 		}
 		else
 		{
 			m_listItems.setVisibility(View.VISIBLE);
+			m_listPullItems.setVisibility(View.VISIBLE);
 
 			m_adapterCommentList = new CommentListAdapter(this, list, R.layout.fragment_list_comment_item, null);
 			
 			m_listItems.setAdapter(m_adapterCommentList);	
+		}
+		
+	}
+	
+	public void addCommentList(List<JSONObject> list) {
+		
+		if( list.size() < 1 )
+		{
+			m_listPullItems.setMode(Mode.DISABLED);
+		}
+		else
+		{
+			m_nPageNum++;
+			m_adapterCommentList.addItemList(list);
 		}
 		
 	}
@@ -137,6 +211,8 @@ public class CommentListActivity extends HeaderBarActivity
 			
 			((TextView)ViewHolder.get(rowView, R.id.txt_content)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_content), 0, 20, 0, 40, true);
+			
+			
 		}	
 	}
 	

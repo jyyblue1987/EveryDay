@@ -368,12 +368,15 @@ public class StageListActivity extends HeaderBarActivity
 	}
 	protected void gotoNextPage()
 	{
-		gotoCommentListPage();
+		if(m_nMode == Const.SELF_STAGE_MODE ||
+				m_nMode == Const.OTHER_STAGE_MODE )
+			gotoCommentListPage();
 	}
 	
 	private void gotoCommentListPage()
 	{
-		Bundle bundle = new Bundle();
+		Bundle bundle = new Bundle();		
+		bundle.putString(INTENT_EXTRA, m_historyInfo.toString());
 		ActivityManager.changeActivity(this, CommentListActivity.class, bundle, false, null );
 	}
 	

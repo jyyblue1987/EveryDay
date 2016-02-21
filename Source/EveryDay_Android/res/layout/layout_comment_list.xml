@@ -16,6 +16,12 @@
 	    android:layout_height="match_parent"	     
 	    >	    
 	</com.handmark.pulltorefresh.library.PullToRefreshListView>
- 
+ 	<common.component.ui.MyTextView
+	    android:id="@+id/txt_empty_view"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent"
+	    android:gravity="center"
+	    android:text="There is no comment about this history."
+	    />
 	
 </LinearLayout>
