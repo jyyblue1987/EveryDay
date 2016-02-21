@@ -123,6 +123,10 @@ public class Const {
     public static final String CONTENT = "content";
     public static final String MODIFY_DATE = "modifydate";
     
+    // history list
+    public static final String COMMENT_COUNT = "commentnum";
+    public static final String LIKE_COUNT = "favonum";
+    
     public static final int		TEMP_STAGE_MODE = 0;
     public static final int		SELF_STAGE_MODE = 1;
     public static final int		OTHER_STAGE_MODE = 2;

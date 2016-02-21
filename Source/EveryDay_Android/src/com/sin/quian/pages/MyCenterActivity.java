@@ -225,6 +225,11 @@ public class MyCenterActivity extends HeaderBarActivity
 					@Override
 					public void doAction(LogicResult result) {
 						hideProgress();
+						
+						JSONArray history = result.getContentArray();
+						for(int i = 0; i < history.length(); i++)
+							list.add(history.optJSONObject(i));
+						
 						showHistoryListData(list);
 					}
 				});
@@ -396,6 +401,9 @@ public class MyCenterActivity extends HeaderBarActivity
 			String date = MyTime.getOnlyMonthDate(time) + "\n" + MyTime.getOnlyYear(time);
 			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setText(date);
 			
+			((TextView)ViewHolder.get(rowView, R.id.txt_comment_count)).setText(item.optString(Const.COMMENT_COUNT, "0"));
+			((TextView)ViewHolder.get(rowView, R.id.txt_like_count)).setText(item.optString(Const.LIKE_COUNT, "0"));
+						
 			// events
 			ViewHolder.get(rowView, R.id.img_camera_icon).setOnClickListener(new View.OnClickListener() {
 				
