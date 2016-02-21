@@ -165,8 +165,16 @@ public class StageListActivity extends HeaderBarActivity
 			findViewById(R.id.lay_input_action).setVisibility(View.GONE);
 			findViewById(R.id.lay_count).setVisibility(View.GONE);
 			
-			JSONArray tempStageArray = AppContext.getTempStageArray();
-			showStageList(tempStageArray);
+			showLoadingProgress();
+			ServerManager.getTempStages(AppContext.getUserID(), new ResultCallBack() {
+				
+				@Override
+				public void doAction(LogicResult result) {
+					hideProgress();
+					
+					showStageList(result.getContentArray());
+				}
+			});
 		}
 		
 		if( m_nMode == Const.SELF_STAGE_MODE ) // self published stage mode
@@ -291,7 +299,6 @@ public class StageListActivity extends HeaderBarActivity
 					}
 					
 					m_photoAdapter.getData().remove(m_nCurrentPage);
-					AppContext.setTempStageArray(new JSONArray(m_photoAdapter.getData()));				
 					m_photoPager.setAdapter(m_photoAdapter);
 						
 					if( m_nCurrentPage >= m_photoAdapter.getData().size() )
@@ -332,7 +339,6 @@ public class StageListActivity extends HeaderBarActivity
 					return;
 				}
 				
-				AppContext.setTempStageArray(new JSONArray());
 				m_bIsChanged = true;
 				gotoBackPage();
 			}

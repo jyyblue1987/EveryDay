@@ -5,7 +5,6 @@ import org.json.JSONObject;
 
 public class AppContext {
 	private static JSONObject g_MyProfile = new JSONObject();
-	private static JSONArray	g_tempStageArray = new JSONArray();
 	
 	public static void setProfile(JSONObject profile)
 	{
@@ -24,15 +23,5 @@ public class AppContext {
 			return "0";
 		
 		return g_MyProfile.optString("id", "0");
-	}
-	
-	public static void setTempStageArray(JSONArray array)
-	{
-		g_tempStageArray = array;		
-	}
-	
-	public static JSONArray getTempStageArray()
-	{
-		return g_tempStageArray;
 	}
 }

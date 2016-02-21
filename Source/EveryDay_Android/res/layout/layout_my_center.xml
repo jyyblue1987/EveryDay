@@ -79,16 +79,10 @@
             android:layout_height="wrap_content" 
             >  
 	        <common.component.ui.MyTextView
-	            android:id="@+id/txt_my_center_address"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:text="明星页:"
-	            />
-            <common.component.ui.MyTextView
 	            android:id="@+id/txt_my_center_hisaddress"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:text="明星页"
+	            android:text=""
 	            />
             
         </LinearLayout>

@@ -54,6 +54,7 @@
         <activity android:name=".pages.CommentDetailActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.ProfileActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.BuyActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".pages.HistoryListActivity" android:screenOrientation="portrait"/>
         
     </application>
 

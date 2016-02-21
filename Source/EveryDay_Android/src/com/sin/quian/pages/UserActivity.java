@@ -171,16 +171,18 @@ public class UserActivity extends HeaderBarActivity {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {	
+				gotoHistoryPage(pos);
 			}
 		});
 	}
-
-	protected void gotoNextPage()
-	{
-		Bundle bundle = new Bundle();				
-		ActivityManager.changeActivity(this, MainMenuActivity.class, bundle, false, null );
-	}
 	
+	private void gotoHistoryPage(int pos)
+	{
+		JSONObject item = m_adapteruserList.getItem(pos - 1);
+		Bundle bundle = new Bundle();	
+		bundle.putString(INTENT_EXTRA, item.toString());
+		ActivityManager.changeActivity(this, HistoryListActivity.class, bundle, false, null );
+	}
 
 	
 	class UserListAdapter extends MyListAdapter {
@@ -227,7 +229,7 @@ public class UserActivity extends HeaderBarActivity {
 			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_name)).setText(item.optString(Const.USERNAME, ""));
 			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_hard_num)).setText(item.optString(Const.USER_RECEIVE_NUM, ""));
 			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_star_num)).setText(item.optString(Const.USER_POINT_NUM, ""));
-			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_address)).setText("地址: " + item.optString(Const.USER_ADDRESS, ""));			
+			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_address)).setText(item.optString(Const.USER_ADDRESS, ""));			
 			
 		}	
 	}
