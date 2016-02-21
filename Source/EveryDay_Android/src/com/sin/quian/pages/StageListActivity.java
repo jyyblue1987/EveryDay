@@ -7,11 +7,11 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sin.quian.AppContext;
 import com.sin.quian.Const;
 import com.sin.quian.R;
+import com.sin.quian.network.ServerManager;
 import com.sin.quian.network.ServerTask;
 
 import android.content.Context;
@@ -19,20 +19,23 @@ import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
 import android.util.TypedValue;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.TextView;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
-import common.image.load.ImageUtils;
+import common.design.utils.ResourceUtils;
+import common.library.utils.MessageUtils;
+import common.library.utils.MessageUtils.OnButtonClickListener;
 import common.library.utils.MyTime;
 import common.list.adapter.ItemCallBack;
 import common.list.adapter.MyPagerAdapter;
-import common.list.adapter.ViewHolder;
 import common.manager.activity.ActivityManager;
+import common.network.utils.LogicResult;
+import common.network.utils.ResultCallBack;
 
 
 public class StageListActivity extends HeaderBarActivity
@@ -55,10 +58,10 @@ public class StageListActivity extends HeaderBarActivity
 	ImageView	m_imgCommentCountIcon = null;
 	TextView	m_txtCommentCount = null;
 	
+	Button		m_btnRemove = null;
 	Button		m_btnPublish = null;
 	
 	int m_nMode = Const.TEMP_STAGE_MODE;
-	List<JSONObject> m_stageList = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -85,6 +88,7 @@ public class StageListActivity extends HeaderBarActivity
 		m_imgCommentCountIcon = (ImageView) findViewById(R.id.img_comment_count_icon);
 		m_txtCommentCount = (TextView) findViewById(R.id.txt_comment_count);
 		
+		m_btnRemove  = (Button) findViewById(R.id.btn_remove);
 		m_btnPublish = (Button) findViewById(R.id.btn_stage_publish);
 	}
 
@@ -102,7 +106,10 @@ public class StageListActivity extends HeaderBarActivity
 		int padding = 10;
 		
 		m_txtComment.setTextSize(TypedValue.COMPLEX_UNIT_PX, 55);
-		LayoutUtils.setPadding(m_txtComment, 10, 10, 10, 10, true);
+		
+		LayoutUtils.setPadding(findViewById(R.id.lay_comment), 20, 20, 20, 30, true);
+		LayoutUtils.setMargin(m_btnRemove, 30, 0, 0, 0, true);
+		LayoutUtils.setSize(m_btnRemove, 80, 80, true);
 		
 		LayoutUtils.setPadding(findViewById(R.id.lay_stage_action), 20, 40, 20, 30, true);
 		
@@ -127,8 +134,8 @@ public class StageListActivity extends HeaderBarActivity
 		m_txtCommentCount.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontsize);
 		LayoutUtils.setMargin(m_txtCommentCount, padding, 0, 0, 0, true);
 		
-		LayoutUtils.setSize(m_btnPublish, 460, 80, true);
-		m_btnPublish.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontsize);
+		LayoutUtils.setSize(m_btnPublish, 460, 100, true);
+		m_btnPublish.setTextSize(TypedValue.COMPLEX_UNIT_PX, 50);
 		
 	}
 	protected void initData()
@@ -158,10 +165,16 @@ public class StageListActivity extends HeaderBarActivity
 			for(int i = 0; i < tempStageArray.length(); i++ )
 				list.add(tempStageArray.optJSONObject(i));
 			
-			m_stageList = list;
 			showStageList(list);
-		} 
-		else if( m_nMode == Const.SELF_STAGE_MODE ) // self published stage mode
+			
+			if( list.size() > 0 )
+				m_nCurrentPage = 0;
+			else
+				m_nCurrentPage = -1;
+			showStageInfo(m_nCurrentPage);
+		}
+		
+		if( m_nMode == Const.SELF_STAGE_MODE ) // self published stage mode
 		{
 			findViewById(R.id.lay_input_action).setVisibility(View.GONE);
 			findViewById(R.id.lay_count).setVisibility(View.GONE);
@@ -172,6 +185,62 @@ public class StageListActivity extends HeaderBarActivity
 		
 	}
 	
+	protected void initEvents()
+	{ 
+		super.initEvents();
+		
+		ResourceUtils.addClickEffect(m_btnRemove);
+		m_btnRemove.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				MessageUtils.showDialogYesNo(StageListActivity.this, "Do you want to delete?", new OnButtonClickListener() {
+					
+					@Override
+					public void onOkClick() {
+						removeStage();						
+					}
+					
+					@Override
+					public void onCancelClick() {
+						// TODO Auto-generated method stub
+						
+					}
+				});
+						
+			}
+		});
+	}
+	
+	private void removeStage()
+	{
+		if( m_nMode == Const.TEMP_STAGE_MODE )
+		{
+			JSONObject item = m_photoAdapter.getItem(m_nCurrentPage);
+			if( item == null || m_nCurrentPage < 0 || m_nCurrentPage >= m_photoAdapter.getData().size() )
+				return;
+			showLoadingProgress();
+			ServerManager.deleteTempStages(AppContext.getUserID(), item.optString(Const.ID, "0"), new ResultCallBack() {
+				
+				@Override
+				public void doAction(LogicResult result) {
+					hideProgress();
+					if( result.mResult != LogicResult.RESULT_OK )
+					{
+						MessageUtils.showMessageDialog(StageListActivity.this, result.mMessage);
+						return;
+					}
+					
+					m_photoAdapter.getData().remove(m_nCurrentPage);
+					AppContext.setTempStageArray(new JSONArray(m_photoAdapter.getData()));					
+					m_photoAdapter.notifyDataSetChanged();	
+					if( m_nCurrentPage >= m_photoAdapter.getData().size() )
+						m_nCurrentPage--;
+					showStageInfo(m_nCurrentPage);
+				}
+			});
+		}
+	}
 	private void showStageList(List<JSONObject> list)
 	{
 		m_photoAdapter = new PhotoPagerAdapter(this, list, null);
@@ -193,15 +262,30 @@ public class StageListActivity extends HeaderBarActivity
 		});
 	}
 	
+	
 	private void showStageInfo(int num)
 	{
-		JSONObject item = m_stageList.get(m_nCurrentPage);
+		JSONObject item = null;
+		if( num >= 0 && num < m_photoAdapter.getData().size() )
+			item = m_photoAdapter.getItem(num);
+		
+		if( num < 0 || item == null )
+		{
+			m_txtComment.setText("");
+			m_txtPageTitle.setText(AppContext.getProfile().optString(Const.USERNAME, ""));
+			m_txtSubTitle.setText("0/0");
+			m_btnRemove.setVisibility(View.GONE);
+			m_btnPublish.setVisibility(View.GONE);
+			return;
+		}
+		
 		m_txtComment.setText(item.optString(Const.CONTENT, ""));
+		m_btnRemove.setVisibility(View.VISIBLE);
 		
 		String time = item.optString(Const.MODIFY_DATE, MyTime.getCurrentTime());
 		String date = MyTime.getChinaDate(time);
 		m_txtPageTitle.setText(date);
-		m_txtSubTitle.setText((num + 1) + "/" + m_stageList.size());
+		m_txtSubTitle.setText((num + 1) + "/" + m_photoAdapter.getData().size() );
 	}
 	protected void gotoNextPage()
 	{
@@ -223,14 +307,26 @@ public class StageListActivity extends HeaderBarActivity
 		@Override
 		protected View loadItemViews(int position)
 		{
-			ImageView view = new ImageView(m_context);
-//	    	view.setScaleType(ScaleType.FIT_XY);
-	    	
-	    	JSONObject item = getItem(position);
-	    	
-			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + item.optString(Const.THUMBNAIL, ""), view);
-			
-			return view;
+			if( m_bValidData == true )
+			{
+				ImageView view = new ImageView(m_context);
+//		    	view.setScaleType(ScaleType.FIT_XY);
+		    	
+		    	JSONObject item = getItem(position);
+		    	if( item != null )		    	
+		    		ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + item.optString(Const.THUMBNAIL, ""), view);
+				
+				return view;
+			}
+			else
+			{
+				TextView view = new TextView(m_context);
+				view.setGravity(Gravity.CENTER);
+				view.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(40));
+				view.setText("There is no stage list\n\n\n\n\n\n\n\n");
+				
+				return view;
+			}
 		}  
 	
 	}

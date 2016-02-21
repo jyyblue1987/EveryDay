@@ -18,20 +18,27 @@
 	        android:layout_width="match_parent"
 	        android:layout_height="match_parent" />
         <LinearLayout
+            android:id="@+id/lay_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"    
-            android:layout_alignParentBottom="true"         
+            android:orientation="horizontal"    
+            android:layout_alignParentBottom="true"
+            android:background="#BB000000"          
             >
             <common.component.ui.MyTextView
                 android:id="@+id/txt_comment"
-                android:layout_width="match_parent"
+                android:layout_width="0dip"
                 android:layout_height="wrap_content"
+                android:layout_weight="1.0"
                 android:text="I am very happy."
-                android:textColor="@color/white"
-                android:background="#BB000000" 
+                android:textColor="@color/white"                
                 />
-            
+            <Button
+                android:id="@+id/btn_remove"
+                android:layout_width="20dip"
+                android:layout_height="20dip"
+                android:background="@drawable/trash_icon"
+                />
         </LinearLayout>
     </RelativeLayout>
  	<LinearLayout 

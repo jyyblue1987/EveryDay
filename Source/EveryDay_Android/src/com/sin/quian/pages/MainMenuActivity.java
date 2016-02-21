@@ -30,10 +30,6 @@ public class MainMenuActivity extends HeaderBarActivity
 	int				parentWidth = 0;
 	int 			parentHeight = 0;
 
-//	Display display = null;//getWindowManager().getDefaultDisplay(); 
-//	int width = display.getWidth();  // deprecated
-//	int height = display.getHeight();  // deprecated
-	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
