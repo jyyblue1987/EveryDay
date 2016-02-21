@@ -31,6 +31,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
+import common.component.ui.MyTextView;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
 import common.library.utils.AlgorithmUtils;
@@ -104,6 +105,9 @@ public class MyCenterActivity extends HeaderBarActivity
 		m_txtName.setText(profile.optString(Const.USERNAME, ""));
 		m_txtHisAddress.setText("地址: " + profile.optString(Const.USER_ADDRESS, ""));
 		
+		m_txtHard.setText(profile.optString(Const.MY_RECEIVE_NUM, "0"));
+		m_txtStar.setText(profile.optString(Const.MY_POINT_NUM, "0"));
+		
 		m_listPullItems.setMode(Mode.PULL_FROM_END);
 		
 		m_nPageNum = 0;
@@ -156,7 +160,7 @@ public class MyCenterActivity extends HeaderBarActivity
 		LayoutUtils.setSize(findViewById(R.id.lay_empty_1),LayoutParams.MATCH_PARENT, 50, true);
 		
 		findViewById(R.id.lay_my_info).setVisibility(View.GONE);
-		m_layRight.setVisibility(View.INVISIBLE);
+		m_layRight.setVisibility(View.VISIBLE);
 		m_btnRight.setBackgroundResource(R.drawable.profile_white_icon);
 		LayoutUtils.setSize(m_btnRight, 55, 48, true);
 		
@@ -415,6 +419,15 @@ public class MyCenterActivity extends HeaderBarActivity
 					uploadStage();					
 				}
 			});			
+			
+			
+			ViewHolder.get(rowView, R.id.img_delete_history).setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+								
+				}
+			});	
 		}	
 	}
 	

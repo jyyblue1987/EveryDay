@@ -18,7 +18,7 @@
 	    android:layout_width="100dip"
         android:layout_height="30dip"
         android:background="@drawable/button_greeen_bg"
-        android:text="修改密码"
+        android:text="Buy"
         android:textColor="@color/white" />       
         
 </LinearLayout>

@@ -1,5 +1,6 @@
 package com.sin.quian.pages;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.sin.quian.AppContext;
@@ -7,6 +8,7 @@ import com.sin.quian.Const;
 import com.sin.quian.R;
 import com.sin.quian.network.ServerManager;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
@@ -27,8 +29,7 @@ import common.network.utils.ResultCallBack;
 
 public class ProfileActivity extends HeaderBarActivity
 {
-//	static final int DIALOG_PAUSED_ID = 0;
-//	static final int DIALOG_GAMEOVER_ID = 1;
+	private static int	BUY_POINT_CODE = 200;
 	
 	ImageView		m_imgPhotoIcon = null;
 	EditText 		m_editFullName = null;
@@ -51,8 +52,6 @@ public class ProfileActivity extends HeaderBarActivity
 	MyButton		m_btnSave = null;
 	MyButton		m_btnChangePassword= null;
 	MyButton		m_btnBuy = null;
-	
-	ResultCallBack  callback = null;
 	
 	int [] m_field_item = {
 		R.id.fragment_profile_fullname,
@@ -174,6 +173,10 @@ public class ProfileActivity extends HeaderBarActivity
 		((TextView) findViewById(R.id.fragment_profile_birthday).findViewById(R.id.edit_content)).setText(profile.optString(Const.BIRTHDAY));
 		((TextView) findViewById(R.id.fragment_profile_address).findViewById(R.id.edit_content)).setText(profile.optString(Const.ADDRESS));
 		((TextView) findViewById(R.id.fragment_profile_modifieddate).findViewById(R.id.edit_content)).setText(profile.optString(Const.MODIFY_DATE));
+		
+		m_txtHard1.setText(profile.optString(Const.MY_RECEIVE_NUM, "0"));
+		m_txtHard2.setText(profile.optString(Const.MY_POINT_NUM, "0"));
+		m_txtHard3.setText(profile.optString(Const.MY_SEND_NUM, "0"));
 
 		
 //		((EditText) findViewById(R.id.fragment_profile_email).findViewById(R.id.edit_content)).setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
@@ -259,7 +262,14 @@ public class ProfileActivity extends HeaderBarActivity
 			return;
 		}
 
-		ServerManager.updateProfile(AppContext.getUserID(), username, fullname, email, phonenumber, birthday, address, callback); 
+		ServerManager.updateProfile(AppContext.getUserID(), username, fullname, email, phonenumber, birthday, address, new ResultCallBack() {
+			
+			@Override
+			public void doAction(LogicResult result) {
+				
+				
+			}
+		}); 
 	}
 	
 	
@@ -271,8 +281,20 @@ public class ProfileActivity extends HeaderBarActivity
 	
 	private void onClickBuy(){
 		Bundle bundle = new Bundle();
-		ActivityManager.changeActivity(ProfileActivity.this, BuyActivity.class, bundle, false, null );		
+		ActivityManager.changeActivity(ProfileActivity.this, BuyActivity.class, bundle, false, BUY_POINT_CODE );		
 		
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == 0)
+			return;		
+		
+		if (requestCode == BUY_POINT_CODE ) {
+			m_txtHard2.setText(AppContext.getProfile().optString(Const.MY_POINT_NUM, "0"));
+		}	
+				
+		super.onActivityResult(requestCode,  resultCode, data);	
 	}
 
 	

@@ -146,6 +146,7 @@ public class Const {
     // user info
     public static final String MY_RECEIVE_NUM = "receivenum";
     public static final String MY_POINT_NUM = "pointnum";
+    public static final String MY_SEND_NUM = "sendnum";
     
     public static final String MODE = "mode";
 }

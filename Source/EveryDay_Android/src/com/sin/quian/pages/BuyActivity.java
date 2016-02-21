@@ -1,8 +1,16 @@
 package com.sin.quian.pages;
 
-import com.sin.quian.R;
+import org.json.JSONException;
 
+import com.sin.quian.AppContext;
+import com.sin.quian.Const;
+import com.sin.quian.R;
+import com.sin.quian.network.ServerManager;
+
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
@@ -11,12 +19,15 @@ import android.widget.TextView;
 import common.component.ui.MyButton;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
+import common.library.utils.MessageUtils;
 import common.manager.activity.ActivityManager;
+import common.network.utils.LogicResult;
+import common.network.utils.ResultCallBack;
 
 
 public class BuyActivity extends HeaderBarActivity
 {
-	EditText 		m_txtStarNum= null;
+	EditText 		m_editStarNum= null;
 	MyButton		m_btnBuy= null;
 	
 	@Override
@@ -30,17 +41,19 @@ public class BuyActivity extends HeaderBarActivity
 	{
 		super.findViews();
 
-		m_txtStarNum = (EditText) findViewById(R.id.fragment_buy_num).findViewById(R.id.edit_content);
+		m_editStarNum = (EditText) findViewById(R.id.fragment_buy_num).findViewById(R.id.edit_content);
 		m_btnBuy = (MyButton) findViewById(R.id.btn_buy);
 	}
 
 	protected void initData()
 	{
 		super.initData();
-		m_txtPageTitle.setText("购买");
+		m_txtPageTitle.setText("Buy Point");
 		m_btnRight.setVisibility(View.INVISIBLE);
 		
-		((TextView) findViewById(R.id.fragment_buy_num).findViewById(R.id.txt_label)).setText("购买");
+		m_editStarNum.setInputType(InputType.TYPE_CLASS_NUMBER);
+		
+		((TextView) findViewById(R.id.fragment_buy_num).findViewById(R.id.txt_label)).setText("Ammount");
 
 	}
 	
@@ -52,15 +65,41 @@ public class BuyActivity extends HeaderBarActivity
 			
 			@Override
 			public void onClick(View paramView) {
-				onClickchange();				
+				onClickBuy();				
 			}
 		});
 	}
 	
-	private void onClickchange()
+	private void onClickBuy()
 	{
-		Bundle bundle = new Bundle();
-		ActivityManager.changeActivity(BuyActivity.this, ProfileActivity.class, bundle, false, null );		
+		String text = m_editStarNum.getText().toString();
+		final int ammount = Integer.valueOf(text);
+		
+		showLoadingProgress();		
+		ServerManager.addPoint(AppContext.getUserID(), ammount + "", new ResultCallBack() {
+			
+			@Override
+			public void doAction(LogicResult result) {
+				hideProgress();
+				if( result.mResult != LogicResult.RESULT_OK )
+				{
+					MessageUtils.showMessageDialog(BuyActivity.this, result.mMessage);
+					return;
+				}
+				
+				int pointCount = AppContext.getProfile().optInt(Const.MY_POINT_NUM, 0);
+				
+				try {
+					AppContext.getProfile().put(Const.MY_POINT_NUM, pointCount + ammount);
+					
+				 	Intent intent = new Intent();
+			    	setResult(Activity.RESULT_OK, intent);    
+			        onFinishActivity();		
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}				
+			}
+		});
 	}
  
 	protected void layoutControls()

@@ -109,7 +109,7 @@ public class HistoryListActivity extends HeaderBarActivity
 	{
 		super.initData();
 
-		m_txtPageTitle.setText("个人中心");
+		m_txtPageTitle.setText("History List");
 		
 		Bundle bundle = getIntent().getExtras();
 		

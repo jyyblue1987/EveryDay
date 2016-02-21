@@ -1,8 +1,15 @@
 package com.sin.quian.pages;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import com.sin.quian.Const;
 import com.sin.quian.R;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.TypedValue;
 import android.view.Display;
 import android.view.View;
@@ -12,13 +19,14 @@ import common.component.ui.MyButton;
 import common.component.ui.MyTextView;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
+import common.library.utils.MediaUtils;
 import common.manager.activity.ActivityManager;
 
 
 public class MainMenuActivity extends HeaderBarActivity
 {
-	static final int DIALOG_PAUSED_ID = 0;
-	static final int DIALOG_GAMEOVER_ID = 1;
+	private static int	PICK_GALLERY_CODE = 100;
+	private static int	COMMENT_REQUEST_CODE = 200;
 	
 	ImageView 		m_imgAppIcon = null;
 	MyTextView 		m_textAppName= null;
@@ -30,6 +38,8 @@ public class MainMenuActivity extends HeaderBarActivity
 	int				parentWidth = 0;
 	int 			parentHeight = 0;
 
+	String			m_cameraTempPath = "";
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -138,8 +148,15 @@ public class MainMenuActivity extends HeaderBarActivity
 	
 	private void onClickCamera()
 	{
-		Bundle bundle = new Bundle();
-		ActivityManager.changeActivity(MainMenuActivity.this, UserActivity.class, bundle, false, null );		
+		uploadStage();
+	}
+	
+	private void uploadStage()
+	{
+		m_cameraTempPath = Environment.getExternalStorageDirectory() + "/";
+		m_cameraTempPath += "camera_temp.jpg";
+
+		MediaUtils.showCameraGalleryPage(this, PICK_GALLERY_CODE, m_cameraTempPath);
 	}
 	
 	protected void layoutControls()
@@ -192,6 +209,51 @@ public class MainMenuActivity extends HeaderBarActivity
 		
 		LayoutUtils.setSize(findViewById(R.id.lay_divide_3), LayoutParams.MATCH_PARENT, heightUnit/2, true);
 
+	}
+	
+	private void processFile(String path)
+	{
+		Bundle bundle = new Bundle();
+		
+		JSONObject data = new JSONObject();
+		
+		try {
+			data.put(Const.MODE, 0);
+			data.put(Const.FILE_PATH, path);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		bundle.putString(INTENT_EXTRA, data.toString());
+		ActivityManager.changeActivity(this, CommentDetailActivity.class, bundle, false, COMMENT_REQUEST_CODE);	
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == 0)
+			return;		
+		
+		if( requestCode == PICK_GALLERY_CODE + 1 )
+		{
+			Uri selectedImage = data.getData();			
+			String picturePath = MediaUtils.getPathFromURI(this, selectedImage);
+			
+			processFile(picturePath);
+		}
+		
+		if (requestCode == PICK_GALLERY_CODE ) {
+			processFile(m_cameraTempPath);
+		}	
+		
+		if (requestCode == PICK_GALLERY_CODE + 2 ) {
+			processFile(m_cameraTempPath);
+		}	
+		
+		if (requestCode == COMMENT_REQUEST_CODE ) {
+			gotoPersonalCenterPage();
+		}	
+		
+		super.onActivityResult(requestCode, resultCode, data);	
 	}
 
 }
