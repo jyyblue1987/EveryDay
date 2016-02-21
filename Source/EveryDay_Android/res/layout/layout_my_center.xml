@@ -11,11 +11,12 @@
         layout="@layout/fragment_header" />
 
     <LinearLayout
-            android:id="@+id/lay_empty_1"
-            android:layout_width="match_parent"
-            android:layout_height="10dip" 
-            android:background="@color/white_darker"
-            >            
+         android:id="@+id/lay_empty_1"
+         android:layout_width="match_parent"
+         android:layout_height="10dip" 
+         android:orientation="horizontal"
+         android:background="@color/white_darker"
+         >            
     </LinearLayout>
     
     <LinearLayout
@@ -94,17 +95,19 @@
     </LinearLayout>
 
     <LinearLayout
-            android:id="@+id/lay_empty_2"
-            android:layout_width="match_parent"
-            android:layout_height="10dip" 
-            android:background="@color/white_darker"
-            >            
+        android:id="@+id/lay_empty_2"
+        android:layout_width="match_parent"
+        android:layout_height="10dip"
+        android:orientation="horizontal" 
+        android:background="@color/white_darker"            
+        >            
     </LinearLayout>
     
     <com.handmark.pulltorefresh.library.PullToRefreshListView 
 	    android:id="@+id/list_items"
 	    android:layout_width="match_parent"
-	    android:layout_height="match_parent"	     
+	    android:layout_height="match_parent"	
+	    android:cacheColorHint="#00000000"      
 	    >	    
 	</com.handmark.pulltorefresh.library.PullToRefreshListView>
  

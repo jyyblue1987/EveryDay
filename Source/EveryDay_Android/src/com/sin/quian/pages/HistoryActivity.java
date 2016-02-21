@@ -7,9 +7,9 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sin.quian.AppContext;
@@ -20,7 +20,6 @@ import com.sin.quian.network.ServerTask;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
@@ -33,7 +32,6 @@ import android.widget.TextView;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
 import common.library.utils.AlgorithmUtils;
-import common.library.utils.MediaUtils;
 import common.library.utils.MyTime;
 import common.list.adapter.ItemCallBack;
 import common.list.adapter.MyListAdapter;
@@ -82,8 +80,9 @@ public class HistoryActivity extends HeaderBarActivity {
 	{
 		super.initData();
 		
-		m_txtPageTitle.setText("最新史");
+		m_txtPageTitle.setText("最新们");
 		
+		m_listPullItems.setMode(Mode.PULL_FROM_END);
 		m_nPageNum = 0;
 		getHistoryList();
 			
@@ -233,10 +232,9 @@ public class HistoryActivity extends HeaderBarActivity {
 			// user info
 			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_historyitem_1), 30, 30, 30, 0, true);
 			LayoutUtils.setSize(((ImageView)rowView.findViewById(R.id.img_historyitem_icon)), 80, 80, true);
-			LayoutUtils.setMargin(((ImageView)rowView.findViewById(R.id.img_historyitem_icon)), 0, 0, 20, 0, true);
 
 			((TextView)rowView.findViewById(R.id.text_historyitem_name)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-			LayoutUtils.setMargin(rowView.findViewById(R.id.text_historyitem_name), 20, 20, 50, 20, true);
+			LayoutUtils.setMargin(rowView.findViewById(R.id.text_historyitem_name), 20, 0, 50, 0, true);
 //			((TextView)rowView.findViewById(R.id.txt_History_info)).setText(item.optString(Const.DISP_DATE, MyTime.getCurrentDate()));
 
 			LayoutUtils.setSize(((ImageView)rowView.findViewById(R.id.img_historyitem_hard)), 50, 50, true);
@@ -257,15 +255,6 @@ public class HistoryActivity extends HeaderBarActivity {
 
 			((TextView)rowView.findViewById(R.id.text_historyitem_hisaddress)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
 			LayoutUtils.setMargin(rowView.findViewById(R.id.text_historyitem_hisaddress), 10, 0, 0, 0, true);
-			
-			rowView.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View paramView) {
-					Bundle bundle = new Bundle();
-					ActivityManager.changeActivity(HistoryActivity.this, StageActivity.class, bundle, false, null );		
-				}
-			});
 			
 			// history info			
 			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_historyitem_3), 30, 10, 30, 30, true);
