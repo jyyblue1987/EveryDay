@@ -21,6 +21,7 @@ import common.component.ui.MyTextView;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
 import common.library.utils.CheckUtils;
+import common.library.utils.DataUtils;
 import common.library.utils.MessageUtils;
 import common.manager.activity.ActivityManager;
 import common.network.utils.LogicResult;
@@ -213,7 +214,7 @@ public class ProfileActivity extends HeaderBarActivity
 	private void onClickSave()
 	{
 		String fullname = ((TextView) findViewById(R.id.fragment_profile_fullname).findViewById(R.id.edit_content)).getText().toString();
-		String username = ((TextView) findViewById(R.id.fragment_profile_username).findViewById(R.id.edit_content)).getText().toString();
+		final String username = ((TextView) findViewById(R.id.fragment_profile_username).findViewById(R.id.edit_content)).getText().toString();
 		String thumbnail = ((TextView) findViewById(R.id.fragment_profile_thumbnail).findViewById(R.id.edit_content)).getText().toString();
 		String email = ((TextView) findViewById(R.id.fragment_profile_email).findViewById(R.id.edit_content)).getText().toString();
 		String phonenumber = ((TextView) findViewById(R.id.fragment_profile_phonenumber).findViewById(R.id.edit_content)).getText().toString();
@@ -261,12 +262,23 @@ public class ProfileActivity extends HeaderBarActivity
 			MessageUtils.showMessageDialog(this, "Please input modified date.");
 			return;
 		}
+		
+		showLoadingProgress();
 
 		ServerManager.updateProfile(AppContext.getUserID(), username, fullname, email, phonenumber, birthday, address, new ResultCallBack() {
 			
 			@Override
 			public void doAction(LogicResult result) {
+				 hideProgress();		
 				
+				 if( result.mResult != LogicResult.RESULT_OK )
+				 {
+					 MessageUtils.showMessageDialog(ProfileActivity.this, result.mMessage);
+					 return;
+				 }
+				 AppContext.setProfile(result.getContentData());
+				 DataUtils.savePreference(Const.USERNAME, username);
+				 onFinishActivity();
 				
 			}
 		}); 

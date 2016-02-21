@@ -67,6 +67,7 @@ public class SplashActivity extends BaseActivity {
 					if( result.mResult != LogicResult.RESULT_OK )
 					{
 						gotoLoginPage();
+						return;
 					}
 					
 					AppContext.setProfile(result.getContentData());

@@ -133,9 +133,8 @@ public class Const {
     
     // User List
     public static final String USER_THUMBNAIL = "userthumb";
-    public static final String USER_RECEIVE_NUM = "userreceivenum";
-    public static final String USER_POINT_NUM = "userpointnum";
     public static final String USER_ADDRESS = "useraddr";
+    public static final String USER_CHECKFRIEND = "checkfriend";
     
     public static final String USER_ = "userthumb";
     

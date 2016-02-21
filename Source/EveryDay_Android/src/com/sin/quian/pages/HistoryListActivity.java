@@ -249,9 +249,9 @@ public class HistoryListActivity extends HeaderBarActivity
 					AppContext.getProfile().put(Const.MY_POINT_NUM, res);
 					m_txtMyPointCount.setText(res + "");
 					
-					int receivePoint = m_profile.optInt(Const.USER_RECEIVE_NUM, 0);
+					int receivePoint = m_profile.optInt(Const.MY_RECEIVE_NUM, 0);
 					receivePoint += ammount;
-					m_txtHard.setText(receivePoint);
+					m_txtHard.setText(receivePoint + "");					
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -333,13 +333,15 @@ public class HistoryListActivity extends HeaderBarActivity
 	private void showUserInfo()
 	{
 		m_txtName.setText(m_profile.optString(Const.USERNAME, ""));
-		m_txtHard.setText(m_profile.optString(Const.USER_RECEIVE_NUM, "0"));
-		m_txtStar.setText(m_profile.optString(Const.USER_POINT_NUM, "0"));
+		m_txtHard.setText(m_profile.optString(Const.MY_RECEIVE_NUM, "0"));
+		m_txtStar.setText(m_profile.optString(Const.MY_SEND_NUM, "0"));
 		m_txtHisAddress.setText("地址: " + m_profile.optString(Const.USER_ADDRESS, ""));
 	}
 	
 	private void showMyPointInfo()
 	{
+		if( m_profile.optInt(Const.USER_CHECKFRIEND, 0) == 1 )
+			m_txtAddContact.setVisibility(View.INVISIBLE);
 		m_txtMyPointCount.setText(AppContext.getProfile().optString(Const.MY_POINT_NUM, "0"));
 		m_txtMyReceiveCount.setText(AppContext.getProfile().optString(Const.MY_RECEIVE_NUM, "0"));
 	}

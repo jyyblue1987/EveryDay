@@ -279,8 +279,8 @@ public class HistoryActivity extends HeaderBarActivity {
 			
 			// show data
 			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_name)).setText(item.optString(Const.USERNAME, ""));
-			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_hard_num)).setText(item.optString(Const.USER_RECEIVE_NUM, ""));
-			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_star_num)).setText(item.optString(Const.USER_POINT_NUM, ""));
+			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_hard_num)).setText(item.optString(Const.MY_RECEIVE_NUM, ""));
+			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_star_num)).setText(item.optString(Const.MY_POINT_NUM, ""));
 			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_address)).setText(item.optString(Const.USER_ADDRESS, ""));			
 			
 //			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.default_image_bg).build();
