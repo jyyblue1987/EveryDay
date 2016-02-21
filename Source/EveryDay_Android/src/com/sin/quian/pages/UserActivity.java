@@ -224,12 +224,12 @@ public class UserActivity extends HeaderBarActivity {
 			ViewHolder.get(rowView, R.id.lay_historyitem_3).setVisibility(View.GONE);
 			
 			// userinfo
-			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + item.optString(Const.USER_THUMBNAIL, ""), (ImageView)ViewHolder.get(rowView, R.id.img_historyitem_icon));
+			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + item.optString(Const.THUMBNAIL, ""), (ImageView)ViewHolder.get(rowView, R.id.img_historyitem_icon));
 			
 			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_name)).setText(item.optString(Const.USERNAME, ""));
-			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_hard_num)).setText(item.optString(Const.MY_RECEIVE_NUM, ""));
-			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_star_num)).setText(item.optString(Const.MY_POINT_NUM, ""));
-			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_address)).setText(item.optString(Const.USER_ADDRESS, ""));			
+			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_hard_num)).setText(item.optString(Const.RECEIVE_NUM, ""));
+			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_star_num)).setText(item.optString(Const.POINT_NUM, ""));
+			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_address)).setText(item.optString(Const.ADDRESS, ""));			
 			
 		}	
 	}

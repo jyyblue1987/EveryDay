@@ -103,10 +103,10 @@ public class MyCenterActivity extends HeaderBarActivity
 		
 		JSONObject profile = AppContext.getProfile();
 		m_txtName.setText(profile.optString(Const.USERNAME, ""));
-		m_txtHisAddress.setText("地址: " + profile.optString(Const.USER_ADDRESS, ""));
+		m_txtHisAddress.setText("地址: " + profile.optString(Const.ADDRESS, ""));
 		
-		m_txtHard.setText(profile.optString(Const.MY_RECEIVE_NUM, "0"));
-		m_txtStar.setText(profile.optString(Const.MY_POINT_NUM, "0"));
+		m_txtHard.setText(profile.optString(Const.RECEIVE_NUM, "0"));
+		m_txtStar.setText(profile.optString(Const.POINT_NUM, "0"));
 		
 		m_listPullItems.setMode(Mode.PULL_FROM_END);
 		

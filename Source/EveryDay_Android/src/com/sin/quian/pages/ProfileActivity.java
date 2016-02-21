@@ -175,9 +175,9 @@ public class ProfileActivity extends HeaderBarActivity
 		((TextView) findViewById(R.id.fragment_profile_address).findViewById(R.id.edit_content)).setText(profile.optString(Const.ADDRESS));
 		((TextView) findViewById(R.id.fragment_profile_modifieddate).findViewById(R.id.edit_content)).setText(profile.optString(Const.MODIFY_DATE));
 		
-		m_txtHard1.setText(profile.optString(Const.MY_RECEIVE_NUM, "0"));
-		m_txtHard2.setText(profile.optString(Const.MY_POINT_NUM, "0"));
-		m_txtHard3.setText(profile.optString(Const.MY_SEND_NUM, "0"));
+		m_txtHard1.setText(profile.optString(Const.RECEIVE_NUM, "0"));
+		m_txtHard2.setText(profile.optString(Const.POINT_NUM, "0"));
+		m_txtHard3.setText(profile.optString(Const.SEND_NUM, "0"));
 
 		
 //		((EditText) findViewById(R.id.fragment_profile_email).findViewById(R.id.edit_content)).setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
@@ -215,7 +215,6 @@ public class ProfileActivity extends HeaderBarActivity
 	{
 		String fullname = ((TextView) findViewById(R.id.fragment_profile_fullname).findViewById(R.id.edit_content)).getText().toString();
 		final String username = ((TextView) findViewById(R.id.fragment_profile_username).findViewById(R.id.edit_content)).getText().toString();
-		String thumbnail = ((TextView) findViewById(R.id.fragment_profile_thumbnail).findViewById(R.id.edit_content)).getText().toString();
 		String email = ((TextView) findViewById(R.id.fragment_profile_email).findViewById(R.id.edit_content)).getText().toString();
 		String phonenumber = ((TextView) findViewById(R.id.fragment_profile_phonenumber).findViewById(R.id.edit_content)).getText().toString();
 		String birthday = ((TextView) findViewById(R.id.fragment_profile_birthday).findViewById(R.id.edit_content)).getText().toString();
@@ -232,11 +231,7 @@ public class ProfileActivity extends HeaderBarActivity
 			MessageUtils.showMessageDialog(this, "Please input user name.");
 			return;
 		}
-		if( CheckUtils.isEmpty(thumbnail) )
-		{
-			MessageUtils.showMessageDialog(this, "Please input user thumbnail.");
-			return;
-		}
+
 		if( CheckUtils.isEmpty(email) )
 		{
 			MessageUtils.showMessageDialog(this, "Please input user email.");
@@ -303,7 +298,7 @@ public class ProfileActivity extends HeaderBarActivity
 			return;		
 		
 		if (requestCode == BUY_POINT_CODE ) {
-			m_txtHard2.setText(AppContext.getProfile().optString(Const.MY_POINT_NUM, "0"));
+			m_txtHard2.setText(AppContext.getProfile().optString(Const.POINT_NUM, "0"));
 		}	
 				
 		super.onActivityResult(requestCode,  resultCode, data);	

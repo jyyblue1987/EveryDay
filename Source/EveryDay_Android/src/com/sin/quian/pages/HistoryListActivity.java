@@ -226,7 +226,7 @@ public class HistoryListActivity extends HeaderBarActivity
 		
 		final int ammount = Integer.valueOf(text);
 		
-		int myPointCount = AppContext.getProfile().optInt(Const.MY_POINT_NUM, 0);
+		int myPointCount = AppContext.getProfile().optInt(Const.POINT_NUM, 0);
 		if( ammount > myPointCount )
 		{
 			MessageUtils.showMessageDialog(this, "You must input value less than " + myPointCount );
@@ -246,10 +246,10 @@ public class HistoryListActivity extends HeaderBarActivity
 					return;
 				}
 				try {
-					AppContext.getProfile().put(Const.MY_POINT_NUM, res);
+					AppContext.getProfile().put(Const.POINT_NUM, res);
 					m_txtMyPointCount.setText(res + "");
 					
-					int receivePoint = m_profile.optInt(Const.MY_RECEIVE_NUM, 0);
+					int receivePoint = m_profile.optInt(Const.RECEIVE_NUM, 0);
 					receivePoint += ammount;
 					m_txtHard.setText(receivePoint + "");					
 				} catch (JSONException e) {
@@ -333,17 +333,17 @@ public class HistoryListActivity extends HeaderBarActivity
 	private void showUserInfo()
 	{
 		m_txtName.setText(m_profile.optString(Const.USERNAME, ""));
-		m_txtHard.setText(m_profile.optString(Const.MY_RECEIVE_NUM, "0"));
-		m_txtStar.setText(m_profile.optString(Const.MY_SEND_NUM, "0"));
-		m_txtHisAddress.setText("地址: " + m_profile.optString(Const.USER_ADDRESS, ""));
+		m_txtHard.setText(m_profile.optString(Const.RECEIVE_NUM, "0"));
+		m_txtStar.setText(m_profile.optString(Const.SEND_NUM, "0"));
+		m_txtHisAddress.setText("地址: " + m_profile.optString(Const.ADDRESS, ""));
 	}
 	
 	private void showMyPointInfo()
 	{
-		if( m_profile.optInt(Const.USER_CHECKFRIEND, 0) == 1 )
+		if( m_profile.optInt(Const.CHECKFRIEND, 0) == 1 )
 			m_txtAddContact.setVisibility(View.INVISIBLE);
-		m_txtMyPointCount.setText(AppContext.getProfile().optString(Const.MY_POINT_NUM, "0"));
-		m_txtMyReceiveCount.setText(AppContext.getProfile().optString(Const.MY_RECEIVE_NUM, "0"));
+		m_txtMyPointCount.setText(AppContext.getProfile().optString(Const.POINT_NUM, "0"));
+		m_txtMyReceiveCount.setText(AppContext.getProfile().optString(Const.RECEIVE_NUM, "0"));
 	}
 	
 	public void getHistoryList() {

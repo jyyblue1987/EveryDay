@@ -37,6 +37,7 @@
             
 		    <include
 		        android:id="@+id/fragment_profile_thumbnail"
+		        android:visibility="gone"
 		        layout="@layout/fragment_label_edit" />
 		    
 		    <include
@@ -57,6 +58,7 @@
             
 		    <include
 		        android:id="@+id/fragment_profile_modifieddate"
+		        android:visibility="gone"
 		        layout="@layout/fragment_label_edit" />
 		    
 		    <common.component.ui.MyButton

@@ -87,10 +87,10 @@ public class BuyActivity extends HeaderBarActivity
 					return;
 				}
 				
-				int pointCount = AppContext.getProfile().optInt(Const.MY_POINT_NUM, 0);
+				int pointCount = AppContext.getProfile().optInt(Const.POINT_NUM, 0);
 				
 				try {
-					AppContext.getProfile().put(Const.MY_POINT_NUM, pointCount + ammount);
+					AppContext.getProfile().put(Const.POINT_NUM, pointCount + ammount);
 					
 				 	Intent intent = new Intent();
 			    	setResult(Activity.RESULT_OK, intent);    

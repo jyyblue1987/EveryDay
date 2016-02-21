@@ -169,7 +169,7 @@
 			    android:paddingRight="10dip"
 			    android:singleLine="true" 
 			    android:ellipsize="end"
-			    android:text="I am very happy"
+			    android:text="  "
 			    android:textColor="@color/white"
 			    android:background="#BB000000" 
 			    />  	 
