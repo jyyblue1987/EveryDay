@@ -100,7 +100,6 @@ public class MyCenterActivity extends HeaderBarActivity
 	protected void initData()
 	{
 		super.initData();
-		
 
 		m_txtPageTitle.setText("个人中心");
 //		m_btnRight.setVisibility(View.INVISIBLE);
@@ -110,13 +109,20 @@ public class MyCenterActivity extends HeaderBarActivity
 		
 		m_listPullItems.setMode(Mode.PULL_FROM_END);
 		
-		
 		getHistoryListData();
 	}
 	
 	protected void initEvents()
 	{ 
 		super.initEvents();
+		
+		m_btnRight.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View paramView) {
+				onClickProfile();				
+			}
+		});
 		
 		m_listPullItems.setOnRefreshListener(new OnRefreshListener2<ListView>() {
 			@Override
@@ -137,6 +143,13 @@ public class MyCenterActivity extends HeaderBarActivity
 			}
 		});
 	}
+	
+	private void onClickProfile()
+	{
+		Bundle bundle = new Bundle();
+		ActivityManager.changeActivity(MyCenterActivity.this, ProfileActivity.class, bundle, false, null );		
+	}
+
 		
 	protected void layoutControls()
 	{
@@ -159,7 +172,7 @@ public class MyCenterActivity extends HeaderBarActivity
 		LayoutUtils.setSize(m_imgPhoto, 200, 200, true);
 		
 		LayoutUtils.setMargin(m_txtName, 40, 0, 0, 0, true);
-		m_txtName.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+		m_txtName.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(55));
 
 		LayoutUtils.setMargin(m_imgHard, 40, 0, 0, 0, true);
 		LayoutUtils.setSize(m_imgHard, 55, 55, true);

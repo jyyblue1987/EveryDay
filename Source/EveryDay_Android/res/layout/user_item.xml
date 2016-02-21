@@ -9,14 +9,7 @@
         android:layout_width="match_parent"
         android:layout_height="10dp" 
         android:background="@color/white_darker">
-        
-        <common.component.ui.MyTextView
-           android:id="@+id/text_userdivide_0"
-           android:layout_width="match_parent"
-           android:layout_height="match_parent" 
-           android:background="@color/transparent"/>
-	            
-     </LinearLayout>
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/lay_useritem_1"

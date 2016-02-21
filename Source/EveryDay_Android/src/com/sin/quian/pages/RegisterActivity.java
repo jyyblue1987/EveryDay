@@ -89,13 +89,6 @@ public class RegisterActivity extends HeaderBarActivity
 	protected void initData()
 	{
 		super.initData();
-		m_btnRight.setVisibility(View.INVISIBLE);
-		m_txtPageTitle.setText("Register");
-		
-		((TextView) findViewById(R.id.fragment_username).findViewById(R.id.txt_label)).setText("User Name");
-		((TextView) findViewById(R.id.fragment_email).findViewById(R.id.txt_label)).setText("Email");
-		((TextView) findViewById(R.id.fragment_password).findViewById(R.id.txt_label)).setText("Password");
-		((TextView) findViewById(R.id.fragment_confirm_password).findViewById(R.id.txt_label)).setText("Retype");
 		
 		((EditText) findViewById(R.id.fragment_email).findViewById(R.id.edit_content)).setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 		((EditText) findViewById(R.id.fragment_password).findViewById(R.id.edit_content)).setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
@@ -146,7 +139,6 @@ public class RegisterActivity extends HeaderBarActivity
 			MessageUtils.showMessageDialog(this, "Password is not matching.");
 			return;
 		}
-		
 		
 		register(username, email, password);
 	}
