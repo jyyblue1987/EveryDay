@@ -17,6 +17,7 @@ import com.sin.quian.network.ServerTask;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
@@ -30,6 +31,8 @@ import android.widget.TextView;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
 import common.design.utils.ResourceUtils;
+import common.library.utils.AlgorithmUtils;
+import common.library.utils.MediaUtils;
 import common.library.utils.MessageUtils;
 import common.library.utils.MessageUtils.OnButtonClickListener;
 import common.library.utils.MyTime;
@@ -42,6 +45,8 @@ import common.network.utils.ResultCallBack;
 
 public class StageListActivity extends HeaderBarActivity
 {
+	private static int	COMMENT_REQUEST_CODE = 200;
+	
 	ViewPager 	m_photoPager = null;
 	PhotoPagerAdapter	m_photoAdapter;
 	
@@ -201,6 +206,11 @@ public class StageListActivity extends HeaderBarActivity
 		{
 			m_btnPublish.setVisibility(View.GONE);
 			
+			if( m_historyInfo.optInt(Const.FAVORITED_FLAG, 0) == 0 )
+				m_txtLike.setText("Like");
+			else
+				m_txtLike.setText("Liked");
+			
 			m_txtLikeCount.setText(m_historyInfo.optString(Const.LIKE_COUNT, "0"));
 			m_txtCommentCount.setText(m_historyInfo.optString(Const.COMMENT_COUNT, "0"));
 			String hno = m_historyInfo.optString(Const.ID, "0");
@@ -275,6 +285,75 @@ public class StageListActivity extends HeaderBarActivity
 					}
 				});
 				
+			}
+		});
+		
+		m_txtCommentInput.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				addComment();				
+			}
+		});
+		
+		m_txtLike.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				addLike();
+			}
+		});
+	}
+	
+	private void addComment()
+	{
+		Bundle bundle = new Bundle();
+		
+		JSONObject data = new JSONObject();
+		
+		try {
+			data.put(Const.MODE, 1);
+			AlgorithmUtils.bindJSONObject(data, m_historyInfo);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		bundle.putString(INTENT_EXTRA, data.toString());
+		ActivityManager.changeActivity(this, CommentDetailActivity.class, bundle, false, COMMENT_REQUEST_CODE);	
+	}
+	
+	private void addLike()
+	{
+		if( m_historyInfo.optInt(Const.FAVORITED_FLAG, 0) != 0 )
+		{
+			MessageUtils.showMessageDialog(this, "You have already liked this history");
+			return;
+		}
+				
+		showLoadingProgress();
+		ServerManager.addLike(AppContext.getUserID(), m_historyInfo.optString(Const.ID, "0"), new ResultCallBack() {
+			
+			@Override
+			public void doAction(LogicResult result) {
+				hideProgress();
+				if(result.mResult != LogicResult.RESULT_OK)
+				{
+					MessageUtils.showMessageDialog(StageListActivity.this, result.mMessage);
+					return;
+				}
+				
+				try {
+					m_bIsChanged = true;
+					m_historyInfo.put(Const.FAVORITED_FLAG, 1);
+					m_txtLike.setText("Liked");
+					
+					int likeCount = m_historyInfo.optInt(Const.LIKE_COUNT, 0);
+					likeCount++;
+					m_historyInfo.put(Const.LIKE_COUNT, likeCount);
+					m_txtLikeCount.setText(likeCount + "");
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 	}
@@ -403,8 +482,28 @@ public class StageListActivity extends HeaderBarActivity
 		bundle.putString(INTENT_EXTRA, m_historyInfo.toString());
 		ActivityManager.changeActivity(this, CommentListActivity.class, bundle, false, null );
 	}
+
 	
-	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == 0)
+			return;		
+		
+		if (requestCode == COMMENT_REQUEST_CODE ) {
+			int commentCount = m_historyInfo.optInt(Const.COMMENT_COUNT, 0);
+			commentCount++;
+			m_txtCommentCount.setText(commentCount + "");
+			try {
+				m_historyInfo.put(Const.COMMENT_COUNT, commentCount);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+			m_bIsChanged = true;			
+		}	
+				
+		super.onActivityResult(requestCode,  resultCode, data);	
+	}
+				
 	class PhotoPagerAdapter extends MyPagerAdapter {
 	    public PhotoPagerAdapter(Context context, List<JSONObject> data, ItemCallBack callback) {	        
 	        super(context, data, callback);

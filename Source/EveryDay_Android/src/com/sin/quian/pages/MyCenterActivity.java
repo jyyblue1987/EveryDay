@@ -304,6 +304,7 @@ public class MyCenterActivity extends HeaderBarActivity
 		JSONObject data = new JSONObject();
 		
 		try {
+			data.put(Const.MODE, 0);
 			data.put(Const.FILE_PATH, path);
 		} catch (JSONException e) {
 			e.printStackTrace();

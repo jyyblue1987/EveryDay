@@ -126,6 +126,7 @@ public class Const {
     // history list
     public static final String COMMENT_COUNT = "commentnum";
     public static final String LIKE_COUNT = "favonum";
+    public static final String FAVORITED_FLAG = "favorited";
     
     // User List
     public static final String USER_THUMBNAIL = "userthumb";
