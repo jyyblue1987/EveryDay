@@ -36,6 +36,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
+import common.library.utils.AlgorithmUtils;
 import common.library.utils.MediaUtils;
 import common.library.utils.MyTime;
 import common.list.adapter.ItemCallBack;
@@ -267,7 +268,11 @@ public class MyCenterActivity extends HeaderBarActivity
 			if( pos <= 1 )
 				param.put(Const.MODE, Const.TEMP_STAGE_MODE);
 			else
+			{
+				JSONObject item = m_adapterHistoryList.getItem(pos - 1);
 				param.put(Const.MODE, Const.SELF_STAGE_MODE);
+				AlgorithmUtils.bindJSONObject(param, item);
+			}
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}

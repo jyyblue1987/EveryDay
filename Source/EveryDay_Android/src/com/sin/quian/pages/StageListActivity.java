@@ -63,6 +63,7 @@ public class StageListActivity extends HeaderBarActivity
 	Button		m_btnRemove = null;
 	Button		m_btnPublish = null;
 	
+	JSONObject		m_historyInfo = new JSONObject();
 	int m_nMode = Const.TEMP_STAGE_MODE;
 	boolean		m_bIsChanged = false;
 	
@@ -153,6 +154,7 @@ public class StageListActivity extends HeaderBarActivity
 			try {
 				JSONObject stage = new JSONObject(data);
 				m_nMode = stage.optInt(Const.MODE, Const.TEMP_STAGE_MODE);
+				m_historyInfo = stage;
 			} catch (JSONException e) {
 				e.printStackTrace();
 			}
@@ -164,28 +166,44 @@ public class StageListActivity extends HeaderBarActivity
 			findViewById(R.id.lay_count).setVisibility(View.GONE);
 			
 			JSONArray tempStageArray = AppContext.getTempStageArray();
-			List<JSONObject> list = new ArrayList<JSONObject>();
-			for(int i = 0; i < tempStageArray.length(); i++ )
-				list.add(tempStageArray.optJSONObject(i));
-			
-			showStageList(list);
-			
-			if( list.size() > 0 )
-				m_nCurrentPage = 0;
-			else
-				m_nCurrentPage = -1;
-			showStageInfo(m_nCurrentPage);
+			showStageList(tempStageArray);
 		}
 		
 		if( m_nMode == Const.SELF_STAGE_MODE ) // self published stage mode
 		{
 			findViewById(R.id.lay_input_action).setVisibility(View.GONE);
-			findViewById(R.id.lay_count).setVisibility(View.GONE);
+			findViewById(R.id.lay_count).setVisibility(View.VISIBLE);
 			m_btnPublish.setVisibility(View.GONE);
+			
+			m_txtLikeCount.setText(m_historyInfo.optString(Const.LIKE_COUNT, "0"));
+			m_txtCommentCount.setText(m_historyInfo.optString(Const.COMMENT_COUNT, "0"));
+			String hno = m_historyInfo.optString(Const.ID, "0");
+			showLoadingProgress();
+			ServerManager.getStages(AppContext.getUserID(), hno, new ResultCallBack() {
+				
+				@Override
+				public void doAction(LogicResult result) {
+					hideProgress();
+					
+					showStageList(result.getContentArray());
+				}
+			});
 		}
+	}
+	
+	private void showStageList(JSONArray array)
+	{
+		List<JSONObject> list = new ArrayList<JSONObject>();
+		for(int i = 0; i < array.length(); i++ )
+			list.add(array.optJSONObject(i));
 		
-
+		showStageList(list);
 		
+		if( list.size() > 0 )
+			m_nCurrentPage = 0;
+		else
+			m_nCurrentPage = -1;
+		showStageInfo(m_nCurrentPage);
 	}
 	
 	protected void initEvents()
