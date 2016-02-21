@@ -51,7 +51,7 @@
 		        android:id="@+id/img_my_center_hard"
 		        android:layout_width="50dip"
 		        android:layout_height="50dip"
-		        android:src="@drawable/emoji_1f49b"
+		        android:src="@drawable/hard"
 		        />
 	        <common.component.ui.MyTextView
 	            android:id="@+id/txt_my_center_hard"

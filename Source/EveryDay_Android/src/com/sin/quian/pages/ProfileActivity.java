@@ -223,42 +223,42 @@ public class ProfileActivity extends HeaderBarActivity
 		
 		if( CheckUtils.isEmpty(fullname) )
 		{
-			MessageUtils.showMessageDialog(this, "Please input full name.");
+			MessageUtils.showMessageDialog(this, "请输入全名.");
 			return;
 		}
 		if( CheckUtils.isEmpty(username) )
 		{
-			MessageUtils.showMessageDialog(this, "Please input user name.");
+			MessageUtils.showMessageDialog(this, "请输入的用户名称.");
 			return;
 		}
 		if( CheckUtils.isEmpty(thumbnail) )
 		{
-			MessageUtils.showMessageDialog(this, "Please input user thumbnail.");
+			MessageUtils.showMessageDialog(this, "请输入用户的缩略图.");
 			return;
 		}
 		if( CheckUtils.isEmpty(email) )
 		{
-			MessageUtils.showMessageDialog(this, "Please input user email.");
+			MessageUtils.showMessageDialog(this, "请输入的用户名称.");
 			return;
 		}
 		if( CheckUtils.isEmpty(phonenumber) )
 		{
-			MessageUtils.showMessageDialog(this, "Please input user phone number.");
+			MessageUtils.showMessageDialog(this, "请输入用户的电话号码.");
 			return;
 		}
 		if( CheckUtils.isEmpty(birthday) )
 		{
-			MessageUtils.showMessageDialog(this, "Please input user birthday.");
+			MessageUtils.showMessageDialog(this, "请输入的用户的生日.");
 			return;
 		}
 		if( CheckUtils.isEmpty(address) )
 		{
-			MessageUtils.showMessageDialog(this, "Please input user address.");
+			MessageUtils.showMessageDialog(this, "请输入用户地址.");
 			return;
 		}
 		if( CheckUtils.isEmpty(modified) )
 		{
-			MessageUtils.showMessageDialog(this, "Please input modified date.");
+			MessageUtils.showMessageDialog(this, "请输入修改的日期.");
 			return;
 		}
 

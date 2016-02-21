@@ -145,7 +145,7 @@ public class StageActivity extends HeaderBarActivity
 		
 //		m_listPullItems.setMode(Mode.DISABLED);
 		
-		m_txtPageTitle.setText("Stage");
+		m_txtPageTitle.setText("阶段");
 //		m_btnRight.setVisibility(View.INVISIBLE);
  
 //		List<JSONObject> list = DBManager.getNotificationList(this, 0, 100);
@@ -185,7 +185,7 @@ public class StageActivity extends HeaderBarActivity
 		if( list.size() < 1 )
 		{
 			m_listPullItems.setVisibility(View.GONE);
-			m_emptyView.setText("There is no Stage list.");
+			m_emptyView.setText("没有舞台列表.");
 		}
 		else
 		{

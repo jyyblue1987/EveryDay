@@ -10,15 +10,10 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.util.TypedValue;
-import android.view.Display;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
-import common.component.ui.MyButton;
-import common.component.ui.MyTextView;
 import common.design.layout.LayoutUtils;
-import common.design.layout.ScreenAdapter;
 import common.design.utils.ResourceUtils;
 import common.library.utils.MediaUtils;
 import common.manager.activity.ActivityManager;
@@ -54,7 +49,6 @@ public class MainMenuActivity extends BaseActivity
 		m_imgMenu_Personal = (ImageView) findViewById(R.id.img_menu_personal);
 		m_imgCamera = (ImageView) findViewById(R.id.img_menu_camera);
 	}
-
 	
 	protected void initEvents()
 	{ 
@@ -158,8 +152,6 @@ public class MainMenuActivity extends BaseActivity
 		
 		LayoutUtils.setMargin(m_imgMenu_Star, 70, 0, 0, 0, true);
 		LayoutUtils.setMargin(m_imgMenu_Personal, 70, 0, 0, 0, true);
-
-		
 	}
 	
 	private void processFile(String path)

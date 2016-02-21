@@ -109,7 +109,7 @@ public class HistoryListActivity extends HeaderBarActivity
 	{
 		super.initData();
 
-		m_txtPageTitle.setText("History List");
+		m_txtPageTitle.setText("历史记录列表");
 		
 		Bundle bundle = getIntent().getExtras();
 		
@@ -192,11 +192,11 @@ public class HistoryListActivity extends HeaderBarActivity
 	
 	private void onClickSendPoint()
 	{
-		EditText input = MessageUtils.showEditDialog(this, "Please input amount point.", new OnAlertClickListener() {
+		EditText input = MessageUtils.showEditDialog(this, "请输入的金额点.", new OnAlertClickListener() {
 			
 			@Override
 			public void onInputText(final String text) {
-				MessageUtils.showDialogYesNo(HistoryListActivity.this, "Do you really want to send point to this user?", new OnButtonClickListener() {
+				MessageUtils.showDialogYesNo(HistoryListActivity.this, "你真的想要向该用户发送点吗?", new OnButtonClickListener() {
 					
 					@Override
 					public void onOkClick() {
@@ -220,7 +220,7 @@ public class HistoryListActivity extends HeaderBarActivity
 	{
 		if( CheckUtils.isEmpty(text) )
 		{
-			MessageUtils.showMessageDialog(this, "Please input value");
+			MessageUtils.showMessageDialog(this, "请输入值");
 			return;
 		}
 		
@@ -272,7 +272,7 @@ public class HistoryListActivity extends HeaderBarActivity
 					MessageUtils.showMessageDialog(HistoryListActivity.this, result.mMessage);
 					return;
 				}
-				MessageUtils.showMessageDialog(HistoryListActivity.this, "This user is added to your contact list.");
+				MessageUtils.showMessageDialog(HistoryListActivity.this, "此用户添加到您的联系人列表.");
 			}
 		});
 	}

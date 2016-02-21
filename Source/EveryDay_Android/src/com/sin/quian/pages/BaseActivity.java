@@ -117,8 +117,8 @@ public class BaseActivity extends Activity implements BaseView {
 	@Override
 	public void initProgress() {
        progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("Loading");
-        progressDialog.setMessage("Please wait...");
+        progressDialog.setTitle("加载");
+        progressDialog.setMessage("请稍候...");
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
 	}
@@ -165,7 +165,7 @@ public class BaseActivity extends Activity implements BaseView {
     
     protected void showLoadingProgress()
     {
-    	showProgress("Loading", "Please wait");
+    	showProgress("加载", "请稍候");
     }
     
 	protected void onResume( ) {
@@ -182,7 +182,7 @@ public class BaseActivity extends Activity implements BaseView {
     protected void quitProgram()
     {
 		AlertDialog.Builder alert_confirm = new AlertDialog.Builder(this);
-		alert_confirm.setMessage("Do you want to quit this program?").setCancelable(false).setPositiveButton("OK",
+		alert_confirm.setMessage("你想要退出此程序吗?").setCancelable(false).setPositiveButton("OK",
 		new DialogInterface.OnClickListener() {
 		    @Override
 		    public void onClick(DialogInterface dialog, int which) {

@@ -2,9 +2,9 @@
 <resources>
 
     <string name="app_name">每天</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="register"><u>Register</u></string>
-    <string name="forgot_password"><u>Forgot password ?</u></string>
+    <string name="hello_world">世界您好！</string>
+    <string name="register"><u>登记册</u></string>
+    <string name="forgot_password"><u>忘记了密码?</u></string>
     
 
 </resources>

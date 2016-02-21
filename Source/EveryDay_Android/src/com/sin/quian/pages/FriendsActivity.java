@@ -70,7 +70,7 @@ public class FriendsActivity extends HeaderBarActivity {
 		
 		m_listPullItems.setMode(Mode.DISABLED);
 		
-		m_txtPageTitle.setText("friends");
+		m_txtPageTitle.setText("朋友");
 //		m_btnRight.setVisibility(View.INVISIBLE);
  
 //		List<JSONObject> list = DBManager.getNotificationList(this, 0, 100);
@@ -110,7 +110,7 @@ public class FriendsActivity extends HeaderBarActivity {
 		if( list.size() < 1 )
 		{
 			m_listPullItems.setVisibility(View.GONE);
-			m_emptyView.setText("There is no friends list.");
+			m_emptyView.setText("没有朋友列表.");
 		}
 		else
 		{
