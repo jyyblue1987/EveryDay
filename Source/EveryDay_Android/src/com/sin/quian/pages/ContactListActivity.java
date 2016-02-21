@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.json.JSONArray;
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
@@ -24,11 +25,14 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.AdapterView.OnItemLongClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
+import common.library.utils.MessageUtils;
+import common.library.utils.MessageUtils.OnButtonClickListener;
 import common.list.adapter.ItemCallBack;
 import common.list.adapter.MyListAdapter;
 import common.list.adapter.ViewHolder;
@@ -173,6 +177,56 @@ public class ContactListActivity extends HeaderBarActivity {
 				gotoHistoryPage(pos);
 			}
 		});
+		
+		m_listItems.setOnItemLongClickListener(new OnItemLongClickListener() {
+			@Override
+	        public boolean onItemLongClick(AdapterView<?> arg0, View arg1,
+	                int arg2, long arg3) {
+	            
+				onClickDeleteContact(arg2);
+	            return true;
+	        }
+		});
+	}
+	
+	private void onClickDeleteContact(final int pos)
+	{
+		MessageUtils.showDialogYesNo(this, "Do you want to delete this contact?", new OnButtonClickListener() {
+			
+			@Override
+			public void onOkClick() {
+				deleteContact(pos);
+				
+			}
+			
+			@Override
+			public void onCancelClick() {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
+	}
+	
+	private void deleteContact(final int pos)
+	{
+		JSONObject item = m_adapterContactList.getItem(pos - 1);	
+		showLoadingProgress();
+		ServerManager.deleteContact(AppContext.getUserID(), item.optInt(Const.ID, 0) + "", new ResultCallBack() {
+			
+			@Override
+			public void doAction(LogicResult result) {
+				hideProgress();
+				if( result.mResult != LogicResult.RESULT_OK )
+				{
+					MessageUtils.showMessageDialog(ContactListActivity.this, result.mMessage);
+					return;
+				}
+				
+				m_adapterContactList.getData().remove(pos - 1);
+				m_adapterContactList.notifyDataSetChanged();
+			}
+		});
 	}
 	
 	private void gotoHistoryPage(int pos)
@@ -226,9 +280,9 @@ public class ContactListActivity extends HeaderBarActivity {
 			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + item.optString(Const.USER_THUMBNAIL, ""), (ImageView)ViewHolder.get(rowView, R.id.img_historyitem_icon));
 			
 			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_name)).setText(item.optString(Const.USERNAME, ""));
-			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_hard_num)).setText(item.optString(Const.USER_RECEIVE_NUM, ""));
-			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_star_num)).setText(item.optString(Const.USER_POINT_NUM, ""));
-			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_address)).setText(item.optString(Const.USER_ADDRESS, ""));			
+			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_hard_num)).setText(item.optString(Const.MY_RECEIVE_NUM, ""));
+			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_star_num)).setText(item.optString(Const.MY_POINT_NUM, ""));
+			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_hisaddress)).setText(item.optString(Const.ADDRESS, ""));			
 			
 		}	
 	}

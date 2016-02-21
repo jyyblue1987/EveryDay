@@ -20,22 +20,25 @@ import com.sin.quian.network.ServerTask;
 
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
+import android.text.InputType;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
 import common.library.utils.AlgorithmUtils;
-import common.library.utils.MediaUtils;
+import common.library.utils.CheckUtils;
+import common.library.utils.MessageUtils;
+import common.library.utils.MessageUtils.OnButtonClickListener;
 import common.library.utils.MyTime;
+import common.library.utils.OnAlertClickListener;
 import common.list.adapter.ItemCallBack;
 import common.list.adapter.MyListAdapter;
 import common.list.adapter.ViewHolder;
@@ -161,8 +164,118 @@ public class HistoryListActivity extends HeaderBarActivity
 				gotoStageListPage(arg2);
 			}
 		});
+		
+		m_imgMyPoint.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				onClickSendPoint();
+			}
+		});
+		
+		m_txtMyPointCount.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				m_imgMyPoint.performClick();				
+			}
+		});
+		
+		m_txtAddContact.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				onClickAddContact();				
+			}
+		});
 	}
 	
+	private void onClickSendPoint()
+	{
+		EditText input = MessageUtils.showEditDialog(this, "Please input amount point.", new OnAlertClickListener() {
+			
+			@Override
+			public void onInputText(final String text) {
+				MessageUtils.showDialogYesNo(HistoryListActivity.this, "Do you really want to send point to this user?", new OnButtonClickListener() {
+					
+					@Override
+					public void onOkClick() {
+						sendPoint(text);
+						
+					}
+					
+					@Override
+					public void onCancelClick() {
+						// TODO Auto-generated method stub
+						
+					}
+				});				
+			}
+		});		
+		
+		input.setInputType(InputType.TYPE_CLASS_NUMBER);
+	}
+	
+	private void sendPoint(String text)
+	{
+		if( CheckUtils.isEmpty(text) )
+		{
+			MessageUtils.showMessageDialog(this, "Please input value");
+			return;
+		}
+		
+		final int ammount = Integer.valueOf(text);
+		
+		int myPointCount = AppContext.getProfile().optInt(Const.MY_POINT_NUM, 0);
+		if( ammount > myPointCount )
+		{
+			MessageUtils.showMessageDialog(this, "You must input value less than " + myPointCount );
+			return;
+		}
+		
+		final int res = myPointCount - ammount;
+		showLoadingProgress();
+		ServerManager.sendPoint(AppContext.getUserID(), m_profile.optString(Const.ID, "0"), ammount + "", new ResultCallBack() {
+			
+			@Override
+			public void doAction(LogicResult result) {
+				hideProgress();
+				if( result.mResult != LogicResult.RESULT_OK )
+				{
+					MessageUtils.showMessageDialog(HistoryListActivity.this, result.mMessage);
+					return;
+				}
+				try {
+					AppContext.getProfile().put(Const.MY_POINT_NUM, res);
+					m_txtMyPointCount.setText(res + "");
+					
+					int receivePoint = m_profile.optInt(Const.USER_RECEIVE_NUM, 0);
+					receivePoint += ammount;
+					m_txtHard.setText(receivePoint);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+			}
+		});
+	}
+	
+	private void onClickAddContact()
+	{
+		showLoadingProgress();
+		ServerManager.addContact(AppContext.getUserID(), m_profile.optString(Const.ID, "0"), new ResultCallBack() {
+			
+			@Override
+			public void doAction(LogicResult result) {
+				hideProgress();
+				if( result.mResult != LogicResult.RESULT_OK )
+				{
+					MessageUtils.showMessageDialog(HistoryListActivity.this, result.mMessage);
+					return;
+				}
+				MessageUtils.showMessageDialog(HistoryListActivity.this, "This user is added to your contact list.");
+			}
+		});
+	}
 	private void onClickProfile()
 	{
 		Bundle bundle = new Bundle();
@@ -307,14 +420,9 @@ public class HistoryListActivity extends HeaderBarActivity
 		JSONObject param = new JSONObject();
 		
 		try {
-			if( pos <= 1 )
-				param.put(Const.MODE, Const.OTHER_STAGE_MODE);
-			else
-			{
-				JSONObject item = m_adapterHistoryList.getItem(pos - 1);
-				param.put(Const.MODE, Const.SELF_STAGE_MODE);
-				AlgorithmUtils.bindJSONObject(param, item);
-			}
+			JSONObject item = m_adapterHistoryList.getItem(pos - 1);
+			param.put(Const.MODE, Const.OTHER_STAGE_MODE);
+			AlgorithmUtils.bindJSONObject(param, item);
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}
