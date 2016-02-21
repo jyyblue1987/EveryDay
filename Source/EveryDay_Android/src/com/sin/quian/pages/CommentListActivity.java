@@ -172,7 +172,7 @@ public class CommentListActivity extends HeaderBarActivity
 	}
 	
 	public void addCommentList(List<JSONObject> list) {
-		
+		m_listPullItems.onRefreshComplete();
 		if( list.size() < 1 )
 		{
 			m_listPullItems.setMode(Mode.DISABLED);

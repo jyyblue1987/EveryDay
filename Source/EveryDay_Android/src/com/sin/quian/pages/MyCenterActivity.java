@@ -1,11 +1,8 @@
 package com.sin.quian.pages;
 
-import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -72,7 +69,7 @@ public class MyCenterActivity extends HeaderBarActivity
 	PullToRefreshListView		m_listPullItems = null;
 	ListView					m_listItems = null;
 	HistoryListAdapter			m_adapterHistoryList = null;
-	
+	int							m_nPageNum = 0;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -110,7 +107,8 @@ public class MyCenterActivity extends HeaderBarActivity
 		
 		m_listPullItems.setMode(Mode.PULL_FROM_END);
 		
-		getHistoryListData();
+		m_nPageNum = 0;
+		getHistoryList();
 	}
 	
 	protected void initEvents()
@@ -133,7 +131,7 @@ public class MyCenterActivity extends HeaderBarActivity
 			@Override
 			public void onPullUpToRefresh(final PullToRefreshBase<ListView> refreshView)
 			{
-//				presenter.getContactList();
+				getMoreHistoryList();
 			}
 		});
 		m_listItems.setOnItemClickListener(new OnItemClickListener() {
@@ -200,7 +198,9 @@ public class MyCenterActivity extends HeaderBarActivity
 
 	}
 	
-	public void getHistoryListData() {
+	public void getHistoryList() {
+		m_nPageNum = 0;
+		
 		final List<JSONObject> list = new ArrayList<JSONObject>();
 		
 		showLoadingProgress();
@@ -221,7 +221,7 @@ public class MyCenterActivity extends HeaderBarActivity
 				}
 				else
 					list.add(new JSONObject());
-				ServerManager.getOwnHistory(AppContext.getUserID(), 0, new ResultCallBack() {
+				ServerManager.getOwnHistory(AppContext.getUserID(), m_nPageNum, new ResultCallBack() {
 					
 					@Override
 					public void doAction(LogicResult result) {
@@ -231,15 +231,12 @@ public class MyCenterActivity extends HeaderBarActivity
 						for(int i = 0; i < history.length(); i++)
 							list.add(history.optJSONObject(i));
 						
-						showHistoryListData(list);
+						showHistoryListData(list);							
 					}
 				});
 				
 			}
 		});
-		
-	
-		
 	}
 	
 	private void showHistoryListData(List<JSONObject> list)
@@ -255,6 +252,37 @@ public class MyCenterActivity extends HeaderBarActivity
 			m_adapterHistoryList = new HistoryListAdapter(this, list, R.layout.fragment_list_history_item, null);
 			
 			m_listItems.setAdapter(m_adapterHistoryList);	
+		}
+	}
+	
+	public void getMoreHistoryList() {
+		ServerManager.getOwnHistory(AppContext.getUserID(), (m_nPageNum + 1), new ResultCallBack() {
+			
+			@Override
+			public void doAction(LogicResult result) {
+				hideProgress();
+				
+				JSONArray history = result.getContentArray();
+				List<JSONObject> list = new ArrayList<JSONObject>();
+				for(int i = 0; i < history.length(); i++)
+					list.add(history.optJSONObject(i));
+				
+				addHistoryListData(list);							
+			}
+		});
+	}
+	
+	private void addHistoryListData(List<JSONObject> list)
+	{
+		m_listPullItems.onRefreshComplete();
+		if( list.size() < 1 )
+		{
+			m_listPullItems.setMode(Mode.DISABLED);
+		}
+		else
+		{
+			m_nPageNum++;
+			m_adapterHistoryList.addItemList(list);
 		}
 	}
 	
@@ -339,11 +367,11 @@ public class MyCenterActivity extends HeaderBarActivity
 		}	
 		
 		if (requestCode == COMMENT_REQUEST_CODE ) {
-			getHistoryListData();
+			getHistoryList();
 		}	
 		
 		if (requestCode == STAGE_LIST_CODE ) {
-			getHistoryListData();
+			getHistoryList();
 		}	
 
 		super.onActivityResult(requestCode, resultCode, data);	
