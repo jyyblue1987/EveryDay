@@ -54,6 +54,7 @@ public class MyCenterActivity extends HeaderBarActivity
 	
 	private static int	PICK_GALLERY_CODE = 100;
 	private static int	COMMENT_REQUEST_CODE = 200;
+	private static int	STAGE_LIST_CODE = 201;
 	
 	ImageView 		m_imgHard = null;
 	TextView 		m_txtHard = null;
@@ -255,7 +256,7 @@ public class MyCenterActivity extends HeaderBarActivity
 		
 		bundle.putString(INTENT_EXTRA, param.toString());
 		
-		ActivityManager.changeActivity(this, StageListActivity.class, bundle, false, null );			
+		ActivityManager.changeActivity(this, StageListActivity.class, bundle, false, STAGE_LIST_CODE );			
 	}
 	
 	protected void gotoNextPage()
@@ -317,6 +318,10 @@ public class MyCenterActivity extends HeaderBarActivity
 		if (requestCode == COMMENT_REQUEST_CODE ) {
 			getHistoryListData();
 		}	
+		
+		if (requestCode == STAGE_LIST_CODE ) {
+			getHistoryListData();
+		}	
 
 		super.onActivityResult(requestCode, resultCode, data);	
 	}
@@ -349,7 +354,7 @@ public class MyCenterActivity extends HeaderBarActivity
 			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_history_content), 30, 30, 30, 30, true);
 			
 			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_history_preview), LayoutParams.MATCH_PARENT, 500, true);
-			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 30);
+			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 45);
 			
 			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_delete_history), 140, 60, true);
 			

@@ -14,7 +14,9 @@ import com.sin.quian.R;
 import com.sin.quian.network.ServerManager;
 import com.sin.quian.network.ServerTask;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.view.ViewPager;
 import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
@@ -62,6 +64,7 @@ public class StageListActivity extends HeaderBarActivity
 	Button		m_btnPublish = null;
 	
 	int m_nMode = Const.TEMP_STAGE_MODE;
+	boolean		m_bIsChanged = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -210,6 +213,26 @@ public class StageListActivity extends HeaderBarActivity
 						
 			}
 		});
+		
+		m_btnPublish.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				MessageUtils.showDialogYesNo(StageListActivity.this, "Do you want to publish this?", new OnButtonClickListener() {
+					
+					@Override
+					public void onOkClick() {
+						addHistory();						
+					}
+					
+					@Override
+					public void onCancelClick() {
+						
+					}
+				});
+				
+			}
+		});
 	}
 	
 	private void removeStage()
@@ -232,14 +255,52 @@ public class StageListActivity extends HeaderBarActivity
 					}
 					
 					m_photoAdapter.getData().remove(m_nCurrentPage);
-					AppContext.setTempStageArray(new JSONArray(m_photoAdapter.getData()));					
-					m_photoAdapter.notifyDataSetChanged();	
+					AppContext.setTempStageArray(new JSONArray(m_photoAdapter.getData()));				
+					m_photoPager.setAdapter(m_photoAdapter);
+						
 					if( m_nCurrentPage >= m_photoAdapter.getData().size() )
 						m_nCurrentPage--;
+					
 					showStageInfo(m_nCurrentPage);
+					
+					if( m_nCurrentPage >= 0 )
+						m_photoPager.setCurrentItem(m_nCurrentPage);
+					
+					m_bIsChanged = true;
 				}
 			});
 		}
+	}
+	
+	protected void gotoBackPage()
+	{
+		Intent intent = new Intent();
+		if( m_bIsChanged == true )
+			setResult(Activity.RESULT_OK, intent);
+		else
+			setResult(Activity.RESULT_CANCELED, intent);
+        onFinishActivity();				
+	}
+	
+	private void addHistory()
+	{
+		showLoadingProgress();
+		ServerManager.addHistory(AppContext.getUserID(), new ResultCallBack() {
+			
+			@Override
+			public void doAction(LogicResult result) {
+				hideProgress();
+				if( result.mResult != LogicResult.RESULT_OK )
+				{
+					MessageUtils.showMessageDialog(StageListActivity.this, result.mMessage);
+					return;
+				}
+				
+				AppContext.setTempStageArray(new JSONArray());
+				m_bIsChanged = true;
+				gotoBackPage();
+			}
+		});
 	}
 	private void showStageList(List<JSONObject> list)
 	{
