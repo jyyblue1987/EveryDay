@@ -137,9 +137,15 @@ public class Const {
     public static final String USER_POINT_NUM = "userpointnum";
     public static final String USER_ADDRESS = "useraddr";
     
+    public static final String USER_ = "userthumb";
+    
     public static final int		TEMP_STAGE_MODE = 0;
     public static final int		SELF_STAGE_MODE = 1;
     public static final int		OTHER_STAGE_MODE = 2;
+    
+    // user info
+    public static final String MY_RECEIVE_NUM = "receivenum";
+    public static final String MY_POINT_NUM = "pointnum";
     
     public static final String MODE = "mode";
 }

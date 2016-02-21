@@ -102,6 +102,7 @@ public class MyCenterActivity extends HeaderBarActivity
 		
 		JSONObject profile = AppContext.getProfile();
 		m_txtName.setText(profile.optString(Const.USERNAME, ""));
+		m_txtHisAddress.setText("地址: " + profile.optString(Const.USER_ADDRESS, ""));
 		
 		m_listPullItems.setMode(Mode.PULL_FROM_END);
 		
@@ -154,6 +155,7 @@ public class MyCenterActivity extends HeaderBarActivity
 		
 		LayoutUtils.setSize(findViewById(R.id.lay_empty_1),LayoutParams.MATCH_PARENT, 50, true);
 		
+		findViewById(R.id.lay_my_info).setVisibility(View.GONE);
 		m_layRight.setVisibility(View.INVISIBLE);
 		m_btnRight.setBackgroundResource(R.drawable.profile_white_icon);
 		LayoutUtils.setSize(m_btnRight, 55, 48, true);
@@ -175,7 +177,6 @@ public class MyCenterActivity extends HeaderBarActivity
 		
 		LayoutUtils.setMargin(m_txtStar, 20, 0, 40, 0, true);
 		m_txtStar.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-
 
 		LayoutUtils.setMargin(m_txtHisAddress, 40, 0, 0, 0, true);
 		m_txtHisAddress.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));

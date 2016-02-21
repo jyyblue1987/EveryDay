@@ -57,6 +57,14 @@ public class HistoryListActivity extends HeaderBarActivity
 	ImageView 		m_imgStar = null;
 	TextView 		m_txtStar = null;
 	TextView 		m_txtHisAddress = null;
+	
+	TextView 		m_txtAddContact = null;
+	ImageView 		m_imgMyReceive = null;
+	TextView 		m_txtMyReceiveCount = null;
+	ImageView 		m_imgMyPoint = null;
+	TextView 		m_txtMyPointCount = null;
+
+
 
 	PullToRefreshListView		m_listPullItems = null;
 	ListView					m_listItems = null;
@@ -83,6 +91,12 @@ public class HistoryListActivity extends HeaderBarActivity
 		m_txtStar = (TextView) findViewById(R.id.txt_my_center_star);
 		
 		m_txtHisAddress = (TextView) findViewById(R.id.txt_my_center_hisaddress);
+		
+		m_txtAddContact = (TextView) findViewById(R.id.txt_add_contact);
+		m_imgMyPoint = (ImageView) findViewById(R.id.img_my_point);
+		m_txtMyPointCount = (TextView) findViewById(R.id.txt_my_point);
+		m_imgMyReceive = (ImageView) findViewById(R.id.img_my_receive_point);
+		m_txtMyReceiveCount = (TextView) findViewById(R.id.txt_my_receive_point);
 
 		m_listPullItems = (PullToRefreshListView)findViewById(R.id.list_items);
 		m_listItems = m_listPullItems.getRefreshableView();
@@ -113,6 +127,7 @@ public class HistoryListActivity extends HeaderBarActivity
 		
 		m_nPageNum = 0;
 		showUserInfo();
+		showMyPointInfo();
 		getHistoryList();		
 	}
 	
@@ -187,6 +202,19 @@ public class HistoryListActivity extends HeaderBarActivity
 		m_txtHisAddress.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
 		
 		LayoutUtils.setSize(findViewById(R.id.lay_empty_2),LayoutParams.MATCH_PARENT, 50, true);
+		
+		LayoutUtils.setPadding(findViewById(R.id.lay_my_info), 30, 30, 30, 30, true);
+		
+		m_txtAddContact.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(40));
+
+		LayoutUtils.setSize(m_imgMyPoint, 55, 55, true);		
+		LayoutUtils.setMargin(m_txtMyPointCount, 20, 0, 0, 0, true);
+		m_txtMyPointCount.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(40));
+
+		LayoutUtils.setSize(m_imgMyReceive, 55, 55, true);		
+		LayoutUtils.setMargin(m_txtMyReceiveCount, 20, 0, 0, 0, true);
+		m_txtMyReceiveCount.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(40));
+
 	}
 	
 	private void showUserInfo()
@@ -194,8 +222,15 @@ public class HistoryListActivity extends HeaderBarActivity
 		m_txtName.setText(m_profile.optString(Const.USERNAME, ""));
 		m_txtHard.setText(m_profile.optString(Const.USER_RECEIVE_NUM, "0"));
 		m_txtStar.setText(m_profile.optString(Const.USER_POINT_NUM, "0"));
-		m_txtHisAddress.setText("地址: " + m_profile.optString(Const.USER_ADDRESS, "0"));
+		m_txtHisAddress.setText("地址: " + m_profile.optString(Const.USER_ADDRESS, ""));
 	}
+	
+	private void showMyPointInfo()
+	{
+		m_txtMyPointCount.setText(AppContext.getProfile().optString(Const.MY_POINT_NUM, "0"));
+		m_txtMyReceiveCount.setText(AppContext.getProfile().optString(Const.MY_RECEIVE_NUM, "0"));
+	}
+	
 	public void getHistoryList() {
 		m_nPageNum = 0;
 		

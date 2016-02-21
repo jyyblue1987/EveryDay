@@ -100,10 +100,67 @@
     <com.handmark.pulltorefresh.library.PullToRefreshListView 
 	    android:id="@+id/list_items"
 	    android:layout_width="match_parent"
-	    android:layout_height="match_parent"	
+	    android:layout_height="0dip"	
+	    android:layout_weight="1.0"
 	    android:cacheColorHint="#00000000"      
 	    >	    
 	</com.handmark.pulltorefresh.library.PullToRefreshListView>
- 
+ 	<LinearLayout
+ 	    android:id="@+id/lay_my_info"
+ 	    android:layout_width="match_parent"
+ 	    android:layout_height="wrap_content"
+ 	    android:orientation="horizontal"
+ 	    android:gravity="center_vertical"
+ 	    android:background="@color/footbar_color"
+ 	    >
+ 	    <TextView
+ 	        android:id="@+id/txt_add_contact"
+ 	        android:layout_width="wrap_content"
+ 	        android:layout_height="wrap_content"
+ 	        android:textColor="@color/white"
+ 	        android:text="Add"
+ 	        />
+ 	    <LinearLayout
+ 	        android:layout_width="0dip"
+ 	        android:layout_height="wrap_content"
+ 	        android:layout_weight="1.0"
+ 	        android:orientation="horizontal"
+ 	        android:gravity="center" 
+ 	        >
+ 	        <ImageView
+		        android:id="@+id/img_my_point"
+		        android:layout_width="50dip"
+		        android:layout_height="50dip"
+		        android:src="@drawable/star"
+		        />
+	        <common.component.ui.MyTextView
+	            android:id="@+id/txt_my_point"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="100"
+	            android:textColor="@color/white"
+	            />
+ 	    </LinearLayout>
+ 	    <LinearLayout
+ 	        android:layout_width="wrap_content"
+ 	        android:layout_height="wrap_content"
+ 	        android:orientation="horizontal"
+ 	        android:gravity="center" 
+ 	        >
+ 	        <ImageView
+		        android:id="@+id/img_my_receive_point"
+		        android:layout_width="50dip"
+		        android:layout_height="50dip"
+		        android:src="@drawable/emoji_1f49b"
+		        />
+	        <common.component.ui.MyTextView
+	            android:id="@+id/txt_my_receive_point"
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content"
+	            android:text="100"
+	            android:textColor="@color/white"
+	            />
+ 	    </LinearLayout>
+ 	</LinearLayout>
 	
 </LinearLayout>

@@ -24,5 +24,7 @@
 
     <color name="white_darker">#f2f0f1</color>
     <color name="light_grey">#dedede</color>
+    <color name="footbar_color">#231f20</color>
+    
 	
 </resources>
