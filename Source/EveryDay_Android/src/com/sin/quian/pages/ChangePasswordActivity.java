@@ -1,7 +1,8 @@
 
 		package com.sin.quian.pages;
 
-		import com.sin.quian.R;
+		import com.sin.quian.AppContext;
+import com.sin.quian.R;
 import com.sin.quian.network.ServerManager;
 
 import android.os.Bundle;
@@ -23,6 +24,8 @@ import common.manager.activity.ActivityManager;
 			EditText 		m_txtNew = null;
 			EditText 		m_txtConfirm = null;
 			MyButton		m_btnChange = null;
+			
+			Boolean 		m_boolChangePasswordState = false;
 			
 			int [] m_field_item = {
 					R.id.fragment_change_last,
@@ -78,17 +81,14 @@ import common.manager.activity.ActivityManager;
 				String oldPassword = m_txtLast.getText().toString();
 				String newPassword = m_txtNew.getText().toString();
 				String confirmPassword = m_txtConfirm.getText().toString();
-				if(newPassword.equals(confirmPassword) && newPassword != null ){
-//					JSONObject profile = AppContext.getProfile();
-////					m_txtName.setText(profile.optString(Const.USERNAME, ""));	
-//					String str = null;
-					ServerManager.changePassword(null, oldPassword, newPassword, null);
-				
+				if(newPassword.equals(confirmPassword) && newPassword != null && oldPassword != null ){
+					ServerManager.changePassword(AppContext.getUserID(), oldPassword, newPassword, null);
+					m_boolChangePasswordState = true;
 ////					DialogFactory.getInstance().showMessageDialog(this, "Changing your password is successful.", false, new ItemCallBack() {
 ////						
 ////						@Override
 ////						public void doClick(ItemResult result) {
-							MessageUtils.showMessageDialog(this, "Changing your password is successful.");
+//							MessageUtils.showMessageDialog(this, "Changing your password is successful.");
 							Bundle bundle = new Bundle();
 							ActivityManager.changeActivity(ChangePasswordActivity.this, ProfileActivity.class, bundle, false, null );		
 ////						}

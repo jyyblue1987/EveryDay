@@ -21,6 +21,7 @@ import common.design.layout.ScreenAdapter;
 import common.library.utils.CheckUtils;
 import common.library.utils.MessageUtils;
 import common.manager.activity.ActivityManager;
+import common.network.utils.LogicResult;
 import common.network.utils.ResultCallBack;
 
 
@@ -52,7 +53,6 @@ public class ProfileActivity extends HeaderBarActivity
 	MyButton		m_btnBuy = null;
 	
 	ResultCallBack  callback = null;
-	String 			userID = null;
 	
 	int [] m_field_item = {
 		R.id.fragment_profile_fullname,
@@ -258,8 +258,8 @@ public class ProfileActivity extends HeaderBarActivity
 			MessageUtils.showMessageDialog(this, "Please input modified date.");
 			return;
 		}
-		
-		ServerManager.updateProfile(userID, username, fullname, thumbnail, email, phonenumber, birthday, address, modified, callback); 
+
+		ServerManager.updateProfile(AppContext.getUserID(), username, fullname, email, phonenumber, birthday, address, callback); 
 	}
 	
 	

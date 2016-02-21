@@ -10,7 +10,6 @@ import android.os.Handler;
 import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
 import android.widget.ImageView;
-import common.library.utils.AlgorithmUtils;
 import common.library.utils.CheckUtils;
 import common.library.utils.DataUtils;
 import common.manager.activity.ActivityManager;
@@ -57,6 +56,7 @@ public class SplashActivity extends BaseActivity {
 		else
 		{
 			m_nLoginState = 1;
+//			if(ChangePasswordActivity.m_boolChangePasswordState){}
 			ServerManager.login(username, password, DataUtils.getPreference(Const.GCM_PUSH_KEY, ""), new ResultCallBack() {
 				
 				@Override
