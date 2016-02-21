@@ -186,6 +186,7 @@ public class StageListActivity extends HeaderBarActivity
 		{
 			findViewById(R.id.lay_input_action).setVisibility(View.GONE);
 			m_btnPublish.setVisibility(View.GONE);
+			m_btnRemove.setVisibility(View.GONE);
 			
 			m_txtLikeCount.setText(m_historyInfo.optString(Const.LIKE_COUNT, "0"));
 			m_txtCommentCount.setText(m_historyInfo.optString(Const.COMMENT_COUNT, "0"));
@@ -205,6 +206,7 @@ public class StageListActivity extends HeaderBarActivity
 		if( m_nMode == Const.OTHER_STAGE_MODE ) // self published stage mode
 		{
 			m_btnPublish.setVisibility(View.GONE);
+			m_btnRemove.setVisibility(View.GONE);
 			
 			if( m_historyInfo.optInt(Const.FAVORITED_FLAG, 0) == 0 )
 				m_txtLike.setText("Like");
@@ -462,7 +464,7 @@ public class StageListActivity extends HeaderBarActivity
 		}
 		
 		m_txtComment.setText(item.optString(Const.CONTENT, ""));
-		m_btnRemove.setVisibility(View.VISIBLE);
+//		m_btnRemove.setVisibility(View.VISIBLE);
 		
 		String time = item.optString(Const.MODIFY_DATE, MyTime.getCurrentTime());
 		String date = MyTime.getChinaDate(time);

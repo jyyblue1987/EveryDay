@@ -26,6 +26,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
+import common.library.utils.MyTime;
 import common.list.adapter.ItemCallBack;
 import common.list.adapter.MyListAdapter;
 import common.list.adapter.ViewHolder;
@@ -210,8 +211,11 @@ public class CommentListActivity extends HeaderBarActivity
 			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(40));
 			
 			((TextView)ViewHolder.get(rowView, R.id.txt_content)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
-			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_content), 0, 20, 0, 40, true);
 			
+			// show info
+			((TextView)ViewHolder.get(rowView, R.id.txt_username)).setText(item.optString(Const.USERNAME, ""));
+			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setText(MyTime.getChinaDate(item.optString(Const.MODIFY_DATE, MyTime.getCurrentTime())));
+			((TextView)ViewHolder.get(rowView, R.id.txt_content)).setText(item.optString(Const.CONTENT, ""));			
 			
 		}	
 	}
