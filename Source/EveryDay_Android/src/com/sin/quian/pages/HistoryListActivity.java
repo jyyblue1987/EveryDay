@@ -44,14 +44,12 @@ import common.network.utils.LogicResult;
 import common.network.utils.ResultCallBack;
 
 
-public class MyCenterActivity extends HeaderBarActivity
+public class HistoryListActivity extends HeaderBarActivity
 {
 	String			m_cameraTempPath = "";
 	ImageView 		m_imgPhoto = null;
 	TextView 		m_txtName = null;
 	
-	private static int	PICK_GALLERY_CODE = 100;
-	private static int	COMMENT_REQUEST_CODE = 200;
 	private static int	STAGE_LIST_CODE = 201;
 	
 	ImageView 		m_imgHard = null;
@@ -60,15 +58,12 @@ public class MyCenterActivity extends HeaderBarActivity
 	TextView 		m_txtStar = null;
 	TextView 		m_txtHisAddress = null;
 
-	int [] m_field_item = {
-			R.id.fragment_username,
-			R.id.fragment_password,
-		};
-	
 	PullToRefreshListView		m_listPullItems = null;
 	ListView					m_listItems = null;
 	HistoryListAdapter			m_adapterHistoryList = null;
 	int							m_nPageNum = 0;
+	
+	JSONObject					m_profile = null;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -98,15 +93,27 @@ public class MyCenterActivity extends HeaderBarActivity
 		super.initData();
 
 		m_txtPageTitle.setText("个人中心");
-//		m_btnRight.setVisibility(View.INVISIBLE);
 		
-		JSONObject profile = AppContext.getProfile();
-		m_txtName.setText(profile.optString(Const.USERNAME, ""));
+		Bundle bundle = getIntent().getExtras();
+		
+		if( bundle != null )
+		{
+			String data = bundle.getString(INTENT_EXTRA, "");
+			try {
+				m_profile = new JSONObject(data);
+			} catch (JSONException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		
+		m_txtName.setText(m_profile.optString(Const.USERNAME, ""));
 		
 		m_listPullItems.setMode(Mode.PULL_FROM_END);
 		
 		m_nPageNum = 0;
-		getHistoryList();
+		showUserInfo();
+		getHistoryList();		
 	}
 	
 	protected void initEvents()
@@ -144,14 +151,14 @@ public class MyCenterActivity extends HeaderBarActivity
 	private void onClickProfile()
 	{
 		Bundle bundle = new Bundle();
-		ActivityManager.changeActivity(MyCenterActivity.this, ProfileActivity.class, bundle, false, null );		
+		ActivityManager.changeActivity(HistoryListActivity.this, ProfileActivity.class, bundle, false, null );		
 	}
 
 		
 	protected void layoutControls()
 	{
 		super.layoutControls();
-		
+
 		LayoutUtils.setSize(findViewById(R.id.lay_empty_1),LayoutParams.MATCH_PARENT, 50, true);
 		
 		m_layRight.setVisibility(View.INVISIBLE);
@@ -176,26 +183,31 @@ public class MyCenterActivity extends HeaderBarActivity
 		LayoutUtils.setMargin(m_txtStar, 20, 0, 40, 0, true);
 		m_txtStar.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
 
-
 		LayoutUtils.setMargin(m_txtHisAddress, 40, 0, 0, 0, true);
 		m_txtHisAddress.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
 		
 		LayoutUtils.setSize(findViewById(R.id.lay_empty_2),LayoutParams.MATCH_PARENT, 50, true);
 	}
 	
+	private void showUserInfo()
+	{
+		m_txtName.setText(m_profile.optString(Const.USERNAME, ""));
+		m_txtHard.setText(m_profile.optString(Const.USER_RECEIVE_NUM, "0"));
+		m_txtStar.setText(m_profile.optString(Const.USER_POINT_NUM, "0"));
+		m_txtHisAddress.setText("地址: " + m_profile.optString(Const.USER_ADDRESS, "0"));
+	}
 	public void getHistoryList() {
 		m_nPageNum = 0;
 		
-		final List<JSONObject> list = new ArrayList<JSONObject>();
-		
 		showLoadingProgress();
-
-		ServerManager.getOwnHistory(AppContext.getUserID(), m_nPageNum, new ResultCallBack() {
+	
+		ServerManager.getUserHistory(AppContext.getUserID(), m_profile.optString(Const.ID, "0"), m_nPageNum, new ResultCallBack() {
 			
 			@Override
 			public void doAction(LogicResult result) {
 				hideProgress();
 				
+				List<JSONObject> list = new ArrayList<JSONObject>();
 				JSONArray history = result.getContentArray();
 				for(int i = 0; i < history.length(); i++)
 					list.add(history.optJSONObject(i));
@@ -203,14 +215,13 @@ public class MyCenterActivity extends HeaderBarActivity
 				showHistoryListData(list);							
 			}
 		});
-		
+				
 	}
 	
 	private void showHistoryListData(List<JSONObject> list)
 	{
 		if( list.size() < 1 )
 		{
-			m_listItems.setVisibility(View.GONE);
 			m_listPullItems.setMode(Mode.DISABLED);
 		}
 		else
@@ -224,7 +235,7 @@ public class MyCenterActivity extends HeaderBarActivity
 	}
 	
 	public void getMoreHistoryList() {
-		ServerManager.getOwnHistory(AppContext.getUserID(), (m_nPageNum + 1), new ResultCallBack() {
+		ServerManager.getUserHistory(AppContext.getUserID(), m_profile.optString(Const.ID, "0"), m_nPageNum + 1, new ResultCallBack() {
 			
 			@Override
 			public void doAction(LogicResult result) {
@@ -235,7 +246,7 @@ public class MyCenterActivity extends HeaderBarActivity
 				for(int i = 0; i < history.length(); i++)
 					list.add(history.optJSONObject(i));
 				
-				addHistoryListData(list);							
+				addHistoryListData(list);									
 			}
 		});
 	}
@@ -262,7 +273,7 @@ public class MyCenterActivity extends HeaderBarActivity
 		
 		try {
 			if( pos <= 1 )
-				param.put(Const.MODE, Const.TEMP_STAGE_MODE);
+				param.put(Const.MODE, Const.OTHER_STAGE_MODE);
 			else
 			{
 				JSONObject item = m_adapterHistoryList.getItem(pos - 1);
@@ -289,56 +300,11 @@ public class MyCenterActivity extends HeaderBarActivity
 		ActivityManager.changeActivity(this, ProfileActivity.class, bundle, false, null );
 	}
 	
-	private void uploadStage()
-	{
-		m_cameraTempPath = Environment.getExternalStorageDirectory() + "/";
-		m_cameraTempPath += "camera_temp.jpg";
-
-		MediaUtils.showCameraGalleryPage(this, PICK_GALLERY_CODE, m_cameraTempPath);
-	}
-	
-	private void processFile(String path)
-	{
-		Bundle bundle = new Bundle();
-		
-		JSONObject data = new JSONObject();
-		
-		try {
-			data.put(Const.MODE, 0);
-			data.put(Const.FILE_PATH, path);
-		} catch (JSONException e) {
-			e.printStackTrace();
-		}
-		
-		bundle.putString(INTENT_EXTRA, data.toString());
-		ActivityManager.changeActivity(this, CommentDetailActivity.class, bundle, false, COMMENT_REQUEST_CODE);	
-	}
-	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == 0)
 			return;		
-		
-		if( requestCode == PICK_GALLERY_CODE + 1 )
-		{
-			Uri selectedImage = data.getData();			
-			String picturePath = MediaUtils.getPathFromURI(this, selectedImage);
-			
-			processFile(picturePath);
-		}
-		
-		if (requestCode == PICK_GALLERY_CODE ) {
-			processFile(m_cameraTempPath);
-		}	
-		
-		if (requestCode == PICK_GALLERY_CODE + 2 ) {
-			processFile(m_cameraTempPath);
-		}	
-		
-		if (requestCode == COMMENT_REQUEST_CODE ) {
-			getHistoryList();
-		}	
-		
+				
 		if (requestCode == STAGE_LIST_CODE ) {
 			getHistoryList();
 		}	
@@ -381,21 +347,9 @@ public class MyCenterActivity extends HeaderBarActivity
 			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_camera_icon), 200, 200, true);
 			
 			
-			if( position == 0 )
-			{
-				ViewHolder.get(rowView, R.id.img_camera_icon).setVisibility(View.VISIBLE);
-				ViewHolder.get(rowView, R.id.img_delete_history).setVisibility(View.GONE);
-				ViewHolder.get(rowView, R.id.lay_comment_like).setVisibility(View.GONE);
-			}
-			else
-			{
-				ViewHolder.get(rowView, R.id.img_camera_icon).setVisibility(View.GONE);
-				ViewHolder.get(rowView, R.id.img_delete_history).setVisibility(View.VISIBLE);
-				ViewHolder.get(rowView, R.id.lay_comment_like).setVisibility(View.VISIBLE);
-			}
+			ViewHolder.get(rowView, R.id.img_camera_icon).setVisibility(View.GONE);
+			ViewHolder.get(rowView, R.id.img_delete_history).setVisibility(View.GONE);
 			
-			// show data
-//			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.default_image_bg).build();
 			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + item.optString(Const.THUMBNAIL, ""), (ImageView)ViewHolder.get(rowView, R.id.img_history_preview));
 			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setText(item.optString(Const.CONTENT, ""));
 			
@@ -405,15 +359,6 @@ public class MyCenterActivity extends HeaderBarActivity
 			
 			((TextView)ViewHolder.get(rowView, R.id.txt_comment_count)).setText(item.optString(Const.COMMENT_COUNT, "0"));
 			((TextView)ViewHolder.get(rowView, R.id.txt_like_count)).setText(item.optString(Const.LIKE_COUNT, "0"));
-						
-			// events
-			ViewHolder.get(rowView, R.id.img_camera_icon).setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View v) {
-					uploadStage();					
-				}
-			});			
 		}	
 	}
 	

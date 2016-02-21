@@ -59,26 +59,6 @@ public class MainMenuActivity extends HeaderBarActivity
 		super.initData();
 		m_txtPageTitle.setText("分享生活");
 		m_btnRight.setVisibility(View.INVISIBLE);
-
-		
-//		m_txtName.setText("");
-//		m_txtPassword.setText("");
-		
-//		showLoadingProgress();
-//		ServerManager.getCountryList(new ResultCallBack() {
-//			
-//			@Override
-//			public void doAction(LogicResult result) {
-//				hideProgress();
-//				if( result.mResult != LogicResult.RESULT_OK )
-//				{
-//					Toast.makeText(LoginActivity.this, result.mMessage, Toast.LENGTH_LONG).show();
-//					return;
-//				}		
-//			}
-//		});
-
-//		AndroidUtils.getDialingCountryCode(this);
 	}
 	
 	protected void initEvents()
@@ -147,7 +127,7 @@ public class MainMenuActivity extends HeaderBarActivity
 	private void onClickFriends()
 	{
 		Bundle bundle = new Bundle();
-		ActivityManager.changeActivity(MainMenuActivity.this, UserActivity.class, bundle, false, null );		
+		ActivityManager.changeActivity(MainMenuActivity.this, ContactListActivity.class, bundle, false, null );		
 	}
 	
 //	private void onClickPersonal()
@@ -165,6 +145,9 @@ public class MainMenuActivity extends HeaderBarActivity
 	protected void layoutControls()
 	{
 		super.layoutControls();
+		
+		m_layLeft.setVisibility(View.INVISIBLE);
+		
 		int heightUnit = parentHeight/20;
 		int widthUnit = parentWidth/9;
 

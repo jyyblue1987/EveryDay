@@ -3,14 +3,6 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical" >
-
-    <LinearLayout
-        android:id="@+id/lay_historydivide_0"
-        android:layout_width="match_parent"
-        android:layout_height="10dp" 
-        android:background="@color/white_darker">
-    </LinearLayout>
-
     <LinearLayout
         android:id="@+id/lay_historyitem_1"
         android:layout_width="match_parent"
@@ -84,29 +76,107 @@
             android:text="位置名字" />
 
     </LinearLayout>
-
+	
     <LinearLayout
         android:id="@+id/lay_historyitem_3"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:orientation="vertical" >
-
-        <ImageView
-            android:id="@+id/img_historyitem_photo"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal"
-            android:src="@drawable/image12" />
-
-        <common.component.ui.MyTextView
-            android:id="@+id/text_historyitem_note"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/black" 
-            android:layout_gravity="center_horizontal"
-            android:text="位名字" />
-
-    </LinearLayout>
+        android:layout_width="fill_parent" 
+		android:layout_height="wrap_content"
+		android:orientation="horizontal"	
+		>
+		<RelativeLayout 
+		    android:id="@+id/lay_history_info"
+		    android:layout_width="0dip"
+		    android:layout_height="match_parent"
+		    android:layout_weight="0.3"
+		    >
+		    <common.component.ui.MyTextView
+		        android:id="@+id/txt_time"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content" 
+		        android:text="Feb 16\n2016"
+		        />
+		    <LinearLayout
+		        android:id="@+id/lay_comment_like"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content" 
+		        android:orientation="vertical"
+		        android:layout_alignParentBottom="true"
+		        >
+		        <LinearLayout
+		            android:layout_width="wrap_content"
+		            android:layout_height="wrap_content"	
+		            android:orientation="horizontal"             
+		            >
+	            	<ImageView
+	                    android:id="@+id/img_like_count_icon"
+	                    android:layout_width="20dip"
+	                    android:layout_height="20dip"
+	                    android:background="@drawable/like_black_icon" 
+	                    />
+	                <common.component.ui.MyTextView
+	                    android:id="@+id/txt_like_count"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginLeft="3dip"
+	                    android:text="1"
+	                    android:textColor="@color/black" 
+	                    />
+		        </LinearLayout>
+		        <LinearLayout
+		            android:layout_width="match_parent"
+		            android:layout_height="wrap_content"	
+		            android:orientation="horizontal"      
+		            android:layout_marginTop="5dip"       
+		            >
+	            	<ImageView
+	                    android:id="@+id/img_comment_count_icon"
+	                    android:layout_width="20dip"
+	                    android:layout_height="20dip"
+	                    android:src="@drawable/comment_black_icon"
+	                    />
+	                <common.component.ui.MyTextView
+	                    android:id="@+id/txt_comment_count"
+	                    android:layout_width="wrap_content"
+	                    android:layout_height="wrap_content"
+	                    android:layout_marginLeft="3dip"
+	                    android:text="1"
+	                    android:textColor="@color/black" 
+	                    />
+		        </LinearLayout>
+		        
+		        
+		    </LinearLayout>
+		</RelativeLayout>
+		<RelativeLayout
+		    android:id="@+id/lay_history_content"
+		    android:layout_width="0dip"
+		    android:layout_height="wrap_content"
+		    android:layout_weight="0.7"
+		    >
+		    <ImageView
+			    android:id="@+id/img_history_preview"
+			    android:layout_width="match_parent"
+			    android:layout_height="150dip"
+			    android:scaleType="fitXY"
+			    android:src="@drawable/default_image_bg"		    
+			    />
+		    <TextView
+			    android:id="@+id/txt_history"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:layout_alignParentBottom="true"
+			    android:paddingLeft="10dip"
+			    android:paddingRight="10dip"
+			    android:singleLine="true" 
+			    android:ellipsize="end"
+			    android:text="I am very happy"
+			    android:textColor="@color/white"
+			    android:background="#BB000000" 
+			    />  	 
+			   
+		</RelativeLayout>
+	
+		
+	</LinearLayout>
 
 </LinearLayout>

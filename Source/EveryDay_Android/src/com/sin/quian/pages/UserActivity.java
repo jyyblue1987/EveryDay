@@ -4,11 +4,20 @@ package com.sin.quian.pages;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.sin.quian.AppContext;
+import com.sin.quian.Const;
 import com.sin.quian.R;
+import com.sin.quian.network.ServerManager;
+import com.sin.quian.network.ServerTask;
+import com.sin.quian.pages.HistoryActivity.HistoryListAdapter;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -17,23 +26,25 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.TextView;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
 import common.list.adapter.ItemCallBack;
 import common.list.adapter.MyListAdapter;
+import common.list.adapter.ViewHolder;
 import common.manager.activity.ActivityManager;
+import common.network.utils.LogicResult;
+import common.network.utils.ResultCallBack;
 
 public class UserActivity extends HeaderBarActivity {
 	PullToRefreshListView			m_listPullItems = null;
 	ListView						m_listItems = null;
-	TextView						m_emptyView = null;
+	TextView						m_txtEmptyView = null;
+	
 	MyListAdapter					m_adapteruserList = null;
-//	int								m_nuserType = 0;
-//	int								m_nParentID = 0;
-
+	int								m_nPageNum = 0;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -47,81 +58,135 @@ public class UserActivity extends HeaderBarActivity {
 	
 		m_listPullItems = (PullToRefreshListView)findViewById(R.id.list_user); 
 		m_listItems = m_listPullItems.getRefreshableView();
-		m_emptyView = (TextView) findViewById(R.id.txt_user);
+		m_txtEmptyView = (TextView) findViewById(R.id.txt_empty_view);
 	}
 	
 	protected void layoutControls()
 	{
 		super.layoutControls();
-//		m_listItems.setDivider(getResources().getDrawable(R.drawable.devider_line));
+		m_listItems.setDivider(getResources().getDrawable(R.drawable.devider_line));
 		m_listItems.setDividerHeight(ScreenAdapter.computeWidth(3));
 		
-		m_emptyView.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(55));
-		LayoutUtils.setMargin(m_emptyView, 0, 0, 0, 600, true);
+		m_txtEmptyView.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+		LayoutUtils.setPadding(m_txtEmptyView, 0, 0, 0, ScreenAdapter.getDeviceHeight() / 5, false);
 	}
 	
 	protected void initData()
 	{
 		super.initData();
 		
-//		m_nSelectedPage = 5;
-		
-		m_adapteruserList = new userListAdapter(this, new ArrayList<JSONObject>(), R.layout.user_item, null);
-		m_listItems.setAdapter(m_adapteruserList);
-		
-		m_listPullItems.setMode(Mode.DISABLED);
-		
 		m_txtPageTitle.setText("用户们");
-//		m_btnRight.setVisibility(View.INVISIBLE);
- 
-//		List<JSONObject> list = DBManager.getNotificationList(this, 0, 100);
-//		HealthcareUtils.changeDateFormat(list);
 		
-		List<JSONObject> list = new ArrayList<JSONObject>();
-		for(int i = 0; i < 10; i++ )
+		m_listPullItems.setMode(Mode.PULL_FROM_END);
+		
+		m_nPageNum = 0;
+		getUserList();	
+	}
+	
+	private void getUserList()
+	{
+		showLoadingProgress();
+		ServerManager.getHighUserList(AppContext.getUserID(), m_nPageNum, new ResultCallBack() {
+			
+			@Override
+			public void doAction(LogicResult result) {
+				hideProgress();
+				
+				JSONArray array = result.getContentArray();
+				
+				List<JSONObject> list = new ArrayList<JSONObject>();
+				for(int i = 0; i < array.length(); i++ )
+					list.add(array.optJSONObject(i));
+				showUserList(list);
+			}
+		});
+	}
+	
+	private void showUserList(List<JSONObject> list) {
+		if( list.size() < 1 )
 		{
-			JSONObject item = new JSONObject();
-			list.add(item);
+			m_listItems.setVisibility(View.GONE);
+			m_listPullItems.setVisibility(View.GONE);
+			m_listPullItems.setMode(Mode.DISABLED);
 		}
-		
-		showuserListData(list);	
+		else
+		{
+			m_listItems.setVisibility(View.VISIBLE);
+			m_listPullItems.setVisibility(View.VISIBLE);
+
+			m_adapteruserList = new UserListAdapter(this, list, R.layout.history_item, null);
+			
+			m_listItems.setAdapter(m_adapteruserList);
+		}		
+	}
+	
+	private void getMoreUserList()
+	{
+		ServerManager.getHighUserList(AppContext.getUserID(), m_nPageNum + 1, new ResultCallBack() {
+			
+			@Override
+			public void doAction(LogicResult result) {
+				hideProgress();
+				
+				JSONArray array = result.getContentArray();
+				
+				List<JSONObject> list = new ArrayList<JSONObject>();
+				for(int i = 0; i < array.length(); i++ )
+					list.add(array.optJSONObject(i));
+				addUserList(list);
+			}
+		});
+	}
+	
+	public void addUserList(List<JSONObject> list) {
+		m_listPullItems.onRefreshComplete();
+		if( list.size() < 1 )
+		{
+			m_listPullItems.setMode(Mode.DISABLED);
+		}
+		else
+		{
+			m_nPageNum++;
+			m_adapteruserList.addItemList(list);
+		}
 	}
 	
 	protected void initEvents()
 	{
 		super.initEvents();
+		
+		m_listPullItems.setOnRefreshListener(new OnRefreshListener2<ListView>() {
+			@Override
+			public void onPullDownToRefresh(final PullToRefreshBase<ListView> refreshView)
+			{
+			}
+			@Override
+			public void onPullUpToRefresh(final PullToRefreshBase<ListView> refreshView)
+			{
+				getMoreUserList();
+			}
+		});
 				
 		m_listItems.setOnItemClickListener(new OnItemClickListener() {
 
 			@Override
 			public void onItemClick(AdapterView<?> arg0, View arg1, int pos, long arg3) {	
-//				gotouserDetailPage(pos);
+				gotoHistoryPage(pos);
 			}
 		});
 	}
-
-	protected void gotoNextPage()
+	
+	private void gotoHistoryPage(int pos)
 	{
-		Bundle bundle = new Bundle();				
-		ActivityManager.changeActivity(this, MainMenuActivity.class, bundle, false, null );
+		JSONObject item = m_adapteruserList.getItem(pos - 1);
+		Bundle bundle = new Bundle();	
+		bundle.putString(INTENT_EXTRA, item.toString());
+		ActivityManager.changeActivity(this, HistoryListActivity.class, bundle, false, null );
 	}
+
 	
-	public void showuserListData(List<JSONObject> list) {
-		m_listPullItems.onRefreshComplete();
-		if( list.size() < 1 )
-		{
-			m_listPullItems.setVisibility(View.GONE);
-			m_emptyView.setText("There is no user list.");
-		}
-		else
-		{
-			m_listPullItems.setVisibility(View.VISIBLE);
-			m_adapteruserList.setData(list);
-		}		
-	}
-	
-	class userListAdapter extends MyListAdapter {
-		public userListAdapter(Context context, List<JSONObject> data,
+	class UserListAdapter extends MyListAdapter {
+		public UserListAdapter(Context context, List<JSONObject> data,
 			int resource, ItemCallBack callback) {
 			super(context, data, resource, callback);
 		}
@@ -130,44 +195,41 @@ public class UserActivity extends HeaderBarActivity {
 		{
 			final JSONObject item = getItem(position);
 			
-			LayoutUtils.setSize(findViewById(R.id.lay_useritem_1), LayoutParams.MATCH_PARENT, 100, true);
+			// user info
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_historyitem_1), 30, 30, 30, 0, true);
+			LayoutUtils.setSize(((ImageView)rowView.findViewById(R.id.img_historyitem_icon)), 80, 80, true);
 
-			LayoutUtils.setSize(((ImageView)rowView.findViewById(R.id.img_useritem_icon)), 80, 80, true);
-			LayoutUtils.setMargin(((ImageView)rowView.findViewById(R.id.img_useritem_icon)), 70, 10, 20, 10, true);
+			((TextView)rowView.findViewById(R.id.text_historyitem_name)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+			LayoutUtils.setMargin(rowView.findViewById(R.id.text_historyitem_name), 20, 0, 50, 0, true);
 
-			((TextView)rowView.findViewById(R.id.text_useritem_name)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-			LayoutUtils.setMargin(rowView.findViewById(R.id.text_useritem_name), 20, 20, 50, 20, true);
-//			((TextView)rowView.findViewById(R.id.txt_user_info)).setText(item.optString(Const.DISP_DATE, MyTime.getCurrentDate()));
+			LayoutUtils.setSize(((ImageView)rowView.findViewById(R.id.img_historyitem_hard)), 50, 50, true);
+			LayoutUtils.setMargin(((ImageView)rowView.findViewById(R.id.img_historyitem_hard)), 50, 0, 0, 0, true);
 
-			LayoutUtils.setSize(((ImageView)rowView.findViewById(R.id.img_useritem_hard)), 50, 50, true);
-			LayoutUtils.setMargin(((ImageView)rowView.findViewById(R.id.img_useritem_hard)), 50, 20, 10, 20, true);
+			((TextView)rowView.findViewById(R.id.text_historyitem_hard_num)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+			LayoutUtils.setMargin(rowView.findViewById(R.id.text_historyitem_hard_num), 10, 0, 0, 0, true);
 
-			((TextView)rowView.findViewById(R.id.text_useritem_hard_num)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-			LayoutUtils.setMargin(rowView.findViewById(R.id.text_useritem_hard_num), 10, 20, 20, 20, true);
+			LayoutUtils.setSize(((ImageView)rowView.findViewById(R.id.img_historyitem_star)), 50, 50, true);
+			LayoutUtils.setMargin(((ImageView)rowView.findViewById(R.id.img_historyitem_star)), 50, 0, 0, 0, true);
 
-			LayoutUtils.setSize(((ImageView)rowView.findViewById(R.id.img_useritem_star)), 50, 50, true);
-			LayoutUtils.setMargin(((ImageView)rowView.findViewById(R.id.img_useritem_star)), 50, 20, 10, 20, true);
+			((TextView)rowView.findViewById(R.id.text_historyitem_star_num)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+			LayoutUtils.setMargin(rowView.findViewById(R.id.text_historyitem_star_num), 10, 0, 0, 0, true);
 
-			((TextView)rowView.findViewById(R.id.text_useritem_star_num)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-			LayoutUtils.setMargin(rowView.findViewById(R.id.text_useritem_star_num), 10, 20, 70, 20, true);
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_historyitem_2), 30, 0, 30, 30, true);
+			((TextView)rowView.findViewById(R.id.text_historyitem_address)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+			LayoutUtils.setMargin(rowView.findViewById(R.id.text_historyitem_address), 0, 0, 0, 0, true);
 
-			LayoutUtils.setSize(findViewById(R.id.lay_useritem_2), LayoutParams.MATCH_PARENT, 70, true);
-
-			((TextView)rowView.findViewById(R.id.text_useritem_address)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(40));
-			LayoutUtils.setMargin(rowView.findViewById(R.id.text_useritem_address), 70, 10, 10, 10, true);
-
-			((TextView)rowView.findViewById(R.id.text_useritem_hisaddress)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(40));
-			LayoutUtils.setMargin(rowView.findViewById(R.id.text_useritem_hisaddress), 10, 10, 10, 10, true);
-
-
-			rowView.setOnClickListener(new View.OnClickListener() {
-				
-				@Override
-				public void onClick(View paramView) {
-					Bundle bundle = new Bundle();
-					ActivityManager.changeActivity(UserActivity.this, HistoryActivity.class, bundle, false, null );		
-				}
-			});		
+			((TextView)rowView.findViewById(R.id.text_historyitem_hisaddress)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+			LayoutUtils.setMargin(rowView.findViewById(R.id.text_historyitem_hisaddress), 10, 0, 0, 0, true);
+			
+			ViewHolder.get(rowView, R.id.lay_historyitem_3).setVisibility(View.GONE);
+			
+			// userinfo
+			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + item.optString(Const.USER_THUMBNAIL, ""), (ImageView)ViewHolder.get(rowView, R.id.img_historyitem_icon));
+			
+			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_name)).setText(item.optString(Const.USERNAME, ""));
+			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_hard_num)).setText(item.optString(Const.USER_RECEIVE_NUM, ""));
+			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_star_num)).setText(item.optString(Const.USER_POINT_NUM, ""));
+			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_address)).setText(item.optString(Const.USER_ADDRESS, ""));			
 			
 		}	
 	}

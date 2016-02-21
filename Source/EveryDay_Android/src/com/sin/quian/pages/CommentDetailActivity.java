@@ -1,7 +1,5 @@
 package com.sin.quian.pages;
 
-import java.io.File;
-
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -25,7 +23,6 @@ import common.network.utils.ResultCallBack;
 public class CommentDetailActivity extends HeaderBarActivity
 {
 	EditText		m_editContent = null;
-	String			m_path = "";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -43,20 +40,6 @@ public class CommentDetailActivity extends HeaderBarActivity
 	protected void initData()
 	{
 		super.initData();
-		
-		Bundle bundle = getIntent().getExtras();
-		
-		if( bundle != null )
-		{
-			String data = bundle.getString(INTENT_EXTRA, "");
-			try {
-				JSONObject comment = new JSONObject(data);
-				m_path = comment.optString(Const.FILE_PATH, "");
-			} catch (JSONException e) {
-				e.printStackTrace();
-			}
-		}
-		
 		
 		m_txtPageTitle.setText("Comment");
 		
@@ -77,23 +60,62 @@ public class CommentDetailActivity extends HeaderBarActivity
 	{
 		showLoadingProgress();
 		
-		ServerManager.uploadStage(m_path, AppContext.getUserID(), m_editContent.getText().toString(), new ResultCallBack() {
-			
-			@Override
-			public void doAction(LogicResult result) {
-				hideProgress();
-				if( result.mResult != LogicResult.RESULT_OK )
-				{
-					MessageUtils.showMessageDialog(CommentDetailActivity.this, result.mMessage);
-					return;
-				}
+		Bundle bundle = getIntent().getExtras();
+		
+		if( bundle != null )
+		{
+			String data = bundle.getString(INTENT_EXTRA, "");
+			try {
+				JSONObject comment = new JSONObject(data);
 				
-			 	Intent intent = new Intent();
-		    	intent.putExtra(INTENT_EXTRA, m_editContent.getText().toString());	
-		        setResult(Activity.RESULT_OK, intent);    
-		        onFinishActivity();				
+				int mode = comment.optInt(Const.MODE, 0);
+				String path = comment.optString(Const.FILE_PATH, "");
+				if( mode == 0 )	// add stage
+				{
+					ServerManager.uploadStage(path, AppContext.getUserID(), m_editContent.getText().toString(), new ResultCallBack() {
+						
+						@Override
+						public void doAction(LogicResult result) {
+							hideProgress();
+							if( result.mResult != LogicResult.RESULT_OK )
+							{
+								MessageUtils.showMessageDialog(CommentDetailActivity.this, result.mMessage);
+								return;
+							}
+							
+						 	Intent intent = new Intent();
+					    	intent.putExtra(INTENT_EXTRA, m_editContent.getText().toString());	
+					        setResult(Activity.RESULT_OK, intent);    
+					        onFinishActivity();				
+						}
+					});
+				}
+				else
+				{
+					ServerManager.addComment(AppContext.getUserID(), comment.optString(Const.ID, "0"), m_editContent.getText().toString(), new ResultCallBack() {
+						
+						@Override
+						public void doAction(LogicResult result) {
+							hideProgress();
+							if( result.mResult != LogicResult.RESULT_OK )
+							{
+								MessageUtils.showMessageDialog(CommentDetailActivity.this, result.mMessage);
+								return;
+							}
+							
+						 	Intent intent = new Intent();
+					    	intent.putExtra(INTENT_EXTRA, m_editContent.getText().toString());	
+					        setResult(Activity.RESULT_OK, intent);    
+					        onFinishActivity();											
+						}
+					});					
+				}
+			} catch (JSONException e) {
+				e.printStackTrace();
 			}
-		});
+		}
+		
+		
 		
 	 
 	}	 

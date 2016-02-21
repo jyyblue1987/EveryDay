@@ -144,8 +144,9 @@ public class MyTime {
 		    // TODO Auto-generated catch block  
 		    e.printStackTrace();  
 		}
-		
-		return "";
+		Date date = new Date();
+		SimpleDateFormat chinalFormat = new SimpleDateFormat("MMM dd",  Locale.CHINA);
+		return chinalFormat.format(date);
 	}
 	
 	public static String getOnlyYear(String datetime)
@@ -159,8 +160,10 @@ public class MyTime {
 		    // TODO Auto-generated catch block  
 		    e.printStackTrace();  
 		}
-		
-		return "";
+
+		Date date = new Date();
+		SimpleDateFormat chinalFormat = new SimpleDateFormat("yyyy",  Locale.CHINA);
+		return chinalFormat.format(date);
 	}
 	
 	public static String getChinaDate(String datetime)

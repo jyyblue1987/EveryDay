@@ -50,7 +50,7 @@ public class EveryCloudApplication extends Application {
 	   private void initImageLoader(Context context) {
 		   DisplayImageOptions defaultDisplayImageOptions = new DisplayImageOptions.Builder()
 			.cacheInMemory(true)
-			.cacheOnDisk(false)
+			.cacheOnDisk(true)
 			.imageScaleType(ImageScaleType.EXACTLY)
 			.bitmapConfig(Bitmap.Config.RGB_565)
 			.considerExifParams(true).build();
