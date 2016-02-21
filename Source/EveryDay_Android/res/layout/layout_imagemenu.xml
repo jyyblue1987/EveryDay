@@ -4,14 +4,16 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center_horizontal"
+    android:background="@color/menu_background_color"
     android:orientation="vertical" >
 
     <LinearLayout
         android:id="@+id/lay_main_head"
         android:layout_width="match_parent"
-        android:layout_height="273dip" 
+        android:layout_height="80dip" 
         android:gravity="center_horizontal"
         android:background="@drawable/head"
+        android:orientation="horizontal"
         >
     </LinearLayout>
     
@@ -20,25 +22,26 @@
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="0.5"
-        android:gravity="center_horizontal"
-        android:background="@color/menu_background_color"
+        android:gravity="center"        
         >
 
         <ImageView
             android:id="@+id/img_menu_new"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center"
             android:layout_weight="0.5"
-            android:src="@drawable/recent" />
+            android:scaleType="fitXY"
+            android:background="@drawable/recent" />
 
         <ImageView
             android:id="@+id/img_menu_star"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_gravity="center"
             android:layout_weight="0.5"
-            android:src="@drawable/favorite" />
+            android:scaleType="fitXY"
+            android:background="@drawable/favorite" />
 
     </LinearLayout>
     
@@ -47,8 +50,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="0.5"
-        android:gravity="center_horizontal"
-        android:background="@color/menu_background_color"
+        android:gravity="center"        
          >
 
         <ImageView
@@ -56,16 +58,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/friend" />
+            android:scaleType="fitXY"
+            android:background="@drawable/friend" />
 
         <ImageView
             android:id="@+id/img_menu_personal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="0.5"
-            android:layout_gravity="center_vertical"
-            android:src="@drawable/personal" />
+            android:scaleType="fitXY"
+            android:background="@drawable/personal" />
 
     </LinearLayout>
     
@@ -81,7 +83,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:src="@drawable/camera" />
+            android:background="@drawable/camera" />
     </LinearLayout>
     
 
