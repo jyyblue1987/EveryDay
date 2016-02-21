@@ -2,6 +2,7 @@
 		package com.sin.quian.pages;
 
 		import com.sin.quian.AppContext;
+import com.sin.quian.Const;
 import com.sin.quian.R;
 import com.sin.quian.network.ServerManager;
 
@@ -14,8 +15,11 @@ import android.widget.TextView;
 import common.component.ui.MyButton;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
+import common.library.utils.DataUtils;
 import common.library.utils.MessageUtils;
 import common.manager.activity.ActivityManager;
+import common.network.utils.LogicResult;
+import common.network.utils.ResultCallBack;
 
 
 		public class ChangePasswordActivity extends HeaderBarActivity
@@ -79,22 +83,30 @@ import common.manager.activity.ActivityManager;
 			private void onClickchange()
 			{
 				String oldPassword = m_txtLast.getText().toString();
-				String newPassword = m_txtNew.getText().toString();
+				final String newPassword = m_txtNew.getText().toString();
 				String confirmPassword = m_txtConfirm.getText().toString();
 				if(newPassword.equals(confirmPassword) && newPassword != null && oldPassword != null ){
-					ServerManager.changePassword(AppContext.getUserID(), oldPassword, newPassword, null);
-					m_boolChangePasswordState = true;
-////					DialogFactory.getInstance().showMessageDialog(this, "Changing your password is successful.", false, new ItemCallBack() {
-////						
-////						@Override
-////						public void doClick(ItemResult result) {
-//							MessageUtils.showMessageDialog(this, "Changing your password is successful.");
+					showLoadingProgress();
+					ServerManager.changePassword(AppContext.getUserID(), oldPassword, newPassword, new ResultCallBack() {
+						
+						@Override
+						public void doAction(LogicResult result) {
+							hideProgress();
+							if( result.mResult != LogicResult.RESULT_OK )
+							{
+								MessageUtils.showMessageDialog(ChangePasswordActivity.this, result.mMessage);
+								return;
+							}
+							
+							DataUtils.savePreference(Const.PASSWORD, newPassword);
+							
+							m_boolChangePasswordState = true;
 							Bundle bundle = new Bundle();
-							ActivityManager.changeActivity(ChangePasswordActivity.this, ProfileActivity.class, bundle, false, null );		
-////						}
-////					});
+							ActivityManager.changeActivity(ChangePasswordActivity.this, ProfileActivity.class, bundle, false, null );	
+
+						}
+					});
 				}else {
-//					DialogFactory.getInstance().showMessageDialog(this, "Please enter the password again.", false, null);
 					MessageUtils.showMessageDialog(this, "Please enter the password again.");
 					return;
 				}
