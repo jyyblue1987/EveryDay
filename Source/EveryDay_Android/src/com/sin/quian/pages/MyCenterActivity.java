@@ -395,7 +395,7 @@ public class MyCenterActivity extends HeaderBarActivity
 			else
 			{
 				ViewHolder.get(rowView, R.id.img_camera_icon).setVisibility(View.GONE);
-				ViewHolder.get(rowView, R.id.img_delete_history).setVisibility(View.VISIBLE);
+//				ViewHolder.get(rowView, R.id.img_delete_history).setVisibility(View.VISIBLE);
 				ViewHolder.get(rowView, R.id.lay_comment_like).setVisibility(View.VISIBLE);
 			}
 			
