@@ -62,17 +62,19 @@ public class MediaUtils {
 	{
 		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 
-		String items[] = {"拍张照片", "从库拍张照片", "带视频"};
+		String items[] = {"拍张照片", "从库拍张照片", "带视频", "VideoGallery"};
 		
 		dialog.setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {			
 			public void onClick(DialogInterface dialog, int whichButton) {
 				picture_mode = whichButton;						
 				if (picture_mode == 0) {
-					doTakePhotoFromCamera(context, requestCode, output );
+					doTakePhotoFromCamera(context, requestCode, output+".jpg" );
 				} else if (picture_mode == 1) {
 					doTakePhotoFromGallery(context, requestCode + 1 );
 				} else if (picture_mode == 2) {
-					doTakeVideoFromCamera(context, requestCode + 2, output );
+					doTakeVideoFromCamera(context, requestCode + 2, output+".mp4" );
+				}else if (picture_mode == 3) {
+					doTakeVideoFromGallery(context, requestCode + 3);
 				}
 				dialog.dismiss();
 			}
@@ -158,6 +160,23 @@ public class MediaUtils {
         }
 		
 		intent.setType(IMAGE_UNSPECIFIED);
+
+		activity.startActivityForResult(intent, requestCode );// to connect onActivityResult in activity	
+	}
+	
+	public static void doTakeVideoFromGallery(Context context, int requestCode )
+	{
+		Activity activity = (Activity) context;
+		
+		Intent intent = null;		
+		
+		if (Build.VERSION.SDK_INT < 19) {
+            intent = new Intent(Intent.ACTION_PICK);
+        } else {
+    	    intent = new Intent(Intent.ACTION_GET_CONTENT);
+        }
+		
+		intent.setType(VIDEO_UNSPECIFIED);
 
 		activity.startActivityForResult(intent, requestCode );// to connect onActivityResult in activity	
 	}
