@@ -7,6 +7,7 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sin.quian.AppContext;
 import com.sin.quian.Const;
@@ -31,6 +32,7 @@ import android.widget.TextView;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
 import common.design.utils.ResourceUtils;
+import common.image.load.ImageUtils;
 import common.library.utils.AlgorithmUtils;
 import common.library.utils.MediaUtils;
 import common.library.utils.MessageUtils;
@@ -38,6 +40,7 @@ import common.library.utils.MessageUtils.OnButtonClickListener;
 import common.library.utils.MyTime;
 import common.list.adapter.ItemCallBack;
 import common.list.adapter.MyPagerAdapter;
+import common.list.adapter.ViewHolder;
 import common.manager.activity.ActivityManager;
 import common.network.utils.LogicResult;
 import common.network.utils.ResultCallBack;
@@ -524,7 +527,10 @@ public class StageListActivity extends HeaderBarActivity
 		    	
 		    	JSONObject item = getItem(position);
 		    	if( item != null )		    	
-		    		ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + item.optString(Const.THUMBNAIL, ""), view);
+		    	{
+					DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.default_image_bg).build();
+		    		ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + item.optString(Const.THUMBNAIL, ""), view, options);
+		    	}
 				
 				return view;
 			}
