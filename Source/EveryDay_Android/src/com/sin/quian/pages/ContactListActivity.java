@@ -232,8 +232,15 @@ public class ContactListActivity extends HeaderBarActivity {
 	private void gotoHistoryPage(int pos)
 	{
 		JSONObject item = m_adapterContactList.getItem(pos - 1);
+		
+		try {
+			item.put(Const.CHECKFRIEND, 1);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
 		Bundle bundle = new Bundle();	
-		bundle.putString(INTENT_EXTRA, item.toString());
+		bundle.putString(INTENT_EXTRA, item.toString());		
 		ActivityManager.changeActivity(this, HistoryListActivity.class, bundle, false, null );
 	}
 
