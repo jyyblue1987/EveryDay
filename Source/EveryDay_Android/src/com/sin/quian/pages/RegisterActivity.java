@@ -126,25 +126,25 @@ public class RegisterActivity extends HeaderBarActivity
 		
 		if( CheckUtils.isEmpty(username) )
 		{
-			MessageUtils.showMessageDialog(this, "Please input user name.");
+			MessageUtils.showMessageDialog(this, "请输入的用户名称.");
 			return;
 		}
 		
 		if( CheckUtils.isEmpty(email) )
 		{
-			MessageUtils.showMessageDialog(this, "Please input user email.");
+			MessageUtils.showMessageDialog(this, "请输入用户的电子邮件.");
 			return;
 		}
 		
 		if( CheckUtils.isEmpty(password) || CheckUtils.isEmpty(confirmpassword) )
 		{
-			MessageUtils.showMessageDialog(this, "Please input password.");
+			MessageUtils.showMessageDialog(this, "请输入密码.");
 			return;
 		}
 		
 		if( password.equals(confirmpassword) == false )
 		{
-			MessageUtils.showMessageDialog(this, "Password is not matching.");
+			MessageUtils.showMessageDialog(this, "密码不匹配.");
 			return;
 		}
 		

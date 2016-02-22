@@ -212,9 +212,9 @@ public class StageListActivity extends HeaderBarActivity
 			m_btnRemove.setVisibility(View.GONE);
 			
 			if( m_historyInfo.optInt(Const.FAVORITED_FLAG, 0) == 0 )
-				m_txtLike.setText("Like");
+				m_txtLike.setText("像");
 			else
-				m_txtLike.setText("Liked");
+				m_txtLike.setText("很喜欢");
 			
 			m_txtLikeCount.setText(m_historyInfo.optString(Const.LIKE_COUNT, "0"));
 			m_txtCommentCount.setText(m_historyInfo.optString(Const.COMMENT_COUNT, "0"));
@@ -256,7 +256,7 @@ public class StageListActivity extends HeaderBarActivity
 			
 			@Override
 			public void onClick(View v) {
-				MessageUtils.showDialogYesNo(StageListActivity.this, "Do you want to delete?", new OnButtonClickListener() {
+				MessageUtils.showDialogYesNo(StageListActivity.this, "你想要删除吗?", new OnButtonClickListener() {
 					
 					@Override
 					public void onOkClick() {
@@ -277,7 +277,7 @@ public class StageListActivity extends HeaderBarActivity
 			
 			@Override
 			public void onClick(View v) {
-				MessageUtils.showDialogYesNo(StageListActivity.this, "Do you want to publish this?", new OnButtonClickListener() {
+				MessageUtils.showDialogYesNo(StageListActivity.this, "你想要发布这吗?", new OnButtonClickListener() {
 					
 					@Override
 					public void onOkClick() {
@@ -331,7 +331,7 @@ public class StageListActivity extends HeaderBarActivity
 	{
 		if( m_historyInfo.optInt(Const.FAVORITED_FLAG, 0) != 0 )
 		{
-			MessageUtils.showMessageDialog(this, "You have already liked this history");
+			MessageUtils.showMessageDialog(this, "你已经很喜欢这段历史.");
 			return;
 		}
 				
@@ -350,7 +350,7 @@ public class StageListActivity extends HeaderBarActivity
 				try {
 					m_bIsChanged = true;
 					m_historyInfo.put(Const.FAVORITED_FLAG, 1);
-					m_txtLike.setText("Liked");
+					m_txtLike.setText("很喜欢");
 					
 					int likeCount = m_historyInfo.optInt(Const.LIKE_COUNT, 0);
 					likeCount++;
@@ -533,7 +533,7 @@ public class StageListActivity extends HeaderBarActivity
 				TextView view = new TextView(m_context);
 				view.setGravity(Gravity.CENTER);
 				view.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(40));
-				view.setText("There is no stage list\n\n\n\n\n\n\n\n");
+				view.setText("没有舞台列表.\n\n\n\n\n\n\n\n");
 				
 				return view;
 			}

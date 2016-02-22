@@ -41,7 +41,7 @@ public class CommentDetailActivity extends HeaderBarActivity
 	{
 		super.initData();
 		
-		m_txtPageTitle.setText("Comment");
+		m_txtPageTitle.setText("评论");
 		
 		m_layRight.setVisibility(View.VISIBLE);
 		m_btnRight.setBackgroundResource(R.drawable.complete_icon);
