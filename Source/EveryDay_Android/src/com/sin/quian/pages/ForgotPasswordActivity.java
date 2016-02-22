@@ -1,8 +1,12 @@
 package com.sin.quian.pages;
 
+import com.sin.quian.AppContext;
+import com.sin.quian.Const;
 import com.sin.quian.R;
+import com.sin.quian.network.ServerManager;
 
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
@@ -11,19 +15,25 @@ import android.widget.LinearLayout.LayoutParams;
 import common.component.ui.MyButton;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
+import common.library.utils.DataUtils;
+import common.library.utils.MessageUtils;
 import common.list.adapter.ItemCallBack;
 import common.list.adapter.ItemResult;
 import common.manager.activity.ActivityManager;
+import common.network.utils.LogicResult;
+import common.network.utils.ResultCallBack;
 
 
 public class ForgotPasswordActivity extends HeaderBarActivity
 {
-	EditText 		m_txtLast = null;
+	EditText 		m_txtUserName = null;
+	EditText 		m_txtEmail = null;
 	EditText 		m_txtNew = null;
 	EditText 		m_txtConfirm = null;
 	MyButton		m_btnChange = null;
 	
 	int [] m_field_item = {
+			R.id.fragment_forgot_username,
 			R.id.fragment_forgot_email,
 			R.id.fragment_forgot_new,
 			R.id.fragment_forgot_confirm,
@@ -41,7 +51,8 @@ public class ForgotPasswordActivity extends HeaderBarActivity
 	{
 		super.findViews();
 
-		m_txtLast = (EditText) findViewById(R.id.fragment_forgot_email).findViewById(R.id.edit_content);
+		m_txtUserName = (EditText) findViewById(R.id.fragment_forgot_username).findViewById(R.id.edit_content);
+		m_txtEmail = (EditText) findViewById(R.id.fragment_forgot_email).findViewById(R.id.edit_content);
 		m_txtNew = (EditText) findViewById(R.id.fragment_forgot_new).findViewById(R.id.edit_content);
 		m_txtConfirm = (EditText) findViewById(R.id.fragment_forgot_confirm).findViewById(R.id.edit_content);
 		m_btnChange = (MyButton) findViewById(R.id.btn_forgot_change);
@@ -53,9 +64,14 @@ public class ForgotPasswordActivity extends HeaderBarActivity
 		m_txtPageTitle.setText("忘记密码");
 		m_btnRight.setVisibility(View.INVISIBLE);
 		
+		((TextView) findViewById(R.id.fragment_forgot_username).findViewById(R.id.txt_label)).setText("用户名称");
 		((TextView) findViewById(R.id.fragment_forgot_email).findViewById(R.id.txt_label)).setText("邮箱");
 		((TextView) findViewById(R.id.fragment_forgot_new).findViewById(R.id.txt_label)).setText("密码");
 		((TextView) findViewById(R.id.fragment_forgot_confirm).findViewById(R.id.txt_label)).setText("确认密码");
+		
+		((EditText) findViewById(R.id.fragment_forgot_new).findViewById(R.id.edit_content)).setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+		((EditText) findViewById(R.id.fragment_forgot_confirm).findViewById(R.id.edit_content)).setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+
 	}
 	
 	protected void initEvents()
@@ -73,21 +89,35 @@ public class ForgotPasswordActivity extends HeaderBarActivity
 	
 	private void onClickforgot()
 	{
+		String strUserName = m_txtUserName.getText().toString();
+		String strEmail = m_txtEmail.getText().toString();
 		String strPassword = m_txtNew.getText().toString();
 		String strConfirm = m_txtConfirm.getText().toString();
 		if(strPassword.equals(strConfirm) && strPassword != null ){
-		
-//			DialogFactory.getInstance().showMessageDialog(this, "Changing your password is successful.", false, new ItemCallBack() {
-//				
-//				@Override
-//				public void doClick(ItemResult result) {
-					Bundle bundle = new Bundle();
-					ActivityManager.changeActivity(ForgotPasswordActivity.this, LoginActivity.class, bundle, false, null );		
-//				}
-//			});
-		}else {
-//			DialogFactory.getInstance().showMessageDialog(this, "Please enter the password again.", false, null);
-			return;
+			 showLoadingProgress();
+			 ServerManager.forgotPassword(strUserName, strEmail, strPassword, new ResultCallBack() {
+				 
+				@Override
+				public void doAction(LogicResult result) {
+					hideProgress();
+					
+
+					if( result.mResult == LogicResult.RESULT_OK )	// ok
+					{
+						DataUtils.savePreference(Const.LOGIN_OK, "1");
+						AppContext.setProfile(result.getContentData());
+						MessageUtils.showMessageDialog(ForgotPasswordActivity.this, result.mMessage);
+						
+						return;
+					}
+							
+					DataUtils.savePreference(Const.LOGIN_OK, "0");			
+					MessageUtils.showMessageDialog(ForgotPasswordActivity.this, result.mMessage);
+				}
+			});
+
+//			Bundle bundle = new Bundle();
+//			ActivityManager.changeActivity(ForgotPasswordActivity.this, LoginActivity.class, bundle, false, null );		
 		}
 	}
  

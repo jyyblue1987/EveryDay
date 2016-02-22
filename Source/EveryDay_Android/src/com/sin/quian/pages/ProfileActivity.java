@@ -216,7 +216,7 @@ public class ProfileActivity extends HeaderBarActivity
 			
 			@Override
 			public void onClick(View paramView) {
-				uploadStage();			}
+				upLoadPhoto();			}
 		});
 		m_btnSave.setOnClickListener(new View.OnClickListener() {
 			
@@ -241,7 +241,7 @@ public class ProfileActivity extends HeaderBarActivity
 		});
 	}
 
-	private void uploadStage()
+	private void upLoadPhoto()
 	{
 		m_cameraTempPath = Environment.getExternalStorageDirectory() + "/";
 		m_cameraTempPath += "camera_temp.jpg";
@@ -368,7 +368,16 @@ public class ProfileActivity extends HeaderBarActivity
 					MessageUtils.showMessageDialog(ProfileActivity.this, result.mMessage);
 					return;
 				}
-				
+				String filename = result.getData().optString("content", "");
+				JSONObject profile = AppContext.getProfile();
+				try {
+					profile.put(Const.PHOTO, filename);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
+				ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + filename, m_imgPhotoIcon, options);
+
 			}
 		});
 	}

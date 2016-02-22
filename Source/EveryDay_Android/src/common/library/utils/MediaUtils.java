@@ -89,7 +89,7 @@ public class MediaUtils {
 	{
 		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 
-		String items[] = {"Photo", "Zoom Photo"};
+		String items[] = {"Camera", "Gallery"};
 		
 		dialog.setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {			
 			public void onClick(DialogInterface dialog, int whichButton) {
