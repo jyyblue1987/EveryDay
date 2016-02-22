@@ -48,12 +48,12 @@ public class BuyActivity extends HeaderBarActivity
 	protected void initData()
 	{
 		super.initData();
-		m_txtPageTitle.setText("买明星");
+		m_txtPageTitle.setText("买星星");
 		m_btnRight.setVisibility(View.INVISIBLE);
 		
 		m_editStarNum.setInputType(InputType.TYPE_CLASS_NUMBER);
 		
-		((TextView) findViewById(R.id.fragment_buy_num).findViewById(R.id.txt_label)).setText("金额");
+		((TextView) findViewById(R.id.fragment_buy_num).findViewById(R.id.txt_label)).setText("星星数");
 	}
 	
 	protected void initEvents()

@@ -93,7 +93,7 @@ public class RegisterActivity extends HeaderBarActivity
 		m_btnRight.setVisibility(View.INVISIBLE);
 		m_txtPageTitle.setText("注册");
 		
-		((TextView) findViewById(R.id.fragment_username).findViewById(R.id.txt_label)).setText("用户名称");
+		((TextView) findViewById(R.id.fragment_username).findViewById(R.id.txt_label)).setText("用户名");
 		((TextView) findViewById(R.id.fragment_email).findViewById(R.id.txt_label)).setText("邮箱");
 		((TextView) findViewById(R.id.fragment_password).findViewById(R.id.txt_label)).setText("密码");
 		((TextView) findViewById(R.id.fragment_confirm_password).findViewById(R.id.txt_label)).setText("确认密码");
@@ -126,13 +126,13 @@ public class RegisterActivity extends HeaderBarActivity
 		
 		if( CheckUtils.isEmpty(username) )
 		{
-			MessageUtils.showMessageDialog(this, "请输入的用户名称.");
+			MessageUtils.showMessageDialog(this, "您必须输入用户名");
 			return;
 		}
 		
 		if( CheckUtils.isEmpty(email) )
 		{
-			MessageUtils.showMessageDialog(this, "请输入用户的电子邮件.");
+			MessageUtils.showMessageDialog(this, "请输入用户邮箱.");
 			return;
 		}
 		

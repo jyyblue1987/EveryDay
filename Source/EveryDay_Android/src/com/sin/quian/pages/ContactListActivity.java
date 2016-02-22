@@ -80,7 +80,7 @@ public class ContactListActivity extends HeaderBarActivity {
 	{
 		super.initData();
 		
-		m_txtPageTitle.setText("好友们");
+		m_txtPageTitle.setText("联系人列表");
 		m_txtEmptyView.setText("没有联系人列表.");
 		m_listPullItems.setMode(Mode.PULL_FROM_END);
 		
@@ -193,7 +193,7 @@ public class ContactListActivity extends HeaderBarActivity {
 	
 	private void onClickDeleteContact(final int pos)
 	{
-		MessageUtils.showDialogYesNo(this, "你想要删除此联系人吗?", new OnButtonClickListener() {
+		MessageUtils.showDialogYesNo(this, "您想要删除此联系人?", new OnButtonClickListener() {
 			
 			@Override
 			public void onOkClick() {

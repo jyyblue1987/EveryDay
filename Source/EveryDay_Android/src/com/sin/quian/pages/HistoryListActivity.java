@@ -111,7 +111,7 @@ public class HistoryListActivity extends HeaderBarActivity
 	{
 		super.initData();
 
-		m_txtPageTitle.setText("历史记录列表");
+		m_txtPageTitle.setText("历史列表");
 		
 		Bundle bundle = getIntent().getExtras();
 		
@@ -199,7 +199,7 @@ public class HistoryListActivity extends HeaderBarActivity
 			
 			@Override
 			public void onInputText(final String text) {
-				MessageUtils.showDialogYesNo(HistoryListActivity.this, "你真的想要向该用户发送点吗?", new OnButtonClickListener() {
+				MessageUtils.showDialogYesNo(HistoryListActivity.this, "您真的想要向该用户发送星星?", new OnButtonClickListener() {
 					
 					@Override
 					public void onOkClick() {
@@ -223,7 +223,7 @@ public class HistoryListActivity extends HeaderBarActivity
 	{
 		if( CheckUtils.isEmpty(text) )
 		{
-			MessageUtils.showMessageDialog(this, "请输入值");
+			MessageUtils.showMessageDialog(this, "请输入星星数");
 			return;
 		}
 		
@@ -232,7 +232,7 @@ public class HistoryListActivity extends HeaderBarActivity
 		int myPointCount = AppContext.getProfile().optInt(Const.POINT_NUM, 0);
 		if( ammount > myPointCount )
 		{
-			MessageUtils.showMessageDialog(this, "You must input value less than " + myPointCount );
+			MessageUtils.showMessageDialog(this, "您的输入值必须小于 " + myPointCount );
 			return;
 		}
 		

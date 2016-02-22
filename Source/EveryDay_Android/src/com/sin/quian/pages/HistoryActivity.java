@@ -82,7 +82,7 @@ public class HistoryActivity extends HeaderBarActivity {
 	{
 		super.initData();
 		
-		m_txtPageTitle.setText("最新们");
+		m_txtPageTitle.setText("历史");
 		
 		m_listPullItems.setMode(Mode.PULL_FROM_END);
 		m_nPageNum = 0;

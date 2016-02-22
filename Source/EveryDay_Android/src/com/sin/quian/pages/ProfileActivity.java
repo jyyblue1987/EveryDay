@@ -179,10 +179,10 @@ public class ProfileActivity extends HeaderBarActivity
 	{
 		super.initData();
 		m_btnRight.setVisibility(View.INVISIBLE);
-		m_txtPageTitle.setText("注册");
+		m_txtPageTitle.setText("个人信息");
 		
 		((TextView) findViewById(R.id.fragment_profile_fullname).findViewById(R.id.txt_label)).setText("全名");
-		((TextView) findViewById(R.id.fragment_profile_username).findViewById(R.id.txt_label)).setText("用户名称");
+		((TextView) findViewById(R.id.fragment_profile_username).findViewById(R.id.txt_label)).setText("用户名");
 		((TextView) findViewById(R.id.fragment_profile_thumbnail).findViewById(R.id.txt_label)).setText("缩图");
 		((TextView) findViewById(R.id.fragment_profile_email).findViewById(R.id.txt_label)).setText("邮箱");
 		((TextView) findViewById(R.id.fragment_profile_phonenumber).findViewById(R.id.txt_label)).setText("手机号码");
@@ -277,13 +277,13 @@ public class ProfileActivity extends HeaderBarActivity
 		}
 		if( CheckUtils.isEmpty(username) )
 		{
-			MessageUtils.showMessageDialog(this, "请输入的用户名称.");
+			MessageUtils.showMessageDialog(this, "请输入用户名.");
 			return;
 		}
 
 		if( CheckUtils.isEmpty(email) )
 		{
-			MessageUtils.showMessageDialog(this, "请输入的用户名称.");
+			MessageUtils.showMessageDialog(this, "请输入用户邮箱.");
 			return;
 		}
 		if( CheckUtils.isEmpty(phonenumber) )

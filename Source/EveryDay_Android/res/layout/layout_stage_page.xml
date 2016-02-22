@@ -66,7 +66,7 @@
 	            android:id="@+id/txt_like"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:text="Like"
+	            android:text="赞"
 	            android:textColor="@color/white" 
 	            />
 	        <ImageView
@@ -85,7 +85,7 @@
 	            android:id="@+id/txt_comment_input"
 	            android:layout_width="wrap_content"
 	            android:layout_height="wrap_content"
-	            android:text="Comment"
+	            android:text="评论"
 	            android:textColor="@color/white" 
 	            />
    		</LinearLayout>
@@ -101,7 +101,7 @@
                android:id="@+id/btn_stage_publish"
                android:layout_width="100dip"
                android:layout_height="30dip"
-               android:text="Publish"
+               android:text="发布"
                android:textColor="@color/white"
                android:background="@drawable/button_greeen_bg" 
                />

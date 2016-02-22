@@ -61,10 +61,10 @@ public class ForgotPasswordActivity extends HeaderBarActivity
 	protected void initData()
 	{
 		super.initData();
-		m_txtPageTitle.setText("忘记密码");
+		m_txtPageTitle.setText("忘记了密码");
 		m_btnRight.setVisibility(View.INVISIBLE);
 		
-		((TextView) findViewById(R.id.fragment_forgot_username).findViewById(R.id.txt_label)).setText("用户名称");
+		((TextView) findViewById(R.id.fragment_forgot_username).findViewById(R.id.txt_label)).setText("用户名");
 		((TextView) findViewById(R.id.fragment_forgot_email).findViewById(R.id.txt_label)).setText("邮箱");
 		((TextView) findViewById(R.id.fragment_forgot_new).findViewById(R.id.txt_label)).setText("密码");
 		((TextView) findViewById(R.id.fragment_forgot_confirm).findViewById(R.id.txt_label)).setText("确认密码");
