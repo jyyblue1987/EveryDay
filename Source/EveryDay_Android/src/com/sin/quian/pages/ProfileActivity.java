@@ -11,13 +11,10 @@ import com.sin.quian.R;
 import com.sin.quian.network.ServerManager;
 import com.sin.quian.network.ServerTask;
 
-import android.app.Activity;
 import android.content.Intent;
-import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Message;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
@@ -75,6 +72,7 @@ public class ProfileActivity extends HeaderBarActivity
 	MyButton		m_btnSave = null;
 	MyButton		m_btnChangePassword= null;
 	MyButton		m_btnBuy = null;
+	MyButton		m_btnLogout = null;
 	
 	int [] m_field_item = {
 		R.id.fragment_profile_fullname,
@@ -112,6 +110,7 @@ public class ProfileActivity extends HeaderBarActivity
 		m_btnSave = (MyButton) findViewById(R.id.btn_profile_save);
 		m_btnChangePassword = (MyButton) findViewById(R.id.btn_profile_change);
 		m_btnBuy = (MyButton) findViewById(R.id.btn_profile_buy);
+		m_btnLogout = (MyButton) findViewById(R.id.btn_profile_logout);
 
 		m_imgHard1 = (ImageView) findViewById(R.id.img_profile_icon1);
 		m_imgHard2 = (ImageView) findViewById(R.id.img_profile_icon2);
@@ -166,9 +165,13 @@ public class ProfileActivity extends HeaderBarActivity
 		LayoutUtils.setSize(m_btnChangePassword, LayoutParams.MATCH_PARENT, 114, true);
 		m_btnChangePassword.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 
-		LayoutUtils.setMargin(m_btnBuy, 80, 60, 80, 60, true);
+		LayoutUtils.setMargin(m_btnBuy, 80, 60, 80, 0, true);
 		LayoutUtils.setSize(m_btnBuy, LayoutParams.MATCH_PARENT, 114, true);
 		m_btnBuy.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+
+		LayoutUtils.setMargin(m_btnLogout, 80, 60, 80, 60, true);
+		LayoutUtils.setSize(m_btnLogout, LayoutParams.MATCH_PARENT, 114, true);
+		m_btnLogout.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 
 	}
 
@@ -237,6 +240,13 @@ public class ProfileActivity extends HeaderBarActivity
 			@Override
 			public void onClick(View paramView) {
 				onClickBuy();				
+			}
+		});
+		m_btnLogout.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View paramView) {
+				onClickLogout();				
 			}
 		});
 	}
@@ -328,6 +338,13 @@ public class ProfileActivity extends HeaderBarActivity
 	private void onClickBuy(){
 		Bundle bundle = new Bundle();
 		ActivityManager.changeActivity(ProfileActivity.this, BuyActivity.class, bundle, false, BUY_POINT_CODE );		
+		
+	}
+	
+	private void onClickLogout(){
+		SplashActivity.m_nLoginState = 0;
+		Bundle bundle = new Bundle();
+		ActivityManager.changeActivity(ProfileActivity.this, LoginActivity.class, bundle, false, BUY_POINT_CODE );		
 		
 	}
 	
