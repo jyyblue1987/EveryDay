@@ -9,16 +9,11 @@
         android:id="@+id/fragment_header"
         layout="@layout/fragment_header" />
  
-	<include
-	    android:id="@+id/fragment_buy_num"
-	    layout="@layout/fragment_label_edit" />
-     
-    <common.component.ui.MyButton
-        android:id="@+id/btn_buy"
-	    android:layout_width="100dip"
-        android:layout_height="30dip"
-        android:background="@drawable/button_greeen_bg"
-        android:text="购买"
-        android:textColor="@color/white" />       
+	<ListView
+	    android:id="@+id/list_items"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent" 
+	    android:cacheColorHint="#00000000" 
+	    />	   
         
 </LinearLayout>
