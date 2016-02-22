@@ -12,8 +12,8 @@ import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Environment;
 import android.provider.MediaStore;
+import common.image.crop.CropImage;
 
 public class MediaUtils {
 	public static void playAudio(String path)
@@ -85,6 +85,30 @@ public class MediaUtils {
 		alertDialog.setCanceledOnTouchOutside(true);
 	}
 	
+	public static void showProfileCameraGalleryPage(final Context context, final int requestCode, final String output)
+	{
+		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+
+		String items[] = {"Photo", "Zoom Photo"};
+		
+		dialog.setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {			
+			public void onClick(DialogInterface dialog, int whichButton) {
+				picture_mode = whichButton;						
+				if (picture_mode == 0) {
+					doTakePhotoFromCamera(context, requestCode, output );
+				} else if (picture_mode == 1) {
+					doTakePhotoFromGallery(context, requestCode + 1 );
+				}
+				dialog.dismiss();
+			}
+		});
+			
+		dialog.create();
+		AlertDialog alertDialog = dialog.show();
+		
+		alertDialog.show();
+		alertDialog.setCanceledOnTouchOutside(true);
+	}
 	public static void doTakeVideoFromCamera(Context context, int requestCode, String output )
 	{
 		Activity activity = (Activity) context;
@@ -168,5 +192,20 @@ public class MediaUtils {
 	        
         // this is our fallback here
         return uri.getPath();
+	}
+	
+	
+	public static void startPhotoZoom(Activity activity, String  picturePath, String outputPath, int iconSize, int requestCode ) {
+	    Intent intent = new Intent(activity, CropImage.class);
+	    
+	    // here you have to pass absolute path to your file		
+	    intent.putExtra("image-path", picturePath);
+	    intent.putExtra("save-path", outputPath);
+	    intent.putExtra("scale", true);
+		intent.putExtra("outputX", iconSize);
+		intent.putExtra("outputY", iconSize);
+        intent.putExtra("aspectX", 1);
+        intent.putExtra("aspectY", 1);
+        activity.startActivityForResult(intent, requestCode);
 	}
 }

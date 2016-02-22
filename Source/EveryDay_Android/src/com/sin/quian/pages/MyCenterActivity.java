@@ -354,6 +354,7 @@ public class MyCenterActivity extends HeaderBarActivity
 
 		super.onActivityResult(requestCode, resultCode, data);	
 	}
+	
 	class HistoryListAdapter extends MyListAdapter {
 		public HistoryListAdapter(Context context, List<JSONObject> data,
 				int resource, ItemCallBack callback) {

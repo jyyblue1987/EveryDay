@@ -1,4 +1,4 @@
-package com.sin.quian.image.crop;
+package common.image.crop;
 
 import java.io.Closeable;
 import java.io.IOException;

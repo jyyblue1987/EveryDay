@@ -1,4 +1,4 @@
-package com.sin.quian.image.crop;
+package common.image.crop;
 
 import android.content.Context;
 import android.graphics.Bitmap;
