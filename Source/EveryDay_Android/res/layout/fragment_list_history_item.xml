@@ -9,7 +9,7 @@
 	    android:id="@+id/lay_history_info"
 	    android:layout_width="0dip"
 	    android:layout_height="match_parent"
-	    android:layout_weight="0.3"
+	    android:layout_weight="0.2"
 	    >
 	    <common.component.ui.MyTextView
 	        android:id="@+id/txt_time"
@@ -73,7 +73,7 @@
 	    android:id="@+id/lay_history_content"
 	    android:layout_width="0dip"
 	    android:layout_height="wrap_content"
-	    android:layout_weight="0.7"
+	    android:layout_weight="0.8"
 	    >
 	    <ImageView
 		    android:id="@+id/img_history_preview"
@@ -82,13 +82,16 @@
 		    android:scaleType="fitXY"
 		    android:src="@drawable/default_image_bg"		    
 		    />
-	    <ImageView
+	    <TextView
 	        android:id="@+id/img_delete_history"
 	        android:layout_width="50dip"
 	        android:layout_height="15dip"
 	        android:layout_alignParentRight="true"
+	        android:gravity="center"
+	        android:background="@drawable/button_red_bg"
+	        android:text="Delete"
+	        android:textColor="@color/white"
 	        android:visibility="gone"
-	        android:background="@drawable/button_greeen_bg" 
 	        /> 
 	    <TextView
 		    android:id="@+id/txt_history"
@@ -97,7 +100,7 @@
 		    android:layout_alignParentBottom="true"
 		    android:paddingLeft="10dip"
 		    android:paddingRight="10dip"
-		    android:singleLine="true" 
+		    android:maxLines="3" 
 		    android:ellipsize="end"
 		    android:text="我很高兴"
 		    android:textColor="@color/white"

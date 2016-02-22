@@ -23,6 +23,9 @@
 	<uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
 	
+	 <!-- VERY IMPORTANT! Don't forget this permission, or in-app billing won't work. -->
+    <uses-permission android:name="com.android.vending.BILLING" />
+	
     <application
         android:allowBackup="true"
         android:icon="@drawable/ic_launcher"
@@ -49,13 +52,17 @@
         <activity android:name=".pages.StageActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.FriendsActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.MyCenterActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".pages.StageListActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".pages.StageListActivity" android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboard|keyboardHidden"/>
         <activity android:name=".pages.CommentListActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.CommentDetailActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".pages.ProfileActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".pages.ProfileActivity" android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboard|keyboardHidden"/>
         <activity android:name=".pages.BuyActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.HistoryListActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.ContactListActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".pages.VideoViewActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"/>
         
         <activity android:name="common.image.crop.CropImage" 
             android:configChanges="orientation|keyboard|keyboardHidden"

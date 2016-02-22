@@ -32,7 +32,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import common.component.ui.MyTextView;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
 import common.image.load.ImageUtils;
@@ -301,7 +300,7 @@ public class MyCenterActivity extends HeaderBarActivity
 	private void uploadStage()
 	{
 		m_cameraTempPath = Environment.getExternalStorageDirectory() + "/";
-		m_cameraTempPath += "camera_temp.jpg";
+		m_cameraTempPath += "camera_temp";
 
 		MediaUtils.showCameraGalleryPage(this, PICK_GALLERY_CODE, m_cameraTempPath);
 	}
@@ -344,11 +343,15 @@ public class MyCenterActivity extends HeaderBarActivity
 		}	
 
 		if (requestCode == PICK_GALLERY_CODE ) {
-			processFile(m_cameraTempPath);
+			processFile(m_cameraTempPath + ".jpg");
 		}	
 		
-		if (requestCode == PICK_GALLERY_CODE + 2 ) {
-			processFile(m_cameraTempPath);
+		if (requestCode == PICK_GALLERY_CODE + 2 ) { 
+			String thumbPath = Environment.getExternalStorageDirectory() + "/";
+			thumbPath += "thumb.jpg";
+			
+			ImageUtils.createThumbnail(m_cameraTempPath + ".mp4", thumbPath);
+			processFile(m_cameraTempPath + ".mp4");
 		}	
 		
 		if (requestCode == COMMENT_REQUEST_CODE ) {
