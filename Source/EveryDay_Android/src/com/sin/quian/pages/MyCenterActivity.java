@@ -107,6 +107,7 @@ public class MyCenterActivity extends HeaderBarActivity
 		
 		m_txtHard.setText(profile.optString(Const.RECEIVE_NUM, "0"));
 		m_txtStar.setText(profile.optString(Const.POINT_NUM, "0"));
+		ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + AppContext.getProfile().optString(Const.PHOTO, ""), m_imgPhoto);
 		
 		m_listPullItems.setMode(Mode.PULL_FROM_END);
 		

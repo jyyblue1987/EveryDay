@@ -33,8 +33,8 @@ public class HeaderBarActivity extends BaseActivity {
 	}
 	protected void layoutControls()
 	{
-		LayoutUtils.setSize(m_layLeft, 160, 125, true);
-		LayoutUtils.setSize(m_layRight, 160, 125, true);
+		LayoutUtils.setSize(m_layLeft, 160, 140, true);
+		LayoutUtils.setSize(m_layRight, 160, 140, true);
 		
 		m_btnLeft.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
 		m_btnRight.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));

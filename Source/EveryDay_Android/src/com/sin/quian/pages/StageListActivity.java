@@ -110,9 +110,9 @@ public class StageListActivity extends HeaderBarActivity
 		m_btnRight.setBackgroundResource(R.drawable.comment_list);
 		LayoutUtils.setSize(m_btnRight, 55, 48, true);
 		
-		int iconsize = 40;
-		int fontsize = 25;
-		int padding = 10;
+		int iconsize = 60;
+		int fontsize = 40;
+		int padding = 20;
 		
 		m_txtComment.setTextSize(TypedValue.COMPLEX_UNIT_PX, 55);
 		
@@ -152,6 +152,9 @@ public class StageListActivity extends HeaderBarActivity
 		super.initData();
 		
 		Bundle bundle = getIntent().getExtras();
+		
+		m_txtPageTitle.setText(AppContext.getProfile().optString(Const.USERNAME, ""));
+		m_txtSubTitle.setText("0/0");
 		
 		if( bundle != null )
 		{

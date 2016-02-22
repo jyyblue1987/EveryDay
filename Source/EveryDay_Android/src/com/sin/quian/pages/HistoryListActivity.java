@@ -336,6 +336,8 @@ public class HistoryListActivity extends HeaderBarActivity
 		m_txtHard.setText(m_profile.optString(Const.RECEIVE_NUM, "0"));
 		m_txtStar.setText(m_profile.optString(Const.SEND_NUM, "0"));
 		m_txtHisAddress.setText("地址: " + m_profile.optString(Const.ADDRESS, ""));
+		
+		ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + m_profile.optString(Const.PHOTO, ""), m_imgPhoto);
 	}
 	
 	private void showMyPointInfo()
