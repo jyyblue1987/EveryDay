@@ -94,9 +94,9 @@ public class RegisterActivity extends HeaderBarActivity
 		m_txtPageTitle.setText("注册");
 		
 		((TextView) findViewById(R.id.fragment_username).findViewById(R.id.txt_label)).setText("用户名称");
-		((TextView) findViewById(R.id.fragment_email).findViewById(R.id.txt_label)).setText("电子邮件");
+		((TextView) findViewById(R.id.fragment_email).findViewById(R.id.txt_label)).setText("邮箱");
 		((TextView) findViewById(R.id.fragment_password).findViewById(R.id.txt_label)).setText("密码");
-		((TextView) findViewById(R.id.fragment_confirm_password).findViewById(R.id.txt_label)).setText("请重新输入");
+		((TextView) findViewById(R.id.fragment_confirm_password).findViewById(R.id.txt_label)).setText("确认密码");
 		
 		((EditText) findViewById(R.id.fragment_email).findViewById(R.id.edit_content)).setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 		((EditText) findViewById(R.id.fragment_password).findViewById(R.id.edit_content)).setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);

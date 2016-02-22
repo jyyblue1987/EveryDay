@@ -12,6 +12,7 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sin.quian.AppContext;
 import com.sin.quian.Const;
@@ -31,6 +32,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
+import common.image.load.ImageUtils;
 import common.library.utils.MessageUtils;
 import common.library.utils.MessageUtils.OnButtonClickListener;
 import common.list.adapter.ItemCallBack;
@@ -232,8 +234,15 @@ public class ContactListActivity extends HeaderBarActivity {
 	private void gotoHistoryPage(int pos)
 	{
 		JSONObject item = m_adapterContactList.getItem(pos - 1);
+		
+		try {
+			item.put(Const.CHECKFRIEND, 1);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
 		Bundle bundle = new Bundle();	
-		bundle.putString(INTENT_EXTRA, item.toString());
+		bundle.putString(INTENT_EXTRA, item.toString());		
 		ActivityManager.changeActivity(this, HistoryListActivity.class, bundle, false, null );
 	}
 
@@ -277,7 +286,8 @@ public class ContactListActivity extends HeaderBarActivity {
 			ViewHolder.get(rowView, R.id.lay_historyitem_3).setVisibility(View.GONE);
 			
 			// userinfo
-			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + item.optString(Const.PHOTO, ""), (ImageView)ViewHolder.get(rowView, R.id.img_historyitem_icon));
+			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
+			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + item.optString(Const.PHOTO, ""), (ImageView)ViewHolder.get(rowView, R.id.img_historyitem_icon), options);
 			
 			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_name)).setText(item.optString(Const.USERNAME, ""));
 			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_hard_num)).setText(item.optString(Const.RECEIVE_NUM, ""));
