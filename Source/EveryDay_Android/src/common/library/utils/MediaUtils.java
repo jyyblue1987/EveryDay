@@ -62,7 +62,7 @@ public class MediaUtils {
 	{
 		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
 
-		String items[] = {"拍张照片", "从库拍张照片", "带视频", "VideoGallery"};
+		String items[] = {"拍张照片", "从库提取照片", "拍张视频", "从库提取视频"};
 		
 		dialog.setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {			
 			public void onClick(DialogInterface dialog, int whichButton) {

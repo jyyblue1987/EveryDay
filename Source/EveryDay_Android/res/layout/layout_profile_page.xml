@@ -90,7 +90,7 @@
 		        android:layout_width="100dip"
 		        android:layout_height="30dip"
 		        android:background="@drawable/button_greeen_bg"
-		        android:text="注销"
+		        android:text="退出"
 		        android:textColor="@color/white" />       
 		    		    
 		    
