@@ -212,9 +212,9 @@ public class StageListActivity extends HeaderBarActivity
 			m_btnRemove.setVisibility(View.GONE);
 			
 			if( m_historyInfo.optInt(Const.FAVORITED_FLAG, 0) == 0 )
-				m_txtLike.setText("像");
+				m_txtLike.setText("Like");
 			else
-				m_txtLike.setText("很喜欢");
+				m_txtLike.setText("Liked");
 			
 			m_txtLikeCount.setText(m_historyInfo.optString(Const.LIKE_COUNT, "0"));
 			m_txtCommentCount.setText(m_historyInfo.optString(Const.COMMENT_COUNT, "0"));
