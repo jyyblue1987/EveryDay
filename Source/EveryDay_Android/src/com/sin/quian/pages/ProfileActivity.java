@@ -45,7 +45,7 @@ public class ProfileActivity extends HeaderBarActivity
 	private static int	PROFILE_PICK_GALLERY_CODE = 100;
 	private static int	PROFILE_COMMENT_REQUEST_CODE = 200;
 	private static int	PROFILE_STAGE_LIST_CODE = 201;
-	public static final int PHOTOZOOM = 2; 
+	public static final int PHOTOZOOM = 20; 
 	public static final int PHOTOZOOM_GALLERY = 5;
 	int headerIconSize=600,headerInconSpace=600;
 	protected static final int MSG_LOAD_IMAGE = 10000;
@@ -216,7 +216,7 @@ public class ProfileActivity extends HeaderBarActivity
 			
 			@Override
 			public void onClick(View paramView) {
-				upLoadPhoto();			}
+				upLoadPhotoIcon();			}
 		});
 		m_btnSave.setOnClickListener(new View.OnClickListener() {
 			
@@ -241,12 +241,13 @@ public class ProfileActivity extends HeaderBarActivity
 		});
 	}
 
-	private void upLoadPhoto()
+	private void upLoadPhotoIcon()
 	{
 		m_cameraTempPath = Environment.getExternalStorageDirectory() + "/";
 		m_cameraTempPath += "camera_temp.jpg";
-
-		MediaUtils.showProfileCameraGalleryPage(this, PROFILE_PICK_GALLERY_CODE, m_cameraTempPath);
+		
+		// communication between ProfileActivity and mediaUtils
+		MediaUtils.showProfileCameraGalleryPage(this, PROFILE_PICK_GALLERY_CODE, m_cameraTempPath);// PROFILE_PICK_GALLERY_CODE: request code
 	}
 	
 	private void onClickSave()
@@ -344,14 +345,10 @@ public class ProfileActivity extends HeaderBarActivity
 		}
 		
 		bundle.putString(INTENT_EXTRA, data.toString());
-//		Uri selectedImage = data.getData();			
-//		String picturePath = MediaUtils.getPathFromURI(this, selectedImage);
-//		String outputPath = MediaUtils.getPathFromURI(this, selectedImage);
 		m_cameraZoomTempPath = Environment.getExternalStorageDirectory() + "/";
 		m_cameraZoomTempPath += "camera_zoom.jpg";
 
-		MediaUtils.startPhotoZoom(this, path, m_cameraZoomTempPath, headerIconSize, PHOTOZOOM);
-//		ActivityManager.changeActivity(this, CommentDetailActivity.class, bundle, false, PROFILE_COMMENT_REQUEST_CODE);	
+		MediaUtils.startPhotoZoom(this, path, m_cameraZoomTempPath, headerIconSize, PHOTOZOOM);// to zoom photo
 	}
 	
 	protected void uploadPhoto(String path)
@@ -363,34 +360,35 @@ public class ProfileActivity extends HeaderBarActivity
 			public void doAction(LogicResult result) {
 				hideProgress();
 
-				if( result.mResult != LogicResult.RESULT_OK )	// login ok
+				if( result.mResult != LogicResult.RESULT_OK )	// failed
 				{
 					MessageUtils.showMessageDialog(ProfileActivity.this, result.mMessage);
 					return;
 				}
-				String filename = result.getData().optString("content", "");
+				String filename = result.getData().optString("content", "");// to save changed state 
 				JSONObject profile = AppContext.getProfile();
 				try {
 					profile.put(Const.PHOTO, filename);
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
-				DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
+				DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();// to load photo
 				ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + filename, m_imgPhotoIcon, options);
 
 			}
 		});
 	}
 
+	// to receive intent info from startActivityForResult in MediaUtils
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) 
+	{ 
 		if (resultCode == 0)
 			return;	
 
 		if (requestCode == PHOTOZOOM) {
 			uploadPhoto(m_cameraZoomTempPath);
 		}
-
 		
 		if( requestCode == PROFILE_PICK_GALLERY_CODE + 1 )
 		{

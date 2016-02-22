@@ -127,6 +127,7 @@ public class HistoryListActivity extends HeaderBarActivity
 		
 		
 		m_txtName.setText(m_profile.optString(Const.USERNAME, ""));
+		m_txtMyReceiveCount.setText(m_profile.optString(Const.SEND_NUM, ""));
 		
 		m_listPullItems.setMode(Mode.PULL_FROM_END);
 		
@@ -340,7 +341,7 @@ public class HistoryListActivity extends HeaderBarActivity
 		m_txtHisAddress.setText("地址: " + m_profile.optString(Const.ADDRESS, ""));
 		
 		DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
-		ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + m_profile.optString(Const.PHOTO, ""), m_imgPhoto, options);
+		ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + m_profile.optString(Const.PHOTO, ""), m_imgPhoto, options);
 	}
 	
 	private void showMyPointInfo()

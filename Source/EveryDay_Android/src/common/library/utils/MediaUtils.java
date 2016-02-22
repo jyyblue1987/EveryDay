@@ -159,7 +159,7 @@ public class MediaUtils {
 		
 		intent.setType(IMAGE_UNSPECIFIED);
 
-		activity.startActivityForResult(intent, requestCode );	
+		activity.startActivityForResult(intent, requestCode );// to connect onActivityResult in activity	
 	}
 	
 	public static String getPathFromURI(Context context, Uri uri) {
