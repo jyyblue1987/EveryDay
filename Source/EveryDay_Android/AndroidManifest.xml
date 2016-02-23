@@ -61,6 +61,8 @@
         <activity android:name=".pages.BuyActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.HistoryListActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.ContactListActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".pages.VideoViewActivity"
+            android:configChanges="orientation|keyboard|keyboardHidden"/>
         
         <activity android:name="common.image.crop.CropImage" 
             android:configChanges="orientation|keyboard|keyboardHidden"

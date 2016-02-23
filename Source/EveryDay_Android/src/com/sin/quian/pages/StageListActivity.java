@@ -477,7 +477,14 @@ public class StageListActivity extends HeaderBarActivity
 		String extension = url.substring(url.lastIndexOf(".")).toUpperCase();
 		String path = file.getAbsolutePath();
 		
-        AndroidUtils.showImageInGallery(this, path, extension);
+		if( extension.equals(".JPG") || extension.equals(".PNG") || extension.equals(".BMP") )
+			AndroidUtils.showImageInGallery(this, path, extension);
+		 else if( extension.equals(".MP4") || extension.equals(".AVI") || extension.equals(".FLV") || extension.equals(".MOV") )
+		 {
+				Bundle bundle = new Bundle();		
+				bundle.putString(INTENT_EXTRA, url);
+				ActivityManager.changeActivity(this, VideoViewActivity.class, bundle, false, null );
+		 }
 	}
 
 	class HistoryListAdapter extends MyListAdapter {

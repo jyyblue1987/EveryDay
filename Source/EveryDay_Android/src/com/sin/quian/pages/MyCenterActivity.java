@@ -301,7 +301,7 @@ public class MyCenterActivity extends HeaderBarActivity
 	private void uploadStage()
 	{
 		m_cameraTempPath = Environment.getExternalStorageDirectory() + "/";
-		m_cameraTempPath += "camera_temp.jpg";
+		m_cameraTempPath += "camera_temp";
 
 		MediaUtils.showCameraGalleryPage(this, PICK_GALLERY_CODE, m_cameraTempPath);
 	}
@@ -344,11 +344,11 @@ public class MyCenterActivity extends HeaderBarActivity
 		}	
 
 		if (requestCode == PICK_GALLERY_CODE ) {
-			processFile(m_cameraTempPath);
+			processFile(m_cameraTempPath + ".jpg");
 		}	
 		
-		if (requestCode == PICK_GALLERY_CODE + 2 ) {
-			processFile(m_cameraTempPath);
+		if (requestCode == PICK_GALLERY_CODE + 2 ) { 
+			processFile(m_cameraTempPath + ".mp4");
 		}	
 		
 		if (requestCode == COMMENT_REQUEST_CODE ) {
