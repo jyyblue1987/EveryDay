@@ -157,7 +157,7 @@
 			    android:id="@+id/img_history_preview"
 			    android:layout_width="match_parent"
 			    android:layout_height="150dip"
-			    android:scaleType="fitXY"
+			    android:scaleType="centerCrop"
 			    android:src="@drawable/default_image_bg"		    
 			    />
 		    <TextView
