@@ -7,6 +7,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sin.quian.AppContext;
@@ -18,28 +20,22 @@ import com.sin.quian.network.ServerTask;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
-import android.support.v4.view.ViewPager;
-import android.support.v4.view.ViewPager.SimpleOnPageChangeListener;
 import android.util.TypedValue;
-import android.view.Gravity;
-import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.TextView;
 import common.design.layout.LayoutUtils;
-import common.design.layout.ScreenAdapter;
-import common.design.utils.ResourceUtils;
 import common.image.load.ImageUtils;
 import common.library.utils.AlgorithmUtils;
-import common.library.utils.MediaUtils;
 import common.library.utils.MessageUtils;
 import common.library.utils.MessageUtils.OnButtonClickListener;
 import common.library.utils.MyTime;
 import common.list.adapter.ItemCallBack;
-import common.list.adapter.MyPagerAdapter;
+import common.list.adapter.MyListAdapter;
 import common.list.adapter.ViewHolder;
 import common.manager.activity.ActivityManager;
 import common.network.utils.LogicResult;
@@ -50,12 +46,11 @@ public class StageListActivity extends HeaderBarActivity
 {
 	private static int	COMMENT_REQUEST_CODE = 200;
 	
-	ViewPager 	m_photoPager = null;
-	PhotoPagerAdapter	m_photoAdapter;
+	PullToRefreshListView		m_listPullItems = null;
+	ListView					m_listItems = null;
+	HistoryListAdapter			m_adapterHistoryList = null;
+	int							m_nPageNum = 0;
 	
-	int			m_nCurrentPage = 0;
-	
-	TextView	m_txtSubTitle = null;
 	TextView	m_txtComment = null;
 	
 	ImageView	m_imgLikeIcon = null;
@@ -75,8 +70,7 @@ public class StageListActivity extends HeaderBarActivity
 	int m_nMode = Const.TEMP_STAGE_MODE;
 	boolean		m_bIsChanged = false;
 	
-	@Override
-	protected void onCreate(Bundle savedInstanceState) {
+	@Override	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.layout_stage_page);
 		loadComponents();
@@ -86,9 +80,9 @@ public class StageListActivity extends HeaderBarActivity
 	{
 		super.findViews();
 		
-		m_photoPager = (ViewPager) findViewById(R.id.img_gallery_view);
+		m_listPullItems = (PullToRefreshListView)findViewById(R.id.list_items);
+		m_listItems = m_listPullItems.getRefreshableView();
 
-		m_txtSubTitle  = (TextView) findViewById(R.id.fragment_header).findViewById(R.id.txt_navigate_sub_title);
 		m_txtComment = (TextView) findViewById(R.id.txt_comment);
 		m_imgLikeIcon = (ImageView) findViewById(R.id.img_like_icon);
 		m_txtLike = (TextView) findViewById(R.id.txt_like);
@@ -108,7 +102,6 @@ public class StageListActivity extends HeaderBarActivity
 	{
 		super.layoutControls();
 		
-		m_txtSubTitle.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(40));
 		m_layRight.setVisibility(View.VISIBLE);
 		m_btnRight.setBackgroundResource(R.drawable.comment_list);
 		LayoutUtils.setSize(m_btnRight, 55, 48, true);
@@ -157,7 +150,8 @@ public class StageListActivity extends HeaderBarActivity
 		Bundle bundle = getIntent().getExtras();
 		
 		m_txtPageTitle.setText(AppContext.getProfile().optString(Const.USERNAME, ""));
-		m_txtSubTitle.setText("0/0");
+		
+		m_listPullItems.setMode(Mode.DISABLED);
 		
 		if( bundle != null )
 		{
@@ -241,40 +235,16 @@ public class StageListActivity extends HeaderBarActivity
 		for(int i = 0; i < array.length(); i++ )
 			list.add(array.optJSONObject(i));
 		
-		showStageList(list);
+		if( list.size() < 1 )
+			m_btnPublish.setVisibility(View.GONE);
 		
-		if( list.size() > 0 )
-			m_nCurrentPage = 0;
-		else
-			m_nCurrentPage = -1;
-		showStageInfo(m_nCurrentPage);
+		showStageList(list);
 	}
 	
 	protected void initEvents()
 	{ 
 		super.initEvents();
 		
-		ResourceUtils.addClickEffect(m_btnRemove);
-		m_btnRemove.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				MessageUtils.showDialogYesNo(StageListActivity.this, "你想要删除吗?", new OnButtonClickListener() {
-					
-					@Override
-					public void onOkClick() {
-						removeStage();						
-					}
-					
-					@Override
-					public void onCancelClick() {
-						// TODO Auto-generated method stub
-						
-					}
-				});
-						
-			}
-		});
 		
 		m_btnPublish.setOnClickListener(new View.OnClickListener() {
 			
@@ -366,12 +336,29 @@ public class StageListActivity extends HeaderBarActivity
 		});
 	}
 	
-	private void removeStage()
+	private void onRemoveStage(final int pos)
+	{
+		MessageUtils.showDialogYesNo(this, "Do you want to delete this stage?", new OnButtonClickListener() {
+			
+			@Override
+			public void onOkClick() {
+				removeStage(pos);				
+			}
+			
+			@Override
+			public void onCancelClick() {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	}
+	
+	private void removeStage(final int pos)
 	{
 		if( m_nMode == Const.TEMP_STAGE_MODE )
 		{
-			JSONObject item = m_photoAdapter.getItem(m_nCurrentPage);
-			if( item == null || m_nCurrentPage < 0 || m_nCurrentPage >= m_photoAdapter.getData().size() )
+			JSONObject item = m_adapterHistoryList.getItem(pos);
+			if( item == null )
 				return;
 			showLoadingProgress();
 			ServerManager.deleteTempStages(AppContext.getUserID(), item.optString(Const.ID, "0"), new ResultCallBack() {
@@ -385,16 +372,9 @@ public class StageListActivity extends HeaderBarActivity
 						return;
 					}
 					
-					m_photoAdapter.getData().remove(m_nCurrentPage);
-					m_photoPager.setAdapter(m_photoAdapter);
-						
-					if( m_nCurrentPage >= m_photoAdapter.getData().size() )
-						m_nCurrentPage--;
 					
-					showStageInfo(m_nCurrentPage);
-					
-					if( m_nCurrentPage >= 0 )
-						m_photoPager.setCurrentItem(m_nCurrentPage);
+					m_adapterHistoryList.getData().remove(pos);
+					m_adapterHistoryList.notifyDataSetChanged();
 					
 					m_bIsChanged = true;
 				}
@@ -433,50 +413,21 @@ public class StageListActivity extends HeaderBarActivity
 	}
 	private void showStageList(List<JSONObject> list)
 	{
-		m_photoAdapter = new PhotoPagerAdapter(this, list, null);
-		m_photoPager.setAdapter(m_photoAdapter);
-		
-		m_photoPager.setOnTouchListener(new View.OnTouchListener() {
-		    public boolean onTouch(View v, MotionEvent event) {
-		        v.getParent().requestDisallowInterceptTouchEvent(true);
-		        return false;
-		    }
-		});
-
-		m_photoPager.setOnPageChangeListener(new SimpleOnPageChangeListener() {
-		    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-		    	m_photoPager.getParent().requestDisallowInterceptTouchEvent(true);
-		    	m_nCurrentPage = position;
-		    	showStageInfo(position);
-		    }
-		});
-	}
-	
-	
-	private void showStageInfo(int num)
-	{
-		JSONObject item = null;
-		if( num >= 0 && num < m_photoAdapter.getData().size() )
-			item = m_photoAdapter.getItem(num);
-		
-		if( num < 0 || item == null )
+		if( list.size() < 1 )
 		{
-			m_txtComment.setText("");
-			m_txtPageTitle.setText(AppContext.getProfile().optString(Const.USERNAME, ""));
-			m_txtSubTitle.setText("0/0");
-			m_btnRemove.setVisibility(View.GONE);
-			m_btnPublish.setVisibility(View.GONE);
-			return;
+			m_listPullItems.setMode(Mode.DISABLED);
 		}
-		
-		m_txtComment.setText(item.optString(Const.CONTENT, ""));
-//		m_btnRemove.setVisibility(View.VISIBLE);
-		
-		String time = item.optString(Const.MODIFY_DATE, MyTime.getCurrentTime());
-		String date = MyTime.getChinaDate(time);
-		m_txtPageTitle.setText(date);
-		m_txtSubTitle.setText((num + 1) + "/" + m_photoAdapter.getData().size() );
+		else
+		{
+			m_listItems.setVisibility(View.VISIBLE);
+
+			m_adapterHistoryList = new HistoryListAdapter(this, list, R.layout.fragment_list_history_item, null);
+			
+			m_listItems.setAdapter(m_adapterHistoryList);	
+		}
 	}
+	
+
 	protected void gotoNextPage()
 	{
 		if(m_nMode == Const.SELF_STAGE_MODE ||
@@ -512,38 +463,69 @@ public class StageListActivity extends HeaderBarActivity
 		super.onActivityResult(requestCode,  resultCode, data);	
 	}
 				
-	class PhotoPagerAdapter extends MyPagerAdapter {
-	    public PhotoPagerAdapter(Context context, List<JSONObject> data, ItemCallBack callback) {	        
-	        super(context, data, callback);
-	    }
-
+	class HistoryListAdapter extends MyListAdapter {
+		public HistoryListAdapter(Context context, List<JSONObject> data,
+				int resource, ItemCallBack callback) {
+			super(context, data, resource, callback);
+		}
 		@Override
-		protected View loadItemViews(int position)
+		protected void loadItemViews(View rowView, int position)
 		{
-			if( m_bValidData == true )
-			{
-				ImageView view = new ImageView(m_context);
-//		    	view.setScaleType(ScaleType.FIT_XY);
-		    	
-		    	JSONObject item = getItem(position);
-		    	if( item != null )		    	
-		    	{
-					DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.default_image_bg).build();
-		    		ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + item.optString(Const.THUMBNAIL, ""), view, options);
-		    	}
-				
-				return view;
-			}
+			final JSONObject item = getItem(position);
+			
+			// layout controls
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_history_info), 30, 30, 0, 30, true);
+			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 40);
+			
+			int iconsize = 40;
+			int fontsize = 25;
+			int padding = 10;
+			
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_like_count_icon), iconsize, iconsize, true);
+			((TextView)ViewHolder.get(rowView, R.id.txt_like_count)).setTextSize(TypedValue.COMPLEX_UNIT_PX, fontsize);
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_like_count), padding, 0, 0, 0, true);
+			
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_comment_count_icon), iconsize, iconsize, true);
+			((TextView)ViewHolder.get(rowView, R.id.txt_comment_count)).setTextSize(TypedValue.COMPLEX_UNIT_PX, fontsize);
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_comment_count), padding, 0, 0, 0, true);
+			
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_history_content), 30, 30, 30, 30, true);
+			
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_history_preview), LayoutParams.MATCH_PARENT, 500, true);
+			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 45);
+			
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_delete_history), 140, 60, true);
+			
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_camera_icon), 200, 200, true);
+			
+			ViewHolder.get(rowView, R.id.img_camera_icon).setVisibility(View.GONE);
+			
+			((TextView)ViewHolder.get(rowView, R.id.img_delete_history)).setTextSize(TypedValue.COMPLEX_UNIT_PX, fontsize);
+			if( m_nMode != Const.TEMP_STAGE_MODE )
+				ViewHolder.get(rowView, R.id.img_delete_history).setVisibility(View.GONE);
 			else
 			{
-				TextView view = new TextView(m_context);
-				view.setGravity(Gravity.CENTER);
-				view.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(40));
-				view.setText("没有舞台列表.\n\n\n\n\n\n\n\n");
-				
-				return view;
+				final int pos = position;
+				ViewHolder.get(rowView, R.id.img_delete_history).setVisibility(View.VISIBLE);
+				ViewHolder.get(rowView, R.id.img_delete_history).setOnClickListener(new View.OnClickListener() {
+					
+					@Override
+					public void onClick(View v) {
+						onRemoveStage(pos);
+					}
+				});
 			}
-		}  
-	
+			
+			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.default_image_bg).build();
+			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + item.optString(Const.THUMBNAIL, ""), (ImageView)ViewHolder.get(rowView, R.id.img_history_preview), options);
+			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setText(item.optString(Const.CONTENT, ""));
+			
+			String time = item.optString(Const.MODIFY_DATE, MyTime.getCurrentTime());
+			String date = MyTime.getOnlyMonthDate(time) + "\n" + MyTime.getOnlyYear(time);
+			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setText(date);
+			
+			((TextView)ViewHolder.get(rowView, R.id.txt_comment_count)).setText(item.optString(Const.COMMENT_COUNT, "0"));
+			((TextView)ViewHolder.get(rowView, R.id.txt_like_count)).setText(item.optString(Const.LIKE_COUNT, "0"));
+		}	
 	}
 }

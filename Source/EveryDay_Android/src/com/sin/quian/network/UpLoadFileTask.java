@@ -2,6 +2,7 @@ package com.sin.quian.network;
 
 import java.io.File;
 import java.io.UnsupportedEncodingException;
+import java.nio.charset.Charset;
 import java.util.HashMap;
 
 import org.apache.http.HttpEntity;
@@ -23,7 +24,6 @@ import android.os.AsyncTask;
 import android.os.Handler;
 import android.os.Message;
 import android.util.Log;
-
 import common.network.utils.CustomMultipartEntity;
 import common.network.utils.CustomMultipartEntity.ProgressListener;
 import common.network.utils.LogicResult;
@@ -89,7 +89,7 @@ public class UpLoadFileTask extends AsyncTask<String, String, String> {
 			if (mParam != null) {
 				for (String key : mParam.keySet()) {
 					String pKey = key;		
-					mpEntity.addPart(pKey, new StringBody(mParam.get(key)));
+					mpEntity.addPart(pKey, new StringBody(mParam.get(key), Charset.forName("UTF-8")));
 				}
 			}			
 		} catch (UnsupportedEncodingException e1) {

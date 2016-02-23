@@ -19,6 +19,9 @@
     <color name="green_button_color">#60aa17</color>
     <color name="green_darker_button_color">#4c8415</color>
     
+    <color name="red_button_color">#b00c0c</color>
+    <color name="red_darker_button_color">#7f0909</color>
+    
     <color name="orange_darker">#b5791f</color>
     <color name="menu_background_color">#fff3c8</color>
     

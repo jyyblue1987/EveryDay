@@ -188,8 +188,8 @@ public class CommentListActivity extends HeaderBarActivity
 	
 	private void gotoCommentPage(int pos)
 	{
-		Bundle bundle = new Bundle();
-		ActivityManager.changeActivity(this, CommentDetailActivity.class, bundle, false, null );	
+//		Bundle bundle = new Bundle();
+//		ActivityManager.changeActivity(this, CommentDetailActivity.class, bundle, false, null );	
 	}
 	
 	class CommentListAdapter extends MyListAdapter {
