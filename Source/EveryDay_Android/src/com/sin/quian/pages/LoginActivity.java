@@ -7,6 +7,7 @@ import com.sin.quian.network.ServerManager;
 
 import android.os.Bundle;
 import android.text.InputType;
+import android.text.Layout;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
@@ -17,6 +18,7 @@ import common.component.ui.MyButton;
 import common.component.ui.MyTextView;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
+import common.design.utils.ResourceUtils;
 import common.library.utils.CheckUtils;
 import common.library.utils.DataUtils;
 import common.library.utils.MessageUtils;
@@ -36,6 +38,9 @@ public class LoginActivity extends HeaderBarActivity
 	MyButton		m_btnLogin = null;
 	MyTextView		m_txtRegister = null;
 	MyTextView		m_txtForgot = null;
+	
+	ImageView 		m_imgFacebook = null;
+	ImageView 		m_imgWeibo = null;
 	
 	int [] m_field_item = {
 			R.id.fragment_username,
@@ -60,6 +65,9 @@ public class LoginActivity extends HeaderBarActivity
 		m_btnLogin = (MyButton) findViewById(R.id.btn_login);
 		m_txtRegister = (MyTextView) findViewById(R.id.txt_login_register);
 		m_txtForgot = (MyTextView) findViewById(R.id.txt_login_forgot);
+		
+		m_imgFacebook = (ImageView) findViewById(R.id.img_facebook);
+		m_imgWeibo = (ImageView) findViewById(R.id.img_weibo);
 	}
 
 	protected void initData()
@@ -104,6 +112,24 @@ public class LoginActivity extends HeaderBarActivity
 			@Override
 			public void onClick(View paramView) {
 				onClickForgot();	
+			}
+		});
+		
+		ResourceUtils.addClickEffect(m_imgFacebook);
+		m_imgFacebook.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
+			}
+		});
+		
+		ResourceUtils.addClickEffect(m_imgWeibo);
+		m_imgWeibo.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				
 			}
 		});
 	}
@@ -166,6 +192,10 @@ public class LoginActivity extends HeaderBarActivity
 		
 		m_txtRegister.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));	
 		m_txtForgot.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+		
+		LayoutUtils.setMargin(findViewById(R.id.lay_third_party), 80, 100, 80, 100, true);
+		LayoutUtils.setSize(m_imgFacebook, 120, 120, true);
+		LayoutUtils.setSize(m_imgWeibo, 120, 120, true);
 	 }
 	 
 	 private void login(final String username, final String password)

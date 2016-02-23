@@ -39,14 +39,9 @@ public class ProfileActivity extends HeaderBarActivity
 {
 	String			m_cameraTempPath = "";
 	String			m_cameraZoomTempPath = "";
-	private static int	PROFILE_PICK_GALLERY_CODE = 100;
-	private static int	PROFILE_COMMENT_REQUEST_CODE = 200;
-	private static int	PROFILE_STAGE_LIST_CODE = 201;
-	public static final int PHOTOZOOM = 20; 
-	public static final int PHOTOZOOM_GALLERY = 5;
-	int headerIconSize=600,headerInconSpace=600;
-	protected static final int MSG_LOAD_IMAGE = 10000;
-
+	
+	static int	PROFILE_PICK_GALLERY_CODE = 100;
+	static final int PHOTOZOOM = 20; 
 
 
 	private static int	BUY_POINT_CODE = 200;
@@ -342,10 +337,10 @@ public class ProfileActivity extends HeaderBarActivity
 	}
 	
 	private void onClickLogout(){
-		SplashActivity.m_nLoginState = 0;
+		DataUtils.savePreference(Const.LOGIN_OK, "0");
 		Bundle bundle = new Bundle();
-		ActivityManager.changeActivity(ProfileActivity.this, LoginActivity.class, bundle, false, BUY_POINT_CODE );		
-		
+		ActivityManager.changeActivity(ProfileActivity.this, LoginActivity.class, bundle, false, null );
+		ActivityManager.getInstance().popAllActivity();
 	}
 	
 	private void processFile(String path)
@@ -365,7 +360,7 @@ public class ProfileActivity extends HeaderBarActivity
 		m_cameraZoomTempPath = Environment.getExternalStorageDirectory() + "/";
 		m_cameraZoomTempPath += "camera_zoom.jpg";
 
-		MediaUtils.startPhotoZoom(this, path, m_cameraZoomTempPath, headerIconSize, PHOTOZOOM);// to zoom photo
+		MediaUtils.startPhotoZoom(this, path, m_cameraZoomTempPath, 400, PHOTOZOOM);// to zoom photo
 	}
 	
 	protected void uploadPhoto(String path)
