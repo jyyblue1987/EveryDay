@@ -85,7 +85,15 @@
 		        android:text="购买"
 		        android:textColor="@color/white" />       
 		    		    
-            
+		    <common.component.ui.MyButton
+		        android:id="@+id/btn_profile_logout"
+		        android:layout_width="100dip"
+		        android:layout_height="30dip"
+		        android:background="@drawable/button_greeen_bg"
+		        android:text="注销"
+		        android:textColor="@color/white" />       
+		    		    
+		    
         </LinearLayout>
         
 

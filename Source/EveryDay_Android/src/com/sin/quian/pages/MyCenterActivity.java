@@ -110,7 +110,7 @@ public class MyCenterActivity extends HeaderBarActivity
 		m_txtHard.setText(profile.optString(Const.RECEIVE_NUM, "0"));
 		m_txtStar.setText(profile.optString(Const.POINT_NUM, "0"));
 		DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
-		ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + AppContext.getProfile().optString(Const.PHOTO, ""), m_imgPhoto, options);
+		ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + AppContext.getProfile().optString(Const.PHOTO, ""), m_imgPhoto, options);
 		
 		m_listPullItems.setMode(Mode.PULL_FROM_END);
 		
@@ -354,6 +354,7 @@ public class MyCenterActivity extends HeaderBarActivity
 
 		super.onActivityResult(requestCode, resultCode, data);	
 	}
+	
 	class HistoryListAdapter extends MyListAdapter {
 		public HistoryListAdapter(Context context, List<JSONObject> data,
 				int resource, ItemCallBack callback) {

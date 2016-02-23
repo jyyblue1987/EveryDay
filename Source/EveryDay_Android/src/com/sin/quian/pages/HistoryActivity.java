@@ -281,7 +281,7 @@ public class HistoryActivity extends HeaderBarActivity {
 			
 			// show data
 			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
-			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + item.optString(Const.PHOTO, ""), (ImageView)ViewHolder.get(rowView, R.id.img_historyitem_icon), options);
+			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + item.optString(Const.PHOTO, ""), (ImageView)ViewHolder.get(rowView, R.id.img_historyitem_icon), options);
 			
 			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_name)).setText(item.optString(Const.USERNAME, ""));
 			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_hard_num)).setText(item.optString(Const.RECEIVE_NUM, ""));

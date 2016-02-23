@@ -19,7 +19,7 @@ import common.network.utils.ResultCallBack;
 public class SplashActivity extends BaseActivity {
 	ImageView m_imgSplash = null;
 	
-	int m_nLoginState = 0;
+	public static int m_nLoginState = 0;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

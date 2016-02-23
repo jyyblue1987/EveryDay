@@ -3,13 +3,18 @@ package com.sin.quian.pages;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sin.quian.AppContext;
 import com.sin.quian.Const;
 import com.sin.quian.R;
 import com.sin.quian.network.ServerManager;
+import com.sin.quian.network.ServerTask;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
@@ -20,8 +25,10 @@ import common.component.ui.MyButton;
 import common.component.ui.MyTextView;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
+import common.image.load.ImageUtils;
 import common.library.utils.CheckUtils;
 import common.library.utils.DataUtils;
+import common.library.utils.MediaUtils;
 import common.library.utils.MessageUtils;
 import common.manager.activity.ActivityManager;
 import common.network.utils.LogicResult;
@@ -30,6 +37,18 @@ import common.network.utils.ResultCallBack;
 
 public class ProfileActivity extends HeaderBarActivity
 {
+	String			m_cameraTempPath = "";
+	String			m_cameraZoomTempPath = "";
+	private static int	PROFILE_PICK_GALLERY_CODE = 100;
+	private static int	PROFILE_COMMENT_REQUEST_CODE = 200;
+	private static int	PROFILE_STAGE_LIST_CODE = 201;
+	public static final int PHOTOZOOM = 20; 
+	public static final int PHOTOZOOM_GALLERY = 5;
+	int headerIconSize=600,headerInconSpace=600;
+	protected static final int MSG_LOAD_IMAGE = 10000;
+
+
+
 	private static int	BUY_POINT_CODE = 200;
 	
 	ImageView		m_imgPhotoIcon = null;
@@ -53,6 +72,7 @@ public class ProfileActivity extends HeaderBarActivity
 	MyButton		m_btnSave = null;
 	MyButton		m_btnChangePassword= null;
 	MyButton		m_btnBuy = null;
+	MyButton		m_btnLogout = null;
 	
 	int [] m_field_item = {
 		R.id.fragment_profile_fullname,
@@ -90,6 +110,7 @@ public class ProfileActivity extends HeaderBarActivity
 		m_btnSave = (MyButton) findViewById(R.id.btn_profile_save);
 		m_btnChangePassword = (MyButton) findViewById(R.id.btn_profile_change);
 		m_btnBuy = (MyButton) findViewById(R.id.btn_profile_buy);
+		m_btnLogout = (MyButton) findViewById(R.id.btn_profile_logout);
 
 		m_imgHard1 = (ImageView) findViewById(R.id.img_profile_icon1);
 		m_imgHard2 = (ImageView) findViewById(R.id.img_profile_icon2);
@@ -144,9 +165,13 @@ public class ProfileActivity extends HeaderBarActivity
 		LayoutUtils.setSize(m_btnChangePassword, LayoutParams.MATCH_PARENT, 114, true);
 		m_btnChangePassword.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 
-		LayoutUtils.setMargin(m_btnBuy, 80, 60, 80, 60, true);
+		LayoutUtils.setMargin(m_btnBuy, 80, 60, 80, 0, true);
 		LayoutUtils.setSize(m_btnBuy, LayoutParams.MATCH_PARENT, 114, true);
 		m_btnBuy.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+
+		LayoutUtils.setMargin(m_btnLogout, 80, 60, 80, 60, true);
+		LayoutUtils.setSize(m_btnLogout, LayoutParams.MATCH_PARENT, 114, true);
+		m_btnLogout.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 
 	}
 
@@ -179,7 +204,9 @@ public class ProfileActivity extends HeaderBarActivity
 		m_txtHard2.setText(profile.optString(Const.POINT_NUM, "0"));
 		m_txtHard3.setText(profile.optString(Const.SEND_NUM, "0"));
 
-		
+		DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
+		ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + AppContext.getProfile().optString(Const.PHOTO, ""), m_imgPhotoIcon, options);
+
 //		((EditText) findViewById(R.id.fragment_profile_email).findViewById(R.id.edit_content)).setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 		
 	}
@@ -188,6 +215,12 @@ public class ProfileActivity extends HeaderBarActivity
 	{ 
 		super.initEvents();
 
+		m_imgPhotoIcon.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View paramView) {
+				upLoadPhotoIcon();			}
+		});
 		m_btnSave.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -209,8 +242,24 @@ public class ProfileActivity extends HeaderBarActivity
 				onClickBuy();				
 			}
 		});
+		m_btnLogout.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View paramView) {
+				onClickLogout();				
+			}
+		});
 	}
 
+	private void upLoadPhotoIcon()
+	{
+		m_cameraTempPath = Environment.getExternalStorageDirectory() + "/";
+		m_cameraTempPath += "camera_temp.jpg";
+		
+		// communication between ProfileActivity and mediaUtils
+		MediaUtils.showProfileCameraGalleryPage(this, PROFILE_PICK_GALLERY_CODE, m_cameraTempPath);// PROFILE_PICK_GALLERY_CODE: request code
+	}
+	
 	private void onClickSave()
 	{
 		String fullname = ((TextView) findViewById(R.id.fragment_profile_fullname).findViewById(R.id.edit_content)).getText().toString();
@@ -292,10 +341,83 @@ public class ProfileActivity extends HeaderBarActivity
 		
 	}
 	
+	private void onClickLogout(){
+		SplashActivity.m_nLoginState = 0;
+		Bundle bundle = new Bundle();
+		ActivityManager.changeActivity(ProfileActivity.this, LoginActivity.class, bundle, false, BUY_POINT_CODE );		
+		
+	}
+	
+	private void processFile(String path)
+	{
+		Bundle bundle = new Bundle();
+		
+		JSONObject data = new JSONObject();
+		
+		try {
+			data.put(Const.MODE, 0);
+			data.put(Const.FILE_PATH, path);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+		
+		bundle.putString(INTENT_EXTRA, data.toString());
+		m_cameraZoomTempPath = Environment.getExternalStorageDirectory() + "/";
+		m_cameraZoomTempPath += "camera_zoom.jpg";
+
+		MediaUtils.startPhotoZoom(this, path, m_cameraZoomTempPath, headerIconSize, PHOTOZOOM);// to zoom photo
+	}
+	
+	protected void uploadPhoto(String path)
+	{
+		showLoadingProgress();
+		ServerManager.uploadPhoto(AppContext.getUserID(), path, new ResultCallBack() {
+			
+			@Override
+			public void doAction(LogicResult result) {
+				hideProgress();
+
+				if( result.mResult != LogicResult.RESULT_OK )	// failed
+				{
+					MessageUtils.showMessageDialog(ProfileActivity.this, result.mMessage);
+					return;
+				}
+				String filename = result.getData().optString("content", "");// to save changed state 
+				JSONObject profile = AppContext.getProfile();
+				try {
+					profile.put(Const.PHOTO, filename);
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();// to load photo
+				ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + filename, m_imgPhotoIcon, options);
+
+			}
+		});
+	}
+
+	// to receive intent info from startActivityForResult in MediaUtils
 	@Override
-	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) 
+	{ 
 		if (resultCode == 0)
-			return;		
+			return;	
+
+		if (requestCode == PHOTOZOOM) {
+			uploadPhoto(m_cameraZoomTempPath);
+		}
+		
+		if( requestCode == PROFILE_PICK_GALLERY_CODE + 1 )
+		{
+			Uri selectedImage = data.getData();			
+			String picturePath = MediaUtils.getPathFromURI(this, selectedImage);
+			
+			processFile(picturePath);
+		}
+		
+		if (requestCode == PROFILE_PICK_GALLERY_CODE ) {
+			processFile(m_cameraTempPath);
+		}	
 		
 		if (requestCode == BUY_POINT_CODE ) {
 			m_txtHard2.setText(AppContext.getProfile().optString(Const.POINT_NUM, "0"));

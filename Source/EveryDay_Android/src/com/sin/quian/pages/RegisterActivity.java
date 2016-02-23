@@ -167,6 +167,7 @@ public class RegisterActivity extends HeaderBarActivity
 				 if( result.mResult != LogicResult.RESULT_OK )
 				 {
 					 DataUtils.savePreference(Const.LOGIN_OK, "0");
+					 MessageUtils.showMessageDialog(RegisterActivity.this, result.mMessage);
 					 return;
 				 }
 				 AppContext.setProfile(result.getContentData());

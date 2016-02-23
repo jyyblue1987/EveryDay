@@ -120,12 +120,13 @@ public class UpLoadFileTask extends AsyncTask<String, String, String> {
 		} catch (Exception e) {
 			Log.e("marsor","upload file  error",e);
 		}
-		return null;
+		return json;
 	}
 	@Override
 	protected void onPostExecute(String result) {
 		
 		LogicResult serverResult = new LogicResult();
+		serverResult.mContent = result;
 		if(result == null){
 			serverResult.mResult = LogicResult.RESULT_FAIL;
 			serverResult.mMessage = "Server is not responding";
