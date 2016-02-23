@@ -347,10 +347,10 @@ public class MyCenterActivity extends HeaderBarActivity
 		}	
 		
 		if (requestCode == PICK_GALLERY_CODE + 2 ) { 
-			String thumbPath = Environment.getExternalStorageDirectory() + "/";
-			thumbPath += "thumb.jpg";
-			
-			ImageUtils.createThumbnail(m_cameraTempPath + ".mp4", thumbPath);
+//			String thumbPath = Environment.getExternalStorageDirectory() + "/";
+//			thumbPath += "thumb.jpg";
+//			
+//			ImageUtils.createThumbnail(m_cameraTempPath + ".mp4", thumbPath);
 			processFile(m_cameraTempPath + ".mp4");
 		}	
 		
