@@ -15,14 +15,11 @@ import common.library.utils.BackgroundTaskUtils;
 import common.library.utils.BackgroundTaskUtils.OnTaskProgress;
 import common.network.utils.NetworkUtils;
 
-public class VideoViewActivity extends BaseActivity {
+public class VideoViewActivity extends HeaderBarActivity {
 
 	// Declare variables
 	ProgressDialog pDialog;
 	VideoView videoview;
-
-	// Insert your Video URL
-//	String VideoURL = "http://www.androidbegin.com/tutorial/AndroidCommercial.3gp";
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {

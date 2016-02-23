@@ -32,7 +32,6 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-import common.component.ui.MyTextView;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
 import common.image.load.ImageUtils;
@@ -348,6 +347,10 @@ public class MyCenterActivity extends HeaderBarActivity
 		}	
 		
 		if (requestCode == PICK_GALLERY_CODE + 2 ) { 
+			String thumbPath = Environment.getExternalStorageDirectory() + "/";
+			thumbPath += "thumb.jpg";
+			
+			ImageUtils.createThumbnail(m_cameraTempPath + ".mp4", thumbPath);
 			processFile(m_cameraTempPath + ".mp4");
 		}	
 		

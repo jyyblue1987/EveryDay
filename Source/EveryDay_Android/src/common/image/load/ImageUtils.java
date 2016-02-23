@@ -1,5 +1,6 @@
 package common.image.load;
 
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
@@ -7,9 +8,12 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
+import common.library.utils.CheckUtils;
 
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.assist.ImageScaleType;
+import com.nostra13.universalimageloader.core.assist.ImageSize;
 
 public class ImageUtils {
 	public Bitmap m_bm; 
@@ -224,5 +228,34 @@ public class ImageUtils {
 	{
 		return buildUILOption(icon, icon, icon);		
 	}	
+	
+	public static void createThumbnail(String videoPath, String thumbPath)
+	{
+		Bitmap thumbBitmap = ImageLoader.getInstance().loadImageSync("file://" + videoPath);
+		saveBitmap(thumbBitmap, thumbPath);
+	}
+	
+	public static void saveBitmap(Bitmap bitmap, String path)
+	{
+		if( bitmap == null || CheckUtils.isEmpty(path) )
+			return;
+		
+		FileOutputStream out = null;
+		try {
+		    out = new FileOutputStream(path);
+		    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out); // bmp is your Bitmap instance
+		    // PNG is a lossless format, the compression factor (100) is ignored
+		} catch (Exception e) {
+		    e.printStackTrace();
+		} finally {
+		    try {
+		        if (out != null) {
+		            out.close();
+		        }
+		    } catch (IOException e) {
+		        e.printStackTrace();
+		    }
+		}
+	}
 
 }
