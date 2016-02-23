@@ -523,6 +523,7 @@ public class StageListActivity extends HeaderBarActivity
 			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_camera_icon), 200, 200, true);
 			
 			ViewHolder.get(rowView, R.id.img_camera_icon).setVisibility(View.GONE);
+			ViewHolder.get(rowView, R.id.lay_comment_like).setVisibility(View.GONE);
 			
 			((TextView)ViewHolder.get(rowView, R.id.img_delete_history)).setTextSize(TypedValue.COMPLEX_UNIT_PX, fontsize);
 			if( m_nMode != Const.TEMP_STAGE_MODE )
