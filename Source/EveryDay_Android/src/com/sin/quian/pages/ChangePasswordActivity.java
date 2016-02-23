@@ -107,7 +107,7 @@ import common.network.utils.ResultCallBack;
 						}
 					});
 				}else {
-					MessageUtils.showMessageDialog(this, "请再次输入密码.");
+					MessageUtils.showMessageDialog(this, "请输入密码.");
 					return;
 				}
 			}

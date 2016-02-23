@@ -74,7 +74,7 @@ public class LoginActivity extends HeaderBarActivity
 		m_txtPageTitle.setText("登录");
 		m_btnRight.setVisibility(View.INVISIBLE);
 		
-		((TextView) findViewById(R.id.fragment_username).findViewById(R.id.txt_label)).setText("用户名称");
+		((TextView) findViewById(R.id.fragment_username).findViewById(R.id.txt_label)).setText("用户名");
 		((TextView) findViewById(R.id.fragment_password).findViewById(R.id.txt_label)).setText("密码");
 		
 		((EditText) findViewById(R.id.fragment_password).findViewById(R.id.edit_content)).setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
@@ -113,13 +113,13 @@ public class LoginActivity extends HeaderBarActivity
 		 String username = m_editName.getText().toString();
 		 if( CheckUtils.isEmpty(username) )
 		 {
-			 MessageUtils.showMessageDialog(this, "您必须输入的用户名称.");
+			 MessageUtils.showMessageDialog(this, "您必须输入用户名.");
 			 return;
 		 }
 		 String password = m_editPassword.getText().toString();
 		 if( CheckUtils.isEmpty(password) )
 		 {
-			 MessageUtils.showMessageDialog(this, "您必须输入的密码.");
+			 MessageUtils.showMessageDialog(this, "您必须输入密码.");
 			 return;
 		 }
 		 login(username, password);

@@ -65,7 +65,7 @@ public class CommentListActivity extends HeaderBarActivity
 	{
 		super.initData();
 		
-		m_txtPageTitle.setText("注释列表");
+		m_txtPageTitle.setText("评论列表");
 		m_btnRight.setVisibility(View.INVISIBLE);
 		
 		m_listPullItems.setMode(Mode.PULL_FROM_END);
