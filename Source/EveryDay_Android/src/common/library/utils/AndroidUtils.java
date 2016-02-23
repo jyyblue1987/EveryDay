@@ -449,29 +449,38 @@ public class AndroidUtils {
 		 v.vibrate(time);
 	}
 	
-	public static void showImageInGallery(Context context, String path)
+	public static void showImageInGallery(Context context, String path, String extension)
 	{
 		if( context == null || CheckUtils.isEmpty(path) )
 			return;
 		
+		
 		String showPath = "";
 		String mntpath = Environment.getExternalStorageDirectory().getPath();
+		
+	        
 		if( path.contains(mntpath) )
 			showPath = path;
 		else
 		{
-			String copy_path = mntpath + "/" + "untitled.jpg";
-			try {
+			String copy_path = Environment.getExternalStorageDirectory() + "/" + "camera_temp." + extension;
+	    	try {
 				FileUtils.copyFile(new File(path), new File(copy_path));
-			} catch (IOException e) {				
+			} catch (IOException e) {
 				e.printStackTrace();
 			}
+		    	
 			showPath = copy_path;
 		}
 
 		Intent intent = new Intent();
         intent.setAction(Intent.ACTION_VIEW);
-        intent.setDataAndType(Uri.fromFile(new File(showPath)), "image/*");
+        
+        if( extension.equals(".JPG") || extension.equals(".PNG") || extension.equals(".BMP") )
+        	intent.setDataAndType(Uri.fromFile(new File(showPath)), "image/*");
+        else if( extension.equals(".MP4") || extension.equals(".AVI") || extension.equals(".FLV") || extension.equals(".MOV") )
+        	intent.setDataAndType(Uri.fromFile(new File(showPath)), "image/*");        
+        
         try {
         	context.startActivity(intent);
         } catch(Exception e) {

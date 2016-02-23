@@ -1,8 +1,11 @@
 package com.sin.quian.pages;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -21,6 +24,8 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
+import android.text.AndroidCharacter;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -31,6 +36,7 @@ import android.widget.TextView;
 import common.design.layout.LayoutUtils;
 import common.image.load.ImageUtils;
 import common.library.utils.AlgorithmUtils;
+import common.library.utils.AndroidUtils;
 import common.library.utils.MessageUtils;
 import common.library.utils.MessageUtils.OnButtonClickListener;
 import common.library.utils.MyTime;
@@ -462,7 +468,18 @@ public class StageListActivity extends HeaderBarActivity
 				
 		super.onActivityResult(requestCode,  resultCode, data);	
 	}
-				
+			
+	private void gotoGalleryDetailPage(JSONObject item)
+	{
+		String url = ServerTask.SERVER_UPLOAD_PATH + item.optString(Const.THUMBNAIL, "");
+		File file = ImageLoader.getInstance().getDiskCache().get(url);
+		
+		String extension = url.substring(url.lastIndexOf(".")).toUpperCase();
+		String path = file.getAbsolutePath();
+		
+        AndroidUtils.showImageInGallery(this, path, extension);
+	}
+
 	class HistoryListAdapter extends MyListAdapter {
 		public HistoryListAdapter(Context context, List<JSONObject> data,
 				int resource, ItemCallBack callback) {
@@ -526,6 +543,14 @@ public class StageListActivity extends HeaderBarActivity
 			
 			((TextView)ViewHolder.get(rowView, R.id.txt_comment_count)).setText(item.optString(Const.COMMENT_COUNT, "0"));
 			((TextView)ViewHolder.get(rowView, R.id.txt_like_count)).setText(item.optString(Const.LIKE_COUNT, "0"));
+			
+			ViewHolder.get(rowView, R.id.img_history_preview).setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					gotoGalleryDetailPage(item);					
+				}
+			});
 		}	
 	}
 }
