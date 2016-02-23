@@ -11,10 +11,13 @@ import com.sin.quian.network.ServerManager;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Environment;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
 import common.design.layout.LayoutUtils;
+import common.image.load.ImageUtils;
+import common.library.utils.MediaUtils;
 import common.library.utils.MessageUtils;
 import common.network.utils.LogicResult;
 import common.network.utils.ResultCallBack;
@@ -50,12 +53,59 @@ public class CommentDetailActivity extends HeaderBarActivity
 		LayoutUtils.setPadding(m_editContent, 20, 20, 20, 20, true);
 		m_editContent.setTextSize(TypedValue.COMPLEX_UNIT_PX, 45);
 	}
-			
-	protected void layoutControls()
-	{
-		super.layoutControls();		
-	}
 	
+	private void uploadVideoThumbnail(String path, String name)
+	{
+		String thumbPath = Environment.getExternalStorageDirectory() + "/" + name + ".jpg";
+		
+		ImageUtils.createThumbnail(path, thumbPath);
+		
+		ServerManager.uploadThumbnail(thumbPath, AppContext.getUserID(), new ResultCallBack() {
+			
+			@Override
+			public void doAction(LogicResult result) {
+				hideProgress();
+				if( result.mResult != LogicResult.RESULT_OK )
+				{
+					MessageUtils.showMessageDialog(CommentDetailActivity.this, result.mMessage);
+					return;
+				}
+				
+			 	Intent intent = new Intent();
+		    	intent.putExtra(INTENT_EXTRA, m_editContent.getText().toString());	
+		        setResult(Activity.RESULT_OK, intent);    
+		        onFinishActivity();		
+			}
+		});
+	}
+
+	private void uploadStage(final String path)
+	{
+		ServerManager.uploadStage(path, AppContext.getUserID(), m_editContent.getText().toString(), new ResultCallBack() {
+			
+			@Override
+			public void doAction(LogicResult result) {
+				if( result.mResult != LogicResult.RESULT_OK )
+				{
+					hideProgress();
+					MessageUtils.showMessageDialog(CommentDetailActivity.this, result.mMessage);
+					return;
+				}
+				
+				if( MediaUtils.isVideoFile(path) == false )
+				{
+					hideProgress();
+				 	Intent intent = new Intent();
+			    	intent.putExtra(INTENT_EXTRA, m_editContent.getText().toString());	
+			        setResult(Activity.RESULT_OK, intent);    
+			        onFinishActivity();	
+				}
+					
+				uploadVideoThumbnail(path, result.getData().optString(Const.CONTENT, ""));				
+			}
+		});
+		
+	}
 	protected void gotoNextPage()
 	{
 		showLoadingProgress();
@@ -72,23 +122,7 @@ public class CommentDetailActivity extends HeaderBarActivity
 				String path = comment.optString(Const.FILE_PATH, "");
 				if( mode == 0 )	// add stage
 				{
-					ServerManager.uploadStage(path, AppContext.getUserID(), m_editContent.getText().toString(), new ResultCallBack() {
-						
-						@Override
-						public void doAction(LogicResult result) {
-							hideProgress();
-							if( result.mResult != LogicResult.RESULT_OK )
-							{
-								MessageUtils.showMessageDialog(CommentDetailActivity.this, result.mMessage);
-								return;
-							}
-							
-						 	Intent intent = new Intent();
-					    	intent.putExtra(INTENT_EXTRA, m_editContent.getText().toString());	
-					        setResult(Activity.RESULT_OK, intent);    
-					        onFinishActivity();				
-						}
-					});
+					uploadStage(path);
 				}
 				else
 				{

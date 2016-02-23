@@ -175,6 +175,8 @@ public class MainMenuActivity extends BaseActivity
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == 0)
 			return;		
+		m_cameraTempPath = Environment.getExternalStorageDirectory() + "/";
+		m_cameraTempPath += "camera_temp";
 		
 		if( requestCode == PICK_GALLERY_CODE + 1 )
 		{

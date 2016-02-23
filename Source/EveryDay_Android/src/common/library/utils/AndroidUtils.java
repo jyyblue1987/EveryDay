@@ -463,7 +463,7 @@ public class AndroidUtils {
 			showPath = path;
 		else
 		{
-			String copy_path = Environment.getExternalStorageDirectory() + "/" + "camera_temp." + extension;
+			String copy_path = Environment.getExternalStorageDirectory() + "/" + "camera_preview." + extension;
 	    	try {
 				FileUtils.copyFile(new File(path), new File(copy_path));
 			} catch (IOException e) {
@@ -479,7 +479,7 @@ public class AndroidUtils {
         if( extension.equals(".JPG") || extension.equals(".PNG") || extension.equals(".BMP") )
         	intent.setDataAndType(Uri.fromFile(new File(showPath)), "image/*");
         else if( extension.equals(".MP4") || extension.equals(".AVI") || extension.equals(".FLV") || extension.equals(".MOV") )
-        	intent.setDataAndType(Uri.fromFile(new File(showPath)), "image/*");        
+        	intent.setDataAndType(Uri.fromFile(new File(showPath)), "video/*");        
         
         try {
         	context.startActivity(intent);

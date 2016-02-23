@@ -46,23 +46,25 @@
         <activity android:name=".pages.RegisterActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.ChangePasswordActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.ForgotPasswordActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".pages.MainMenuActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".pages.MainMenuActivity" android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize"/>
         <activity android:name=".pages.UserActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.HistoryActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.StageActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.FriendsActivity" android:screenOrientation="portrait"/>
-        <activity android:name=".pages.MyCenterActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".pages.MyCenterActivity" android:screenOrientation="portrait"
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize"/>
         <activity android:name=".pages.StageListActivity" android:screenOrientation="portrait"
-            android:configChanges="orientation|keyboard|keyboardHidden"/>
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize"/>
         <activity android:name=".pages.CommentListActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.CommentDetailActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.ProfileActivity" android:screenOrientation="portrait"
-            android:configChanges="orientation|keyboard|keyboardHidden"/>
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize"/>
         <activity android:name=".pages.BuyActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.HistoryListActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.ContactListActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.VideoViewActivity"
-            android:configChanges="orientation|keyboard|keyboardHidden"/>
+            android:configChanges="orientation|keyboard|keyboardHidden|screenSize"/>
         
         <activity android:name="common.image.crop.CropImage" 
             android:configChanges="orientation|keyboard|keyboardHidden"

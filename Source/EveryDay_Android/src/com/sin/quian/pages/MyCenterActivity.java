@@ -327,6 +327,9 @@ public class MyCenterActivity extends HeaderBarActivity
 		if (resultCode == 0)
 			return;		
 		
+		m_cameraTempPath = Environment.getExternalStorageDirectory() + "/";
+		m_cameraTempPath += "camera_temp";
+		
 		if( requestCode == PICK_GALLERY_CODE + 1 )
 		{
 			Uri selectedImage = data.getData();			
@@ -347,10 +350,6 @@ public class MyCenterActivity extends HeaderBarActivity
 		}	
 		
 		if (requestCode == PICK_GALLERY_CODE + 2 ) { 
-//			String thumbPath = Environment.getExternalStorageDirectory() + "/";
-//			thumbPath += "thumb.jpg";
-//			
-//			ImageUtils.createThumbnail(m_cameraTempPath + ".mp4", thumbPath);
 			processFile(m_cameraTempPath + ".mp4");
 		}	
 		
