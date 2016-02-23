@@ -34,6 +34,7 @@ import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
 import common.image.load.ImageUtils;
 import common.library.utils.AlgorithmUtils;
+import common.library.utils.MediaUtils;
 import common.library.utils.MyTime;
 import common.list.adapter.ItemCallBack;
 import common.list.adapter.MyListAdapter;
@@ -289,7 +290,7 @@ public class HistoryActivity extends HeaderBarActivity {
 			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_hisaddress)).setText(item.optString(Const.ADDRESS, ""));			
 			
 			options = ImageUtils.buildUILOption(R.drawable.default_image_bg).build();
-			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + item.optString(Const.THUMBNAIL, ""), (ImageView)ViewHolder.get(rowView, R.id.img_history_preview), options);
+			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + MediaUtils.getThumnail(item.optString(Const.THUMBNAIL, "")), (ImageView)ViewHolder.get(rowView, R.id.img_history_preview), options);
 			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setText(item.optString(Const.CONTENT, ""));
 			
 			String time = item.optString(Const.MODIFY_DATE, MyTime.getCurrentTime());

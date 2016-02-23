@@ -3,8 +3,6 @@ package common.library.utils;
 import java.io.File;
 import java.io.IOException;
 
-import com.sin.quian.pages.VideoViewActivity;
-
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -14,10 +12,8 @@ import android.database.Cursor;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Build;
-import android.os.Bundle;
 import android.provider.MediaStore;
 import common.image.crop.CropImage;
-import common.manager.activity.ActivityManager;
 
 public class MediaUtils {
 	public static void playAudio(String path)
@@ -242,5 +238,25 @@ public class MediaUtils {
 			return true;
 		
 		return false;
+	}
+	
+	public static String getThumnail(String filename)
+	{
+		if( CheckUtils.isEmpty(filename) )
+			return "";
+		
+		int lastindex = filename.lastIndexOf(".");
+		if( lastindex < 0 )
+			return filename + ".jpg";
+
+		String extension = filename.substring(lastindex).toUpperCase();
+		
+		if( extension.equals(".JPG") || extension.equals(".PNG") || extension.equals(".BMP") )
+			return filename;
+		else 
+		{
+			String thumbname = filename.substring(0, lastindex) + ".jpg";
+			return thumbname;
+		}
 	}
 }

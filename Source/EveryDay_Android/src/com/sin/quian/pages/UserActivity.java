@@ -7,18 +7,17 @@ import java.util.List;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
+import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
+import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
-import com.handmark.pulltorefresh.library.PullToRefreshBase;
-import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.sin.quian.AppContext;
 import com.sin.quian.Const;
 import com.sin.quian.R;
 import com.sin.quian.network.ServerManager;
 import com.sin.quian.network.ServerTask;
-import com.sin.quian.pages.HistoryActivity.HistoryListAdapter;
 
 import android.content.Context;
 import android.os.Bundle;
@@ -26,13 +25,14 @@ import android.util.TypedValue;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ImageView;
+import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.TextView;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
 import common.image.load.ImageUtils;
+import common.library.utils.MediaUtils;
 import common.library.utils.MyTime;
 import common.list.adapter.ItemCallBack;
 import common.list.adapter.MyListAdapter;
@@ -258,7 +258,7 @@ public class UserActivity extends HeaderBarActivity {
 			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_hisaddress)).setText(item.optString(Const.ADDRESS, ""));
 			
 			options = ImageUtils.buildUILOption(R.drawable.default_image_bg).build();
-			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + item.optString(Const.THUMBNAIL, ""), (ImageView)ViewHolder.get(rowView, R.id.img_history_preview), options);
+			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + MediaUtils.getThumnail(item.optString(Const.THUMBNAIL, "")), (ImageView)ViewHolder.get(rowView, R.id.img_history_preview), options);
 			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setText(item.optString(Const.CONTENT, ""));
 			
 			String time = item.optString(Const.MODIFY_DATE, MyTime.getCurrentTime());

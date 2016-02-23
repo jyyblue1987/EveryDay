@@ -9,6 +9,8 @@ import android.media.MediaPlayer.OnPreparedListener;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MotionEvent;
+import android.view.View;
 import android.widget.MediaController;
 import android.widget.VideoView;
 import common.library.utils.BackgroundTaskUtils;
@@ -24,6 +26,24 @@ public class VideoViewActivity extends HeaderBarActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		setContentView(R.layout.layout_video_page);
+		
+		loadComponents();
+	}
+	
+	protected void findViews()
+	{
+		super.findViews();
+		
+		videoview = (VideoView) findViewById(R.id.VideoView);
+	}
+	
+	protected void initData()
+	{
+		super.initData();
+		
+		m_txtPageTitle.setText("Video");
 		// Get the layout from video_main.xml
 		String m_videoURL = "";
 		Bundle bundle = getIntent().getExtras();
@@ -31,14 +51,11 @@ public class VideoViewActivity extends HeaderBarActivity {
 		{
 			m_videoURL = bundle.getString(INTENT_EXTRA);
 		}
-		setContentView(R.layout.layout_video_page);
-		videoview = (VideoView) findViewById(R.id.VideoView);
+		
 		showProgress("Loading", "Please wait...");
 		try {
 			// Start the MediaController
-			MediaController mediacontroller = new MediaController(
-					VideoViewActivity.this);
-			mediacontroller.setAnchorView(videoview);
+			MediaController mediacontroller = new MediaController(this);
 			// Get the URL from String VideoURL
 			videoview.setMediaController(mediacontroller);
 		} catch (Exception e) {
@@ -49,8 +66,8 @@ public class VideoViewActivity extends HeaderBarActivity {
 			playYoutubeVideo(m_videoURL);
 		}else
 			playVideo(m_videoURL);
-		
 	}
+		
 	private void playYoutubeVideo(final String url){
 		new BackgroundTaskUtils(new OnTaskProgress() {
 			
@@ -103,6 +120,6 @@ public class VideoViewActivity extends HeaderBarActivity {
 			}
         	
         });
-
+		
 	}
 }

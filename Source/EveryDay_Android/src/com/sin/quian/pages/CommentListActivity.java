@@ -30,7 +30,6 @@ import common.library.utils.MyTime;
 import common.list.adapter.ItemCallBack;
 import common.list.adapter.MyListAdapter;
 import common.list.adapter.ViewHolder;
-import common.manager.activity.ActivityManager;
 import common.network.utils.LogicResult;
 import common.network.utils.ResultCallBack;
 

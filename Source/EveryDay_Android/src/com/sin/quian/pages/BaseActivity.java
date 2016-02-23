@@ -1,19 +1,14 @@
 package com.sin.quian.pages;
 
-import com.sin.quian.R;
 import com.sin.quian.mvp.BaseView;
 
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
-import android.content.ComponentName;
 import android.content.DialogInterface;
-import android.content.Intent;
-import android.content.ServiceConnection;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.IBinder;
 import android.os.Message;
 import android.view.View;
 import android.widget.FrameLayout;

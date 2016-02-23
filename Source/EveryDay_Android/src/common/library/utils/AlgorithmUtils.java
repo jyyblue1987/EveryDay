@@ -2,7 +2,6 @@ package common.library.utils;
 
 import java.util.Iterator;
 
-import org.json.JSONArray;
 import org.json.JSONObject;
 
 public class AlgorithmUtils {

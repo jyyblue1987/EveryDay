@@ -10,16 +10,13 @@ import android.text.InputType;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.TextView;
 import common.component.ui.MyButton;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
 import common.library.utils.DataUtils;
 import common.library.utils.MessageUtils;
-import common.list.adapter.ItemCallBack;
-import common.list.adapter.ItemResult;
-import common.manager.activity.ActivityManager;
 import common.network.utils.LogicResult;
 import common.network.utils.ResultCallBack;
 

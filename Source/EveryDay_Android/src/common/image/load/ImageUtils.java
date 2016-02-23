@@ -4,16 +4,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.ByteBuffer;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
 import android.media.ExifInterface;
 import common.library.utils.CheckUtils;
-
-import com.nostra13.universalimageloader.core.DisplayImageOptions;
-import com.nostra13.universalimageloader.core.ImageLoader;
-import com.nostra13.universalimageloader.core.assist.ImageScaleType;
-import com.nostra13.universalimageloader.core.assist.ImageSize;
 
 public class ImageUtils {
 	public Bitmap m_bm; 

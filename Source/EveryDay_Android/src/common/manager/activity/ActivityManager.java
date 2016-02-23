@@ -5,7 +5,6 @@ import java.util.Stack;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-
 import common.library.utils.CheckUtils;
 
 public class ActivityManager {

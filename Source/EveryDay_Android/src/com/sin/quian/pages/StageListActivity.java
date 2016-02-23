@@ -1,11 +1,9 @@
 package com.sin.quian.pages;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.apache.commons.io.FileUtils;
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -24,8 +22,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.os.Environment;
-import android.text.AndroidCharacter;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -37,6 +33,7 @@ import common.design.layout.LayoutUtils;
 import common.image.load.ImageUtils;
 import common.library.utils.AlgorithmUtils;
 import common.library.utils.AndroidUtils;
+import common.library.utils.MediaUtils;
 import common.library.utils.MessageUtils;
 import common.library.utils.MessageUtils.OnButtonClickListener;
 import common.library.utils.MyTime;
@@ -542,7 +539,7 @@ public class StageListActivity extends HeaderBarActivity
 			}
 			
 			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.default_image_bg).build();
-			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + item.optString(Const.THUMBNAIL, ""), (ImageView)ViewHolder.get(rowView, R.id.img_history_preview), options);
+			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + MediaUtils.getThumnail(item.optString(Const.THUMBNAIL, "")), (ImageView)ViewHolder.get(rowView, R.id.img_history_preview), options);
 			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setText(item.optString(Const.CONTENT, ""));
 			
 			String time = item.optString(Const.MODIFY_DATE, MyTime.getCurrentTime());

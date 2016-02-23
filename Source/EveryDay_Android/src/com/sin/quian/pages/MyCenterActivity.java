@@ -415,7 +415,7 @@ public class MyCenterActivity extends HeaderBarActivity
 			
 			// show data
 			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.default_image_bg).build();
-			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + item.optString(Const.THUMBNAIL, ""), (ImageView)ViewHolder.get(rowView, R.id.img_history_preview), options);
+			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + MediaUtils.getThumnail(item.optString(Const.THUMBNAIL, "")), (ImageView)ViewHolder.get(rowView, R.id.img_history_preview), options);
 			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setText(item.optString(Const.CONTENT, ""));
 			
 			String time = item.optString(Const.MODIFY_DATE, MyTime.getCurrentTime());

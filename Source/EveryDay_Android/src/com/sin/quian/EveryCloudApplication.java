@@ -14,7 +14,6 @@ import com.umeng.analytics.MobclickAgent;
 import android.app.Application;
 import android.content.Context;
 import android.graphics.Bitmap;
-import android.util.Log;
 import common.design.layout.ScreenAdapter;
 import common.library.utils.DataUtils;
 import common.library.utils.MessageUtils;

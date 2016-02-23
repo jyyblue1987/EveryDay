@@ -7,14 +7,13 @@ import com.sin.quian.R;
 import com.sin.quian.network.ServerManager;
 
 import android.os.Bundle;
-import android.os.Message;
 import android.text.InputType;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.TextView;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.TextView;
 import common.component.ui.MyButton;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
