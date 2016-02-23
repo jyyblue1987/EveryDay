@@ -230,7 +230,14 @@ public class MediaUtils {
 	
 	public static boolean isVideoFile(String filename)
 	{
-		String extension = filename.substring(filename.lastIndexOf(".")).toUpperCase();
+		if( CheckUtils.isEmpty(filename) )
+			return false;
+		
+		int lastindex = filename.lastIndexOf(".");
+		if( lastindex < 0 )
+			return false;
+		
+		String extension = filename.substring(lastindex).toUpperCase();
 		
 		if( extension.equals(".JPG") || extension.equals(".PNG") || extension.equals(".BMP") )
 			return false;

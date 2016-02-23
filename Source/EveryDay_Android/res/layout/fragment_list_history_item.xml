@@ -107,6 +107,13 @@
 		    android:background="#BB000000" 
 		    />   	 
 		<ImageView
+	        android:id="@+id/img_video_icon"
+	        android:layout_width="50dip"
+	        android:layout_height="50dip"
+	        android:layout_centerInParent="true"
+	        android:background="@drawable/video_icon"
+	        />   
+		<ImageView
 	        android:id="@+id/img_camera_icon"
 	        android:layout_width="50dip"
 	        android:layout_height="50dip"

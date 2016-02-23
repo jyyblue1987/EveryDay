@@ -472,10 +472,14 @@ public class StageListActivity extends HeaderBarActivity
 		File file = ImageLoader.getInstance().getDiskCache().get(url);
 		
 		String extension = url.substring(url.lastIndexOf(".")).toUpperCase();
-		String path = file.getAbsolutePath();
 		
 		if( extension.equals(".JPG") || extension.equals(".PNG") || extension.equals(".BMP") )
+		{
+			if( file == null )
+				return;
+			String path = file.getAbsolutePath();
 			AndroidUtils.showImageInGallery(this, path, extension);
+		}
 		 else if( extension.equals(".MP4") || extension.equals(".AVI") || extension.equals(".FLV") || extension.equals(".MOV") )
 		 {
 				Bundle bundle = new Bundle();		
@@ -518,6 +522,7 @@ public class StageListActivity extends HeaderBarActivity
 			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_delete_history), 140, 60, true);
 			
 			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_camera_icon), 200, 200, true);
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_video_icon), 200, 200, true);
 			
 			ViewHolder.get(rowView, R.id.img_camera_icon).setVisibility(View.GONE);
 			ViewHolder.get(rowView, R.id.lay_comment_like).setVisibility(View.GONE);
@@ -538,6 +543,12 @@ public class StageListActivity extends HeaderBarActivity
 				});
 			}
 			
+			if( MediaUtils.isVideoFile(item.optString(Const.THUMBNAIL, "")) == false )
+				ViewHolder.get(rowView, R.id.img_video_icon).setVisibility(View.GONE);
+			else
+				ViewHolder.get(rowView, R.id.img_video_icon).setVisibility(View.VISIBLE);
+				
+				
 			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.default_image_bg).build();
 			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + MediaUtils.getThumnail(item.optString(Const.THUMBNAIL, "")), (ImageView)ViewHolder.get(rowView, R.id.img_history_preview), options);
 			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setText(item.optString(Const.CONTENT, ""));

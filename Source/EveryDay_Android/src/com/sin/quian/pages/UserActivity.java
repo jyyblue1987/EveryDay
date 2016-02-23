@@ -247,6 +247,8 @@ public class UserActivity extends HeaderBarActivity {
 			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_history_preview), LayoutParams.MATCH_PARENT, 500, true);
 			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 45);
 			
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_video_icon), 200, 200, true);
+			
 			
 			// userinfo
 			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
@@ -266,7 +268,13 @@ public class UserActivity extends HeaderBarActivity {
 			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setText(date);
 			
 			((TextView)ViewHolder.get(rowView, R.id.txt_comment_count)).setText(item.optString(Const.COMMENT_COUNT, "0"));
-			((TextView)ViewHolder.get(rowView, R.id.txt_like_count)).setText(item.optString(Const.LIKE_COUNT, "0"));			
+			((TextView)ViewHolder.get(rowView, R.id.txt_like_count)).setText(item.optString(Const.LIKE_COUNT, "0"));
+			
+			if( MediaUtils.isVideoFile(item.optString(Const.THUMBNAIL, "")) == false )
+				ViewHolder.get(rowView, R.id.img_video_icon).setVisibility(View.GONE);
+			else
+				ViewHolder.get(rowView, R.id.img_video_icon).setVisibility(View.VISIBLE);
+
 		}	
 	} 
 	

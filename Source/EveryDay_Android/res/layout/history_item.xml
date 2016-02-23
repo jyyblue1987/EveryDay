@@ -160,6 +160,13 @@
 			    android:scaleType="centerCrop"
 			    android:src="@drawable/default_image_bg"		    
 			    />
+		    <ImageView
+		        android:id="@+id/img_video_icon"
+		        android:layout_width="50dip"
+		        android:layout_height="50dip"
+		        android:layout_centerInParent="true"
+		        android:background="@drawable/video_icon"
+		        />   
 		    <TextView
 			    android:id="@+id/txt_history"
 			    android:layout_width="match_parent"

@@ -398,7 +398,7 @@ public class MyCenterActivity extends HeaderBarActivity
 			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_delete_history), 140, 60, true);
 			
 			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_camera_icon), 200, 200, true);
-			
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_video_icon), 200, 200, true);
 			
 			if( position == 0 )
 			{
@@ -425,6 +425,11 @@ public class MyCenterActivity extends HeaderBarActivity
 			((TextView)ViewHolder.get(rowView, R.id.txt_comment_count)).setText(item.optString(Const.COMMENT_COUNT, "0"));
 			((TextView)ViewHolder.get(rowView, R.id.txt_like_count)).setText(item.optString(Const.LIKE_COUNT, "0"));
 						
+			if( MediaUtils.isVideoFile(item.optString(Const.THUMBNAIL, "")) == false || position == 0)
+				ViewHolder.get(rowView, R.id.img_video_icon).setVisibility(View.GONE);
+			else
+				ViewHolder.get(rowView, R.id.img_video_icon).setVisibility(View.VISIBLE);
+			
 			// events
 			ViewHolder.get(rowView, R.id.img_camera_icon).setOnClickListener(new View.OnClickListener() {
 				
