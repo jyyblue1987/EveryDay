@@ -20,6 +20,6 @@
 		    android:layout_width="match_parent"
 		    android:layout_height="match_parent"
 		    android:gravity="center"		    
-		    android:text="没有最近的历史."
+		    android:text="没有最新的历史."
 		    />
 </LinearLayout>

@@ -79,7 +79,7 @@ public class UserActivity extends HeaderBarActivity {
 	{
 		super.initData();
 		
-		m_txtPageTitle.setText("用户们");
+		m_txtPageTitle.setText("明星页");
 		
 		m_listPullItems.setMode(Mode.PULL_FROM_END);
 		

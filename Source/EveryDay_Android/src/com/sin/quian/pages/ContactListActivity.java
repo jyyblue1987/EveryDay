@@ -80,7 +80,7 @@ public class ContactListActivity extends HeaderBarActivity {
 	{
 		super.initData();
 		
-		m_txtPageTitle.setText("联系人列表");
+		m_txtPageTitle.setText("好友");
 		m_txtEmptyView.setText("没有联系人列表.");
 		m_listPullItems.setMode(Mode.PULL_FROM_END);
 		
