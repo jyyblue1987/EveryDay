@@ -336,6 +336,13 @@ public class MyCenterActivity extends HeaderBarActivity
 			processFile(picturePath);
 		}
 		
+		if (requestCode == PICK_GALLERY_CODE + 3 ) {
+			Uri selectedImage = data.getData();			
+			String picturePath = MediaUtils.getPathFromURI(this, selectedImage);
+			
+			processFile(picturePath);
+		}	
+
 		if (requestCode == PICK_GALLERY_CODE ) {
 			processFile(m_cameraTempPath);
 		}	

@@ -133,7 +133,7 @@ public class MainMenuActivity extends BaseActivity
 	private void uploadStage()
 	{
 		m_cameraTempPath = Environment.getExternalStorageDirectory() + "/";
-		m_cameraTempPath += "camera_temp.jpg";
+		m_cameraTempPath += "camera_temp";//.jpg
 
 		MediaUtils.showCameraGalleryPage(this, PICK_GALLERY_CODE, m_cameraTempPath);
 	}
@@ -184,6 +184,13 @@ public class MainMenuActivity extends BaseActivity
 			processFile(picturePath);
 		}
 		
+		if (requestCode == PICK_GALLERY_CODE + 3 ) {
+			Uri selectedImage = data.getData();			
+			String picturePath = MediaUtils.getPathFromURI(this, selectedImage);
+			
+			processFile(picturePath);
+		}	
+		
 		if (requestCode == PICK_GALLERY_CODE ) {
 			processFile(m_cameraTempPath);
 		}	
@@ -192,6 +199,7 @@ public class MainMenuActivity extends BaseActivity
 			processFile(m_cameraTempPath);
 		}	
 		
+
 		if (requestCode == COMMENT_REQUEST_CODE ) {
 			gotoPersonalCenterPage();
 		}	
