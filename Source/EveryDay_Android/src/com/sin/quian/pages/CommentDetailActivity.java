@@ -71,9 +71,10 @@ public class CommentDetailActivity extends HeaderBarActivity
 					return;
 				}
 				
-			 	Intent intent = new Intent();
+				Intent intent = new Intent();
 		    	intent.putExtra(INTENT_EXTRA, m_editContent.getText().toString());	
 		        setResult(Activity.RESULT_OK, intent);    
+		        
 		        onFinishActivity();		
 			}
 		});
@@ -95,10 +96,13 @@ public class CommentDetailActivity extends HeaderBarActivity
 				if( MediaUtils.isVideoFile(path) == false )
 				{
 					hideProgress();
+					
 				 	Intent intent = new Intent();
 			    	intent.putExtra(INTENT_EXTRA, m_editContent.getText().toString());	
-			        setResult(Activity.RESULT_OK, intent);    
-			        onFinishActivity();	
+			        setResult(Activity.RESULT_OK, intent);
+			        
+			        onFinishActivity();
+			        return;
 				}
 					
 				uploadVideoThumbnail(path, result.getData().optString(Const.CONTENT, ""));				
@@ -137,10 +141,12 @@ public class CommentDetailActivity extends HeaderBarActivity
 								return;
 							}
 							
-						 	Intent intent = new Intent();
+							Intent intent = new Intent();
 					    	intent.putExtra(INTENT_EXTRA, m_editContent.getText().toString());	
-					        setResult(Activity.RESULT_OK, intent);    
-					        onFinishActivity();											
+					        setResult(Activity.RESULT_OK, intent);
+					        
+					        onFinishActivity();
+					        											
 						}
 					});					
 				}

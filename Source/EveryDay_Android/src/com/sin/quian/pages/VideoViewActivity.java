@@ -52,7 +52,7 @@ public class VideoViewActivity extends HeaderBarActivity {
 			m_videoURL = bundle.getString(INTENT_EXTRA);
 		}
 		
-		showProgress("Loading", "Please wait...");
+		showLoadingProgress();
 		try {
 			// Start the MediaController
 			MediaController mediacontroller = new MediaController(this);

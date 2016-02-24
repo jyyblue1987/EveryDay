@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
+import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
@@ -203,7 +204,8 @@ public class MainMenuActivity extends BaseActivity
 		
 
 		if (requestCode == COMMENT_REQUEST_CODE ) {
-			gotoPersonalCenterPage();
+			Log.e("MainMenu", "gotoPersonalCenterPage");
+//			gotoPersonalCenterPage();
 		}	
 		
 		super.onActivityResult(requestCode, resultCode, data);	
