@@ -55,6 +55,7 @@ public class MyCenterActivity extends HeaderBarActivity
 	private static int	PICK_GALLERY_CODE = 100;
 	private static int	COMMENT_REQUEST_CODE = 200;
 	private static int	STAGE_LIST_CODE = 201;
+	private static int	PROFILE_CHANGE_CODE = 202;
 	
 	ImageView 		m_imgHard = null;
 	TextView 		m_txtHard = null;
@@ -103,6 +104,15 @@ public class MyCenterActivity extends HeaderBarActivity
 //		m_btnRight.setVisibility(View.INVISIBLE);
 		
 		JSONObject profile = AppContext.getProfile();
+		showProfile(profile);
+		m_listPullItems.setMode(Mode.PULL_FROM_END);
+		
+		m_nPageNum = 0;
+		getHistoryList();
+	}
+	
+	private void showProfile(JSONObject profile)
+	{
 		m_txtName.setText(profile.optString(Const.USERNAME, ""));
 		m_txtHisAddress.setText("地址: " + profile.optString(Const.ADDRESS, ""));
 		
@@ -110,13 +120,8 @@ public class MyCenterActivity extends HeaderBarActivity
 		m_txtStar.setText(profile.optString(Const.POINT_NUM, "0"));
 		DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
 		ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + AppContext.getProfile().optString(Const.PHOTO, ""), m_imgPhoto, options);
-		
-		m_listPullItems.setMode(Mode.PULL_FROM_END);
-		
-		m_nPageNum = 0;
-		getHistoryList();
+
 	}
-	
 	protected void initEvents()
 	{ 
 		super.initEvents();
@@ -294,7 +299,7 @@ public class MyCenterActivity extends HeaderBarActivity
 	private void gotoProfilePage()
 	{
 		Bundle bundle = new Bundle();
-		ActivityManager.changeActivity(this, ProfileActivity.class, bundle, false, null );
+		ActivityManager.changeActivity(this, ProfileActivity.class, bundle, false, PROFILE_CHANGE_CODE );
 	}
 	
 	private void uploadStage()
@@ -361,6 +366,11 @@ public class MyCenterActivity extends HeaderBarActivity
 			getHistoryList();
 		}	
 
+		if (requestCode == PROFILE_CHANGE_CODE ) {
+			JSONObject profile = AppContext.getProfile();
+			showProfile(profile);
+		}	
+		
 		super.onActivityResult(requestCode, resultCode, data);	
 	}
 	

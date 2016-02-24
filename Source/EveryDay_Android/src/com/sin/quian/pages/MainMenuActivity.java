@@ -194,11 +194,11 @@ public class MainMenuActivity extends BaseActivity
 		}	
 		
 		if (requestCode == PICK_GALLERY_CODE ) {
-			processFile(m_cameraTempPath);
+			processFile(m_cameraTempPath + ".jpg");
 		}	
 		
 		if (requestCode == PICK_GALLERY_CODE + 2 ) {
-			processFile(m_cameraTempPath);
+			processFile(m_cameraTempPath + ".mp4");
 		}	
 		
 

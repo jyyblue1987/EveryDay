@@ -11,6 +11,7 @@ import com.sin.quian.R;
 import com.sin.quian.network.ServerManager;
 import com.sin.quian.network.ServerTask;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -79,6 +80,8 @@ public class ProfileActivity extends HeaderBarActivity
 		R.id.fragment_profile_address,
 		R.id.fragment_profile_modifieddate
 	};
+	
+	boolean m_isChanged = false;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -296,11 +299,11 @@ public class ProfileActivity extends HeaderBarActivity
 			MessageUtils.showMessageDialog(this, "请输入用户地址.");
 			return;
 		}
-		if( CheckUtils.isEmpty(modified) )
-		{
-			MessageUtils.showMessageDialog(this, "请输入修改的日期.");
-			return;
-		}
+//		if( CheckUtils.isEmpty(modified) )
+//		{
+//			MessageUtils.showMessageDialog(this, "请输入修改的日期.");
+//			return;
+//		}
 		
 		showLoadingProgress();
 
@@ -317,8 +320,11 @@ public class ProfileActivity extends HeaderBarActivity
 				 }
 				 AppContext.setProfile(result.getContentData());
 				 DataUtils.savePreference(Const.USERNAME, username);
+				 
+			 	 Intent intent = new Intent();
+		         setResult(Activity.RESULT_OK, intent); 
 				 onFinishActivity();
-				
+				 m_isChanged = true;
 			}
 		}); 
 	}
@@ -386,11 +392,27 @@ public class ProfileActivity extends HeaderBarActivity
 				}
 				DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();// to load photo
 				ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + filename, m_imgPhotoIcon, options);
-
+				m_isChanged = true;
 			}
 		});
 	}
 
+	protected void gotoBackPage()
+	{
+		if( m_isChanged == true )
+		{
+			Intent intent = new Intent();
+	        setResult(Activity.RESULT_OK, intent);	
+		}
+		 
+		onFinishActivity();
+	}
+	
+	@Override 
+	public void onBackPressed( ) {	
+		gotoBackPage();
+	}
+	
 	// to receive intent info from startActivityForResult in MediaUtils
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) 
@@ -420,6 +442,7 @@ public class ProfileActivity extends HeaderBarActivity
 				
 		super.onActivityResult(requestCode,  resultCode, data);	
 	}
+	
 
 	
 }
