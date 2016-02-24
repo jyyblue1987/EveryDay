@@ -158,7 +158,7 @@ public class BaseActivity extends Activity implements BaseView {
         // for subclasses
     }
     
-    protected void showLoadingProgress()
+    public void showLoadingProgress()
     {
     	showProgress("加载", "请稍等");
     }

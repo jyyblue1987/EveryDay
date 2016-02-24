@@ -1,13 +1,24 @@
 package com.sin.quian.pages;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.facebook.AccessToken;
+import com.facebook.CallbackManager;
+import com.facebook.FacebookCallback;
+import com.facebook.FacebookException;
+import com.facebook.FacebookSdk;
+import com.facebook.login.LoginManager;
+import com.facebook.login.LoginResult;
 import com.sin.quian.AppContext;
 import com.sin.quian.Const;
 import com.sin.quian.R;
 import com.sin.quian.network.ServerManager;
+import com.sin.quian.thirdparty.Facebook;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.InputType;
-import android.text.Layout;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
@@ -120,7 +131,7 @@ public class LoginActivity extends HeaderBarActivity
 			
 			@Override
 			public void onClick(View v) {
-				
+				Facebook.login(LoginActivity.this);
 			}
 		});
 		
@@ -226,10 +237,19 @@ public class LoginActivity extends HeaderBarActivity
 		});
 	 }
 	 
-	private void gotoMainPage()
+	public void gotoMainPage()
 	{
 		Bundle bundle = new Bundle();
 		ActivityManager.changeActivity(this, MainMenuActivity.class, bundle, true, null );
 	}
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        Facebook.onActivityResult(requestCode, resultCode, data);
+        
+    }
+    private void loginFB(){
+    	
+    }
 
 }

@@ -2,6 +2,7 @@ package com.sin.quian;
 
 
 
+import com.facebook.FacebookSdk;
 import com.google.android.gcm.GCMRegistrar;
 import com.nostra13.universalimageloader.cache.disc.naming.HashCodeFileNameGenerator;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
@@ -41,6 +42,7 @@ public class EveryCloudApplication extends Application {
 	   
 	   private void setContextToComponents()
 	   {
+		   FacebookSdk.sdkInitialize(getApplicationContext());
 		   DataUtils.setContext(this);
 		   NetworkUtils.setContext(this);
 		   MessageUtils.setApplicationContext(this);
