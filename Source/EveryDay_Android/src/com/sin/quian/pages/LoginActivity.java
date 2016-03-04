@@ -15,6 +15,7 @@ import com.sin.quian.Const;
 import com.sin.quian.R;
 import com.sin.quian.network.ServerManager;
 import com.sin.quian.thirdparty.Facebook;
+import com.sin.quian.thirdparty.SinaWeibo;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -140,7 +141,7 @@ public class LoginActivity extends HeaderBarActivity
 			
 			@Override
 			public void onClick(View v) {
-				
+				SinaWeibo.login(LoginActivity.this);
 			}
 		});
 	}
@@ -246,10 +247,8 @@ public class LoginActivity extends HeaderBarActivity
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         Facebook.onActivityResult(requestCode, resultCode, data);
-        
+        SinaWeibo.onActivityResult(requestCode, resultCode, data);
     }
-    private void loginFB(){
-    	
-    }
+
 
 }
