@@ -33,7 +33,7 @@ public class BaseActivity extends Activity implements BaseView {
 		super.onCreate(savedInstanceState);
 		
 		ActivityManager.getInstance().pushActivity(BaseActivity.this);
-		setBackgroundColor(Color.WHITE);
+		setBackgroundColor(Color.rgb(245, 245, 245));
 		initProgress();
 		
 		hideKeyboardTouchOutSideEditBox();

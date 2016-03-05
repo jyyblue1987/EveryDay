@@ -38,7 +38,7 @@ public class HeaderBarActivity extends BaseActivity {
 		
 		m_btnLeft.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
 		m_btnRight.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-		LayoutUtils.setSize(m_btnLeft, 50, 44, true);
+		LayoutUtils.setSize(m_btnLeft, 25, 45, true);
 		
 		LayoutUtils.setSize(m_txtNotify, 53, 53, true);
 		m_txtNotify.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(44));

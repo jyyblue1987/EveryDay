@@ -1,15 +1,5 @@
 package com.sin.quian.pages;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.facebook.AccessToken;
-import com.facebook.CallbackManager;
-import com.facebook.FacebookCallback;
-import com.facebook.FacebookException;
-import com.facebook.FacebookSdk;
-import com.facebook.login.LoginManager;
-import com.facebook.login.LoginResult;
 import com.sin.quian.AppContext;
 import com.sin.quian.Const;
 import com.sin.quian.R;
@@ -51,13 +41,12 @@ public class LoginActivity extends HeaderBarActivity
 	MyTextView		m_txtRegister = null;
 	MyTextView		m_txtForgot = null;
 	
+	MyButton		m_btnFastLogin = null;
+	
 	ImageView 		m_imgFacebook = null;
 	ImageView 		m_imgWeibo = null;
 	
-	int [] m_field_item = {
-			R.id.fragment_username,
-			R.id.fragment_password,
-		};
+	MyButton		m_btnPreview = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -72,14 +61,18 @@ public class LoginActivity extends HeaderBarActivity
 
 		m_imgLogin = (ImageView) findViewById(R.id.img_login);
 		
-		m_editName = (EditText) findViewById(R.id.fragment_username).findViewById(R.id.edit_content);
-		m_editPassword = (EditText) findViewById(R.id.fragment_password).findViewById(R.id.edit_content);
+		m_editName = (EditText) findViewById(R.id.edit_username);
+		m_editPassword = (EditText) findViewById(R.id.edit_password);
 		m_btnLogin = (MyButton) findViewById(R.id.btn_login);
-		m_txtRegister = (MyTextView) findViewById(R.id.txt_login_register);
+		m_txtRegister = (MyTextView) findViewById(R.id.txt_login_register);		
 		m_txtForgot = (MyTextView) findViewById(R.id.txt_login_forgot);
+		
+		m_btnFastLogin = (MyButton) findViewById(R.id.btn_fastlogin);
 		
 		m_imgFacebook = (ImageView) findViewById(R.id.img_facebook);
 		m_imgWeibo = (ImageView) findViewById(R.id.img_weibo);
+		
+		m_btnPreview = (MyButton) findViewById(R.id.btn_preview);
 	}
 
 	protected void initData()
@@ -92,12 +85,6 @@ public class LoginActivity extends HeaderBarActivity
 		m_editName.setText(username);
 		m_editPassword.setText(password);
 		m_txtPageTitle.setText("登录");
-		m_btnRight.setVisibility(View.INVISIBLE);
-		
-		((TextView) findViewById(R.id.fragment_username).findViewById(R.id.txt_label)).setText("用户名");
-		((TextView) findViewById(R.id.fragment_password).findViewById(R.id.txt_label)).setText("密码");
-		
-		((EditText) findViewById(R.id.fragment_password).findViewById(R.id.edit_content)).setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
 	}
 	
 	protected void initEvents()
@@ -127,6 +114,15 @@ public class LoginActivity extends HeaderBarActivity
 			}
 		});
 		
+		m_btnFastLogin.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+		
 		ResourceUtils.addClickEffect(m_imgFacebook);
 		m_imgFacebook.setOnClickListener(new View.OnClickListener() {
 			
@@ -142,6 +138,15 @@ public class LoginActivity extends HeaderBarActivity
 			@Override
 			public void onClick(View v) {
 				SinaWeibo.login(LoginActivity.this);
+			}
+		});
+		
+		ResourceUtils.addClickEffect(m_btnPreview);
+		m_btnPreview.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+								
 			}
 		});
 	}
@@ -186,28 +191,37 @@ public class LoginActivity extends HeaderBarActivity
 		
 		LayoutUtils.setMargin(m_imgLogin, 0, 80, 0, 100, true);
 		LayoutUtils.setSize(m_imgLogin, 300, 300, true);
-
-		for(int i = 0; i < m_field_item.length; i++ )
-		{
-			LayoutUtils.setMargin(findViewById(m_field_item[i]), 80, 0, 80, 100, true);
-			LayoutUtils.setPadding(findViewById(m_field_item[i]).findViewById(R.id.lay_info), 20, 0, 20, 0, true);
-			
-			((TextView)findViewById(m_field_item[i]).findViewById(R.id.txt_label)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
-			((TextView)findViewById(m_field_item[i]).findViewById(R.id.edit_content)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
-		}
 		
-		LayoutUtils.setMargin(m_btnLogin, 80, 130, 80, 0, true);
+		LayoutUtils.setPadding(findViewById(R.id.lay_container), 60, 100, 60, 144, true);
+
+		
+		m_editName.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+		LayoutUtils.setPadding(m_editName, 65, 36, 65, 36, true);
+		
+		LayoutUtils.setMargin(m_editPassword, 0, 60, 0, 0, true);
+		m_editPassword.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+		LayoutUtils.setPadding(m_editPassword, 65, 36, 65, 36, true);
+				
+		LayoutUtils.setMargin(m_btnLogin, 0, 130, 0, 0, true);
 		LayoutUtils.setSize(m_btnLogin, LayoutParams.MATCH_PARENT, 114, true);
 		m_btnLogin.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 		
-		LayoutUtils.setMargin(findViewById(R.id.lay_login), 80, 25, 80, 100, true);
+		LayoutUtils.setMargin(findViewById(R.id.lay_login), 0, 25, 0, 0, true);
 		
 		m_txtRegister.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));	
 		m_txtForgot.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 		
-		LayoutUtils.setMargin(findViewById(R.id.lay_third_party), 80, 100, 80, 100, true);
-		LayoutUtils.setSize(m_imgFacebook, 120, 120, true);
-		LayoutUtils.setSize(m_imgWeibo, 120, 120, true);
+		LayoutUtils.setMargin(m_btnFastLogin, 0, 200, 0, 0, true);
+		m_btnFastLogin.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+		
+		LayoutUtils.setMargin(findViewById(R.id.lay_third_party), 170, 60, 170, 0, true);
+		LayoutUtils.setSize(m_imgFacebook, 180, 180, true);
+		LayoutUtils.setSize(m_imgWeibo, 180, 180, true);
+		
+		LayoutUtils.setMargin(m_btnPreview, 0, 150, 0, 0, true);
+		m_btnPreview.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+		LayoutUtils.setSize(m_btnPreview, 364, 98, true);
+		
 	 }
 	 
 	 private void login(final String username, final String password)

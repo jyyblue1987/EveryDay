@@ -14,30 +14,45 @@
         android:layout_height="wrap_content" 
         >
         <LinearLayout 
+            android:id="@+id/lay_container"
             android:layout_width="match_parent"
 		    android:layout_height="wrap_content"
 		    android:gravity="center_horizontal"
+		    android:padding="30dip"		    
 		    android:orientation="vertical" >
             
             <ImageView
 		        android:id="@+id/img_login"
 		        android:layout_width="100dip"
 		        android:layout_height="100dip"
+		        android:visibility="gone"
 		        android:src="@drawable/contact_icon"
 		        />
+            
+            <EditText
+			    android:id="@+id/edit_username"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"			    			    			    
+			    android:singleLine="true"
+			    android:background="@drawable/edit_bg"
+			    />	
 		 
-			<include
-			    android:id="@+id/fragment_username"
-			    layout="@layout/fragment_label_edit" />
-			<include
-			    android:id="@+id/fragment_password"
-			    layout="@layout/fragment_label_edit" />
+			<EditText
+			    android:id="@+id/edit_password"
+			    android:layout_width="match_parent"
+			    android:layout_height="wrap_content"
+			    android:inputType="textPassword"
+			    android:layout_marginTop="20dip"			    			    			    
+			    android:singleLine="true"
+			    android:background="@drawable/edit_bg"
+			    />	
 		     
 		    <common.component.ui.MyButton
 		        android:id="@+id/btn_login"
-			    android:layout_width="100dip"
+			    android:layout_width="match_parent"
 		        android:layout_height="30dip"
-		        android:background="@drawable/button_greeen_bg"
+		        android:layout_marginTop="20dip"
+		        android:background="@drawable/button_orrange_bg"
 		        android:text="登录"
 		        android:textColor="@color/white" />       
 		
@@ -45,13 +60,14 @@
 		        android:id="@+id/lay_login"
 		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
+		        android:layout_marginTop="20dip"
 		        >
 		
 		        <common.component.ui.MyTextView
 		            android:id="@+id/txt_login_register"
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
-		            android:textColor="@color/green"
+		            android:textColor="@color/app_text_color"
 		            android:text="@string/register" />
 		
 		        <common.component.ui.MyTextView
@@ -59,16 +75,26 @@
 		            android:layout_width="wrap_content"
 		            android:layout_height="wrap_content"
 		            android:layout_alignParentRight="true"
-		            android:textColor="@color/green"
+		            android:textColor="@color/app_text_color"
 		            android:text="@string/forgot_password" />
 		
 		    </RelativeLayout>
 		    
+		    <common.component.ui.MyButton
+		        android:id="@+id/btn_fastlogin"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:background="@null"
+		        android:text="快捷登录" 
+		        android:textColor="@color/text_color_selector"
+		        />
 		    <RelativeLayout
 		        android:id="@+id/lay_third_party"
 		        android:layout_width="match_parent"
 		        android:layout_height="wrap_content"
 		        android:layout_marginTop="30dip"
+		        android:layout_marginLeft="30dip"
+		        android:layout_marginRight="30dip"
 		        >
 		
 		        <ImageView
@@ -87,7 +113,16 @@
 		            />
 		
 		    </RelativeLayout>
-            
+		    
+		     <common.component.ui.MyButton
+		        android:id="@+id/btn_preview"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:gravity="center"		               
+		        android:text="先用用看" 
+		        android:textColor="@color/app_text_color"
+		        android:background="@drawable/edit_bg"
+		        />
         </LinearLayout>
     </ScrollView>
    
