@@ -7,14 +7,14 @@ import com.sin.quian.R;
 import com.sin.quian.network.ServerManager;
 
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
-import common.component.ui.MyButton;
+import common.component.ui.MyCheckBox;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
 import common.library.utils.CheckUtils;
@@ -31,18 +31,17 @@ public class RegisterActivity extends HeaderBarActivity
 	static final int DIALOG_GAMEOVER_ID = 1;
 	
 	ImageView		m_imgPhotoIcon = null;
-	EditText 		m_editName = null;
 	EditText 		m_editEmail = null;
 	EditText 		m_editPassword = null;
 	EditText 		m_editConfirmPassword = null;
-	MyButton		m_btnRegister = null;
 	
-	int [] m_field_item = {
-		R.id.fragment_username,
-		R.id.fragment_email,
-		R.id.fragment_password,
-		R.id.fragment_confirm_password
-	};
+	Button			m_btnRegister = null;
+	
+	MyCheckBox 		m_chkAgree = null;
+	TextView 		m_txtAgree = null;
+	
+	Button			m_btnRetureLogin = null;
+
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -57,31 +56,52 @@ public class RegisterActivity extends HeaderBarActivity
 
 		m_imgPhotoIcon = (ImageView) findViewById(R.id.img_photo_icon);
 		
-		m_editName = (EditText) findViewById(R.id.fragment_username).findViewById(R.id.edit_content);
-		m_editEmail = (EditText) findViewById(R.id.fragment_email).findViewById(R.id.edit_content);
-		m_editPassword = (EditText) findViewById(R.id.fragment_password).findViewById(R.id.edit_content);
-		m_btnRegister = (MyButton) findViewById(R.id.btn_register);
+		m_editEmail = (EditText) findViewById(R.id.edit_email);
+		m_editPassword = (EditText) findViewById(R.id.edit_password);
+		m_editConfirmPassword = (EditText) findViewById(R.id.edit_confirm_password);
+		
+		m_btnRegister = (Button) findViewById(R.id.btn_register);
+		
+		m_chkAgree = (MyCheckBox) findViewById(R.id.chk_agree);
+		m_txtAgree = (TextView) findViewById(R.id.txt_agree);
+		
+		m_btnRetureLogin = (Button) findViewById(R.id.btn_returnlogin);
 	}
 	
 	protected void layoutControls()
 	{
 		super.layoutControls();
 		
+		LayoutUtils.setPadding(findViewById(R.id.lay_container), 60, 100, 60, 144, true);
+		
 		LayoutUtils.setMargin(m_imgPhotoIcon, 0, 80, 0, 100, true);
 		LayoutUtils.setSize(m_imgPhotoIcon, 300, 300, true);
-
-		for(int i = 0; i < m_field_item.length; i++ )
-		{
-			LayoutUtils.setMargin(findViewById(m_field_item[i]), 80, 0, 80, 100, true);
-			LayoutUtils.setPadding(findViewById(m_field_item[i]).findViewById(R.id.lay_info), 20, 0, 20, 0, true);
-			
-			((TextView)findViewById(m_field_item[i]).findViewById(R.id.txt_label)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
-			((TextView)findViewById(m_field_item[i]).findViewById(R.id.edit_content)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
-		}
 		
-		LayoutUtils.setMargin(m_btnRegister, 80, 130, 80, 100, true);
+		m_editEmail.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+		LayoutUtils.setPadding(m_editEmail, 65, 36, 65, 36, true);
+		
+		LayoutUtils.setMargin(m_editPassword, 0, 60, 0, 0, true);
+		m_editPassword.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+		LayoutUtils.setPadding(m_editPassword, 65, 36, 65, 36, true);
+		
+		LayoutUtils.setMargin(m_editConfirmPassword, 0, 60, 0, 0, true);
+		m_editConfirmPassword.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+		LayoutUtils.setPadding(m_editConfirmPassword, 65, 36, 65, 36, true);
+		
+		LayoutUtils.setMargin(m_btnRegister, 0, 130, 0, 0, true);
 		LayoutUtils.setSize(m_btnRegister, LayoutParams.MATCH_PARENT, 114, true);
 		m_btnRegister.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+		
+		
+		LayoutUtils.setMargin(findViewById(R.id.lay_agree), 0, 100, 0, 0, true);
+		
+ 		LayoutUtils.setSize(m_chkAgree, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
+ 		m_chkAgree.setTextSize(ScreenAdapter.computeHeight(45)); 		
+ 		LayoutUtils.setMargin(m_txtAgree, 5, 0, 0, 0, true);
+ 		m_txtAgree.setTextSize(ScreenAdapter.computeHeight(45));
+		
+		LayoutUtils.setMargin(m_btnRetureLogin, 0, 500, 0, 0, true);
+		m_btnRetureLogin.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));		
 	}
 	
 
@@ -90,17 +110,9 @@ public class RegisterActivity extends HeaderBarActivity
 		super.initData();
 		
 		m_btnRight.setVisibility(View.INVISIBLE);
-		m_txtPageTitle.setText("注册");
+		m_txtPageTitle.setText("注册");		
 		
-		((TextView) findViewById(R.id.fragment_username).findViewById(R.id.txt_label)).setText("用户名");
-		((TextView) findViewById(R.id.fragment_email).findViewById(R.id.txt_label)).setText("邮箱");
-		((TextView) findViewById(R.id.fragment_password).findViewById(R.id.txt_label)).setText("密码");
-		((TextView) findViewById(R.id.fragment_confirm_password).findViewById(R.id.txt_label)).setText("确认密码");
-		
-		((EditText) findViewById(R.id.fragment_email).findViewById(R.id.edit_content)).setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
-		((EditText) findViewById(R.id.fragment_password).findViewById(R.id.edit_content)).setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-		((EditText) findViewById(R.id.fragment_confirm_password).findViewById(R.id.edit_content)).setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-		
+		m_chkAgree.setText("我已阅读并同意");		
 	}
 	
 	protected void initEvents()
@@ -118,10 +130,10 @@ public class RegisterActivity extends HeaderBarActivity
 	
 	private void onClickRegister()
 	{
-		String username = ((TextView) findViewById(R.id.fragment_username).findViewById(R.id.edit_content)).getText().toString();
-		String email = ((TextView) findViewById(R.id.fragment_email).findViewById(R.id.edit_content)).getText().toString();
-		String password = ((TextView) findViewById(R.id.fragment_password).findViewById(R.id.edit_content)).getText().toString();
-		String confirmpassword = ((TextView) findViewById(R.id.fragment_confirm_password).findViewById(R.id.edit_content)).getText().toString();
+		String email = m_editEmail.getText().toString();
+		String password = m_editPassword.getText().toString();
+		String confirmpassword = m_editConfirmPassword.getText().toString();
+		String username = email + "";
 		
 		if( CheckUtils.isEmpty(username) )
 		{

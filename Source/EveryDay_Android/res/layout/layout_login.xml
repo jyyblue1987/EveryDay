@@ -32,7 +32,9 @@
             <EditText
 			    android:id="@+id/edit_username"
 			    android:layout_width="match_parent"
-			    android:layout_height="wrap_content"			    			    			    
+			    android:layout_height="wrap_content"
+			    android:inputType="textEmailAddress"	
+			    android:hint="请输入邮箱"		    			    			    
 			    android:singleLine="true"
 			    android:background="@drawable/edit_bg"
 			    />	
@@ -44,6 +46,7 @@
 			    android:inputType="textPassword"
 			    android:layout_marginTop="20dip"			    			    			    
 			    android:singleLine="true"
+			    android:hint="请输入密码"
 			    android:background="@drawable/edit_bg"
 			    />	
 		     

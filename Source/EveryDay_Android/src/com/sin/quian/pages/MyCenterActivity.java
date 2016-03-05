@@ -63,11 +63,6 @@ public class MyCenterActivity extends HeaderBarActivity
 	TextView 		m_txtStar = null;
 	TextView 		m_txtHisAddress = null;
 
-	int [] m_field_item = {
-			R.id.fragment_username,
-			R.id.fragment_password,
-		};
-	
 	PullToRefreshListView		m_listPullItems = null;
 	ListView					m_listItems = null;
 	HistoryListAdapter			m_adapterHistoryList = null;
