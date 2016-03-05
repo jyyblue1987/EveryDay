@@ -1,0 +1,36 @@
+
+table.info_detail_view {
+
+}
+
+table.info_detail_view tr {
+	margin: 5px;
+}
+
+table.info_detail_view tr:hover {
+	background-color: #ddf3fa;
+}
+
+table.info_detail_view td.title {
+	float: left;
+	clear: left;
+	text-align: right;
+	width: 161px;
+	padding: 5px 18px 5px 0;
+	min-height: 21px;
+	font-size: 14px;
+	font-weight: normal;
+	color: #5f5f5f;
+	cursor:default;
+}
+
+table.info_detail_view td.value {
+	float: left;
+	clear: left;
+	text-align: left;
+	padding: 5px 18px 5px 10px;
+	min-height: 21px;
+	font-size: 14px;
+	color: #5f5f5f;
+	cursor:default;
+}
