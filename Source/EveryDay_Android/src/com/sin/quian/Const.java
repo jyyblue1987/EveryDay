@@ -58,4 +58,7 @@ public class Const {
     public static final String SEND_NUM = "sendnum";
     
     public static final String MODE = "mode";
+    
+    // Language
+    public static final String LANGUAGE = "lang";
 }
