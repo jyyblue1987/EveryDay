@@ -42,6 +42,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".pages.LanguageActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.LoginActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.RegisterActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.ChangePasswordActivity" android:screenOrientation="portrait"/>

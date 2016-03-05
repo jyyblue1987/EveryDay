@@ -109,7 +109,7 @@ public class SplashActivity extends BaseActivity {
 	private void gotoLoginPage()
 	{
 		Bundle bundle = new Bundle();
-		ActivityManager.changeActivity(this, LoginActivity.class, bundle, true, null );		
+		ActivityManager.changeActivity(this, LanguageActivity.class, bundle, true, null );		
 	}
 
 	private void gotoMainPage()

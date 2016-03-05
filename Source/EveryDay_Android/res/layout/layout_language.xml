@@ -1,0 +1,55 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+    
+   	  
+    <RadioGroup
+        android:id="@+id/radiogroup_language"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"       
+          >
+
+        <RadioButton
+            android:id="@+id/radio_chinese"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:checked="true"
+            android:button="@drawable/radiobox_selector"
+            android:text="       简体中文" />
+
+        <RadioButton
+            android:id="@+id/radio_english"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:button="@drawable/radiobox_selector"
+            android:text="       ENGLISH" />
+        
+    </RadioGroup>
+   	  
+   	  <common.component.ui.MyButton
+	        android:id="@+id/btn_start"
+		    android:layout_width="match_parent"
+	        android:layout_height="30dip"
+	        android:layout_marginTop="20dip"
+	        android:background="@drawable/button_orrange_bg"
+	        android:text="开始"
+	        android:textColor="@color/white" />
+   	  
+   	  
+
+   	  
+   	   
+	<common.component.ui.MyCheckBox
+	    android:id="@+id/chk_agree"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+		android:layout_marginTop="20dip"
+        android:button="@drawable/checkbox_selector"				
+	    android:text="ENGLISH"
+	    android:textSize="20dip" />
+  	   
+   	  
+</LinearLayout>

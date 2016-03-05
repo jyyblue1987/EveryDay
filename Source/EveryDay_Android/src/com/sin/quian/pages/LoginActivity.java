@@ -9,13 +9,11 @@ import com.sin.quian.thirdparty.SinaWeibo;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
-import android.widget.TextView;
 import common.component.ui.MyButton;
 import common.component.ui.MyTextView;
 import common.design.layout.LayoutUtils;

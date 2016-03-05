@@ -3,8 +3,8 @@
 
     <string name="app_name">每天</string>
     <string name="hello_world">世界您好！</string>
-    <string name="register"><u>立即注册</u></string>
-    <string name="forgot_password"><u>忘记密码</u></string>
+    <string name="register">立即注册</string>
+    <string name="forgot_password">忘记密码</string>
     <string name="fbid">932902020112346</string>
 
 </resources>
