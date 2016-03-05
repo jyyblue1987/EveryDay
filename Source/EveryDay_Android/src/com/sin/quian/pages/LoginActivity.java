@@ -154,7 +154,7 @@ public class LoginActivity extends HeaderBarActivity
 		 String username = m_editName.getText().toString();
 		 if( CheckUtils.isEmpty(username) )
 		 {
-			 MessageUtils.showMessageDialog(this, "您必须输入用户名.");
+			 MessageUtils.showMessageDialog(this, "您必须输入邮箱.");
 			 return;
 		 }
 		 String password = m_editPassword.getText().toString();

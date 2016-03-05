@@ -9,10 +9,12 @@ import android.os.Bundle;
 import android.text.InputType;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 import common.component.ui.MyButton;
+import common.component.ui.MyCheckBox;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
 import common.library.utils.DataUtils;
@@ -23,19 +25,15 @@ import common.network.utils.ResultCallBack;
 
 public class ForgotPasswordActivity extends HeaderBarActivity
 {
-	EditText 		m_txtUserName = null;
-	EditText 		m_txtEmail = null;
-	EditText 		m_txtNew = null;
-	EditText 		m_txtConfirm = null;
-	MyButton		m_btnChange = null;
+	EditText 		m_editEmail = null;
+	EditText 		m_editPassword = null;
+	EditText 		m_editConfirmPassword = null;
+	EditText 		m_editVerifyCode = null;
 	
-	int [] m_field_item = {
-			R.id.fragment_forgot_username,
-			R.id.fragment_forgot_email,
-			R.id.fragment_forgot_new,
-			R.id.fragment_forgot_confirm,
-		};
-
+	Button			m_btnSendVerify = null;
+	Button			m_btnChange = null;
+	
+	Button			m_btnRetureLogin = null;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -48,27 +46,58 @@ public class ForgotPasswordActivity extends HeaderBarActivity
 	{
 		super.findViews();
 
-		m_txtUserName = (EditText) findViewById(R.id.fragment_forgot_username).findViewById(R.id.edit_content);
-		m_txtEmail = (EditText) findViewById(R.id.fragment_forgot_email).findViewById(R.id.edit_content);
-		m_txtNew = (EditText) findViewById(R.id.fragment_forgot_new).findViewById(R.id.edit_content);
-		m_txtConfirm = (EditText) findViewById(R.id.fragment_forgot_confirm).findViewById(R.id.edit_content);
-		m_btnChange = (MyButton) findViewById(R.id.btn_forgot_change);
+		m_editEmail = (EditText) findViewById(R.id.edit_email);
+		m_editPassword = (EditText) findViewById(R.id.edit_password);
+		m_editConfirmPassword = (EditText) findViewById(R.id.edit_confirm_password);
+		
+		m_editVerifyCode = (EditText) findViewById(R.id.edit_verify);
+		m_btnSendVerify = (Button) findViewById(R.id.btn_verify_send);
+	
+		m_btnChange = (Button) findViewById(R.id.btn_forgot_change);
+		m_btnRetureLogin = (Button) findViewById(R.id.btn_returnlogin);
 	}
 
 	protected void initData()
 	{
 		super.initData();
-		m_txtPageTitle.setText("忘记了密码");
+		m_txtPageTitle.setText("忘记密码");
 		m_btnRight.setVisibility(View.INVISIBLE);
-		
-		((TextView) findViewById(R.id.fragment_forgot_username).findViewById(R.id.txt_label)).setText("用户名");
-		((TextView) findViewById(R.id.fragment_forgot_email).findViewById(R.id.txt_label)).setText("邮箱");
-		((TextView) findViewById(R.id.fragment_forgot_new).findViewById(R.id.txt_label)).setText("密码");
-		((TextView) findViewById(R.id.fragment_forgot_confirm).findViewById(R.id.txt_label)).setText("确认密码");
-		
-		((EditText) findViewById(R.id.fragment_forgot_new).findViewById(R.id.edit_content)).setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-		((EditText) findViewById(R.id.fragment_forgot_confirm).findViewById(R.id.edit_content)).setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+	}
+	
+	protected void layoutControls()
+	{
+		super.layoutControls();
 
+		LayoutUtils.setPadding(findViewById(R.id.lay_container), 60, 100, 60, 144, true);
+		
+		m_editEmail.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+		LayoutUtils.setPadding(m_editEmail, 65, 36, 65, 36, true);
+		
+		LayoutUtils.setMargin(m_editPassword, 0, 60, 0, 0, true);
+		m_editPassword.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+		LayoutUtils.setPadding(m_editPassword, 65, 36, 65, 36, true);
+		
+		LayoutUtils.setMargin(m_editConfirmPassword, 0, 60, 0, 0, true);
+		m_editConfirmPassword.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+		LayoutUtils.setPadding(m_editConfirmPassword, 65, 36, 65, 36, true);
+		
+		LayoutUtils.setMargin(findViewById(R.id.lay_verify), 0, 60, 0, 0, true);
+		
+		m_editVerifyCode.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+		LayoutUtils.setPadding(m_editVerifyCode, 65, 28, 65, 28, true);
+
+		LayoutUtils.setSize(m_btnSendVerify, 0, 114, true);
+		LayoutUtils.setMargin(m_btnSendVerify, 7, 0, 0, 0, true);
+		m_btnSendVerify.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+
+		
+		LayoutUtils.setMargin(m_btnChange, 0, 130, 0, 0, true);
+		LayoutUtils.setSize(m_btnChange, LayoutParams.MATCH_PARENT, 114, true);
+		m_btnChange.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+		
+		
+		LayoutUtils.setMargin(m_btnRetureLogin, 0, 500, 0, 0, true);
+		m_btnRetureLogin.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));		
 	}
 	
 	protected void initEvents()
@@ -82,14 +111,22 @@ public class ForgotPasswordActivity extends HeaderBarActivity
 				onClickforgot();				
 			}
 		});
+		
+		m_btnRetureLogin.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				onFinishActivity();				
+			}
+		});
 	}
 	
 	private void onClickforgot()
 	{
-		String strUserName = m_txtUserName.getText().toString();
-		String strEmail = m_txtEmail.getText().toString();
-		String strPassword = m_txtNew.getText().toString();
-		String strConfirm = m_txtConfirm.getText().toString();
+		String strEmail = m_editEmail.getText().toString();
+		String strPassword = m_editPassword.getText().toString();
+		String strConfirm = m_editConfirmPassword.getText().toString();
+		String strUserName = strEmail + "";
 		if(strPassword.equals(strConfirm) && strPassword != null ){
 			 showLoadingProgress();
 			 ServerManager.forgotPassword(strUserName, strEmail, strPassword, new ResultCallBack() {
@@ -118,25 +155,5 @@ public class ForgotPasswordActivity extends HeaderBarActivity
 		}
 	}
  
-	protected void layoutControls()
-	{
-		super.layoutControls();
 
-		for(int i = 0; i < m_field_item.length; i++ )
-		{
-			if(i==0){
-				LayoutUtils.setMargin(findViewById(m_field_item[i]), 80, 200, 80, 0, true);
-			}else{
-				LayoutUtils.setMargin(findViewById(m_field_item[i]), 80, 100, 80, 0, true);
-			}
-			LayoutUtils.setPadding(findViewById(m_field_item[i]).findViewById(R.id.lay_info), 20, 0, 20, 0, true);
-			
-			((TextView)findViewById(m_field_item[i]).findViewById(R.id.txt_label)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
-			((TextView)findViewById(m_field_item[i]).findViewById(R.id.edit_content)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
-		}
-		
-		LayoutUtils.setMargin(m_btnChange, 80, 170, 80, 100, true);
-		LayoutUtils.setSize(m_btnChange, LayoutParams.MATCH_PARENT, 114, true);
-		m_btnChange.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
-	}
 }

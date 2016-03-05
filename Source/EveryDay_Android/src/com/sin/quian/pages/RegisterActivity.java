@@ -27,9 +27,6 @@ import common.network.utils.ResultCallBack;
 
 public class RegisterActivity extends HeaderBarActivity
 {
-	static final int DIALOG_PAUSED_ID = 0;
-	static final int DIALOG_GAMEOVER_ID = 1;
-	
 	ImageView		m_imgPhotoIcon = null;
 	EditText 		m_editEmail = null;
 	EditText 		m_editPassword = null;
@@ -104,7 +101,6 @@ public class RegisterActivity extends HeaderBarActivity
 		m_btnRetureLogin.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));		
 	}
 	
-
 	protected void initData()
 	{
 		super.initData();
@@ -126,6 +122,14 @@ public class RegisterActivity extends HeaderBarActivity
 				onClickRegister();				
 			}
 		});
+		
+		m_btnRetureLogin.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				onFinishActivity();				
+			}
+		});
 	}
 	
 	private void onClickRegister()
@@ -133,13 +137,6 @@ public class RegisterActivity extends HeaderBarActivity
 		String email = m_editEmail.getText().toString();
 		String password = m_editPassword.getText().toString();
 		String confirmpassword = m_editConfirmPassword.getText().toString();
-		String username = email + "";
-		
-		if( CheckUtils.isEmpty(username) )
-		{
-			MessageUtils.showMessageDialog(this, "您必须输入用户名");
-			return;
-		}
 		
 		if( CheckUtils.isEmpty(email) )
 		{
@@ -159,17 +156,17 @@ public class RegisterActivity extends HeaderBarActivity
 			return;
 		}
 		
-		register(username, email, password);
+		register(email, password);
 	}
 	
-	private void register(String username, String email, String password)
+	private void register(String email, String password)
 	{
-		 DataUtils.savePreference(Const.USERNAME, username);
+		 DataUtils.savePreference(Const.USERNAME, email);
 		 DataUtils.savePreference(Const.PASSWORD, password);
 
 		 showLoadingProgress();
 		
-		 ServerManager.register(username, email, password, new ResultCallBack() {
+		 ServerManager.register(email, password, new ResultCallBack() {
 			
 			 @Override
 			 public void doAction(LogicResult result) {
