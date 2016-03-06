@@ -43,7 +43,7 @@ import common.manager.activity.ActivityManager;
 import common.network.utils.LogicResult;
 import common.network.utils.ResultCallBack;
 
-public class HistoryActivity extends HeaderBarActivity {
+public class HistoryActivity extends BottomBarActivity {
 	PullToRefreshListView			m_listPullItems = null;
 	ListView						m_listItems = null;
 	TextView						m_txtEmptyView = null;

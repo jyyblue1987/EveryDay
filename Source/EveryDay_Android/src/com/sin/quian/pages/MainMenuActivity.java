@@ -64,6 +64,69 @@ public class MainMenuActivity extends HeaderBarActivity
 		m_imgBuyIcon = (ImageView) findViewById(R.id.img_buy_point);
 	}
 	
+	protected void layoutControls()
+	{
+		super.layoutControls();
+		
+		m_layLeft.setVisibility(View.INVISIBLE);
+		
+		LayoutUtils.setSize(findViewById(R.id.lay_main_head), LayoutParams.MATCH_PARENT, ScreenAdapter.getDeviceHeight() / 3, false);
+		
+		LayoutUtils.setSize(m_imgPhoto, 300, 300, true);
+		LayoutUtils.setMargin(findViewById(R.id.lay_user_info), 0, 40, 0, 0, true);
+		
+		m_txtUserName.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+		
+		LayoutUtils.setMargin(findViewById(R.id.img_star), 50, 0, 0, 0, true);
+		LayoutUtils.setSize(findViewById(R.id.img_star), 50, 50, true);
+		
+		LayoutUtils.setMargin(m_txtPointCount, 10, 0, 0, 0, true);
+		m_txtPointCount.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+				
+		LayoutUtils.setSize(findViewById(R.id.lay_main_bottom), LayoutParams.MATCH_PARENT, 210, true);
+		LayoutUtils.setPadding(findViewById(R.id.lay_main_bottom), 0, 57, 0, 0, true);
+		LayoutUtils.setSize(m_imgAdvertise, 87, 69, true);
+		
+		LayoutUtils.setMargin(m_imgCamera, 180, 0, 0, 0, true);
+		LayoutUtils.setSize(m_imgCamera, 120, 95, true);
+		
+		LayoutUtils.setMargin(m_imgBuyIcon, 180, 0, 0, 0, true);
+		LayoutUtils.setSize(m_imgBuyIcon, 80, 80, true);
+		
+		int menu_icon [] = {
+				R.id.img_menu_news, R.id.img_menu_topstar,
+				R.id.img_menu_friends, R.id.img_menu_personal
+		};
+		
+		int menu_label [] = {
+				R.id.txt_menu_news, R.id.txt_menu_topstar,
+				R.id.txt_menu_friends, R.id.txt_menu_personal
+		};
+
+		
+		for(int i = 0; i < menu_icon.length; i++ )
+		{
+			LayoutUtils.setSize(findViewById(menu_icon[i]), 110, 110, true);
+			((TextView)findViewById(menu_label[i])).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(45));
+			LayoutUtils.setMargin(findViewById(menu_label[i]), 0, 30, 0, 0, true);
+		}
+	}
+	
+	
+	protected void initData()
+	{
+		super.initData();
+		
+		m_txtPageTitle.setText("每天");
+		
+		JSONObject profile = AppContext.getProfile();
+		m_txtUserName.setText(profile.optString(Const.USERNAME, ""));
+		m_txtPointCount.setText(profile.optInt(Const.POINT_NUM, 0) + "");
+		
+		DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
+		ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + profile.optString(Const.PHOTO, ""), m_imgPhoto, options);
+	}
+	
 	protected void initEvents()
 	{ 
 		super.initEvents();
@@ -122,67 +185,8 @@ public class MainMenuActivity extends HeaderBarActivity
 		
 	}
 	
-	protected void layoutControls()
-	{
-		super.layoutControls();
-		
-		m_layLeft.setVisibility(View.INVISIBLE);
-		
-		LayoutUtils.setSize(findViewById(R.id.lay_main_head), LayoutParams.MATCH_PARENT, ScreenAdapter.getDeviceHeight() / 3, false);
-		
-		LayoutUtils.setSize(m_imgPhoto, 300, 300, true);
-		LayoutUtils.setMargin(findViewById(R.id.lay_user_info), 0, 40, 0, 0, true);
-		
-		m_txtUserName.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-		
-		LayoutUtils.setMargin(findViewById(R.id.img_star), 50, 0, 0, 0, true);
-		LayoutUtils.setSize(findViewById(R.id.img_star), 50, 50, true);
-		
-		LayoutUtils.setMargin(m_txtPointCount, 10, 0, 0, 0, true);
-		m_txtPointCount.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-				
-		LayoutUtils.setSize(findViewById(R.id.lay_main_bottom), LayoutParams.MATCH_PARENT, 210, true);
-		LayoutUtils.setPadding(findViewById(R.id.lay_main_bottom), 0, 57, 0, 0, true);
-		LayoutUtils.setSize(m_imgAdvertise, 87, 69, true);
-		
-		LayoutUtils.setMargin(m_imgCamera, 180, 0, 0, 0, true);
-		LayoutUtils.setSize(m_imgCamera, 120, 95, true);
-		
-		LayoutUtils.setMargin(m_imgBuyIcon, 180, 0, 0, 0, true);
-		LayoutUtils.setSize(m_imgBuyIcon, 80, 80, true);
-		
-		int menu_icon [] = {
-				R.id.img_menu_news, R.id.img_menu_topstar,
-				R.id.img_menu_friends, R.id.img_menu_personal
-		};
-		
-		int menu_label [] = {
-				R.id.txt_menu_news, R.id.txt_menu_topstar,
-				R.id.txt_menu_friends, R.id.txt_menu_personal
-		};
 
-		
-		for(int i = 0; i < menu_icon.length; i++ )
-		{
-			LayoutUtils.setSize(findViewById(menu_icon[i]), 110, 110, true);
-			((TextView)findViewById(menu_label[i])).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(45));
-			LayoutUtils.setMargin(findViewById(menu_label[i]), 0, 30, 0, 0, true);
-		}
-	}
-	
-	protected void initData()
-	{
-		super.initData();
-		
-		m_txtPageTitle.setText("每天");
-		
-		JSONObject profile = AppContext.getProfile();
-		m_txtUserName.setText(profile.optString(Const.USERNAME, ""));
-		m_txtPointCount.setText(profile.optInt(Const.POINT_NUM, 0) + "");
-		
-		DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
-		ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + profile.optString(Const.PHOTO, ""), m_imgPhoto, options);
-	}
+
 	
 	private void onClickRecent()
 	{

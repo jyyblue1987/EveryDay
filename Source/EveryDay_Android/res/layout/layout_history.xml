@@ -4,9 +4,38 @@
     android:layout_height="match_parent"
     android:orientation="vertical" >
     
-        <include android:id="@+id/fragment_header"
+    <include android:id="@+id/fragment_header"
 		layout="@layout/fragment_header" />
-        
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dip"
+        android:layout_weight="1.0" 
+        android:orientation="vertical"
+        >
+        <LinearLayout
+	        android:layout_width="match_parent"
+	        android:layout_height="wrap_content" 
+	        android:orientation="horizontal"
+	        android:gravity="center_vertical"
+	        android:background="@drawable/edit_bg"        
+	        >
+	        <EditText
+	            android:id="@+id/edit_search"
+	            android:layout_width="0dip"
+	            android:layout_height="wrap_content"
+	            android:layout_weight="1.0"
+	            android:singleLine="true"
+	            android:gravity="center_vertical"
+	            android:hint="请输入关键字" 
+	            android:background="@null"
+	            />
+	        <ImageView
+	            android:id="@+id/img_search_icon"
+	            android:layout_width="30dip"
+	            android:layout_height="30dip"
+	            android:background="@drawable/search_icon"  
+	            />
+	    </LinearLayout>    
 		<com.handmark.pulltorefresh.library.PullToRefreshListView 
 		     android:id="@+id/list_history"
 		     android:layout_width="match_parent" 
@@ -14,12 +43,16 @@
 		     android:cacheColorHint="#00000000" 
 		     android:divider="@color/transparent">
 	        
-    	</com.handmark.pulltorefresh.library.PullToRefreshListView>
+	   	</com.handmark.pulltorefresh.library.PullToRefreshListView>
 	    <common.component.ui.MyTextView
 		    android:id="@+id/txt_empty_view"
 		    android:layout_width="match_parent"
 		    android:layout_height="match_parent"
 		    android:gravity="center"		    
+		    android:textColor="@color/app_grey_color"
 		    android:text="没有最新的历史."
 		    />
+    </LinearLayout>
+    <include android:id="@+id/fragment_bottom"
+		layout="@layout/fragment_bottom" />
 </LinearLayout>
