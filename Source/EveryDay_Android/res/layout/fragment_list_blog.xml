@@ -6,6 +6,7 @@
 	android:orientation="horizontal"	
 	>
 	<LinearLayout
+	    android:id="@+id/lay_photo"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
 	    android:orientation="vertical"
@@ -22,7 +23,7 @@
 	        android:layout_width="50dip" 
 	        android:layout_height="wrap_content"
 	        android:singleLine="true"
-	        android:ellipsize="true"
+	        android:ellipsize="end"
 	        android:textColor="@color/orange"
 	        />
 	    <ImageView
@@ -35,6 +36,7 @@
 	
 	
 	<LinearLayout
+	    android:id="@+id/lay_gallery"
 	    android:layout_width="match_parent"
 	    android:layout_height="wrap_content"
 	    android:orientation="vertical"
@@ -51,7 +53,7 @@
 	        android:layout_width="match_parent" 
 	        android:layout_height="wrap_content"
 	        android:maxLines="2"
-	        android:ellipsize="true"
+	        android:ellipsize="end"
 	        android:textColor="@color/app_text_color"
 	        />
 	    <ImageView
@@ -66,6 +68,7 @@
 	        android:layout_width="match_parent"
 	        android:layout_height="wrap_content"
 	        android:orientation="horizontal" 
+	        android:gravity="center_vertical"
 	        >
 	        <common.component.ui.MyTextView
 		        android:id="@+id/txt_time"
@@ -84,7 +87,8 @@
 		        android:id="@+id/txt_star"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"		        
-		        android:gravity="center_vertical"	        
+		        android:gravity="center_vertical"	  
+		        android:text="000"      
 		        />
 	        <ImageView
 	            android:id="@+id/img_comment"
@@ -96,7 +100,8 @@
 		        android:id="@+id/txt_comment"
 		        android:layout_width="wrap_content"
 		        android:layout_height="wrap_content"		        
-		        android:gravity="center_vertical"	        
+		        android:gravity="center_vertical"	
+		        android:text="000"          
 		        />
 	    </LinearLayout>
 	        

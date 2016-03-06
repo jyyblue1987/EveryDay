@@ -42,6 +42,7 @@ public class Const {
     public static final String COMMENT_COUNT = "commentnum";
     public static final String LIKE_COUNT = "favonum";
     public static final String FAVORITED_FLAG = "favorited";
+    public static final String TITLE = "hcontent";
     
     // User List
     public static final String PHOTO = "userphoto";

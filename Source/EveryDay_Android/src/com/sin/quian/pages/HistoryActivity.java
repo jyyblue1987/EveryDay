@@ -24,15 +24,16 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
+import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
-import android.widget.EditText;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.LinearLayout.LayoutParams;
 import android.widget.ListView;
 import android.widget.TextView;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
+import common.design.utils.ResourceUtils;
 import common.image.load.ImageUtils;
 import common.library.utils.AlgorithmUtils;
 import common.library.utils.MediaUtils;
@@ -102,16 +103,16 @@ public class HistoryActivity extends BottomBarActivity {
 		
 		m_txtPageTitle.setText("最新");
 		
-		m_listPullItems.setMode(Mode.PULL_FROM_END);
-		m_nPageNum = 0;
 		getHistoryList();
 			
 	}
 	
 	private void getHistoryList()
 	{
+		m_nPageNum = 0;
+		m_listPullItems.setMode(Mode.PULL_FROM_END);
 		showLoadingProgress();
-		ServerManager.getRecentHistory(AppContext.getUserID(), m_nPageNum, new ResultCallBack() {
+		ServerManager.searchHistory(AppContext.getUserID(), m_nPageNum, m_editSearch.getText().toString(), new ResultCallBack() {
 			
 			@Override
 			public void doAction(LogicResult result) {
@@ -129,7 +130,7 @@ public class HistoryActivity extends BottomBarActivity {
 	
 	private void getMoreHistoryList()
 	{
-		ServerManager.getRecentHistory(AppContext.getUserID(), m_nPageNum + 1, new ResultCallBack() {
+		ServerManager.searchHistory(AppContext.getUserID(), m_nPageNum + 1, m_editSearch.getText().toString(), new ResultCallBack() {
 			
 			@Override
 			public void doAction(LogicResult result) {
@@ -182,6 +183,15 @@ public class HistoryActivity extends BottomBarActivity {
 				gotoStageListPage(pos);
 			}
 		});
+		
+		ResourceUtils.addClickEffect(m_imgSearch);
+		m_imgSearch.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				getHistoryList();				
+			}
+		});
 	}
 
 	protected void gotoNextPage()
@@ -221,7 +231,7 @@ public class HistoryActivity extends BottomBarActivity {
 			m_listItems.setVisibility(View.VISIBLE);
 			m_listPullItems.setVisibility(View.VISIBLE);
 
-			m_adapterHistoryList = new HistoryListAdapter(this, list, R.layout.history_item, null);
+			m_adapterHistoryList = new BlogListAdapter(this, list, R.layout.fragment_list_blog, null);
 			
 			m_listItems.setAdapter(m_adapterHistoryList);
 		}		
@@ -237,6 +247,73 @@ public class HistoryActivity extends BottomBarActivity {
 		}	
 
 		super.onActivityResult(requestCode, resultCode, data);	
+	}
+	
+	class BlogListAdapter extends MyListAdapter {
+		public BlogListAdapter(Context context, List<JSONObject> data,
+			int resource, ItemCallBack callback) {
+			super(context, data, resource, callback);
+		}
+		@Override
+		protected void loadItemViews(View rowView, int position)
+		{
+			final JSONObject item = getItem(position);
+			
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_photo), 65, 35, 0, 35, true);
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_gallery), 65, 60, 65, 35, true);
+			
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_photo), 200, 200, true);
+			
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.txt_address), 190, LayoutParams.WRAP_CONTENT, true);
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_address), 0, 30, 0, 0, true);
+			((TextView)ViewHolder.get(rowView, R.id.txt_address)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 38);
+			
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_add_contact), 80, 80, true);
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.img_add_contact), 0, 30, 0, 0, true);
+
+			((TextView)ViewHolder.get(rowView, R.id.txt_name)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 50);
+			
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_desc), 0, 23, 0, 0, true);
+			((TextView)ViewHolder.get(rowView, R.id.txt_desc)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 38);
+			
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_gallery), LayoutParams.MATCH_PARENT, 380, true);
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.img_gallery), 0, 20, 0, 0, true);
+			
+			// blog info(time, point, comment count)
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_blog_info), 0, 20, 0, 0, true);
+			
+			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 30);
+			
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.img_star), 20, 0, 0, 0, true);
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_star), 38, 38, true);
+			
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_star), 5, 0, 0, 0, true);
+			((TextView)ViewHolder.get(rowView, R.id.txt_star)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 30);
+			
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.img_comment), 20, 0, 0, 0, true);
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_comment), 45, 38, true);
+			
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_comment), 5, 0, 0, 0, true);
+			((TextView)ViewHolder.get(rowView, R.id.txt_comment)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 30);
+			
+			// Data
+			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
+			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + item.optString(Const.PHOTO, ""), (ImageView)ViewHolder.get(rowView, R.id.img_photo), options);
+			
+			((TextView)ViewHolder.get(rowView, R.id.txt_address)).setText(item.optString(Const.ADDRESS, ""));			
+			ViewHolder.get(rowView, R.id.img_add_contact).setVisibility(View.GONE);
+			
+			((TextView)ViewHolder.get(rowView, R.id.txt_name)).setText(item.optString(Const.USERNAME, ""));
+			((TextView)ViewHolder.get(rowView, R.id.txt_desc)).setText(item.optString(Const.TITLE, ""));
+			options = ImageUtils.buildUILOption(R.drawable.default_image_bg).build();
+			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + MediaUtils.getThumnail(item.optString(Const.THUMBNAIL, "")), (ImageView)ViewHolder.get(rowView, R.id.img_gallery), options);
+			
+			String time = item.optString(Const.MODIFY_DATE, MyTime.getCurrentTime());
+			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setText(time);
+			
+			((TextView)ViewHolder.get(rowView, R.id.txt_star)).setText(item.optString(Const.POINT_NUM, "0"));
+			((TextView)ViewHolder.get(rowView, R.id.txt_comment)).setText(item.optString(Const.COMMENT_COUNT, "0"));
+		}	
 	}
 	
 	class HistoryListAdapter extends MyListAdapter {
