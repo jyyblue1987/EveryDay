@@ -3,18 +3,54 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
-    android:background="@color/menu_background_color"
-    android:orientation="vertical" >
-
+    android:gravity="center_horizontal"    
+    android:orientation="vertical"
+    android:background="@color/app_back_color" 
+    >
+    <include
+        android:id="@+id/fragment_header"
+        layout="@layout/fragment_header" />
+    
     <LinearLayout
         android:id="@+id/lay_main_head"
         android:layout_width="match_parent"
-        android:layout_height="80dip" 
-        android:gravity="center_horizontal"
-        android:background="@drawable/head"
-        android:orientation="horizontal"
+        android:layout_height="wrap_content" 
+        android:gravity="center"        
+        android:orientation="vertical"
+        android:background="#df0000"
         >
+        <ImageView
+            android:id="@+id/img_photo"
+            android:layout_width="80dip"
+            android:layout_height="80dip" 
+            android:src="@drawable/contact_icon"
+            />
+        <LinearLayout 
+            android:id="@+id/lay_user_info"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center"
+            >
+            <common.component.ui.MyTextView
+                android:id="@+id/txt_username"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"       
+                android:textColor="@color/white"          
+                />
+            <ImageView
+                android:id="@+id/img_star"
+                android:layout_width="20dip"
+                android:layout_height="20dip"
+                android:background="@drawable/star" 
+                />
+            <common.component.ui.MyTextView
+                android:id="@+id/txt_point_count"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"       
+                android:textColor="@color/white"          
+                />
+        </LinearLayout>
     </LinearLayout>
     
     <LinearLayout
@@ -24,24 +60,58 @@
         android:layout_weight="0.5"
         android:gravity="center"        
         >
-
-        <ImageView
-            android:id="@+id/img_menu_new"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="0.5"
-            android:scaleType="fitXY"
-            android:background="@drawable/recent" />
-
-        <ImageView
-            android:id="@+id/img_menu_star"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_weight="0.5"
-            android:scaleType="fitXY"
-            android:background="@drawable/favorite" />
+		<LinearLayout
+		    android:id="@+id/lay_menu_recent" 
+		    android:layout_width="0dip"
+		    android:layout_height="match_parent"
+		    android:layout_weight="0.5"		
+		    android:gravity="center"
+		    android:orientation="vertical"
+		    android:background="@drawable/nav_button_bg"
+		    android:clickable="true"
+		    >
+		    <ImageView
+	            android:id="@+id/img_menu_news"
+	            android:layout_width="40dip"
+	            android:layout_height="40dip"
+	            android:clickable="false"	            
+	            android:background="@drawable/recent" />
+		    <common.component.ui.MyTextView
+		        android:id="@+id/txt_menu_news"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="最新"
+		        android:textColor="@color/app_grey_color"
+		        android:clickable="false" 
+		        />
+		</LinearLayout>		
+        <LinearLayout
+		    android:id="@+id/lay_menu_topstar" 
+		    android:layout_width="0dip"
+		    android:layout_height="match_parent"
+		    android:layout_weight="0.5"
+		    android:gravity="center"
+		    android:layout_marginLeft="1dip"
+		    android:orientation="vertical"
+		    android:background="@drawable/nav_button_bg"
+		    android:clickable="true"
+		    >
+		    <ImageView
+	            android:id="@+id/img_menu_topstar"
+	            android:layout_width="40dip"
+	            android:layout_height="40dip"	            
+	            android:background="@drawable/favorite"
+	            android:clickable="false" 
+	            />
+		    <common.component.ui.MyTextView
+		        android:id="@+id/txt_menu_topstar"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="明星页"
+		        android:textColor="@color/app_grey_color"
+		        android:clickable="false" 
+		        />
+		</LinearLayout>
 
     </LinearLayout>
     
@@ -50,40 +120,96 @@
         android:layout_width="match_parent"
         android:layout_height="0dip"
         android:layout_weight="0.5"
+        android:layout_marginTop="1dip"
         android:gravity="center"        
-         >
-
-        <ImageView
-            android:id="@+id/img_menu_friend"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:scaleType="fitXY"
-            android:background="@drawable/friend" />
-
-        <ImageView
-            android:id="@+id/img_menu_personal"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_weight="0.5"
-            android:scaleType="fitXY"
-            android:background="@drawable/personal" />
-
+        >
+        <LinearLayout
+		    android:id="@+id/lay_menu_friends" 
+		    android:layout_width="0dip"
+		    android:layout_height="match_parent"
+		    android:layout_weight="0.5"
+		    android:gravity="center"
+		    android:orientation="vertical"
+		    android:background="@drawable/nav_button_bg"
+		    android:clickable="true"
+		    >
+		    <ImageView
+	            android:id="@+id/img_menu_friends"
+	            android:layout_width="40dip"
+	            android:layout_height="40dip"	            
+	            android:background="@drawable/friend"
+	            android:clickable="false" 
+	            />
+		    <common.component.ui.MyTextView
+		        android:id="@+id/txt_menu_friends"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="好友"
+		        android:textColor="@color/app_grey_color" 
+		        android:clickable="false"
+		        />
+		</LinearLayout>		
+        <LinearLayout
+		    android:id="@+id/lay_menu_personal" 
+		    android:layout_width="0dip"
+		    android:layout_height="match_parent"
+		    android:layout_weight="0.5"
+		    android:gravity="center"
+		    android:layout_marginLeft="1dip"
+		    android:orientation="vertical"
+		    android:background="@drawable/nav_button_bg"
+		    android:clickable="true"
+		    >
+		    <ImageView
+	            android:id="@+id/img_menu_personal"
+	            android:layout_width="40dip"
+	            android:layout_height="40dip"	            
+	            android:background="@drawable/personal"
+	            android:clickable="false" 
+	            />
+		    <common.component.ui.MyTextView
+		        android:id="@+id/txt_menu_personal"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="个人中心"
+		        android:textColor="@color/app_grey_color" 
+		        android:clickable="false"
+		        />
+		</LinearLayout>
     </LinearLayout>
     
-    <LinearLayout
-        android:id="@+id/lay_main_base"
+    <LinearLayout 
+        android:id="@+id/lay_advertise"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:gravity="center_horizontal"
+        android:layout_height="0dip"
+        android:layout_weight="0.4"
+        android:orientation="horizontal"
+        >        
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/lay_main_bottom"
+        android:layout_width="match_parent"
+        android:layout_height="50dip" 
+        android:gravity="center"
         android:background="@drawable/base"
         >
         <ImageView
+            android:id="@+id/img_advertise"
+            android:layout_width="40dip"
+            android:layout_height="30dip"            
+            android:background="@drawable/advertise_icon" />
+        <ImageView
             android:id="@+id/img_menu_camera"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center_vertical"
+            android:layout_width="70dip"
+            android:layout_height="50dip"            
+            android:layout_marginLeft="50dip"
             android:background="@drawable/camera" />
+        <ImageView
+            android:id="@+id/img_buy_point"
+            android:layout_width="40dip"
+            android:layout_height="30dip"
+            android:layout_marginLeft="50dip"            
+            android:background="@drawable/star_icon" />
     </LinearLayout>
     
 

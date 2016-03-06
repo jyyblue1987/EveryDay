@@ -3,33 +3,44 @@ package com.sin.quian.pages;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
+import com.sin.quian.AppContext;
 import com.sin.quian.Const;
 import com.sin.quian.R;
+import com.sin.quian.network.ServerTask;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
+import android.widget.TextView;
 import common.design.layout.LayoutUtils;
+import common.design.layout.ScreenAdapter;
 import common.design.utils.ResourceUtils;
+import common.image.load.ImageUtils;
 import common.library.utils.MediaUtils;
 import common.manager.activity.ActivityManager;
 
 
-public class MainMenuActivity extends BaseActivity
+public class MainMenuActivity extends HeaderBarActivity
 {
 	private static int	PICK_GALLERY_CODE = 100;
 	private static int	COMMENT_REQUEST_CODE = 200;
+	private static int	BUY_POINT_CODE = 201;
 	
-	ImageView 		m_imgMenu_New = null;
-	ImageView 		m_imgMenu_Star = null;
-	ImageView 		m_imgMenu_Friend = null;
-	ImageView 		m_imgMenu_Personal = null;
+	ImageView		m_imgPhoto = null;
+	TextView		m_txtUserName = null;
+	TextView		m_txtPointCount = null;
+	
+	ImageView 		m_imgAdvertise = null;
 	ImageView 		m_imgCamera = null;
+	ImageView 		m_imgBuyIcon = null;
 
 	String			m_cameraTempPath = "";
 	
@@ -43,29 +54,30 @@ public class MainMenuActivity extends BaseActivity
 	protected void findViews()
 	{
 		super.findViews();
+		
+		m_imgPhoto = (ImageView) findViewById(R.id.img_photo);
+		m_txtUserName = (TextView) findViewById(R.id.txt_username);
+		m_txtPointCount = (TextView) findViewById(R.id.txt_point_count);
 
-		m_imgMenu_New = (ImageView) findViewById(R.id.img_menu_new);
-		m_imgMenu_Star = (ImageView) findViewById(R.id.img_menu_star);
-		m_imgMenu_Friend = (ImageView) findViewById(R.id.img_menu_friend);
-		m_imgMenu_Personal = (ImageView) findViewById(R.id.img_menu_personal);
+		m_imgAdvertise = (ImageView) findViewById(R.id.img_advertise);
 		m_imgCamera = (ImageView) findViewById(R.id.img_menu_camera);
+		m_imgBuyIcon = (ImageView) findViewById(R.id.img_buy_point);
 	}
 	
 	protected void initEvents()
 	{ 
 		super.initEvents();
 		
-		ResourceUtils.addClickEffect(m_imgMenu_New);
-		m_imgMenu_New.setOnClickListener(new View.OnClickListener() {
+		findViewById(R.id.lay_menu_recent).setOnClickListener(new View.OnClickListener() {
 			
 			@Override
-			public void onClick(View paramView) {
-				onClickRecent();				
+			public void onClick(View v) {
+				onClickRecent();					
 			}
 		});
 		
-		ResourceUtils.addClickEffect(m_imgMenu_Star);
-		m_imgMenu_Star.setOnClickListener(new View.OnClickListener() {
+		
+		findViewById(R.id.lay_menu_topstar).setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View paramView) {
@@ -73,8 +85,7 @@ public class MainMenuActivity extends BaseActivity
 			}
 		});
 		
-		ResourceUtils.addClickEffect(m_imgMenu_Friend);
-		m_imgMenu_Friend.setOnClickListener(new View.OnClickListener() {
+		findViewById(R.id.lay_menu_friends).setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View paramView) {
@@ -82,8 +93,7 @@ public class MainMenuActivity extends BaseActivity
 			}
 		});
 		
-		ResourceUtils.addClickEffect(m_imgMenu_Personal);
-		m_imgMenu_Personal.setOnClickListener(new View.OnClickListener() {
+		findViewById(R.id.lay_menu_personal).setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View paramView) {
@@ -99,8 +109,80 @@ public class MainMenuActivity extends BaseActivity
 				onClickCamera();				
 			}
 		});
+		
+		ResourceUtils.addClickEffect(m_imgAdvertise);
+		ResourceUtils.addClickEffect(m_imgBuyIcon);
+		m_imgBuyIcon.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				onClickBuy();				
+			}
+		});
+		
 	}
 	
+	protected void layoutControls()
+	{
+		super.layoutControls();
+		
+		m_layLeft.setVisibility(View.INVISIBLE);
+		
+		LayoutUtils.setSize(findViewById(R.id.lay_main_head), LayoutParams.MATCH_PARENT, ScreenAdapter.getDeviceHeight() / 3, false);
+		
+		LayoutUtils.setSize(m_imgPhoto, 300, 300, true);
+		LayoutUtils.setMargin(findViewById(R.id.lay_user_info), 0, 40, 0, 0, true);
+		
+		m_txtUserName.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+		
+		LayoutUtils.setMargin(findViewById(R.id.img_star), 50, 0, 0, 0, true);
+		LayoutUtils.setSize(findViewById(R.id.img_star), 50, 50, true);
+		
+		LayoutUtils.setMargin(m_txtPointCount, 10, 0, 0, 0, true);
+		m_txtPointCount.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+				
+		LayoutUtils.setSize(findViewById(R.id.lay_main_bottom), LayoutParams.MATCH_PARENT, 210, true);
+		LayoutUtils.setPadding(findViewById(R.id.lay_main_bottom), 0, 57, 0, 0, true);
+		LayoutUtils.setSize(m_imgAdvertise, 87, 69, true);
+		
+		LayoutUtils.setMargin(m_imgCamera, 180, 0, 0, 0, true);
+		LayoutUtils.setSize(m_imgCamera, 120, 95, true);
+		
+		LayoutUtils.setMargin(m_imgBuyIcon, 180, 0, 0, 0, true);
+		LayoutUtils.setSize(m_imgBuyIcon, 80, 80, true);
+		
+		int menu_icon [] = {
+				R.id.img_menu_news, R.id.img_menu_topstar,
+				R.id.img_menu_friends, R.id.img_menu_personal
+		};
+		
+		int menu_label [] = {
+				R.id.txt_menu_news, R.id.txt_menu_topstar,
+				R.id.txt_menu_friends, R.id.txt_menu_personal
+		};
+
+		
+		for(int i = 0; i < menu_icon.length; i++ )
+		{
+			LayoutUtils.setSize(findViewById(menu_icon[i]), 110, 110, true);
+			((TextView)findViewById(menu_label[i])).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(45));
+			LayoutUtils.setMargin(findViewById(menu_label[i]), 0, 30, 0, 0, true);
+		}
+	}
+	
+	protected void initData()
+	{
+		super.initData();
+		
+		m_txtPageTitle.setText("每天");
+		
+		JSONObject profile = AppContext.getProfile();
+		m_txtUserName.setText(profile.optString(Const.USERNAME, ""));
+		m_txtPointCount.setText(profile.optInt(Const.POINT_NUM, 0) + "");
+		
+		DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
+		ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + profile.optString(Const.PHOTO, ""), m_imgPhoto, options);
+	}
 	
 	private void onClickRecent()
 	{
@@ -126,6 +208,12 @@ public class MainMenuActivity extends BaseActivity
 		ActivityManager.changeActivity(MainMenuActivity.this, ContactListActivity.class, bundle, false, null );		
 	}
 	
+	private void onClickBuy(){
+		Bundle bundle = new Bundle();
+		ActivityManager.changeActivity(this, BuyActivity.class, bundle, false, BUY_POINT_CODE );		
+	}
+	
+	
 	private void onClickCamera()
 	{
 		uploadStage();
@@ -139,21 +227,7 @@ public class MainMenuActivity extends BaseActivity
 		MediaUtils.showCameraGalleryPage(this, PICK_GALLERY_CODE, m_cameraTempPath);
 	}
 	
-	protected void layoutControls()
-	{
-		super.layoutControls();
-		
-		LayoutUtils.setSize(findViewById(R.id.lay_main_head), LayoutParams.MATCH_PARENT, 273, true);
 
-		LayoutUtils.setSize(m_imgCamera, 156, 154, true);
-		LayoutUtils.setMargin(m_imgCamera, 0, 30, 0, 30, true);
-		
-		LayoutUtils.setMargin(findViewById(R.id.lay_menu_1), 90, 215, 90, 0, true);
-		LayoutUtils.setMargin(findViewById(R.id.lay_menu_2), 90, 70, 90, 215, true);
-		
-		LayoutUtils.setMargin(m_imgMenu_Star, 70, 0, 0, 0, true);
-		LayoutUtils.setMargin(m_imgMenu_Personal, 70, 0, 0, 0, true);
-	}
 	
 	private void processFile(String path)
 	{
