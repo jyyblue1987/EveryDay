@@ -72,6 +72,49 @@ public class LoginActivity extends HeaderBarActivity
 		
 		m_btnPreview = (MyButton) findViewById(R.id.btn_preview);
 	}
+	
+	protected void layoutControls()
+	{
+		super.layoutControls();
+
+		LayoutUtils.setSize(m_imgLogin, 500, 500, true);
+		LayoutUtils.setMargin(m_imgLogin, 70, 170, 70, 0, true);
+		LayoutUtils.setPadding(m_imgLogin, 50, 0, 50, 0, true);
+		
+		LayoutUtils.setMargin(m_imgLogin, 0, 80, 0, 100, true);
+		LayoutUtils.setSize(m_imgLogin, 300, 300, true);
+		
+		LayoutUtils.setPadding(findViewById(R.id.lay_container), 60, 100, 60, 144, true);
+
+		
+		m_editName.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+		LayoutUtils.setPadding(m_editName, 65, 36, 65, 36, true);
+		
+		LayoutUtils.setMargin(m_editPassword, 0, 60, 0, 0, true);
+		m_editPassword.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+		LayoutUtils.setPadding(m_editPassword, 65, 36, 65, 36, true);
+				
+		LayoutUtils.setMargin(m_btnLogin, 0, 130, 0, 0, true);
+		LayoutUtils.setSize(m_btnLogin, LayoutParams.MATCH_PARENT, 114, true);
+		m_btnLogin.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+		
+		LayoutUtils.setMargin(findViewById(R.id.lay_login), 0, 25, 0, 0, true);
+		
+		m_txtRegister.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));	
+		m_txtForgot.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+		
+		LayoutUtils.setMargin(m_btnFastLogin, 0, 200, 0, 0, true);
+		m_btnFastLogin.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+		
+		LayoutUtils.setMargin(findViewById(R.id.lay_third_party), 170, 60, 170, 0, true);
+		LayoutUtils.setSize(m_imgFacebook, 180, 180, true);
+		LayoutUtils.setSize(m_imgWeibo, 180, 180, true);
+		
+		LayoutUtils.setMargin(m_btnPreview, 0, 150, 0, 0, true);
+		m_btnPreview.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+		LayoutUtils.setSize(m_btnPreview, 364, 98, true);
+		
+	 }
 
 	protected void initData()
 	{
@@ -179,48 +222,7 @@ public class LoginActivity extends HeaderBarActivity
 	 }
 
 	
-	protected void layoutControls()
-	{
-		super.layoutControls();
-
-		LayoutUtils.setSize(m_imgLogin, 500, 500, true);
-		LayoutUtils.setMargin(m_imgLogin, 70, 170, 70, 0, true);
-		LayoutUtils.setPadding(m_imgLogin, 50, 0, 50, 0, true);
-		
-		LayoutUtils.setMargin(m_imgLogin, 0, 80, 0, 100, true);
-		LayoutUtils.setSize(m_imgLogin, 300, 300, true);
-		
-		LayoutUtils.setPadding(findViewById(R.id.lay_container), 60, 100, 60, 144, true);
-
-		
-		m_editName.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
-		LayoutUtils.setPadding(m_editName, 65, 36, 65, 36, true);
-		
-		LayoutUtils.setMargin(m_editPassword, 0, 60, 0, 0, true);
-		m_editPassword.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
-		LayoutUtils.setPadding(m_editPassword, 65, 36, 65, 36, true);
-				
-		LayoutUtils.setMargin(m_btnLogin, 0, 130, 0, 0, true);
-		LayoutUtils.setSize(m_btnLogin, LayoutParams.MATCH_PARENT, 114, true);
-		m_btnLogin.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
-		
-		LayoutUtils.setMargin(findViewById(R.id.lay_login), 0, 25, 0, 0, true);
-		
-		m_txtRegister.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));	
-		m_txtForgot.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
-		
-		LayoutUtils.setMargin(m_btnFastLogin, 0, 200, 0, 0, true);
-		m_btnFastLogin.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
-		
-		LayoutUtils.setMargin(findViewById(R.id.lay_third_party), 170, 60, 170, 0, true);
-		LayoutUtils.setSize(m_imgFacebook, 180, 180, true);
-		LayoutUtils.setSize(m_imgWeibo, 180, 180, true);
-		
-		LayoutUtils.setMargin(m_btnPreview, 0, 150, 0, 0, true);
-		m_btnPreview.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
-		LayoutUtils.setSize(m_btnPreview, 364, 98, true);
-		
-	 }
+	
 	 
 	 private void login(final String username, final String password)
 	 {

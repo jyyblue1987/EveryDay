@@ -25,6 +25,7 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.EditText;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
@@ -51,6 +52,9 @@ public class HistoryActivity extends BottomBarActivity {
 	MyListAdapter					m_adapterHistoryList = null;
 	int								m_nPageNum = 0;
 	
+	EditText						m_editSearch = null;
+	ImageView						m_imgSearch = null;
+	
 	private static int	STAGE_LIST_CODE = 201;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -66,17 +70,30 @@ public class HistoryActivity extends BottomBarActivity {
 		m_listPullItems = (PullToRefreshListView)findViewById(R.id.list_history); 
 		m_listItems = m_listPullItems.getRefreshableView();
 		m_txtEmptyView = (TextView) findViewById(R.id.txt_empty_view);
+		
+		m_editSearch = (EditText) findViewById(R.id.edit_search);
+		m_imgSearch = (ImageView) findViewById(R.id.img_search_icon);
 	}
 	
 	protected void layoutControls()
 	{
 		super.layoutControls();
 		
+		LayoutUtils.setMargin(findViewById(R.id.lay_search_bar), 60, 20, 60, 0, true);
+		LayoutUtils.setPadding(findViewById(R.id.lay_search_bar), 65, 36, 40, 36, true);
+		
+		m_editSearch.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+		
+		LayoutUtils.setMargin(m_imgSearch, 65, 0, 0, 0, true);
+		LayoutUtils.setSize(m_imgSearch, 65, 65, true);
+				
+		LayoutUtils.setMargin(m_listItems, 0, 20, 0, 0, true);
 		m_listItems.setDivider(getResources().getDrawable(R.drawable.devider_line));
 		m_listItems.setDividerHeight(ScreenAdapter.computeWidth(3));
 		
 		m_txtEmptyView.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
 		LayoutUtils.setPadding(m_txtEmptyView, 0, 0, 0, ScreenAdapter.getDeviceHeight() / 5, false);
+		
 	}
 	
 	protected void initData()
