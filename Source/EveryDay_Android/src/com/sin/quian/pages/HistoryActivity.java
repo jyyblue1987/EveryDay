@@ -101,7 +101,7 @@ public class HistoryActivity extends BottomBarActivity {
 	{
 		super.initData();
 		
-		m_txtPageTitle.setText("最新");
+		m_txtPageTitle.setText("最新更新");
 		
 		getHistoryList();
 			

@@ -17,7 +17,7 @@
         android:layout_height="wrap_content" 
         android:gravity="center"        
         android:orientation="vertical"
-        android:background="#df0000"
+        android:background="@color/app_red_color"
         >
         <ImageView
             android:id="@+id/img_photo"

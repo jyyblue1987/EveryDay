@@ -16,7 +16,7 @@
 	<color name="app_darker_color">#c7c7c7</color>   
     <color name="app_grey_color">#939598</color>
     <color name="app_text_color">#333333</color>
-    
+    <color name="app_red_color">#df0000</color>
     
     
     <color name="green_button_color">#60aa17</color>
