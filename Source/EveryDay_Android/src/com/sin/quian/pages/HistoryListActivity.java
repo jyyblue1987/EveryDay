@@ -52,19 +52,18 @@ import common.network.utils.ResultCallBack;
 
 public class HistoryListActivity extends HeaderBarActivity
 {
-	String			m_cameraTempPath = "";
-	ImageView 		m_imgPhoto = null;
-	TextView 		m_txtName = null;
-	
 	private static int	STAGE_LIST_CODE = 201;
 	
-	ImageView 		m_imgHard = null;
-	TextView 		m_txtHard = null;
+	String			m_cameraTempPath = "";
+	
+	ImageView 		m_imgPhoto = null;
+	TextView 		m_txtName = null;	
+	
 	ImageView 		m_imgStar = null;
 	TextView 		m_txtStar = null;
-	TextView 		m_txtHisAddress = null;
+	TextView 		m_txtAddress = null;
 	
-	TextView 		m_txtAddContact = null;
+	ImageView 		m_imgAddContact = null;
 	ImageView 		m_imgMyReceive = null;
 	TextView 		m_txtMyReceiveCount = null;
 	ImageView 		m_imgMyPoint = null;
@@ -81,7 +80,7 @@ public class HistoryListActivity extends HeaderBarActivity
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.layout_my_center);
+		setContentView(R.layout.layout_user_history);
 		loadComponents();
 	}
 	
@@ -89,16 +88,14 @@ public class HistoryListActivity extends HeaderBarActivity
 	{
 		super.findViews();
 
-		m_imgPhoto = (ImageView) findViewById(R.id.img_my_center_icon);
-		m_txtName = (TextView) findViewById(R.id.text_my_center_name);
-		m_imgHard = (ImageView) findViewById(R.id.img_my_center_hard);
-		m_txtHard = (TextView) findViewById(R.id.txt_my_center_hard);
-		m_imgStar = (ImageView) findViewById(R.id.img_my_center_star);
-		m_txtStar = (TextView) findViewById(R.id.txt_my_center_star);
+		m_imgPhoto = (ImageView) findViewById(R.id.img_photo);
+		m_txtName = (TextView) findViewById(R.id.txt_name);
+		m_imgStar = (ImageView) findViewById(R.id.img_star);
+		m_txtStar = (TextView) findViewById(R.id.txt_star);
 		
-		m_txtHisAddress = (TextView) findViewById(R.id.txt_my_center_hisaddress);
+		m_txtAddress = (TextView) findViewById(R.id.txt_address);
 		
-		m_txtAddContact = (TextView) findViewById(R.id.txt_add_contact);
+		m_imgAddContact = (ImageView) findViewById(R.id.img_add_contact);
 		m_imgMyPoint = (ImageView) findViewById(R.id.img_my_point);
 		m_txtMyPointCount = (TextView) findViewById(R.id.txt_my_point);
 		m_imgMyReceive = (ImageView) findViewById(R.id.img_my_receive_point);
@@ -106,6 +103,47 @@ public class HistoryListActivity extends HeaderBarActivity
 
 		m_listPullItems = (PullToRefreshListView)findViewById(R.id.list_items);
 		m_listItems = m_listPullItems.getRefreshableView();
+	}
+	
+	protected void layoutControls()
+	{
+		super.layoutControls();
+
+		m_layRight.setVisibility(View.INVISIBLE);
+		
+		LayoutUtils.setMargin(findViewById(R.id.lay_user_info), 60, 30, 60, 0, true);
+		LayoutUtils.setPadding(findViewById(R.id.lay_user_info), 40, 20, 40, 20, true);
+		
+		LayoutUtils.setMargin(m_imgPhoto, 0, 0, 0, 0, true);
+		LayoutUtils.setSize(m_imgPhoto, 200, 200, true);
+		
+		LayoutUtils.setMargin(findViewById(R.id.lay_right_info), 40, 0, 0, 0, true);
+		
+		m_txtName.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(55));
+
+		LayoutUtils.setMargin(m_imgStar, 40, 0, 0, 0, true);
+		LayoutUtils.setSize(m_imgStar, 55, 55, true);
+		
+		LayoutUtils.setMargin(m_txtStar, 20, 0, 0, 0, true);
+		m_txtStar.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+
+		LayoutUtils.setMargin(findViewById(R.id.lay_address_info), 0, 20, 0, 0, true);
+		m_txtAddress.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+		
+		LayoutUtils.setMargin(m_listItems, 0, 30, 0, 0, true);
+				
+		LayoutUtils.setPadding(findViewById(R.id.lay_my_info), 30, 30, 30, 30, true);
+		
+		LayoutUtils.setSize(m_imgAddContact, 80, 80, true);
+
+		LayoutUtils.setSize(m_imgMyPoint, 55, 55, true);		
+		LayoutUtils.setMargin(m_txtMyPointCount, 20, 0, 0, 0, true);
+		m_txtMyPointCount.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(40));
+
+		LayoutUtils.setSize(m_imgMyReceive, 55, 55, true);		
+		LayoutUtils.setMargin(m_txtMyReceiveCount, 20, 0, 0, 0, true);
+		m_txtMyReceiveCount.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(40));
+
 	}
 
 	protected void initData()
@@ -185,7 +223,7 @@ public class HistoryListActivity extends HeaderBarActivity
 			}
 		});
 		
-		m_txtAddContact.setOnClickListener(new View.OnClickListener() {
+		m_imgAddContact.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
@@ -251,11 +289,7 @@ public class HistoryListActivity extends HeaderBarActivity
 				}
 				try {
 					AppContext.getProfile().put(Const.POINT_NUM, res);
-					m_txtMyPointCount.setText(res + "");
-					
-					int receivePoint = m_profile.optInt(Const.RECEIVE_NUM, 0);
-					receivePoint += ammount;
-					m_txtHard.setText(receivePoint + "");					
+					m_txtMyPointCount.setText(res + "");					
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -287,59 +321,13 @@ public class HistoryListActivity extends HeaderBarActivity
 	}
 
 		
-	protected void layoutControls()
-	{
-		super.layoutControls();
 
-		LayoutUtils.setSize(findViewById(R.id.lay_empty_1),LayoutParams.MATCH_PARENT, 50, true);
-		
-		m_layRight.setVisibility(View.INVISIBLE);
-		m_btnRight.setBackgroundResource(R.drawable.profile_white_icon);
-		LayoutUtils.setSize(m_btnRight, 55, 48, true);
-		
-		LayoutUtils.setMargin(m_imgPhoto, 40, 0, 0, 0, true);
-		LayoutUtils.setSize(m_imgPhoto, 200, 200, true);
-		
-		LayoutUtils.setMargin(m_txtName, 40, 0, 0, 0, true);
-		m_txtName.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(55));
-
-		LayoutUtils.setMargin(m_imgHard, 40, 0, 0, 0, true);
-		LayoutUtils.setSize(m_imgHard, 55, 55, true);
-		
-		LayoutUtils.setMargin(m_txtHard, 20, 0, 0, 0, true);
-		m_txtHard.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-
-		LayoutUtils.setMargin(m_imgStar, 40, 0, 0, 0, true);
-		LayoutUtils.setSize(m_imgStar, 55, 55, true);
-		
-		LayoutUtils.setMargin(m_txtStar, 20, 0, 40, 0, true);
-		m_txtStar.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-
-		LayoutUtils.setMargin(m_txtHisAddress, 40, 0, 0, 0, true);
-		m_txtHisAddress.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-		
-		LayoutUtils.setSize(findViewById(R.id.lay_empty_2),LayoutParams.MATCH_PARENT, 50, true);
-		
-		LayoutUtils.setPadding(findViewById(R.id.lay_my_info), 30, 30, 30, 30, true);
-		
-		m_txtAddContact.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(40));
-
-		LayoutUtils.setSize(m_imgMyPoint, 55, 55, true);		
-		LayoutUtils.setMargin(m_txtMyPointCount, 20, 0, 0, 0, true);
-		m_txtMyPointCount.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(40));
-
-		LayoutUtils.setSize(m_imgMyReceive, 55, 55, true);		
-		LayoutUtils.setMargin(m_txtMyReceiveCount, 20, 0, 0, 0, true);
-		m_txtMyReceiveCount.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(40));
-
-	}
 	
 	private void showUserInfo()
 	{
 		m_txtName.setText(m_profile.optString(Const.USERNAME, ""));
-		m_txtHard.setText(m_profile.optString(Const.RECEIVE_NUM, "0"));
 		m_txtStar.setText(m_profile.optString(Const.SEND_NUM, "0"));
-		m_txtHisAddress.setText("地址: " + m_profile.optString(Const.ADDRESS, ""));
+		m_txtAddress.setText(m_profile.optString(Const.ADDRESS, ""));
 		
 		DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
 		ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + m_profile.optString(Const.PHOTO, ""), m_imgPhoto, options);
@@ -348,7 +336,7 @@ public class HistoryListActivity extends HeaderBarActivity
 	private void showMyPointInfo()
 	{
 		if( m_profile.optInt(Const.CHECKFRIEND, 0) == 1 )
-			m_txtAddContact.setVisibility(View.INVISIBLE);
+			m_imgAddContact.setVisibility(View.INVISIBLE);
 		m_txtMyPointCount.setText(AppContext.getProfile().optString(Const.POINT_NUM, "0"));
 		m_txtMyReceiveCount.setText(AppContext.getProfile().optString(Const.RECEIVE_NUM, "0"));
 	}
