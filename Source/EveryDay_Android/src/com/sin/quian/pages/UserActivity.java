@@ -260,7 +260,10 @@ public class UserActivity extends BottomBarActivity {
 			
 			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_add_contact), 80, 80, true);
 			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.img_add_contact), 0, 30, 0, 0, true);
-
+			
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_rank), 0, 30, 0, 0, true);
+			((TextView)ViewHolder.get(rowView, R.id.txt_rank)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 65);
+			
 			((TextView)ViewHolder.get(rowView, R.id.txt_name)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 50);
 			
 			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_desc), 0, 23, 0, 0, true);
@@ -292,6 +295,11 @@ public class UserActivity extends BottomBarActivity {
 			
 			((TextView)ViewHolder.get(rowView, R.id.txt_address)).setText(item.optString(Const.ADDRESS, ""));			
 			ViewHolder.get(rowView, R.id.img_add_contact).setVisibility(View.GONE);
+			((TextView)ViewHolder.get(rowView, R.id.txt_rank)).setText(String.format("%02d", position + 1));
+			if( position > 0 )
+				((TextView)ViewHolder.get(rowView, R.id.txt_rank)).setTextColor(Color.GRAY);
+			else
+				((TextView)ViewHolder.get(rowView, R.id.txt_rank)).setTextColor(Color.rgb(208, 0, 0));
 			
 			((TextView)ViewHolder.get(rowView, R.id.txt_name)).setText(item.optString(Const.USERNAME, ""));
 			((TextView)ViewHolder.get(rowView, R.id.txt_desc)).setText(item.optString(Const.TITLE, ""));

@@ -302,6 +302,7 @@ public class HistoryActivity extends BottomBarActivity {
 			
 			((TextView)ViewHolder.get(rowView, R.id.txt_address)).setText(item.optString(Const.ADDRESS, ""));			
 			ViewHolder.get(rowView, R.id.img_add_contact).setVisibility(View.GONE);
+			ViewHolder.get(rowView, R.id.txt_rank).setVisibility(View.GONE);
 			
 			((TextView)ViewHolder.get(rowView, R.id.txt_name)).setText(item.optString(Const.USERNAME, ""));
 			((TextView)ViewHolder.get(rowView, R.id.txt_desc)).setText(item.optString(Const.TITLE, ""));
