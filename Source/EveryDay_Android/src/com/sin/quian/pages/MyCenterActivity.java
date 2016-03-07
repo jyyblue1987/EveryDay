@@ -15,6 +15,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sin.quian.AppContext;
 import com.sin.quian.Const;
+import com.sin.quian.EveryDayUtils;
 import com.sin.quian.R;
 import com.sin.quian.network.ServerManager;
 import com.sin.quian.network.ServerTask;
@@ -46,7 +47,7 @@ import common.network.utils.LogicResult;
 import common.network.utils.ResultCallBack;
 
 
-public class MyCenterActivity extends HeaderBarActivity
+public class MyCenterActivity extends BottomBarActivity
 {
 	String			m_cameraTempPath = "";
 	ImageView 		m_imgPhoto = null;
@@ -57,20 +58,20 @@ public class MyCenterActivity extends HeaderBarActivity
 	private static int	STAGE_LIST_CODE = 201;
 	private static int	PROFILE_CHANGE_CODE = 202;
 	
-	ImageView 		m_imgHard = null;
-	TextView 		m_txtHard = null;
 	ImageView 		m_imgStar = null;
 	TextView 		m_txtStar = null;
-	TextView 		m_txtHisAddress = null;
+	TextView 		m_txtAddress = null;
 
 	PullToRefreshListView		m_listPullItems = null;
 	ListView					m_listItems = null;
+	TextView					m_txtEmptyView = null;
+	
 	HistoryListAdapter			m_adapterHistoryList = null;
 	int							m_nPageNum = 0;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
-		setContentView(R.layout.layout_my_center);
+		setContentView(R.layout.layout_my_history);
 		loadComponents();
 	}
 	
@@ -78,44 +79,67 @@ public class MyCenterActivity extends HeaderBarActivity
 	{
 		super.findViews();
 
-		m_imgPhoto = (ImageView) findViewById(R.id.img_my_center_icon);
-		m_txtName = (TextView) findViewById(R.id.text_my_center_name);
-		m_imgHard = (ImageView) findViewById(R.id.img_my_center_hard);
-		m_txtHard = (TextView) findViewById(R.id.txt_my_center_hard);
-		m_imgStar = (ImageView) findViewById(R.id.img_my_center_star);
-		m_txtStar = (TextView) findViewById(R.id.txt_my_center_star);
+		m_imgPhoto = (ImageView) findViewById(R.id.img_photo);
+		m_txtName = (TextView) findViewById(R.id.txt_name);
+		m_imgStar = (ImageView) findViewById(R.id.img_star);
+		m_txtStar = (TextView) findViewById(R.id.txt_star);
 		
-		m_txtHisAddress = (TextView) findViewById(R.id.txt_my_center_hisaddress);
-
+		m_txtAddress = (TextView) findViewById(R.id.txt_address);
+		
 		m_listPullItems = (PullToRefreshListView)findViewById(R.id.list_items);
 		m_listItems = m_listPullItems.getRefreshableView();
+		m_txtEmptyView = (TextView) findViewById(R.id.txt_empty_view);
 	}
 
+	protected void layoutControls()
+	{
+		super.layoutControls();
+		
+		m_listItems.setDivider(getResources().getDrawable(R.drawable.devider_line));
+		m_listItems.setDividerHeight(ScreenAdapter.computeWidth(3));
+		
+		m_txtEmptyView.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+		LayoutUtils.setPadding(m_txtEmptyView, 0, 0, 0, ScreenAdapter.getDeviceHeight() / 5, false);
+		
+		LayoutUtils.setMargin(findViewById(R.id.lay_user_info), 30, 30, 30, 0, true);
+		LayoutUtils.setPadding(findViewById(R.id.lay_user_info), 40, 20, 40, 20, true);
+		
+		LayoutUtils.setSize(m_imgPhoto, 200, 200, true);
+		
+		LayoutUtils.setMargin(findViewById(R.id.lay_right_info), 40, 0, 0, 0, true);
+		
+		m_txtName.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(55));
+
+		LayoutUtils.setMargin(m_imgStar, 40, 0, 0, 0, true);
+		LayoutUtils.setSize(m_imgStar, 55, 55, true);
+		
+		LayoutUtils.setMargin(m_txtStar, 20, 0, 0, 0, true);
+		m_txtStar.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+
+		LayoutUtils.setMargin(findViewById(R.id.lay_address_info), 0, 20, 0, 0, true);
+		m_txtAddress.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+	}
+	
 	protected void initData()
 	{
 		super.initData();
 
 		m_txtPageTitle.setText("个人中心");
-//		m_btnRight.setVisibility(View.INVISIBLE);
 		
 		JSONObject profile = AppContext.getProfile();
 		showProfile(profile);
-		m_listPullItems.setMode(Mode.PULL_FROM_END);
-		
-		m_nPageNum = 0;
+
 		getHistoryList();
 	}
 	
 	private void showProfile(JSONObject profile)
 	{
-		m_txtName.setText(profile.optString(Const.USERNAME, ""));
-		m_txtHisAddress.setText("地址: " + profile.optString(Const.ADDRESS, ""));
+		m_txtName.setText(EveryDayUtils.getName(profile));
+		m_txtStar.setText(profile.optString(Const.SEND_NUM, "0"));
+		m_txtAddress.setText(profile.optString(Const.ADDRESS, ""));
 		
-		m_txtHard.setText(profile.optString(Const.RECEIVE_NUM, "0"));
-		m_txtStar.setText(profile.optString(Const.POINT_NUM, "0"));
 		DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
-		ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + AppContext.getProfile().optString(Const.PHOTO, ""), m_imgPhoto, options);
-
+		ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + profile.optString(Const.PHOTO, ""), m_imgPhoto, options);
 	}
 	protected void initEvents()
 	{ 
@@ -156,45 +180,10 @@ public class MyCenterActivity extends HeaderBarActivity
 	}
 
 		
-	protected void layoutControls()
-	{
-		super.layoutControls();
-		
-		LayoutUtils.setSize(findViewById(R.id.lay_empty_1),LayoutParams.MATCH_PARENT, 50, true);
-		
-		findViewById(R.id.lay_my_info).setVisibility(View.GONE);
-		m_layRight.setVisibility(View.VISIBLE);
-		m_btnRight.setBackgroundResource(R.drawable.profile_white_icon);
-		LayoutUtils.setSize(m_btnRight, 55, 48, true);
-		
-		LayoutUtils.setMargin(m_imgPhoto, 40, 0, 0, 0, true);
-		LayoutUtils.setSize(m_imgPhoto, 200, 200, true);
-		
-		LayoutUtils.setMargin(m_txtName, 40, 0, 0, 0, true);
-		m_txtName.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(55));
-
-		LayoutUtils.setMargin(m_imgHard, 40, 0, 0, 0, true);
-		LayoutUtils.setSize(m_imgHard, 55, 55, true);
-		
-		LayoutUtils.setMargin(m_txtHard, 20, 0, 0, 0, true);
-		m_txtHard.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-
-		LayoutUtils.setMargin(m_imgStar, 40, 0, 0, 0, true);
-		LayoutUtils.setSize(m_imgStar, 55, 55, true);
-		
-		LayoutUtils.setMargin(m_txtStar, 20, 0, 40, 0, true);
-		m_txtStar.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-
-		LayoutUtils.setMargin(m_txtHisAddress, 40, 0, 0, 0, true);
-		m_txtHisAddress.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-		
-		LayoutUtils.setSize(findViewById(R.id.lay_empty_2),LayoutParams.MATCH_PARENT, 50, true);
-	}
 	
 	public void getHistoryList() {
+		m_listPullItems.setMode(Mode.PULL_FROM_END);		
 		m_nPageNum = 0;
-		
-		final List<JSONObject> list = new ArrayList<JSONObject>();
 		
 		showLoadingProgress();
 
@@ -203,6 +192,8 @@ public class MyCenterActivity extends HeaderBarActivity
 			@Override
 			public void doAction(LogicResult result) {
 				hideProgress();
+		
+				List<JSONObject> list = new ArrayList<JSONObject>();
 				
 				JSONArray history = result.getContentArray();
 				for(int i = 0; i < history.length(); i++)

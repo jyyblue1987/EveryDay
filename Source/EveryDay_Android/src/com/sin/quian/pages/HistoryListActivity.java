@@ -15,6 +15,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sin.quian.AppContext;
 import com.sin.quian.Const;
+import com.sin.quian.EveryDayUtils;
 import com.sin.quian.R;
 import com.sin.quian.network.ServerManager;
 import com.sin.quian.network.ServerTask;
@@ -335,7 +336,7 @@ public class HistoryListActivity extends HeaderBarActivity
 	
 	private void showUserInfo()
 	{
-		m_txtName.setText(m_profile.optString(Const.USERNAME, ""));
+		m_txtName.setText(EveryDayUtils.getName(m_profile));
 		m_txtStar.setText(m_profile.optString(Const.SEND_NUM, "0"));
 		m_txtAddress.setText(m_profile.optString(Const.ADDRESS, ""));
 		
