@@ -72,7 +72,9 @@ public class HistoryListActivity extends HeaderBarActivity
 
 
 	PullToRefreshListView		m_listPullItems = null;
-	ListView					m_listItems = null;
+	ListView					m_listItems = null;	
+	TextView					m_txtEmptyView = null;
+	
 	HistoryListAdapter			m_adapterHistoryList = null;
 	int							m_nPageNum = 0;
 	
@@ -88,6 +90,8 @@ public class HistoryListActivity extends HeaderBarActivity
 	{
 		super.findViews();
 
+		m_txtEmptyView = (TextView) findViewById(R.id.txt_empty_view);
+		
 		m_imgPhoto = (ImageView) findViewById(R.id.img_photo);
 		m_txtName = (TextView) findViewById(R.id.txt_name);
 		m_imgStar = (ImageView) findViewById(R.id.img_star);
@@ -111,7 +115,14 @@ public class HistoryListActivity extends HeaderBarActivity
 
 		m_layRight.setVisibility(View.INVISIBLE);
 		
-		LayoutUtils.setMargin(findViewById(R.id.lay_user_info), 60, 30, 60, 0, true);
+		m_txtEmptyView.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+		LayoutUtils.setPadding(m_txtEmptyView, 0, 0, 0, ScreenAdapter.getDeviceHeight() / 5, false);
+		
+		m_listItems.setDivider(getResources().getDrawable(R.drawable.devider_line));
+		m_listItems.setDividerHeight(ScreenAdapter.computeWidth(3));
+
+		
+		LayoutUtils.setMargin(findViewById(R.id.lay_user_info), 30, 30, 30, 0, true);
 		LayoutUtils.setPadding(findViewById(R.id.lay_user_info), 40, 20, 40, 20, true);
 		
 		LayoutUtils.setMargin(m_imgPhoto, 0, 0, 0, 0, true);
@@ -367,13 +378,16 @@ public class HistoryListActivity extends HeaderBarActivity
 	{
 		if( list.size() < 1 )
 		{
+			m_listItems.setVisibility(View.GONE);
+			m_listPullItems.setVisibility(View.GONE);
 			m_listPullItems.setMode(Mode.DISABLED);
 		}
 		else
 		{
 			m_listItems.setVisibility(View.VISIBLE);
+			m_listPullItems.setVisibility(View.VISIBLE);
 
-			m_adapterHistoryList = new HistoryListAdapter(this, list, R.layout.fragment_list_history_item, null);
+			m_adapterHistoryList = new HistoryListAdapter(this, list, R.layout.fragment_list_userhistory_item, null);
 			
 			m_listItems.setAdapter(m_adapterHistoryList);	
 		}
@@ -462,50 +476,47 @@ public class HistoryListActivity extends HeaderBarActivity
 			final JSONObject item = getItem(position);
 			
 			// layout controls
-			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_history_info), 30, 30, 0, 30, true);
-			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 40);
-			
-			int iconsize = 40;
-			int fontsize = 25;
-			int padding = 10;
-			
-			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_like_count_icon), iconsize, iconsize, true);
-			((TextView)ViewHolder.get(rowView, R.id.txt_like_count)).setTextSize(TypedValue.COMPLEX_UNIT_PX, fontsize);
-			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_like_count), padding, 0, 0, 0, true);
-			
-			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_comment_count_icon), iconsize, iconsize, true);
-			((TextView)ViewHolder.get(rowView, R.id.txt_comment_count)).setTextSize(TypedValue.COMPLEX_UNIT_PX, fontsize);
-			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_comment_count), padding, 0, 0, 0, true);
-			
-			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_history_content), 30, 30, 30, 30, true);
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_history_content), 30, 30, 30, 0, true);
 			
 			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_history_preview), LayoutParams.MATCH_PARENT, 500, true);
 			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 45);
 			
-			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_delete_history), 140, 60, true);
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_video_icon), 150, 150, true);
+		
+			// blog info(time, point, comment count)
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_blog_info), 30, 15, 30, 25, true);
 			
-			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_camera_icon), 200, 200, true);
-			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_video_icon), 200, 200, true);
+			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 30);
 			
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.img_star), 20, 0, 0, 0, true);
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_star), 38, 38, true);
 			
-			ViewHolder.get(rowView, R.id.img_camera_icon).setVisibility(View.GONE);
-			ViewHolder.get(rowView, R.id.img_delete_history).setVisibility(View.GONE);
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_star), 5, 0, 0, 0, true);
+			((TextView)ViewHolder.get(rowView, R.id.txt_star)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 30);
 			
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.img_comment), 20, 0, 0, 0, true);
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_comment), 45, 38, true);
+			
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_comment), 5, 0, 0, 0, true);
+			((TextView)ViewHolder.get(rowView, R.id.txt_comment)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 30);
+			
+			// show info
 			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.default_image_bg).build();
 			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + MediaUtils.getThumnail(item.optString(Const.THUMBNAIL, "")), (ImageView)ViewHolder.get(rowView, R.id.img_history_preview), options);
 			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setText(item.optString(Const.CONTENT, ""));
 			
-			String time = item.optString(Const.MODIFY_DATE, MyTime.getCurrentTime());
-			String date = MyTime.getOnlyMonthDate(time) + "\n" + MyTime.getOnlyYear(time);
-			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setText(date);
-			
-			((TextView)ViewHolder.get(rowView, R.id.txt_comment_count)).setText(item.optString(Const.COMMENT_COUNT, "0"));
-			((TextView)ViewHolder.get(rowView, R.id.txt_like_count)).setText(item.optString(Const.LIKE_COUNT, "0"));
-			
+		
 			if( MediaUtils.isVideoFile(item.optString(Const.THUMBNAIL, "")) == false )
 				ViewHolder.get(rowView, R.id.img_video_icon).setVisibility(View.GONE);
 			else
 				ViewHolder.get(rowView, R.id.img_video_icon).setVisibility(View.VISIBLE);
+			
+			String time = item.optString(Const.MODIFY_DATE, MyTime.getCurrentTime());
+			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setText(time);
+			
+			((TextView)ViewHolder.get(rowView, R.id.txt_star)).setText(item.optString(Const.POINT_NUM, "0"));
+			((TextView)ViewHolder.get(rowView, R.id.txt_comment)).setText(item.optString(Const.COMMENT_COUNT, "0"));
+
 		}	
 	}
 	

@@ -261,7 +261,7 @@ public class UserActivity extends BottomBarActivity {
 			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_add_contact), 80, 80, true);
 			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.img_add_contact), 0, 30, 0, 0, true);
 			
-			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_rank), 0, 30, 0, 0, true);
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_rank), 0, 10, 0, 0, true);
 			((TextView)ViewHolder.get(rowView, R.id.txt_rank)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 65);
 			
 			((TextView)ViewHolder.get(rowView, R.id.txt_name)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 50);
@@ -269,8 +269,9 @@ public class UserActivity extends BottomBarActivity {
 			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_desc), 0, 23, 0, 0, true);
 			((TextView)ViewHolder.get(rowView, R.id.txt_desc)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 38);
 			
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_gallery_info), 0, 20, 0, 0, true);
 			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_gallery), LayoutParams.MATCH_PARENT, 380, true);
-			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.img_gallery), 0, 20, 0, 0, true);
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_video_icon), 150, 150, true);
 			
 			// blog info(time, point, comment count)
 			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_blog_info), 0, 20, 0, 0, true);
@@ -305,6 +306,11 @@ public class UserActivity extends BottomBarActivity {
 			((TextView)ViewHolder.get(rowView, R.id.txt_desc)).setText(item.optString(Const.TITLE, ""));
 			options = ImageUtils.buildUILOption(R.drawable.default_image_bg).build();
 			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + MediaUtils.getThumnail(item.optString(Const.THUMBNAIL, "")), (ImageView)ViewHolder.get(rowView, R.id.img_gallery), options);
+			
+			if( MediaUtils.isVideoFile(item.optString(Const.THUMBNAIL, "")) == false )
+				ViewHolder.get(rowView, R.id.img_video_icon).setVisibility(View.GONE);
+			else
+				ViewHolder.get(rowView, R.id.img_video_icon).setVisibility(View.VISIBLE);
 			
 			String time = item.optString(Const.MODIFY_DATE, MyTime.getCurrentTime());
 			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setText(time);
