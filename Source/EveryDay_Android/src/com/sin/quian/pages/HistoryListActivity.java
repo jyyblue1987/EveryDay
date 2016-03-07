@@ -125,7 +125,6 @@ public class HistoryListActivity extends HeaderBarActivity
 		LayoutUtils.setMargin(findViewById(R.id.lay_user_info), 30, 30, 30, 0, true);
 		LayoutUtils.setPadding(findViewById(R.id.lay_user_info), 40, 20, 40, 20, true);
 		
-		LayoutUtils.setMargin(m_imgPhoto, 0, 0, 0, 0, true);
 		LayoutUtils.setSize(m_imgPhoto, 200, 200, true);
 		
 		LayoutUtils.setMargin(findViewById(R.id.lay_right_info), 40, 0, 0, 0, true);

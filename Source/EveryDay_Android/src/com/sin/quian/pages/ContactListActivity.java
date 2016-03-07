@@ -42,7 +42,7 @@ import common.manager.activity.ActivityManager;
 import common.network.utils.LogicResult;
 import common.network.utils.ResultCallBack;
 
-public class ContactListActivity extends HeaderBarActivity {
+public class ContactListActivity extends BottomBarActivity {
 	PullToRefreshListView			m_listPullItems = null;
 	ListView						m_listItems = null;
 	TextView						m_txtEmptyView = null;
@@ -64,6 +64,8 @@ public class ContactListActivity extends HeaderBarActivity {
 		m_listPullItems = (PullToRefreshListView)findViewById(R.id.list_user); 
 		m_listItems = m_listPullItems.getRefreshableView();
 		m_txtEmptyView = (TextView) findViewById(R.id.txt_empty_view);
+		
+		findViewById(R.id.lay_sort_tab).setVisibility(View.GONE);
 	}
 	
 	protected void layoutControls()
@@ -82,14 +84,15 @@ public class ContactListActivity extends HeaderBarActivity {
 		
 		m_txtPageTitle.setText("好友");
 		m_txtEmptyView.setText("没有联系人列表.");
-		m_listPullItems.setMode(Mode.PULL_FROM_END);
 		
-		m_nPageNum = 0;
 		getContactList();	
 	}
 	
 	private void getContactList()
 	{
+		m_nPageNum = 0;
+		m_listPullItems.setMode(Mode.PULL_FROM_END);
+
 		showLoadingProgress();
 		ServerManager.getContactList(AppContext.getUserID(), m_nPageNum, new ResultCallBack() {
 			
@@ -119,7 +122,7 @@ public class ContactListActivity extends HeaderBarActivity {
 			m_listItems.setVisibility(View.VISIBLE);
 			m_listPullItems.setVisibility(View.VISIBLE);
 
-			m_adapterContactList = new ContactListAdapter(this, list, R.layout.history_item, null);
+			m_adapterContactList = new ContactListAdapter(this, list, R.layout.fragment_list_contact, null);
 			
 			m_listItems.setAdapter(m_adapterContactList);
 		}		
@@ -257,42 +260,29 @@ public class ContactListActivity extends HeaderBarActivity {
 		{
 			final JSONObject item = getItem(position);
 			
-			// user info
-			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_historyitem_1), 30, 30, 30, 0, true);
-			LayoutUtils.setSize(((ImageView)rowView.findViewById(R.id.img_historyitem_icon)), 80, 80, true);
-
-			((TextView)rowView.findViewById(R.id.text_historyitem_name)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-			LayoutUtils.setMargin(rowView.findViewById(R.id.text_historyitem_name), 20, 0, 50, 0, true);
-
-			LayoutUtils.setSize(((ImageView)rowView.findViewById(R.id.img_historyitem_hard)), 50, 50, true);
-			LayoutUtils.setMargin(((ImageView)rowView.findViewById(R.id.img_historyitem_hard)), 50, 0, 0, 0, true);
-
-			((TextView)rowView.findViewById(R.id.text_historyitem_hard_num)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-			LayoutUtils.setMargin(rowView.findViewById(R.id.text_historyitem_hard_num), 10, 0, 0, 0, true);
-
-			LayoutUtils.setSize(((ImageView)rowView.findViewById(R.id.img_historyitem_star)), 50, 50, true);
-			LayoutUtils.setMargin(((ImageView)rowView.findViewById(R.id.img_historyitem_star)), 50, 0, 0, 0, true);
-
-			((TextView)rowView.findViewById(R.id.text_historyitem_star_num)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-			LayoutUtils.setMargin(rowView.findViewById(R.id.text_historyitem_star_num), 10, 0, 0, 0, true);
-
-			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_historyitem_2), 30, 0, 30, 30, true);
-			((TextView)rowView.findViewById(R.id.text_historyitem_address)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-			LayoutUtils.setMargin(rowView.findViewById(R.id.text_historyitem_address), 0, 0, 0, 0, true);
-
-			((TextView)rowView.findViewById(R.id.text_historyitem_hisaddress)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-			LayoutUtils.setMargin(rowView.findViewById(R.id.text_historyitem_hisaddress), 10, 0, 0, 0, true);
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.img_photo), 30, 30, 0, 30, true);
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_photo), 200, 200, true);
 			
-			ViewHolder.get(rowView, R.id.lay_historyitem_3).setVisibility(View.GONE);
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_right_info), 40, 0, 30, 0, true);
 			
-			// userinfo
+			((TextView)ViewHolder.get(rowView, R.id.txt_name)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(55));
+
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_address_info), 0, 40, 0, 0, true);
+			
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_star), 55, 55, true);
+			
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_star), 20, 0, 0, 0, true);
+			((TextView)ViewHolder.get(rowView, R.id.txt_star)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+
+			// show info
 			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
-			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + item.optString(Const.PHOTO, ""), (ImageView)ViewHolder.get(rowView, R.id.img_historyitem_icon), options);
+			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + item.optString(Const.PHOTO, ""), (ImageView)ViewHolder.get(rowView, R.id.img_photo), options);
+
 			
-			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_name)).setText(item.optString(Const.USERNAME, ""));
-			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_hard_num)).setText(item.optString(Const.RECEIVE_NUM, ""));
-			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_star_num)).setText(item.optString(Const.POINT_NUM, ""));
-			((TextView)ViewHolder.get(rowView, R.id.text_historyitem_hisaddress)).setText(item.optString(Const.ADDRESS, ""));			
+			((TextView)ViewHolder.get(rowView, R.id.txt_name)).setText(item.optString(Const.USERNAME, ""));
+			((TextView)ViewHolder.get(rowView, R.id.txt_star)).setText(item.optString(Const.POINT_NUM, "0"));
+			((TextView)ViewHolder.get(rowView, R.id.txt_address)).setText(item.optString(Const.ADDRESS, ""));			
+
 			
 		}	
 	}
