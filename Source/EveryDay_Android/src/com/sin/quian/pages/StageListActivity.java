@@ -14,6 +14,7 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sin.quian.AppContext;
 import com.sin.quian.Const;
+import com.sin.quian.EveryDayUtils;
 import com.sin.quian.R;
 import com.sin.quian.network.ServerManager;
 import com.sin.quian.network.ServerTask;
@@ -51,10 +52,8 @@ public class StageListActivity extends HeaderBarActivity
 	
 	PullToRefreshListView		m_listPullItems = null;
 	ListView					m_listItems = null;
-	HistoryListAdapter			m_adapterHistoryList = null;
+	MyListAdapter				m_adapterHistoryList = null;
 	int							m_nPageNum = 0;
-	
-	TextView	m_txtComment = null;
 	
 	ImageView	m_imgLikeIcon = null;
 	TextView	m_txtLike = null;
@@ -66,7 +65,6 @@ public class StageListActivity extends HeaderBarActivity
 	ImageView	m_imgCommentCountIcon = null;
 	TextView	m_txtCommentCount = null;
 	
-	Button		m_btnRemove = null;
 	Button		m_btnPublish = null;
 	
 	JSONObject		m_historyInfo = new JSONObject();
@@ -86,7 +84,6 @@ public class StageListActivity extends HeaderBarActivity
 		m_listPullItems = (PullToRefreshListView)findViewById(R.id.list_items);
 		m_listItems = m_listPullItems.getRefreshableView();
 
-		m_txtComment = (TextView) findViewById(R.id.txt_comment);
 		m_imgLikeIcon = (ImageView) findViewById(R.id.img_like_icon);
 		m_txtLike = (TextView) findViewById(R.id.txt_like);
 		m_imgCommentIcon = (ImageView) findViewById(R.id.img_comment_icon);
@@ -97,7 +94,6 @@ public class StageListActivity extends HeaderBarActivity
 		m_imgCommentCountIcon = (ImageView) findViewById(R.id.img_comment_count_icon);
 		m_txtCommentCount = (TextView) findViewById(R.id.txt_comment_count);
 		
-		m_btnRemove  = (Button) findViewById(R.id.btn_remove);
 		m_btnPublish = (Button) findViewById(R.id.btn_stage_publish);
 	}
 
@@ -112,12 +108,6 @@ public class StageListActivity extends HeaderBarActivity
 		int iconsize = 60;
 		int fontsize = 40;
 		int padding = 20;
-		
-		m_txtComment.setTextSize(TypedValue.COMPLEX_UNIT_PX, 55);
-		
-		LayoutUtils.setPadding(findViewById(R.id.lay_comment), 20, 20, 20, 30, true);
-		LayoutUtils.setMargin(m_btnRemove, 30, 0, 0, 0, true);
-		LayoutUtils.setSize(m_btnRemove, 80, 80, true);
 		
 		LayoutUtils.setPadding(findViewById(R.id.lay_stage_action), 20, 40, 20, 30, true);
 		
@@ -189,7 +179,6 @@ public class StageListActivity extends HeaderBarActivity
 		{
 			findViewById(R.id.lay_input_action).setVisibility(View.GONE);
 			m_btnPublish.setVisibility(View.GONE);
-			m_btnRemove.setVisibility(View.GONE);
 			
 			m_txtLikeCount.setText(m_historyInfo.optString(Const.LIKE_COUNT, "0"));
 			m_txtCommentCount.setText(m_historyInfo.optString(Const.COMMENT_COUNT, "0"));
@@ -209,7 +198,6 @@ public class StageListActivity extends HeaderBarActivity
 		if( m_nMode == Const.OTHER_STAGE_MODE ) // self published stage mode
 		{
 			m_btnPublish.setVisibility(View.GONE);
-			m_btnRemove.setVisibility(View.GONE);
 			
 			if( m_historyInfo.optInt(Const.FAVORITED_FLAG, 0) == 0 )
 				m_txtLike.setText("赞");
@@ -424,7 +412,7 @@ public class StageListActivity extends HeaderBarActivity
 		{
 			m_listItems.setVisibility(View.VISIBLE);
 
-			m_adapterHistoryList = new HistoryListAdapter(this, list, R.layout.fragment_list_history_item, null);
+			m_adapterHistoryList = new StageListAdapter(this, list, R.layout.fragment_list_stage_item, null);
 			
 			m_listItems.setAdapter(m_adapterHistoryList);	
 		}
@@ -488,8 +476,8 @@ public class StageListActivity extends HeaderBarActivity
 		 }
 	}
 
-	class HistoryListAdapter extends MyListAdapter {
-		public HistoryListAdapter(Context context, List<JSONObject> data,
+	class StageListAdapter extends MyListAdapter {
+		public StageListAdapter(Context context, List<JSONObject> data,
 				int resource, ItemCallBack callback) {
 			super(context, data, resource, callback);
 		}
@@ -498,43 +486,39 @@ public class StageListActivity extends HeaderBarActivity
 		{
 			final JSONObject item = getItem(position);
 			
-			// layout controls
-			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_history_info), 30, 30, 0, 30, true);
-			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 40);
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_time), 30, 20, 0, 30, true);
+			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 30);
 			
-			int iconsize = 40;
-			int fontsize = 25;
-			int padding = 10;
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_remove), 70, 80, true);
 			
-			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_like_count_icon), iconsize, iconsize, true);
-			((TextView)ViewHolder.get(rowView, R.id.txt_like_count)).setTextSize(TypedValue.COMPLEX_UNIT_PX, fontsize);
-			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_like_count), padding, 0, 0, 0, true);
-			
-			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_comment_count_icon), iconsize, iconsize, true);
-			((TextView)ViewHolder.get(rowView, R.id.txt_comment_count)).setTextSize(TypedValue.COMPLEX_UNIT_PX, fontsize);
-			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_comment_count), padding, 0, 0, 0, true);
-			
-			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_history_content), 30, 30, 30, 30, true);
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_history_content), 30, 30, 30, 0, true);
 			
 			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_history_preview), LayoutParams.MATCH_PARENT, 500, true);
 			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 45);
 			
-			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_delete_history), 140, 60, true);
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_video_icon), 150, 150, true);
+
+			// Show List Data
+			String time = EveryDayUtils.getDateForStage(item);
+			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setText(time);
 			
-			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_camera_icon), 200, 200, true);
-			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_video_icon), 200, 200, true);
+			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.default_image_bg).build();
+			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + MediaUtils.getThumnail(item.optString(Const.THUMBNAIL, "")), (ImageView)ViewHolder.get(rowView, R.id.img_history_preview), options);
+			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setText(item.optString(Const.CONTENT, ""));
 			
-			ViewHolder.get(rowView, R.id.img_camera_icon).setVisibility(View.GONE);
-			ViewHolder.get(rowView, R.id.lay_comment_like).setVisibility(View.GONE);
+		
+			if( MediaUtils.isVideoFile(item.optString(Const.THUMBNAIL, "")) == false )
+				ViewHolder.get(rowView, R.id.img_video_icon).setVisibility(View.GONE);
+			else
+				ViewHolder.get(rowView, R.id.img_video_icon).setVisibility(View.VISIBLE);
 			
-			((TextView)ViewHolder.get(rowView, R.id.img_delete_history)).setTextSize(TypedValue.COMPLEX_UNIT_PX, fontsize);
 			if( m_nMode != Const.TEMP_STAGE_MODE )
-				ViewHolder.get(rowView, R.id.img_delete_history).setVisibility(View.GONE);
+				ViewHolder.get(rowView, R.id.img_remove).setVisibility(View.GONE);
 			else
 			{
 				final int pos = position;
-				ViewHolder.get(rowView, R.id.img_delete_history).setVisibility(View.VISIBLE);
-				ViewHolder.get(rowView, R.id.img_delete_history).setOnClickListener(new View.OnClickListener() {
+				ViewHolder.get(rowView, R.id.img_remove).setVisibility(View.VISIBLE);
+				ViewHolder.get(rowView, R.id.img_remove).setOnClickListener(new View.OnClickListener() {
 					
 					@Override
 					public void onClick(View v) {
@@ -542,23 +526,6 @@ public class StageListActivity extends HeaderBarActivity
 					}
 				});
 			}
-			
-			if( MediaUtils.isVideoFile(item.optString(Const.THUMBNAIL, "")) == false )
-				ViewHolder.get(rowView, R.id.img_video_icon).setVisibility(View.GONE);
-			else
-				ViewHolder.get(rowView, R.id.img_video_icon).setVisibility(View.VISIBLE);
-				
-				
-			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.default_image_bg).build();
-			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + MediaUtils.getThumnail(item.optString(Const.THUMBNAIL, "")), (ImageView)ViewHolder.get(rowView, R.id.img_history_preview), options);
-			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setText(item.optString(Const.CONTENT, ""));
-			
-			String time = item.optString(Const.MODIFY_DATE, MyTime.getCurrentTime());
-			String date = MyTime.getOnlyMonthDate(time) + "\n" + MyTime.getOnlyYear(time);
-			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setText(date);
-			
-			((TextView)ViewHolder.get(rowView, R.id.txt_comment_count)).setText(item.optString(Const.COMMENT_COUNT, "0"));
-			((TextView)ViewHolder.get(rowView, R.id.txt_like_count)).setText(item.optString(Const.LIKE_COUNT, "0"));
 			
 			ViewHolder.get(rowView, R.id.img_history_preview).setOnClickListener(new View.OnClickListener() {
 				
@@ -569,4 +536,6 @@ public class StageListActivity extends HeaderBarActivity
 			});
 		}	
 	}
+	
+	
 }

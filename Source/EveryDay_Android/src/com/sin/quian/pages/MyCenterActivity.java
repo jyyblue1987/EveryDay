@@ -40,6 +40,7 @@ import common.library.utils.AlgorithmUtils;
 import common.library.utils.MediaUtils;
 import common.library.utils.MessageUtils;
 import common.library.utils.MyTime;
+import common.library.utils.MessageUtils.OnButtonClickListener;
 import common.list.adapter.ItemCallBack;
 import common.list.adapter.MyListAdapter;
 import common.list.adapter.ViewHolder;
@@ -100,12 +101,6 @@ public class MyCenterActivity extends BottomBarActivity
 		m_btnRight.setBackgroundResource(R.drawable.setting_icon);
 		LayoutUtils.setSize(m_btnRight, 56, 56, true);
 		
-		m_listItems.setDivider(getResources().getDrawable(R.drawable.devider_line));
-		m_listItems.setDividerHeight(ScreenAdapter.computeWidth(3));
-		
-		m_txtEmptyView.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-		LayoutUtils.setPadding(m_txtEmptyView, 0, 0, 0, ScreenAdapter.getDeviceHeight() / 5, false);
-		
 		LayoutUtils.setMargin(findViewById(R.id.lay_user_info), 30, 30, 30, 0, true);
 		LayoutUtils.setPadding(findViewById(R.id.lay_user_info), 40, 20, 40, 20, true);
 		
@@ -123,6 +118,13 @@ public class MyCenterActivity extends BottomBarActivity
 
 		LayoutUtils.setMargin(findViewById(R.id.lay_address_info), 0, 20, 0, 0, true);
 		m_txtAddress.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+		
+		LayoutUtils.setMargin(m_listItems, 0, 30, 0, 0, true);
+		m_listItems.setDivider(getResources().getDrawable(R.drawable.devider_line));
+		m_listItems.setDividerHeight(ScreenAdapter.computeWidth(3));
+		
+		m_txtEmptyView.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+		LayoutUtils.setPadding(m_txtEmptyView, 0, 0, 0, ScreenAdapter.getDeviceHeight() / 5, false);
 	}
 	
 	protected void initData()
@@ -301,7 +303,25 @@ public class MyCenterActivity extends BottomBarActivity
 		MediaUtils.showCameraGalleryPage(this, PICK_GALLERY_CODE, m_cameraTempPath);
 	}
 	
-	private void deleteHistory(final int pos)
+	private void onRemoveHistory(final int pos)
+	{
+		MessageUtils.showDialogYesNo(this, "您想要删除这段标题?", new OnButtonClickListener() {
+			
+			@Override
+			public void onOkClick() {
+				removeHistory(pos);				
+			}
+			
+			@Override
+			public void onCancelClick() {
+				// TODO Auto-generated method stub
+				
+			}
+		});
+	}
+	
+	
+	private void removeHistory(final int pos)
 	{
 		JSONObject item = m_adapterHistoryList.getItem(pos);
 		if( item == null )
@@ -472,7 +492,7 @@ public class MyCenterActivity extends BottomBarActivity
 				
 				@Override
 				public void onClick(View v) {
-					deleteHistory(pos);			
+					onRemoveHistory(pos);			
 				}
 			});	
 		}	

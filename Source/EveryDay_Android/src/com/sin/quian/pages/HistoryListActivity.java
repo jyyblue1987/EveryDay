@@ -310,6 +310,7 @@ public class HistoryListActivity extends HeaderBarActivity
 	
 	private void onClickAddContact()
 	{
+		
 		showLoadingProgress();
 		ServerManager.addContact(AppContext.getUserID(), m_profile.optString(Const.ID, "0"), new ResultCallBack() {
 			

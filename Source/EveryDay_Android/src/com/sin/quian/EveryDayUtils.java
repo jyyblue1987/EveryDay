@@ -45,4 +45,27 @@ public class EveryDayUtils {
 		}
 		return time;
 	}
+	
+	public static final String getDateForStage(JSONObject data)
+	{
+		String time = data.optString(Const.MODIFY_DATE, MyTime.getCurrentTime());
+		
+		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
+		try {  
+		    Date date = format.parse(time);  
+			SimpleDateFormat newFormat = new SimpleDateFormat("HH:mm\r\nyyyy-MM-dd");
+			return newFormat.format(date);
+		}catch (ParseException e) {  
+			Date date;
+			try {
+				date = format.parse(MyTime.getCurrentTime());
+				SimpleDateFormat newFormat = new SimpleDateFormat("HH:mm\r\nyyyy-MM-dd");
+				return newFormat.format(date);
+			} catch (ParseException e1) {
+				// TODO Auto-generated catch block
+				e1.printStackTrace();
+			}  			
+		}
+		return time;
+	}
 }
