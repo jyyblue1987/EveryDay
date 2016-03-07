@@ -62,4 +62,7 @@ public class Const {
     
     // Language
     public static final String LANGUAGE = "lang";
+    
+//    获得奖励
+
 }

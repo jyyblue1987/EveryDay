@@ -31,13 +31,13 @@ import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 import common.design.layout.LayoutUtils;
+import common.design.layout.ScreenAdapter;
 import common.image.load.ImageUtils;
 import common.library.utils.AlgorithmUtils;
 import common.library.utils.AndroidUtils;
 import common.library.utils.MediaUtils;
 import common.library.utils.MessageUtils;
 import common.library.utils.MessageUtils.OnButtonClickListener;
-import common.library.utils.MyTime;
 import common.list.adapter.ItemCallBack;
 import common.list.adapter.MyListAdapter;
 import common.list.adapter.ViewHolder;
@@ -53,6 +53,7 @@ public class StageListActivity extends HeaderBarActivity
 	PullToRefreshListView		m_listPullItems = null;
 	ListView					m_listItems = null;
 	MyListAdapter				m_adapterHistoryList = null;
+	TextView					m_txtEmptyView = null;
 	int							m_nPageNum = 0;
 	
 	ImageView	m_imgLikeIcon = null;
@@ -83,6 +84,7 @@ public class StageListActivity extends HeaderBarActivity
 		
 		m_listPullItems = (PullToRefreshListView)findViewById(R.id.list_items);
 		m_listItems = m_listPullItems.getRefreshableView();
+		m_txtEmptyView = (TextView) findViewById(R.id.txt_empty_view);
 
 		m_imgLikeIcon = (ImageView) findViewById(R.id.img_like_icon);
 		m_txtLike = (TextView) findViewById(R.id.txt_like);
@@ -134,6 +136,9 @@ public class StageListActivity extends HeaderBarActivity
 		
 		LayoutUtils.setSize(m_btnPublish, 460, 100, true);
 		m_btnPublish.setTextSize(TypedValue.COMPLEX_UNIT_PX, 50);
+		
+		m_txtEmptyView.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+		LayoutUtils.setPadding(m_txtEmptyView, 0, 0, 0, ScreenAdapter.getDeviceHeight() / 5, false);
 		
 	}
 	protected void initData()
@@ -200,9 +205,9 @@ public class StageListActivity extends HeaderBarActivity
 			m_btnPublish.setVisibility(View.GONE);
 			
 			if( m_historyInfo.optInt(Const.FAVORITED_FLAG, 0) == 0 )
-				m_txtLike.setText("赞");
+				m_txtLike.setText("好评");
 			else
-				m_txtLike.setText("已赞");
+				m_txtLike.setText("已评");
 			
 			m_txtLikeCount.setText(m_historyInfo.optString(Const.LIKE_COUNT, "0"));
 			m_txtCommentCount.setText(m_historyInfo.optString(Const.COMMENT_COUNT, "0"));
@@ -406,6 +411,7 @@ public class StageListActivity extends HeaderBarActivity
 	{
 		if( list.size() < 1 )
 		{
+			m_listItems.setVisibility(View.GONE);
 			m_listPullItems.setMode(Mode.DISABLED);
 		}
 		else

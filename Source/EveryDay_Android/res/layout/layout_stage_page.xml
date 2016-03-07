@@ -19,7 +19,14 @@
 		    android:layout_height="match_parent"
 		    android:cacheColorHint="#00000000"      
 		    >	    
-		</com.handmark.pulltorefresh.library.PullToRefreshListView>	    
+		</com.handmark.pulltorefresh.library.PullToRefreshListView>
+		<common.component.ui.MyTextView
+		    android:id="@+id/txt_empty_view"
+		    android:layout_width="match_parent"
+		    android:layout_height="match_parent"
+		    android:gravity="center"		    
+		    android:text="没有用户."
+		    />	    
     </RelativeLayout>
  	<LinearLayout 
        android:layout_width="match_parent"
@@ -93,7 +100,7 @@
 	               android:id="@+id/btn_stage_publish"
 	               android:layout_width="100dip"
 	               android:layout_height="30dip"
-	               android:text="发布"
+	               android:text="发表"
 	               android:textColor="@color/white"
 	               android:background="@drawable/button_orrange_bg" 
 	               />
