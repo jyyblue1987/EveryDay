@@ -38,6 +38,7 @@ import common.design.layout.ScreenAdapter;
 import common.image.load.ImageUtils;
 import common.library.utils.AlgorithmUtils;
 import common.library.utils.MediaUtils;
+import common.library.utils.MessageUtils;
 import common.library.utils.MyTime;
 import common.list.adapter.ItemCallBack;
 import common.list.adapter.MyListAdapter;
@@ -95,6 +96,10 @@ public class MyCenterActivity extends BottomBarActivity
 	{
 		super.layoutControls();
 		
+		m_layRight.setVisibility(View.VISIBLE);		
+		m_btnRight.setBackgroundResource(R.drawable.setting_icon);
+		LayoutUtils.setSize(m_btnRight, 56, 56, true);
+		
 		m_listItems.setDivider(getResources().getDrawable(R.drawable.devider_line));
 		m_listItems.setDividerHeight(ScreenAdapter.computeWidth(3));
 		
@@ -135,7 +140,7 @@ public class MyCenterActivity extends BottomBarActivity
 	private void showProfile(JSONObject profile)
 	{
 		m_txtName.setText(EveryDayUtils.getName(profile));
-		m_txtStar.setText(profile.optString(Const.SEND_NUM, "0"));
+		m_txtStar.setText(profile.optString(Const.POINT_NUM, "0"));
 		m_txtAddress.setText(profile.optString(Const.ADDRESS, ""));
 		
 		DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
@@ -216,7 +221,7 @@ public class MyCenterActivity extends BottomBarActivity
 		{
 			m_listItems.setVisibility(View.VISIBLE);
 
-			m_adapterHistoryList = new HistoryListAdapter(this, list, R.layout.fragment_list_history_item, null);
+			m_adapterHistoryList = new HistoryListAdapter(this, list, R.layout.fragment_list_myhistory_item, null);
 			
 			m_listItems.setAdapter(m_adapterHistoryList);	
 		}
@@ -296,6 +301,31 @@ public class MyCenterActivity extends BottomBarActivity
 		MediaUtils.showCameraGalleryPage(this, PICK_GALLERY_CODE, m_cameraTempPath);
 	}
 	
+	private void deleteHistory(final int pos)
+	{
+		JSONObject item = m_adapterHistoryList.getItem(pos);
+		if( item == null )
+			return;
+		
+		showLoadingProgress();
+		ServerManager.deleteHistory(AppContext.getUserID(), item.optInt(Const.ID, 0) + "", new ResultCallBack() {
+			
+			@Override
+			public void doAction(LogicResult result) {
+				hideProgress();
+				if( result.mResult != LogicResult.RESULT_OK )
+				{
+					MessageUtils.showMessageDialog(MyCenterActivity.this, result.mMessage);
+					return;
+				}
+				
+				
+				m_adapterHistoryList.getData().remove(pos);
+				m_adapterHistoryList.notifyDataSetChanged();				
+			}
+		});
+	}
+	
 	private void processFile(String path)
 	{
 		Bundle bundle = new Bundle();
@@ -370,64 +400,66 @@ public class MyCenterActivity extends BottomBarActivity
 		{
 			final JSONObject item = getItem(position);
 			
-			// layout controls
-			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_history_info), 30, 30, 0, 30, true);
-			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 40);
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_time), 30, 20, 0, 30, true);
 			
-			int iconsize = 40;
-			int fontsize = 25;
-			int padding = 10;
+			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 30);
 			
-			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_like_count_icon), iconsize, iconsize, true);
-			((TextView)ViewHolder.get(rowView, R.id.txt_like_count)).setTextSize(TypedValue.COMPLEX_UNIT_PX, fontsize);
-			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_like_count), padding, 0, 0, 0, true);
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.img_camera), 0, 30, 0, 0, true);
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_camera), 80, 70, true);
 			
-			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_comment_count_icon), iconsize, iconsize, true);
-			((TextView)ViewHolder.get(rowView, R.id.txt_comment_count)).setTextSize(TypedValue.COMPLEX_UNIT_PX, fontsize);
-			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_comment_count), padding, 0, 0, 0, true);
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_name_gallery), 30, 20, 30, 30, true);
 			
-			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_history_content), 30, 30, 30, 30, true);
+			((TextView)ViewHolder.get(rowView, R.id.txt_title)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 57);
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.img_delete), 50, 0, 0, 0, true);
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_delete), 50, 60, true);			
 			
-			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_history_preview), LayoutParams.MATCH_PARENT, 500, true);
-			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 45);
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_stage_list), 0, 30, 0, 0, true);
 			
-			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_delete_history), 140, 60, true);
+			int [] lay_gallery_array = {
+					R.id.lay_gallery_1,
+					R.id.lay_gallery_2,
+					R.id.lay_gallery_3,
+					R.id.lay_gallery_4
+			};
 			
-			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_camera_icon), 200, 200, true);
-			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_video_icon), 200, 200, true);
+			int [] img_gallery_array = {
+					R.id.img_gallery_1,
+					R.id.img_gallery_2,
+					R.id.img_gallery_3,
+					R.id.img_gallery_4
+			};
 			
-			if( position == 0 )
+			for(int i = 0; i < img_gallery_array.length; i++)
 			{
-				ViewHolder.get(rowView, R.id.img_camera_icon).setVisibility(View.VISIBLE);
-				ViewHolder.get(rowView, R.id.img_delete_history).setVisibility(View.GONE);
-				ViewHolder.get(rowView, R.id.lay_comment_like).setVisibility(View.GONE);
+				LayoutUtils.setSize(ViewHolder.get(rowView, lay_gallery_array[i]), 150, 150, true);	
+				if( i > 0 )
+					LayoutUtils.setMargin(ViewHolder.get(rowView, lay_gallery_array[i]), 20, 0, 0, 0, true);
+			}
+			
+			
+			// show list data
+			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setText(EveryDayUtils.getDate(item));
+			if( position > 0 )
+			{
+				ViewHolder.get(rowView, R.id.img_camera).setVisibility(View.INVISIBLE);
+				ViewHolder.get(rowView, R.id.img_delete).setVisibility(View.VISIBLE);
 			}
 			else
 			{
-				ViewHolder.get(rowView, R.id.img_camera_icon).setVisibility(View.GONE);
-//				ViewHolder.get(rowView, R.id.img_delete_history).setVisibility(View.VISIBLE);
-				ViewHolder.get(rowView, R.id.lay_comment_like).setVisibility(View.VISIBLE);
+				ViewHolder.get(rowView, R.id.img_camera).setVisibility(View.VISIBLE);
+				ViewHolder.get(rowView, R.id.img_delete).setVisibility(View.INVISIBLE);
 			}
 			
-			// show data
-			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.default_image_bg).build();
-			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + MediaUtils.getThumnail(item.optString(Const.THUMBNAIL, "")), (ImageView)ViewHolder.get(rowView, R.id.img_history_preview), options);
-			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setText(item.optString(Const.CONTENT, ""));
+			((TextView)ViewHolder.get(rowView, R.id.txt_title)).setText(item.optString(Const.TITLE));
 			
-			String time = item.optString(Const.MODIFY_DATE, MyTime.getCurrentTime());
-			String date = MyTime.getOnlyMonthDate(time) + "\n" + MyTime.getOnlyYear(time);
-			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setText(date);
-			
-			((TextView)ViewHolder.get(rowView, R.id.txt_comment_count)).setText(item.optString(Const.COMMENT_COUNT, "0"));
-			((TextView)ViewHolder.get(rowView, R.id.txt_like_count)).setText(item.optString(Const.LIKE_COUNT, "0"));
-						
-			if( MediaUtils.isVideoFile(item.optString(Const.THUMBNAIL, "")) == false || position == 0)
-				ViewHolder.get(rowView, R.id.img_video_icon).setVisibility(View.GONE);
-			else
-				ViewHolder.get(rowView, R.id.img_video_icon).setVisibility(View.VISIBLE);
+			for(int i = 0; i < 1; i++)
+			{
+				DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.default_image_bg).build();
+				ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + MediaUtils.getThumnail(item.optString(Const.THUMBNAIL, "")), (ImageView)ViewHolder.get(rowView, img_gallery_array[i]), options);				
+			}
 			
 			// events
-			ViewHolder.get(rowView, R.id.img_camera_icon).setOnClickListener(new View.OnClickListener() {
+			ViewHolder.get(rowView, R.id.img_camera).setOnClickListener(new View.OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
@@ -435,12 +467,12 @@ public class MyCenterActivity extends BottomBarActivity
 				}
 			});			
 			
-			
-			ViewHolder.get(rowView, R.id.img_delete_history).setOnClickListener(new View.OnClickListener() {
+			final int pos = position;			
+			ViewHolder.get(rowView, R.id.img_delete).setOnClickListener(new View.OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
-								
+					deleteHistory(pos);			
 				}
 			});	
 		}	
