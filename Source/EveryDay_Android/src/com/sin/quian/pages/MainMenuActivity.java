@@ -8,6 +8,8 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sin.quian.AppContext;
 import com.sin.quian.Const;
 import com.sin.quian.R;
+import com.sin.quian.locale.Locale;
+import com.sin.quian.locale.LocaleFactory;
 import com.sin.quian.network.ServerTask;
 
 import android.content.Intent;
@@ -117,7 +119,8 @@ public class MainMenuActivity extends HeaderBarActivity
 	{
 		super.initData();
 		
-		m_txtPageTitle.setText("每天");
+		Locale locale = LocaleFactory.getLocale();
+		m_txtPageTitle.setText(locale.EveryDay);
 		
 		JSONObject profile = AppContext.getProfile();
 		m_txtUserName.setText(profile.optString(Const.USERNAME, ""));
@@ -125,6 +128,11 @@ public class MainMenuActivity extends HeaderBarActivity
 		
 		DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
 		ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + profile.optString(Const.PHOTO, ""), m_imgPhoto, options);
+		
+		((TextView)findViewById(R.id.txt_menu_news)).setText(locale.Recent);
+		((TextView)findViewById(R.id.txt_menu_topstar)).setText(locale.Favorite);
+		((TextView)findViewById(R.id.txt_menu_friends)).setText(locale.Friend);
+		((TextView)findViewById(R.id.txt_menu_personal)).setText(locale.PersonalCenter);		
 	}
 	
 	protected void initEvents()

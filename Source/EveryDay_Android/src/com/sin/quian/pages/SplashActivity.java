@@ -3,6 +3,7 @@ package com.sin.quian.pages;
 import com.sin.quian.AppContext;
 import com.sin.quian.Const;
 import com.sin.quian.R;
+import com.sin.quian.locale.LocaleFactory;
 import com.sin.quian.network.ServerManager;
 
 import android.os.Bundle;
@@ -37,6 +38,9 @@ public class SplashActivity extends BaseActivity {
 	
 	protected void initData()
 	{
+		int lang = DataUtils.getPreference(Const.LANGUAGE, 0);
+		LocaleFactory.selectLocale(lang);
+		
 		startAlphaAnimation();
 		
 		m_nLoginState = 0;
