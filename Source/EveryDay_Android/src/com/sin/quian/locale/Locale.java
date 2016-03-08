@@ -10,7 +10,7 @@ public class Locale {
     public String ForgotPw = "Forgot Password";
     public String FastLogin = "Fast Login";
     public String FirstUse = "First use to see";
-    public String SendVerify = "Send Vierify";
+    public String SendVerify = "Send Verify";
     public String VerifyText = "Verify Code";
     public String AgainPW = "Again Password";
     public String ChangePW = "Confirm modification";

@@ -3,20 +3,19 @@ package com.sin.quian.pages;
 import com.sin.quian.AppContext;
 import com.sin.quian.Const;
 import com.sin.quian.R;
+import com.sin.quian.locale.Locale;
+import com.sin.quian.locale.LocaleFactory;
 import com.sin.quian.network.ServerManager;
 
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout.LayoutParams;
-import android.widget.TextView;
-import common.component.ui.MyButton;
-import common.component.ui.MyCheckBox;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
+import common.library.utils.CheckUtils;
 import common.library.utils.DataUtils;
 import common.library.utils.MessageUtils;
 import common.network.utils.LogicResult;
@@ -57,13 +56,6 @@ public class ForgotPasswordActivity extends HeaderBarActivity
 		m_btnRetureLogin = (Button) findViewById(R.id.btn_returnlogin);
 	}
 
-	protected void initData()
-	{
-		super.initData();
-		m_txtPageTitle.setText("忘记密码");
-		m_btnRight.setVisibility(View.INVISIBLE);
-	}
-	
 	protected void layoutControls()
 	{
 		super.layoutControls();
@@ -100,10 +92,36 @@ public class ForgotPasswordActivity extends HeaderBarActivity
 		m_btnRetureLogin.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));		
 	}
 	
+	protected void initData()
+	{
+		super.initData();
+		
+		Locale locale = LocaleFactory.getLocale();
+		
+		m_txtPageTitle.setText(locale.ForgotPw);
+		m_editEmail.setHint(locale.EmailText);
+		m_editVerifyCode.setHint(locale.VerifyText);
+		m_btnSendVerify.setText(locale.SendVerify);
+		
+		m_editPassword.setHint(locale.PasswordText);
+		m_editConfirmPassword.setHint(locale.ConfirmPW);
+		
+		m_btnChange.setText(locale.ChangePW);	
+		
+		m_btnRetureLogin.setText(locale.ExistUser);
+	}
+	
 	protected void initEvents()
 	{ 
 		super.initEvents();
 
+		m_btnSendVerify.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				onClickSendVerify();				
+			}
+		});
 		m_btnChange.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -121,38 +139,64 @@ public class ForgotPasswordActivity extends HeaderBarActivity
 		});
 	}
 	
+	private void onClickSendVerify()
+	{
+		String strEmail = m_editEmail.getText().toString();
+		if( CheckUtils.isEmpty(strEmail) )
+		{
+			MessageUtils.showMessageDialog(this, "Please input correct email address!");
+			return;
+		}
+		showLoadingProgress();
+		ServerManager.getVerifyCode(strEmail, new ResultCallBack() {
+			
+			@Override
+			public void doAction(LogicResult result) {
+				hideProgress();				
+				
+				MessageUtils.showMessageDialog(ForgotPasswordActivity.this, result.mMessage);				
+			}
+		});
+	}
 	private void onClickforgot()
 	{
 		String strEmail = m_editEmail.getText().toString();
 		String strPassword = m_editPassword.getText().toString();
 		String strConfirm = m_editConfirmPassword.getText().toString();
-		String strUserName = strEmail + "";
-		if(strPassword.equals(strConfirm) && strPassword != null ){
-			 showLoadingProgress();
-			 ServerManager.forgotPassword(strUserName, strEmail, strPassword, new ResultCallBack() {
-				 
-				@Override
-				public void doAction(LogicResult result) {
-					hideProgress();
-					
-
-					if( result.mResult == LogicResult.RESULT_OK )	// ok
-					{
-						DataUtils.savePreference(Const.LOGIN_OK, "1");
-						AppContext.setProfile(result.getContentData());
-						MessageUtils.showMessageDialog(ForgotPasswordActivity.this, result.mMessage);
-						
-						return;
-					}
-							
-					DataUtils.savePreference(Const.LOGIN_OK, "0");			
-					MessageUtils.showMessageDialog(ForgotPasswordActivity.this, result.mMessage);
-				}
-			});
-
-//			Bundle bundle = new Bundle();
-//			ActivityManager.changeActivity(ForgotPasswordActivity.this, LoginActivity.class, bundle, false, null );		
+		String verifyCode = m_editVerifyCode.getText().toString();
+		if( CheckUtils.isEmpty(verifyCode) )
+		{
+			MessageUtils.showMessageDialog(this, "Please input verify code.");
+			return;
 		}
+		if( CheckUtils.isEmpty(strPassword) || strPassword.equals(strConfirm) == false )
+		{
+			MessageUtils.showMessageDialog(this, "Password does not match.");
+			return;			
+		}
+			
+		 showLoadingProgress();
+		 ServerManager.forgotPassword(strEmail, verifyCode, strPassword, new ResultCallBack() {
+			 
+			@Override
+			public void doAction(LogicResult result) {
+				hideProgress();
+				
+	
+				if( result.mResult == LogicResult.RESULT_OK )	// ok
+				{
+					DataUtils.savePreference(Const.LOGIN_OK, "1");
+					AppContext.setProfile(result.getContentData());
+					MessageUtils.showMessageDialog(ForgotPasswordActivity.this, result.mMessage);
+					
+					return;
+				}
+						
+				DataUtils.savePreference(Const.LOGIN_OK, "0");			
+				MessageUtils.showMessageDialog(ForgotPasswordActivity.this, result.mMessage);
+			}
+		});
+
 	}
  
 

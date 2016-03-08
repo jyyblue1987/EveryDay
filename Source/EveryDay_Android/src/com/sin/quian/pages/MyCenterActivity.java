@@ -472,10 +472,11 @@ public class MyCenterActivity extends BottomBarActivity
 			
 			((TextView)ViewHolder.get(rowView, R.id.txt_title)).setText(item.optString(Const.TITLE));
 			
-			for(int i = 0; i < 1; i++)
+			JSONArray thumbnail = item.optJSONArray(Const.THUMBNAIL);
+			for(int i = 0; i < thumbnail.length(); i++)
 			{
 				DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.default_image_bg).build();
-				ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + MediaUtils.getThumnail(item.optString(Const.THUMBNAIL, "")), (ImageView)ViewHolder.get(rowView, img_gallery_array[i]), options);				
+				ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + MediaUtils.getThumnail(thumbnail.optString(i, "")), (ImageView)ViewHolder.get(rowView, img_gallery_array[i]), options);				
 			}
 			
 			// events

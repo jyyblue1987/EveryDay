@@ -64,5 +64,7 @@ public class Const {
     public static final String LANGUAGE = "lang";
     
 //    获得奖励
-
+//    去评论5星，获得500星星奖励！
+//    接受
+//    拒绝
 }

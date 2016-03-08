@@ -3,6 +3,8 @@ package com.sin.quian.pages;
 import com.sin.quian.AppContext;
 import com.sin.quian.Const;
 import com.sin.quian.R;
+import com.sin.quian.locale.Locale;
+import com.sin.quian.locale.LocaleFactory;
 import com.sin.quian.network.ServerManager;
 import com.sin.quian.thirdparty.Facebook;
 import com.sin.quian.thirdparty.SinaWeibo;
@@ -120,12 +122,23 @@ public class LoginActivity extends HeaderBarActivity
 	{
 		super.initData();
 		
+		Locale locale = LocaleFactory.getLocale();
+		
+		m_txtPageTitle.setText(locale.Login);
+		
 		String username = DataUtils.getPreference(Const.USERNAME, "");
 		String password = DataUtils.getPreference(Const.PASSWORD, "");
 		 
+		m_editName.setHint(locale.EmailText);
+		m_editPassword.setHint(locale.PasswordText);
 		m_editName.setText(username);
 		m_editPassword.setText(password);
-		m_txtPageTitle.setText("登录");
+		
+		m_btnLogin.setText(locale.Login);
+		m_txtForgot.setText(locale.ForgotPw);		
+		m_txtRegister.setText(locale.Register);		
+		m_btnFastLogin.setText(locale.FastLogin);
+		m_btnPreview.setText(locale.FirstUse);
 	}
 	
 	protected void initEvents()
@@ -159,8 +172,7 @@ public class LoginActivity extends HeaderBarActivity
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				
+				gotoRecentPage();				
 			}
 		});
 		
@@ -258,6 +270,13 @@ public class LoginActivity extends HeaderBarActivity
 		Bundle bundle = new Bundle();
 		ActivityManager.changeActivity(this, MainMenuActivity.class, bundle, true, null );
 	}
+	
+	public void gotoRecentPage()
+	{
+		Bundle bundle = new Bundle();
+		ActivityManager.changeActivity(this, HistoryActivity.class, bundle, true, null );
+	}
+	
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);

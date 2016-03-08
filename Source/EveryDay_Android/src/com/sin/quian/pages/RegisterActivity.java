@@ -4,6 +4,8 @@ package com.sin.quian.pages;
 import com.sin.quian.AppContext;
 import com.sin.quian.Const;
 import com.sin.quian.R;
+import com.sin.quian.locale.Locale;
+import com.sin.quian.locale.LocaleFactory;
 import com.sin.quian.network.ServerManager;
 
 import android.os.Bundle;
@@ -12,6 +14,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 import common.component.ui.MyCheckBox;
@@ -91,6 +94,9 @@ public class RegisterActivity extends HeaderBarActivity
 		
 		
 		LayoutUtils.setMargin(findViewById(R.id.lay_agree), 0, 100, 0, 0, true);
+		if( LocaleFactory.getLanguage() == 0 )
+			((LinearLayout)findViewById(R.id.lay_agree)).setOrientation(LinearLayout.VERTICAL);	
+		
 		
  		LayoutUtils.setSize(m_chkAgree, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
  		m_chkAgree.setTextSize(ScreenAdapter.computeHeight(45)); 		
@@ -105,10 +111,20 @@ public class RegisterActivity extends HeaderBarActivity
 	{
 		super.initData();
 		
-		m_btnRight.setVisibility(View.INVISIBLE);
-		m_txtPageTitle.setText("注册");		
+		Locale locale = LocaleFactory.getLocale();
 		
-		m_chkAgree.setText("我已阅读并同意");		
+		m_txtPageTitle.setText(locale.RegisterText);
+		
+		m_editEmail.setHint(locale.EmailText);
+		m_editPassword.setHint(locale.PasswordText);
+		m_editConfirmPassword.setHint(locale.ConfirmPW);
+		
+		m_btnRegister.setText(locale.RegisterText);
+		
+		m_chkAgree.setText(locale.ReadAgree);
+		m_txtAgree.setText(locale.AllTerms);
+		
+		m_btnRetureLogin.setText(locale.ExistUser);
 	}
 	
 	protected void initEvents()
