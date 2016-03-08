@@ -49,7 +49,7 @@ public class BottomBarActivity extends HeaderBarActivity {
 			
 			@Override
 			public void onClick(View v) {
-				// TODO Auto-generated method stub
+				onClickAdvertise();
 				
 			}
 		});
@@ -71,6 +71,11 @@ public class BottomBarActivity extends HeaderBarActivity {
 				onClickHome();
 			}
 		});
+	}
+	
+	protected void onClickAdvertise(){
+		Bundle bundle = new Bundle();
+		ActivityManager.changeActivity(this, AdvertiseActivity.class, bundle, false, BUY_POINT_CODE );		
 	}
 	
 	protected void onClickBuy(){

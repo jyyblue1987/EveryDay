@@ -40,7 +40,7 @@ public class MainMenuActivity extends HeaderBarActivity
 	TextView		m_txtUserName = null;
 	TextView		m_txtPointCount = null;
 	
-	ImageView 		m_imgAdvertise = null;
+	ImageView 		m_imgAdvertise  = null;
 	ImageView 		m_imgCamera = null;
 	ImageView 		m_imgBuyIcon = null;
 
@@ -176,6 +176,16 @@ public class MainMenuActivity extends HeaderBarActivity
 			}
 		});
 
+		ResourceUtils.addClickEffect(m_imgAdvertise);
+		m_imgAdvertise.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				onClickAdvertise();				
+			}
+		});
+		
+		
 		ResourceUtils.addClickEffect(m_imgCamera);
 		m_imgCamera.setOnClickListener(new View.OnClickListener() {
 			
@@ -223,6 +233,12 @@ public class MainMenuActivity extends HeaderBarActivity
 		Bundle bundle = new Bundle();
 		ActivityManager.changeActivity(MainMenuActivity.this, ContactListActivity.class, bundle, false, null );		
 	}
+	
+	protected void onClickAdvertise(){
+		Bundle bundle = new Bundle();
+		ActivityManager.changeActivity(this, AdvertiseActivity.class, bundle, false, BUY_POINT_CODE );		
+	}
+	
 	
 	private void onClickBuy(){
 		Bundle bundle = new Bundle();
