@@ -5,6 +5,7 @@ import org.json.JSONObject;
 
 import com.sin.quian.AppContext;
 import com.sin.quian.Const;
+import com.sin.quian.EveryDayUtils;
 import com.sin.quian.R;
 import com.sin.quian.network.ServerManager;
 
@@ -67,7 +68,7 @@ public class CommentDetailActivity extends HeaderBarActivity
 				hideProgress();
 				if( result.mResult != LogicResult.RESULT_OK )
 				{
-					MessageUtils.showMessageDialog(CommentDetailActivity.this, result.mMessage);
+					MessageUtils.showMessageDialog(CommentDetailActivity.this, EveryDayUtils.getMessage(result.mMessage));
 					return;
 				}
 				
@@ -89,7 +90,7 @@ public class CommentDetailActivity extends HeaderBarActivity
 				if( result.mResult != LogicResult.RESULT_OK )
 				{
 					hideProgress();
-					MessageUtils.showMessageDialog(CommentDetailActivity.this, result.mMessage);
+					MessageUtils.showMessageDialog(CommentDetailActivity.this, EveryDayUtils.getMessage(result.mMessage));
 					return;
 				}
 				
@@ -137,7 +138,7 @@ public class CommentDetailActivity extends HeaderBarActivity
 							hideProgress();
 							if( result.mResult != LogicResult.RESULT_OK )
 							{
-								MessageUtils.showMessageDialog(CommentDetailActivity.this, result.mMessage);
+								MessageUtils.showMessageDialog(CommentDetailActivity.this, EveryDayUtils.getMessage(result.mMessage));
 								return;
 							}
 							

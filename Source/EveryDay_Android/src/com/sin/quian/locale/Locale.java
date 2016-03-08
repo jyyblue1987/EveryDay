@@ -46,6 +46,7 @@ public class Locale {
     public String Send = "Send";
     public String ReviewList = "Reivew List";
     public String Like = "Like";
+    public String Liked = "Liked";
     public String Publish = "Publish";
     public String OK = "Ok";
     public String Cancel = "Cancel";
@@ -56,6 +57,7 @@ public class Locale {
     public String Bonus = "Bonus";
     public String Save = "Save";
     public String ChangePWD = "Change Password";
+    public String Logout = "Log out";
     public String OldPWDLabel = "Old Password:";
     public String NewPWDLabel = "New Password:";
     public String ConfirmPWDLabel = "Confirm Password:";

@@ -48,6 +48,7 @@ public class Chinese extends Locale {
         Send = "发送";
         ReviewList = "评论榜";
         Like = "好评";
+        Liked = "已评";
         Publish = "发表";
         OK = "确认";
         Cancel = "取消";
@@ -57,6 +58,7 @@ public class Chinese extends Locale {
         InputPublishTitle = "请输入发表题目";
         Bonus = "获得奖励";
         Save = "保存";
+        Logout = "登出";
         ChangePWD = "修改密码";
         OldPWDLabel = "旧密码:";
         NewPWDLabel = "新的密码:";

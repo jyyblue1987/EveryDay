@@ -7,7 +7,10 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sin.quian.AppContext;
 import com.sin.quian.Const;
+import com.sin.quian.EveryDayUtils;
 import com.sin.quian.R;
+import com.sin.quian.locale.Locale;
+import com.sin.quian.locale.LocaleFactory;
 import com.sin.quian.network.ServerManager;
 import com.sin.quian.network.ServerTask;
 
@@ -25,7 +28,6 @@ import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
 import common.component.ui.MyButton;
-import common.component.ui.MyTextView;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
 import common.image.load.ImageUtils;
@@ -139,8 +141,23 @@ public class ProfileActivity extends BottomBarActivity
 		DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
 		ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + AppContext.getProfile().optString(Const.PHOTO, ""), m_imgPhotoIcon, options);
 
+	}
+	
+	protected void showLabels()
+	{
+		Locale locale = LocaleFactory.getLocale();
 		
-//		((EditText) findViewById(R.id.fragment_profile_email).findViewById(R.id.edit_content)).setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
+		m_txtPageTitle.setText(locale.Setting);
+		
+		((TextView)findViewById(R.id.txt_photo)).setText(locale.Photo);
+		
+		((TextView)findViewById(R.id.fragment_profile_username).findViewById(R.id.txt_label)).setText(locale.NickName);
+		((TextView)findViewById(R.id.fragment_profile_address).findViewById(R.id.txt_label)).setText(locale.MyPosition);
+		((TextView)findViewById(R.id.fragment_profile_language).findViewById(R.id.txt_label)).setText(locale.Language);
+		
+		m_btnSave.setText(locale.Save);
+		m_btnChangePassword.setText(locale.ChangePWD);
+		m_btnLogout.setText(locale.Logout);
 		
 	}
 	
@@ -261,7 +278,7 @@ public class ProfileActivity extends BottomBarActivity
 				
 				 if( result.mResult != LogicResult.RESULT_OK )
 				 {
-					 MessageUtils.showMessageDialog(ProfileActivity.this, result.mMessage);
+					 MessageUtils.showMessageDialog(ProfileActivity.this, EveryDayUtils.getMessage(result.mMessage));
 					 return;
 				 }
 				 AppContext.setProfile(result.getContentData());
@@ -320,7 +337,7 @@ public class ProfileActivity extends BottomBarActivity
 
 				if( result.mResult != LogicResult.RESULT_OK )	// failed
 				{
-					MessageUtils.showMessageDialog(ProfileActivity.this, result.mMessage);
+					MessageUtils.showMessageDialog(ProfileActivity.this, EveryDayUtils.getMessage(result.mMessage));
 					return;
 				}
 				String filename = result.getData().optString("content", "");// to save changed state 

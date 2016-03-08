@@ -16,7 +16,10 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sin.quian.AppContext;
 import com.sin.quian.Const;
+import com.sin.quian.EveryDayUtils;
 import com.sin.quian.R;
+import com.sin.quian.locale.Locale;
+import com.sin.quian.locale.LocaleFactory;
 import com.sin.quian.network.ServerManager;
 import com.sin.quian.network.ServerTask;
 
@@ -86,6 +89,13 @@ public class ContactListActivity extends BottomBarActivity {
 		m_txtEmptyView.setText("没有联系人列表.");
 		
 		getContactList();	
+	}
+	
+	protected void showLabels()
+	{
+		Locale locale = LocaleFactory.getLocale();
+		
+		m_txtPageTitle.setText(locale.Friend);		
 	}
 	
 	private void getContactList()
@@ -224,7 +234,7 @@ public class ContactListActivity extends BottomBarActivity {
 				hideProgress();
 				if( result.mResult != LogicResult.RESULT_OK )
 				{
-					MessageUtils.showMessageDialog(ContactListActivity.this, result.mMessage);
+					MessageUtils.showMessageDialog(ContactListActivity.this, EveryDayUtils.getMessage(result.mMessage));
 					return;
 				}
 				
@@ -238,7 +248,7 @@ public class ContactListActivity extends BottomBarActivity {
 	{
 		JSONObject item = m_adapterContactList.getItem(pos - 1);
 		
-		try {
+		try {			
 			item.put(Const.CHECKFRIEND, 1);
 		} catch (JSONException e) {
 			e.printStackTrace();

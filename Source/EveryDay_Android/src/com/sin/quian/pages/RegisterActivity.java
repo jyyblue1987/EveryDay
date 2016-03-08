@@ -3,6 +3,7 @@ package com.sin.quian.pages;
 
 import com.sin.quian.AppContext;
 import com.sin.quian.Const;
+import com.sin.quian.EveryDayUtils;
 import com.sin.quian.R;
 import com.sin.quian.locale.Locale;
 import com.sin.quian.locale.LocaleFactory;
@@ -196,7 +197,7 @@ public class RegisterActivity extends HeaderBarActivity
 				 if( result.mResult != LogicResult.RESULT_OK )
 				 {
 					 DataUtils.savePreference(Const.LOGIN_OK, "0");
-					 MessageUtils.showMessageDialog(RegisterActivity.this, result.mMessage);
+					 MessageUtils.showMessageDialog(RegisterActivity.this, EveryDayUtils.getMessage(result.mMessage));
 					 return;
 				 }
 				 AppContext.setProfile(result.getContentData());

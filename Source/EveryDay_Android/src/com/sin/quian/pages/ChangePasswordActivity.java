@@ -3,6 +3,7 @@
 
 		import com.sin.quian.AppContext;
 import com.sin.quian.Const;
+import com.sin.quian.EveryDayUtils;
 import com.sin.quian.R;
 import com.sin.quian.network.ServerManager;
 
@@ -94,7 +95,7 @@ import common.network.utils.ResultCallBack;
 							hideProgress();
 							if( result.mResult != LogicResult.RESULT_OK )
 							{
-								MessageUtils.showMessageDialog(ChangePasswordActivity.this, result.mMessage);
+								MessageUtils.showMessageDialog(ChangePasswordActivity.this, EveryDayUtils.getMessage(result.mMessage));
 								return;
 							}
 							

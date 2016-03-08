@@ -2,6 +2,7 @@ package com.sin.quian.pages;
 
 import com.sin.quian.AppContext;
 import com.sin.quian.Const;
+import com.sin.quian.EveryDayUtils;
 import com.sin.quian.R;
 import com.sin.quian.locale.Locale;
 import com.sin.quian.locale.LocaleFactory;
@@ -263,7 +264,7 @@ public class LoginActivity extends HeaderBarActivity
 				}
 						
 				DataUtils.savePreference(Const.LOGIN_OK, "0");			
-				MessageUtils.showMessageDialog(LoginActivity.this, result.mMessage);
+				MessageUtils.showMessageDialog(LoginActivity.this, EveryDayUtils.getMessage(result.mMessage));
 			}
 		});
 	 }

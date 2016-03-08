@@ -17,6 +17,8 @@ import com.sin.quian.AppContext;
 import com.sin.quian.Const;
 import com.sin.quian.EveryDayUtils;
 import com.sin.quian.R;
+import com.sin.quian.locale.Locale;
+import com.sin.quian.locale.LocaleFactory;
 import com.sin.quian.network.ServerManager;
 import com.sin.quian.network.ServerTask;
 
@@ -38,6 +40,7 @@ import common.design.utils.ResourceUtils;
 import common.image.load.ImageUtils;
 import common.library.utils.AlgorithmUtils;
 import common.library.utils.MediaUtils;
+import common.library.utils.MessageUtils;
 import common.library.utils.MyTime;
 import common.list.adapter.ItemCallBack;
 import common.list.adapter.MyListAdapter;
@@ -106,6 +109,15 @@ public class HistoryActivity extends BottomBarActivity {
 		
 		getHistoryList();
 			
+	}
+	
+	protected void showLabels()
+	{
+		Locale locale = LocaleFactory.getLocale();
+		
+		m_txtPageTitle.setText(locale.Recent);
+		
+		m_editSearch.setHint(locale.SearchKey);
 	}
 	
 	private void getHistoryList()
@@ -238,6 +250,32 @@ public class HistoryActivity extends BottomBarActivity {
 		}		
 	}
 	
+	private void onClickAddContact(int pos)
+	{
+		final JSONObject item = m_adapterHistoryList.getItem(pos);
+		
+		showLoadingProgress();
+		ServerManager.addContact(AppContext.getUserID(), item.optString(Const.HUSERNO, "0"), new ResultCallBack() {
+			
+			@Override
+			public void doAction(LogicResult result) {
+				hideProgress();
+				if( result.mResult != LogicResult.RESULT_OK )
+				{
+					MessageUtils.showMessageDialog(HistoryActivity.this, EveryDayUtils.getMessage(result.mMessage));
+					return;
+				}
+				try {
+					item.put(Const.CHECKFRIEND, 1);
+					m_adapterHistoryList.notifyDataSetChanged();
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
+				MessageUtils.showMessageDialog(HistoryActivity.this, "此用户添加到您的联系人列表.");
+			}
+		});
+	}
+	
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == 0)
@@ -302,8 +340,12 @@ public class HistoryActivity extends BottomBarActivity {
 			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
 			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + item.optString(Const.PHOTO, ""), (ImageView)ViewHolder.get(rowView, R.id.img_photo), options);
 			
-			((TextView)ViewHolder.get(rowView, R.id.txt_address)).setText(item.optString(Const.ADDRESS, ""));			
-			ViewHolder.get(rowView, R.id.img_add_contact).setVisibility(View.GONE);
+			((TextView)ViewHolder.get(rowView, R.id.txt_address)).setText(item.optString(Const.ADDRESS, ""));
+			if( item.optInt(Const.CHECKFRIEND, 0) == 1 )
+				ViewHolder.get(rowView, R.id.img_add_contact).setVisibility(View.GONE);
+			else
+				ViewHolder.get(rowView, R.id.img_add_contact).setVisibility(View.VISIBLE);
+			
 			ViewHolder.get(rowView, R.id.txt_rank).setVisibility(View.GONE);
 			
 			((TextView)ViewHolder.get(rowView, R.id.txt_name)).setText(EveryDayUtils.getName(item));
@@ -316,11 +358,19 @@ public class HistoryActivity extends BottomBarActivity {
 			else
 				ViewHolder.get(rowView, R.id.img_video_icon).setVisibility(View.VISIBLE);
 			
-			String time = item.optString(Const.MODIFY_DATE, MyTime.getCurrentTime());
-			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setText(time);
+			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setText(EveryDayUtils.getDate(item));
 			
 			((TextView)ViewHolder.get(rowView, R.id.txt_star)).setText(item.optString(Const.POINT_NUM, "0"));
 			((TextView)ViewHolder.get(rowView, R.id.txt_comment)).setText(item.optString(Const.COMMENT_COUNT, "0"));
+			
+			final int pos = position;
+			ViewHolder.get(rowView, R.id.img_add_contact).setOnClickListener(new View.OnClickListener() {
+				
+				@Override
+				public void onClick(View v) {
+					onClickAddContact(pos);
+				}
+			});
 		}	
 	}
 	

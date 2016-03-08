@@ -17,6 +17,8 @@ import com.sin.quian.AppContext;
 import com.sin.quian.Const;
 import com.sin.quian.EveryDayUtils;
 import com.sin.quian.R;
+import com.sin.quian.locale.Locale;
+import com.sin.quian.locale.LocaleFactory;
 import com.sin.quian.network.ServerManager;
 import com.sin.quian.network.ServerTask;
 
@@ -96,6 +98,16 @@ public class UserActivity extends BottomBarActivity {
 		m_txtPageTitle.setText("明星榜");
 		
 		onSelectSortTab(0);
+	}
+	
+	protected void showLabels()
+	{
+		Locale locale = LocaleFactory.getLocale();
+		
+		m_txtPageTitle.setText(locale.StarTitle);
+		m_txtSendSort.setText(locale.AtAppreciate);
+		m_txtReceiveSort.setText(locale.HarvestAppreciate);
+		
 	}
 	
 	private void getUserList()

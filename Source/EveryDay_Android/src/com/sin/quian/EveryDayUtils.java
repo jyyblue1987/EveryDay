@@ -6,6 +6,8 @@ import java.util.Date;
 
 import org.json.JSONObject;
 
+import com.sin.quian.locale.LocaleFactory;
+
 import common.library.utils.CheckUtils;
 import common.library.utils.MyTime;
 
@@ -23,20 +25,36 @@ public class EveryDayUtils {
 		return email;
 	}
 	
+	public static final String getMessage(String message)
+	{
+		if( CheckUtils.isEmpty(message) )
+			return "";
+		
+		String [] splite = message.split("\\|\\|");
+		if( splite.length < 2 )
+			return message;
+		
+		int lang = LocaleFactory.getLanguage();
+		return splite[lang];		
+	}
 	public static final String getDate(JSONObject data)
 	{
 		String time = data.optString(Const.MODIFY_DATE, MyTime.getCurrentTime());
 		
+		SimpleDateFormat newFormat = null;
+		if( LocaleFactory.getLanguage() == 0 )
+			newFormat = new SimpleDateFormat("yyyy-MM-dd");
+		else
+			newFormat = new SimpleDateFormat("yyyy年MM月dd日");
+		
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
 		try {  
 		    Date date = format.parse(time);  
-			SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd\r\nHH:mm:ss");
 			return newFormat.format(date);
 		}catch (ParseException e) {  
 			Date date;
 			try {
 				date = format.parse(MyTime.getCurrentTime());
-				SimpleDateFormat newFormat = new SimpleDateFormat("yyyy-MM-dd\r\nHH:mm:ss");
 				return newFormat.format(date);
 			} catch (ParseException e1) {
 				// TODO Auto-generated catch block
@@ -50,16 +68,20 @@ public class EveryDayUtils {
 	{
 		String time = data.optString(Const.MODIFY_DATE, MyTime.getCurrentTime());
 		
+		SimpleDateFormat newFormat = null;
+		if( LocaleFactory.getLanguage() == 0 )
+			newFormat = new SimpleDateFormat("MM-dd\r\nHH:mm:ss");
+		else
+			newFormat = new SimpleDateFormat("MM月dd日\r\nHH:mm:ss");
+		
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");  
 		try {  
 		    Date date = format.parse(time);  
-			SimpleDateFormat newFormat = new SimpleDateFormat("HH:mm\r\nyyyy-MM-dd");
 			return newFormat.format(date);
 		}catch (ParseException e) {  
 			Date date;
 			try {
 				date = format.parse(MyTime.getCurrentTime());
-				SimpleDateFormat newFormat = new SimpleDateFormat("HH:mm\r\nyyyy-MM-dd");
 				return newFormat.format(date);
 			} catch (ParseException e1) {
 				// TODO Auto-generated catch block

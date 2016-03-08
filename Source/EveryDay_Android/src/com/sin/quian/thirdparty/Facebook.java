@@ -15,6 +15,7 @@ import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.sin.quian.AppContext;
 import com.sin.quian.Const;
+import com.sin.quian.EveryDayUtils;
 import com.sin.quian.network.ServerManager;
 import com.sin.quian.pages.BaseActivity;
 import com.sin.quian.pages.LoginActivity;
@@ -130,7 +131,7 @@ public class Facebook {
 				}
 						
 				DataUtils.savePreference(Const.LOGIN_OK, "0");			
-				MessageUtils.showMessageDialog(parent, result.mMessage);		
+				MessageUtils.showMessageDialog(parent, EveryDayUtils.getMessage(result.mMessage));		
 			}
 		});
 	}

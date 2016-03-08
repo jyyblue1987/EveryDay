@@ -13,7 +13,10 @@ import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.sin.quian.AppContext;
 import com.sin.quian.Const;
+import com.sin.quian.EveryDayUtils;
 import com.sin.quian.R;
+import com.sin.quian.locale.Locale;
+import com.sin.quian.locale.LocaleFactory;
 import com.sin.quian.network.ServerManager;
 
 import android.content.Context;
@@ -59,6 +62,16 @@ public class CommentListActivity extends HeaderBarActivity
 		
 		m_txtEmptyView = (TextView) findViewById(R.id.txt_empty_view);
 	}
+	
+
+	
+	public void layoutControls()
+	{
+		super.layoutControls();
+		
+		m_txtEmptyView.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
+		LayoutUtils.setPadding(m_txtEmptyView, 0, 0, 0, ScreenAdapter.getDeviceHeight() / 5, false);
+	}
 
 	protected void initData()
 	{
@@ -86,13 +99,13 @@ public class CommentListActivity extends HeaderBarActivity
 		getCommentList();
 	}
 	
-	public void layoutControls()
+	protected void showLabels()
 	{
-		super.layoutControls();
+		Locale locale = LocaleFactory.getLocale();
 		
-		m_txtEmptyView.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-		LayoutUtils.setPadding(m_txtEmptyView, 0, 0, 0, ScreenAdapter.getDeviceHeight() / 5, false);
+		m_txtPageTitle.setText(locale.ReviewList);		
 	}
+	
 	
 	private void getCommentList()
 	{
@@ -213,7 +226,7 @@ public class CommentListActivity extends HeaderBarActivity
 			
 			// show info
 			((TextView)ViewHolder.get(rowView, R.id.txt_username)).setText(item.optString(Const.USERNAME, ""));
-			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setText(MyTime.getChinaDate(item.optString(Const.MODIFY_DATE, MyTime.getCurrentTime())));
+			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setText(EveryDayUtils.getDate(item));
 			((TextView)ViewHolder.get(rowView, R.id.txt_content)).setText(item.optString(Const.CONTENT, ""));			
 			
 		}	

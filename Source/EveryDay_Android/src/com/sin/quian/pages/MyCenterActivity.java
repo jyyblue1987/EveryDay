@@ -17,6 +17,8 @@ import com.sin.quian.AppContext;
 import com.sin.quian.Const;
 import com.sin.quian.EveryDayUtils;
 import com.sin.quian.R;
+import com.sin.quian.locale.Locale;
+import com.sin.quian.locale.LocaleFactory;
 import com.sin.quian.network.ServerManager;
 import com.sin.quian.network.ServerTask;
 
@@ -137,6 +139,13 @@ public class MyCenterActivity extends BottomBarActivity
 		showProfile(profile);
 
 		getHistoryList();
+	}
+	
+	protected void showLabels()
+	{
+		Locale locale = LocaleFactory.getLocale();
+		
+		m_txtPageTitle.setText(locale.PersonalCenter);
 	}
 	
 	private void showProfile(JSONObject profile)
@@ -335,7 +344,7 @@ public class MyCenterActivity extends BottomBarActivity
 				hideProgress();
 				if( result.mResult != LogicResult.RESULT_OK )
 				{
-					MessageUtils.showMessageDialog(MyCenterActivity.this, result.mMessage);
+					MessageUtils.showMessageDialog(MyCenterActivity.this, EveryDayUtils.getMessage(result.mMessage));
 					return;
 				}
 				

@@ -29,6 +29,7 @@ public class Const {
 	public static final String FAVORITE = "favorite";
 	public static final String PHONENUMBER= "phone";
 	public static final String BIRTHDAY = "birthday";
+	public static final String HUSERNO = "huserno";
 	
     public static final String UPLOAD_PATH = "filename";
     public static final String FILE_PATH = "filepath";

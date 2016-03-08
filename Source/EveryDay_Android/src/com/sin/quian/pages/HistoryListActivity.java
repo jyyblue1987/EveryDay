@@ -17,6 +17,8 @@ import com.sin.quian.AppContext;
 import com.sin.quian.Const;
 import com.sin.quian.EveryDayUtils;
 import com.sin.quian.R;
+import com.sin.quian.locale.Locale;
+import com.sin.quian.locale.LocaleFactory;
 import com.sin.quian.network.ServerManager;
 import com.sin.quian.network.ServerTask;
 
@@ -161,7 +163,6 @@ public class HistoryListActivity extends HeaderBarActivity
 	{
 		super.initData();
 
-		m_txtPageTitle.setText("历史列表");
 		
 		Bundle bundle = getIntent().getExtras();
 		
@@ -187,6 +188,16 @@ public class HistoryListActivity extends HeaderBarActivity
 		getHistoryList();		
 	}
 	
+	protected void showLabels()
+	{
+		Locale locale = LocaleFactory.getLocale();
+		
+		if( m_profile.optInt(Const.CHECKFRIEND, 0) == 1 )
+			m_txtPageTitle.setText(locale.Friend);
+		else
+			m_txtPageTitle.setText(locale.StarTitle);
+		
+	}
 	protected void initEvents()
 	{ 
 		super.initEvents();
@@ -295,7 +306,7 @@ public class HistoryListActivity extends HeaderBarActivity
 				hideProgress();
 				if( result.mResult != LogicResult.RESULT_OK )
 				{
-					MessageUtils.showMessageDialog(HistoryListActivity.this, result.mMessage);
+					MessageUtils.showMessageDialog(HistoryListActivity.this, EveryDayUtils.getMessage(result.mMessage));
 					return;
 				}
 				try {
@@ -319,7 +330,7 @@ public class HistoryListActivity extends HeaderBarActivity
 				hideProgress();
 				if( result.mResult != LogicResult.RESULT_OK )
 				{
-					MessageUtils.showMessageDialog(HistoryListActivity.this, result.mMessage);
+					MessageUtils.showMessageDialog(HistoryListActivity.this, EveryDayUtils.getMessage(result.mMessage));
 					return;
 				}
 				MessageUtils.showMessageDialog(HistoryListActivity.this, "此用户添加到您的联系人列表.");
@@ -512,8 +523,7 @@ public class HistoryListActivity extends HeaderBarActivity
 			else
 				ViewHolder.get(rowView, R.id.img_video_icon).setVisibility(View.VISIBLE);
 			
-			String time = item.optString(Const.MODIFY_DATE, MyTime.getCurrentTime());
-			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setText(time);
+			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setText(EveryDayUtils.getDate(item));
 			
 			((TextView)ViewHolder.get(rowView, R.id.txt_star)).setText(item.optString(Const.POINT_NUM, "0"));
 			((TextView)ViewHolder.get(rowView, R.id.txt_comment)).setText(item.optString(Const.COMMENT_COUNT, "0"));

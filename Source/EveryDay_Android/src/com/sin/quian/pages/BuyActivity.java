@@ -8,6 +8,7 @@ import org.json.JSONObject;
 
 import com.sin.quian.AppContext;
 import com.sin.quian.Const;
+import com.sin.quian.EveryDayUtils;
 import com.sin.quian.R;
 import com.sin.quian.billing.util.IabBroadcastReceiver;
 import com.sin.quian.billing.util.IabBroadcastReceiver.IabBroadcastListener;
@@ -229,7 +230,7 @@ public class BuyActivity extends HeaderBarActivity implements IabBroadcastListen
 				hideProgress();
 				if( result.mResult != LogicResult.RESULT_OK )
 				{
-					MessageUtils.showMessageDialog(BuyActivity.this, result.mMessage);
+					MessageUtils.showMessageDialog(BuyActivity.this, EveryDayUtils.getMessage(result.mMessage));
 					return;
 				}
 				

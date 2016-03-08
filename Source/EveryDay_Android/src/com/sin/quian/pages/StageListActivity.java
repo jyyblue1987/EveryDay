@@ -16,6 +16,8 @@ import com.sin.quian.AppContext;
 import com.sin.quian.Const;
 import com.sin.quian.EveryDayUtils;
 import com.sin.quian.R;
+import com.sin.quian.locale.Locale;
+import com.sin.quian.locale.LocaleFactory;
 import com.sin.quian.network.ServerManager;
 import com.sin.quian.network.ServerTask;
 
@@ -35,9 +37,11 @@ import common.design.layout.ScreenAdapter;
 import common.image.load.ImageUtils;
 import common.library.utils.AlgorithmUtils;
 import common.library.utils.AndroidUtils;
+import common.library.utils.CheckUtils;
 import common.library.utils.MediaUtils;
 import common.library.utils.MessageUtils;
 import common.library.utils.MessageUtils.OnButtonClickListener;
+import common.library.utils.OnAlertClickListener;
 import common.list.adapter.ItemCallBack;
 import common.list.adapter.MyListAdapter;
 import common.list.adapter.ViewHolder;
@@ -147,9 +151,9 @@ public class StageListActivity extends HeaderBarActivity
 		
 		Bundle bundle = getIntent().getExtras();
 		
-		m_txtPageTitle.setText(AppContext.getProfile().optString(Const.USERNAME, ""));
-		
 		m_listPullItems.setMode(Mode.DISABLED);
+		
+		Locale locale = LocaleFactory.getLocale();
 		
 		if( bundle != null )
 		{
@@ -165,6 +169,8 @@ public class StageListActivity extends HeaderBarActivity
 		
 		if( m_nMode == Const.TEMP_STAGE_MODE ) // self temp stage mode 
 		{
+			m_txtPageTitle.setText(EveryDayUtils.getName(AppContext.getProfile()));
+			
 			findViewById(R.id.lay_input_action).setVisibility(View.GONE);
 			findViewById(R.id.lay_count).setVisibility(View.GONE);
 			
@@ -182,6 +188,8 @@ public class StageListActivity extends HeaderBarActivity
 		
 		if( m_nMode == Const.SELF_STAGE_MODE ) // self published stage mode
 		{
+			m_txtPageTitle.setText(EveryDayUtils.getName(AppContext.getProfile()));
+			
 			findViewById(R.id.lay_input_action).setVisibility(View.GONE);
 			m_btnPublish.setVisibility(View.GONE);
 			
@@ -204,10 +212,12 @@ public class StageListActivity extends HeaderBarActivity
 		{
 			m_btnPublish.setVisibility(View.GONE);
 			
-			if( m_historyInfo.optInt(Const.FAVORITED_FLAG, 0) == 0 )
-				m_txtLike.setText("好评");
-			else
-				m_txtLike.setText("已评");
+			if( m_historyInfo.optInt(Const.FAVORITED_FLAG, 0) == 0 )				
+				m_txtLike.setText(locale.Like);
+			else				
+				m_txtLike.setText(locale.Liked);
+			
+			m_txtPageTitle.setText(EveryDayUtils.getName(m_historyInfo));
 			
 			m_txtLikeCount.setText(m_historyInfo.optString(Const.LIKE_COUNT, "0"));
 			m_txtCommentCount.setText(m_historyInfo.optString(Const.COMMENT_COUNT, "0"));
@@ -223,6 +233,8 @@ public class StageListActivity extends HeaderBarActivity
 				}
 			});
 		}
+		
+		m_btnPublish.setText(locale.Publish);
 	}
 	
 	private void showStageList(JSONArray array)
@@ -246,19 +258,13 @@ public class StageListActivity extends HeaderBarActivity
 			
 			@Override
 			public void onClick(View v) {
-				MessageUtils.showDialogYesNo(StageListActivity.this, "您想要发布?", new OnButtonClickListener() {
+				MessageUtils.showEditDialog(StageListActivity.this, "Title", new OnAlertClickListener() {
 					
 					@Override
-					public void onOkClick() {
-						addHistory();						
-					}
-					
-					@Override
-					public void onCancelClick() {
-						
+					public void onInputText(String text) {
+						addHistory(text);							
 					}
 				});
-				
 			}
 		});
 		
@@ -312,14 +318,15 @@ public class StageListActivity extends HeaderBarActivity
 				hideProgress();
 				if(result.mResult != LogicResult.RESULT_OK)
 				{
-					MessageUtils.showMessageDialog(StageListActivity.this, result.mMessage);
+					MessageUtils.showMessageDialog(StageListActivity.this, EveryDayUtils.getMessage(result.mMessage));
 					return;
 				}
 				
 				try {
 					m_bIsChanged = true;
 					m_historyInfo.put(Const.FAVORITED_FLAG, 1);
-					m_txtLike.setText("赞");
+					Locale locale = LocaleFactory.getLocale();
+					m_txtLike.setText(locale.Liked);
 					
 					int likeCount = m_historyInfo.optInt(Const.LIKE_COUNT, 0);
 					likeCount++;
@@ -364,7 +371,7 @@ public class StageListActivity extends HeaderBarActivity
 					hideProgress();
 					if( result.mResult != LogicResult.RESULT_OK )
 					{
-						MessageUtils.showMessageDialog(StageListActivity.this, result.mMessage);
+						MessageUtils.showMessageDialog(StageListActivity.this, EveryDayUtils.getMessage(result.mMessage));
 						return;
 					}
 					
@@ -388,17 +395,22 @@ public class StageListActivity extends HeaderBarActivity
         onFinishActivity();				
 	}
 	
-	private void addHistory()
+	private void addHistory(String text)
 	{
+		if( CheckUtils.isEmpty(text) )
+		{
+			MessageUtils.showMessageDialog(this, "Please input title.");
+			return;
+		}
 		showLoadingProgress();
-		ServerManager.addHistory(AppContext.getUserID(), new ResultCallBack() {
+		ServerManager.addHistory(AppContext.getUserID(), text, new ResultCallBack() {
 			
 			@Override
 			public void doAction(LogicResult result) {
 				hideProgress();
 				if( result.mResult != LogicResult.RESULT_OK )
 				{
-					MessageUtils.showMessageDialog(StageListActivity.this, result.mMessage);
+					MessageUtils.showMessageDialog(StageListActivity.this, EveryDayUtils.getMessage(result.mMessage));
 					return;
 				}
 				

@@ -2,6 +2,7 @@ package com.sin.quian.pages;
 
 import com.sin.quian.AppContext;
 import com.sin.quian.Const;
+import com.sin.quian.EveryDayUtils;
 import com.sin.quian.R;
 import com.sin.quian.locale.Locale;
 import com.sin.quian.locale.LocaleFactory;
@@ -157,7 +158,7 @@ public class ForgotPasswordActivity extends HeaderBarActivity
 			public void doAction(LogicResult result) {
 				hideProgress();				
 				
-				MessageUtils.showMessageDialog(ForgotPasswordActivity.this, result.mMessage);				
+				MessageUtils.showMessageDialog(ForgotPasswordActivity.this, EveryDayUtils.getMessage(result.mMessage));				
 			}
 		});
 	}
@@ -190,13 +191,13 @@ public class ForgotPasswordActivity extends HeaderBarActivity
 				{
 					DataUtils.savePreference(Const.LOGIN_OK, "1");
 					AppContext.setProfile(result.getContentData());
-					MessageUtils.showMessageDialog(ForgotPasswordActivity.this, result.mMessage);
+					MessageUtils.showMessageDialog(ForgotPasswordActivity.this, EveryDayUtils.getMessage(result.mMessage));
 					
 					return;
 				}
 						
 				DataUtils.savePreference(Const.LOGIN_OK, "0");			
-				MessageUtils.showMessageDialog(ForgotPasswordActivity.this, result.mMessage);
+				MessageUtils.showMessageDialog(ForgotPasswordActivity.this, EveryDayUtils.getMessage(result.mMessage));
 			}
 		});
 
