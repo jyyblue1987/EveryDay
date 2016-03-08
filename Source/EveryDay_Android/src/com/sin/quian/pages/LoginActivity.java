@@ -122,25 +122,28 @@ public class LoginActivity extends HeaderBarActivity
 	{
 		super.initData();
 		
+		String username = DataUtils.getPreference(Const.USERNAME, "");
+		String password = DataUtils.getPreference(Const.PASSWORD, "");
+	
+		m_editName.setText(username);
+		m_editPassword.setText(password);
+	}
+	
+	protected void showLabels()
+	{
 		Locale locale = LocaleFactory.getLocale();
 		
 		m_txtPageTitle.setText(locale.Login);
 		
-		String username = DataUtils.getPreference(Const.USERNAME, "");
-		String password = DataUtils.getPreference(Const.PASSWORD, "");
-		 
 		m_editName.setHint(locale.EmailText);
 		m_editPassword.setHint(locale.PasswordText);
-		m_editName.setText(username);
-		m_editPassword.setText(password);
-		
+
 		m_btnLogin.setText(locale.Login);
 		m_txtForgot.setText(locale.ForgotPw);		
 		m_txtRegister.setText(locale.Register);		
 		m_btnFastLogin.setText(locale.FastLogin);
 		m_btnPreview.setText(locale.FirstUse);
 	}
-	
 	protected void initEvents()
 	{ 
 		super.initEvents();

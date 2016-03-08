@@ -96,6 +96,10 @@ public class ForgotPasswordActivity extends HeaderBarActivity
 	{
 		super.initData();
 		
+	
+	}
+	protected void showLabels()
+	{
 		Locale locale = LocaleFactory.getLocale();
 		
 		m_txtPageTitle.setText(locale.ForgotPw);
@@ -110,7 +114,6 @@ public class ForgotPasswordActivity extends HeaderBarActivity
 		
 		m_btnRetureLogin.setText(locale.ExistUser);
 	}
-	
 	protected void initEvents()
 	{ 
 		super.initEvents();

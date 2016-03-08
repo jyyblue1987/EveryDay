@@ -110,7 +110,11 @@ public class RegisterActivity extends HeaderBarActivity
 	protected void initData()
 	{
 		super.initData();
-		
+	
+	}
+	
+	protected void showLabels()
+	{		
 		Locale locale = LocaleFactory.getLocale();
 		
 		m_txtPageTitle.setText(locale.RegisterText);

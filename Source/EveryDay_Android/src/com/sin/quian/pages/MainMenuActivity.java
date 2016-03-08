@@ -119,6 +119,10 @@ public class MainMenuActivity extends HeaderBarActivity
 	{
 		super.initData();
 		
+	}
+	
+	protected void showLabels()
+	{	
 		Locale locale = LocaleFactory.getLocale();
 		m_txtPageTitle.setText(locale.EveryDay);
 		

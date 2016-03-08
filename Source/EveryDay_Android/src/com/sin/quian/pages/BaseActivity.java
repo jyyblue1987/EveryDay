@@ -163,8 +163,14 @@ public class BaseActivity extends Activity implements BaseView {
     	showProgress("加载", "请稍等");
     }
     
+    protected void showLabels()
+	{
+    	
+	}
 	protected void onResume( ) {
 		super.onResume();
+		
+		showLabels();
 		
 		m_bActivityForground = true;
 	}
