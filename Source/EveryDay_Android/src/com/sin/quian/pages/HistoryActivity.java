@@ -39,6 +39,7 @@ import common.design.layout.ScreenAdapter;
 import common.design.utils.ResourceUtils;
 import common.image.load.ImageUtils;
 import common.library.utils.AlgorithmUtils;
+import common.library.utils.DataUtils;
 import common.library.utils.MediaUtils;
 import common.library.utils.MessageUtils;
 import common.library.utils.MyTime;
@@ -125,7 +126,8 @@ public class HistoryActivity extends BottomBarActivity {
 		m_nPageNum = 0;
 		m_listPullItems.setMode(Mode.PULL_FROM_END);
 		showLoadingProgress();
-		ServerManager.searchHistory(AppContext.getUserID(), m_nPageNum, m_editSearch.getText().toString(), new ResultCallBack() {
+		
+		ResultCallBack callback = new ResultCallBack() {
 			
 			@Override
 			public void doAction(LogicResult result) {
@@ -138,12 +140,22 @@ public class HistoryActivity extends BottomBarActivity {
 					list.add(array.optJSONObject(i));
 				showHistoryList(list);
 			}
-		});
+		};
+		
+		int loginFlag = DataUtils.getPreference(Const.LOGIN_OK, 0);
+		
+		if( loginFlag == 1 )
+			ServerManager.searchHistory(AppContext.getUserID(), m_nPageNum, m_editSearch.getText().toString(), callback);
+		else
+		{
+			ServerManager.searchHistory(m_nPageNum, m_editSearch.getText().toString(), callback);
+			findViewById(R.id.fragment_bottom).setVisibility(View.GONE);
+		}		
 	}
 	
 	private void getMoreHistoryList()
 	{
-		ServerManager.searchHistory(AppContext.getUserID(), m_nPageNum + 1, m_editSearch.getText().toString(), new ResultCallBack() {
+		ResultCallBack callback = new ResultCallBack() {
 			
 			@Override
 			public void doAction(LogicResult result) {
@@ -156,7 +168,14 @@ public class HistoryActivity extends BottomBarActivity {
 					list.add(array.optJSONObject(i));
 				addHistoryList(list);
 			}
-		});
+		};
+		
+		int loginFlag = DataUtils.getPreference(Const.LOGIN_OK, 0);
+		
+		if( loginFlag == 1 )
+			ServerManager.searchHistory(AppContext.getUserID(), m_nPageNum + 1, m_editSearch.getText().toString(), callback);
+		else
+			ServerManager.searchHistory(m_nPageNum + 1, m_editSearch.getText().toString(), callback);
 	}
 	
 	public void addHistoryList(List<JSONObject> list) {
@@ -215,6 +234,11 @@ public class HistoryActivity extends BottomBarActivity {
 	
 	private void gotoStageListPage(int pos)
 	{
+		int loginFlag = DataUtils.getPreference(Const.LOGIN_OK, 0);
+		
+		if( loginFlag == 0 )
+			return;
+			
 		Bundle bundle = new Bundle();
 		
 		JSONObject param = new JSONObject();
@@ -341,7 +365,9 @@ public class HistoryActivity extends BottomBarActivity {
 			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + item.optString(Const.PHOTO, ""), (ImageView)ViewHolder.get(rowView, R.id.img_photo), options);
 			
 			((TextView)ViewHolder.get(rowView, R.id.txt_address)).setText(item.optString(Const.ADDRESS, ""));
-			if( item.optInt(Const.CHECKFRIEND, 0) == 1 )
+			
+			int loginFlag = DataUtils.getPreference(Const.LOGIN_OK, 0);
+			if( item.optInt(Const.CHECKFRIEND, 0) == 1 || loginFlag == 0 )
 				ViewHolder.get(rowView, R.id.img_add_contact).setVisibility(View.GONE);
 			else
 				ViewHolder.get(rowView, R.id.img_add_contact).setVisibility(View.VISIBLE);

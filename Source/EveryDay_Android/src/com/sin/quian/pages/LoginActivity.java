@@ -172,14 +172,6 @@ public class LoginActivity extends HeaderBarActivity
 			}
 		});
 		
-		m_btnFastLogin.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				gotoRecentPage();				
-			}
-		});
-		
 		ResourceUtils.addClickEffect(m_imgFacebook);
 		m_imgFacebook.setOnClickListener(new View.OnClickListener() {
 			
@@ -203,7 +195,7 @@ public class LoginActivity extends HeaderBarActivity
 			
 			@Override
 			public void onClick(View v) {
-								
+				gotoRecentPage();				
 			}
 		});
 	}
@@ -278,7 +270,7 @@ public class LoginActivity extends HeaderBarActivity
 	public void gotoRecentPage()
 	{
 		Bundle bundle = new Bundle();
-		ActivityManager.changeActivity(this, HistoryActivity.class, bundle, true, null );
+		ActivityManager.changeActivity(this, HistoryActivity.class, bundle, false, null );
 	}
 	
     @Override
