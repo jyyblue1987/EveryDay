@@ -217,9 +217,16 @@ public class ProfileActivity extends BottomBarActivity
 	{
 		int selectLanguage = DataUtils.getPreference(Const.LANGUAGE, 0);
 		if( selectLanguage == 0 )  // chinese
+		{
 			m_txtLanguage.setText("简体中文");
+			LocaleFactory.selectLocale(1);
+		}
 		else
-			m_txtLanguage.setText("ENGLISH");		
+		{
+			m_txtLanguage.setText("ENGLISH");
+			LocaleFactory.selectLocale(0);
+		}
+		showLabels();
 	}
 
 	private void onSelectLanguage()
@@ -282,7 +289,6 @@ public class ProfileActivity extends BottomBarActivity
 					 return;
 				 }
 				 AppContext.setProfile(result.getContentData());
-				 DataUtils.savePreference(Const.USERNAME, username);
 				 
 			 	 Intent intent = new Intent();
 		         setResult(Activity.RESULT_OK, intent); 
