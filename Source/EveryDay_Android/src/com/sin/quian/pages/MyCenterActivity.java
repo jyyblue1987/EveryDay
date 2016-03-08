@@ -146,6 +146,8 @@ public class MyCenterActivity extends BottomBarActivity
 		Locale locale = LocaleFactory.getLocale();
 		
 		m_txtPageTitle.setText(locale.PersonalCenter);
+		
+		showProfile(AppContext.getProfile());
 	}
 	
 	private void showProfile(JSONObject profile)
@@ -409,11 +411,6 @@ public class MyCenterActivity extends BottomBarActivity
 		
 		if (requestCode == STAGE_LIST_CODE ) {
 			getHistoryList();
-		}	
-
-		if (requestCode == PROFILE_CHANGE_CODE ) {
-			JSONObject profile = AppContext.getProfile();
-			showProfile(profile);
 		}	
 		
 		super.onActivityResult(requestCode, resultCode, data);	

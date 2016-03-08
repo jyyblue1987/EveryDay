@@ -61,6 +61,10 @@ public class Locale {
     public String OldPWDLabel = "Old Password:";
     public String NewPWDLabel = "New Password:";
     public String ConfirmPWDLabel = "Confirm Password:";
+    public String AppReward = "Get Reward";
+    public String AppRewardMessage = "To comment on the 5 star, 500 star award!";
+    public String Allow = "Allow";
+    public String NoAllow = "Not Allow";
     
     public void changeLocale()
     {

@@ -23,11 +23,11 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.util.TypedValue;
 import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout.LayoutParams;
 import android.widget.TextView;
-import common.component.ui.MyButton;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
 import common.image.load.ImageUtils;
@@ -35,6 +35,7 @@ import common.library.utils.CheckUtils;
 import common.library.utils.DataUtils;
 import common.library.utils.MediaUtils;
 import common.library.utils.MessageUtils;
+import common.library.utils.MessageUtils.OnButtonClickListener;
 import common.manager.activity.ActivityManager;
 import common.network.utils.LogicResult;
 import common.network.utils.ResultCallBack;
@@ -53,9 +54,10 @@ public class ProfileActivity extends BottomBarActivity
 	EditText 		m_editAddress = null;
 	TextView 		m_txtLanguage = null;
 	
-	MyButton		m_btnSave = null;
-	MyButton		m_btnChangePassword= null;
-	MyButton		m_btnLogout = null;
+	Button		m_btnSave = null;
+	Button		m_btnChangePassword= null;
+	Button		m_btnLogout = null;
+	Button		m_btnAppReward = null;
 	
 	int [] m_field_item = {
 		R.id.fragment_profile_username,
@@ -82,9 +84,10 @@ public class ProfileActivity extends BottomBarActivity
 		m_editAddress = (EditText) findViewById(R.id.fragment_profile_address).findViewById(R.id.edit_content);
 		m_txtLanguage = (TextView) findViewById(R.id.fragment_profile_language).findViewById(R.id.edit_content);
 		
-		m_btnSave = (MyButton) findViewById(R.id.btn_profile_save);
-		m_btnChangePassword = (MyButton) findViewById(R.id.btn_profile_change);
-		m_btnLogout = (MyButton) findViewById(R.id.btn_profile_logout);
+		m_btnSave = (Button) findViewById(R.id.btn_profile_save);
+		m_btnChangePassword = (Button) findViewById(R.id.btn_profile_change);
+		m_btnLogout = (Button) findViewById(R.id.btn_profile_logout);
+		m_btnAppReward = (Button) findViewById(R.id.btn_app_reward);
 
 	}
 	
@@ -116,9 +119,14 @@ public class ProfileActivity extends BottomBarActivity
 		LayoutUtils.setSize(m_btnChangePassword, LayoutParams.MATCH_PARENT, 114, true);
 		m_btnChangePassword.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 
-		LayoutUtils.setMargin(m_btnLogout, 60, 60, 60, 60, true);
+		LayoutUtils.setMargin(m_btnLogout, 60, 60, 60, 0, true);
 		LayoutUtils.setSize(m_btnLogout, LayoutParams.MATCH_PARENT, 114, true);
 		m_btnLogout.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+		
+
+		LayoutUtils.setMargin(m_btnAppReward, 60, 60, 60, 60, true);
+		LayoutUtils.setSize(m_btnAppReward, LayoutParams.MATCH_PARENT, 114, true);
+		m_btnAppReward.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 
 	}
 
@@ -140,7 +148,6 @@ public class ProfileActivity extends BottomBarActivity
 		
 		DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
 		ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + AppContext.getProfile().optString(Const.PHOTO, ""), m_imgPhotoIcon, options);
-
 	}
 	
 	protected void showLabels()
@@ -155,10 +162,15 @@ public class ProfileActivity extends BottomBarActivity
 		((TextView)findViewById(R.id.fragment_profile_address).findViewById(R.id.txt_label)).setText(locale.MyPosition);
 		((TextView)findViewById(R.id.fragment_profile_language).findViewById(R.id.txt_label)).setText(locale.Language);
 		
+		if( DataUtils.getPreference(Const.REWARD_APP, 0) == 1 )
+			m_btnAppReward.setVisibility(View.GONE);
+		else
+			m_btnAppReward.setVisibility(View.VISIBLE);
+		
 		m_btnSave.setText(locale.Save);
 		m_btnChangePassword.setText(locale.ChangePWD);
 		m_btnLogout.setText(locale.Logout);
-		
+		m_btnAppReward.setText(locale.AppReward);
 	}
 	
 	protected void initEvents()
@@ -191,6 +203,14 @@ public class ProfileActivity extends BottomBarActivity
 			@Override
 			public void onClick(View paramView) {
 				onClickLogout();				
+			}
+		});
+		
+		m_btnAppReward.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				onRewardApp();				
 			}
 		});
 		
@@ -312,6 +332,31 @@ public class ProfileActivity extends BottomBarActivity
 		ActivityManager.getInstance().popAllActivity();
 	}
 	
+	private void onRewardApp()
+	{
+		Locale locale = LocaleFactory.getLocale();
+		
+		MessageUtils.showDialogYesNo(this, locale.AppRewardMessage, locale.Allow, locale.NoAllow, new OnButtonClickListener() {
+			
+			@Override
+			public void onOkClick() {
+				gotoRewardAppPage();				
+			}
+			
+			@Override
+			public void onCancelClick() {
+				
+				
+			}
+		});		
+	}
+	
+	private void gotoRewardAppPage()
+	{
+		Bundle bundle = new Bundle();
+		ActivityManager.changeActivity(ProfileActivity.this, RewardAppActivity.class, bundle, false, null );	
+	}
+	
 	private void processFile(String path)
 	{
 		Bundle bundle = new Bundle();
@@ -371,11 +416,12 @@ public class ProfileActivity extends BottomBarActivity
 		onFinishActivity();
 	}
 	
+	
 	@Override 
 	public void onBackPressed( ) {	
 		gotoBackPage();
 	}
-	
+		
 	// to receive intent info from startActivityForResult in MediaUtils
 	@Override
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) 

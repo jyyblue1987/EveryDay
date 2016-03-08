@@ -63,5 +63,9 @@ public class Chinese extends Locale {
         OldPWDLabel = "旧密码:";
         NewPWDLabel = "新的密码:";
         ConfirmPWDLabel = "确认密码:";
+        AppReward = "获得奖励";
+        AppRewardMessage = "去评论5星，获得500星星奖励！";
+        Allow = "接受";
+        NoAllow = "拒绝";
     }
 }

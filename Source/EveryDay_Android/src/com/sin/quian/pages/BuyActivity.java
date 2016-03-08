@@ -12,6 +12,8 @@ import com.sin.quian.EveryDayUtils;
 import com.sin.quian.R;
 import com.sin.quian.billing.util.IabBroadcastReceiver;
 import com.sin.quian.billing.util.IabBroadcastReceiver.IabBroadcastListener;
+import com.sin.quian.locale.Locale;
+import com.sin.quian.locale.LocaleFactory;
 import com.sin.quian.billing.util.IabHelper;
 import com.sin.quian.billing.util.IabResult;
 import com.sin.quian.billing.util.Inventory;
@@ -32,6 +34,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
+import common.library.utils.DataUtils;
 import common.library.utils.MessageUtils;
 import common.list.adapter.ItemCallBack;
 import common.list.adapter.MyListAdapter;
@@ -86,28 +89,35 @@ public class BuyActivity extends HeaderBarActivity implements IabBroadcastListen
 				"20", "60", "150", "360", "1000", "2500" 	
 			};
 			
-			String[] item_price = {
-					"1.99", "4.99", "9.99", "19.99", "49.99", "99.99" 	
-				};
-			
-			List<JSONObject> list = new ArrayList<JSONObject>();
-			
-			for(int i = 0; i < item_name.length; i++ )
-			{
-				JSONObject item = new JSONObject();
-				try {
-					item.put(ITEM_NAME, item_name[i]);
-					item.put(ITEM_PRICE, item_price[i]);
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-				
-				list.add(item);
+		String[] item_price = {
+				"1.99", "4.99", "9.99", "19.99", "49.99", "99.99" 	
+			};
+		
+		List<JSONObject> list = new ArrayList<JSONObject>();
+		
+		for(int i = 0; i < item_name.length; i++ )
+		{
+			JSONObject item = new JSONObject();
+			try {
+				item.put(ITEM_NAME, item_name[i]);
+				item.put(ITEM_PRICE, item_price[i]);
+			} catch (JSONException e) {
+				e.printStackTrace();
 			}
 			
-			m_adapterItemList = new ItemListAdapter(this, list, R.layout.fragment_item_buy, null);
-			m_listItems.setAdapter(m_adapterItemList);
+			list.add(item);
+		}
 		
+		m_adapterItemList = new ItemListAdapter(this, list, R.layout.fragment_item_buy, null);
+		m_listItems.setAdapter(m_adapterItemList);
+		
+	}
+	
+	protected void showLabels()
+	{
+		Locale locale = LocaleFactory.getLocale();
+		
+		m_txtPageTitle.setText(locale.Buying);	
 	}
 	
 	private void initInAppBilling()
@@ -374,6 +384,9 @@ public class BuyActivity extends HeaderBarActivity implements IabBroadcastListen
 			((TextView)ViewHolder.get(rowView, R.id.txt_item_price)).setText(item.optString(ITEM_PRICE, ""));
 			
 			final int amount = Integer.valueOf(item.optString(ITEM_NAME, "100"));
+			
+			Locale locale = LocaleFactory.getLocale();
+			((Button)ViewHolder.get(rowView, R.id.btn_buy)).setText(locale.Buying);
 			
 			ViewHolder.get(rowView, R.id.btn_buy).setOnClickListener(new View.OnClickListener() {
 				

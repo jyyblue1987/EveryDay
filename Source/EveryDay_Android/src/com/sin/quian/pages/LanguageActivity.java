@@ -75,7 +75,8 @@ public class LanguageActivity extends BaseActivity {
 		m_radioChinese.setText("简体中文");	
 		m_radioEnglish.setText("ENGLISH");
 
-		int lang = DataUtils.getPreference(Const.LANGUAGE, 0);
+		int lang = DataUtils.getPreference(Const.LANGUAGE, 1);
+		DataUtils.savePreference(Const.LANGUAGE, lang);
 		
 		LocaleFactory.selectLocale(lang);
 		if( lang == 0 )
