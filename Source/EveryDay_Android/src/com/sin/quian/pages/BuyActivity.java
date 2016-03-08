@@ -336,6 +336,14 @@ public class BuyActivity extends HeaderBarActivity implements IabBroadcastListen
         mHelper.queryInventoryAsync(mGotInventoryListener);
 	}
 	
+
+	@Override
+	public void onDestroy() {
+	   super.onDestroy();
+	   if (mHelper != null) mHelper.dispose();
+	   mHelper = null;
+	}
+	
 	class ItemListAdapter extends MyListAdapter {
 		public ItemListAdapter(Context context, List<JSONObject> data,
 				int resource, ItemCallBack callback) {

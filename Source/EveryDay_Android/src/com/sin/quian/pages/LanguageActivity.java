@@ -2,6 +2,8 @@ package com.sin.quian.pages;
 
 import com.sin.quian.Const;
 import com.sin.quian.R;
+import com.sin.quian.locale.Locale;
+import com.sin.quian.locale.LocaleFactory;
 
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -73,7 +75,24 @@ public class LanguageActivity extends BaseActivity {
 		m_radioChinese.setText("简体中文");	
 		m_radioEnglish.setText("ENGLISH");
 
-		m_chkAgree.setText("同意所有条款的选项");
+		int lang = DataUtils.getPreference(Const.LANGUAGE, 0);
+		
+		LocaleFactory.selectLocale(lang);
+		if( lang == 0 )
+		{
+			m_radioEnglish.setChecked(true);
+			m_radioChinese.setChecked(false);
+		}
+		else
+		{
+			m_radioEnglish.setChecked(false);
+			m_radioChinese.setChecked(true);
+		}
+		
+		Locale locale = LocaleFactory.getLocale();
+		
+		m_chkAgree.setText(locale.AgreeOption);
+		m_btnStart.setText(locale.Start);
 	}
 	
 	protected void initEvents()
@@ -92,12 +111,13 @@ public class LanguageActivity extends BaseActivity {
 			public void onCheckedChanged(RadioGroup group, int checkedId) {
 				if( checkedId == R.id.radio_chinese )
 				{
-					DataUtils.savePreference(Const.LANGUAGE, 0);
+					DataUtils.savePreference(Const.LANGUAGE, 1);
 				}
 				if( checkedId == R.id.radio_english )
 				{
-					DataUtils.savePreference(Const.LANGUAGE, 1);
+					DataUtils.savePreference(Const.LANGUAGE, 0);
 				}
+				initData();
 			}
 		});
 	}
