@@ -6,6 +6,8 @@ import com.sin.quian.locale.Locale;
 import com.sin.quian.locale.LocaleFactory;
 
 import android.os.Bundle;
+import android.text.SpannableString;
+import android.text.style.UnderlineSpan;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
@@ -13,6 +15,7 @@ import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
+import android.widget.TextView;
 import common.component.ui.MyCheckBox;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
@@ -25,6 +28,7 @@ public class LanguageActivity extends BaseActivity {
 	RadioButton		m_radioEnglish;
 	
 	MyCheckBox		m_chkAgree;
+	TextView		m_txtAgree;
 	
 	Button			m_btnStart;
 	@Override
@@ -44,6 +48,7 @@ public class LanguageActivity extends BaseActivity {
 		
 		m_btnStart = (Button) findViewById(R.id.btn_start);
 		m_chkAgree = (MyCheckBox) findViewById(R.id.chk_agree);
+		m_txtAgree = (TextView) findViewById(R.id.txt_agree);
 	}
 	
 	protected void layoutControls()
@@ -64,9 +69,12 @@ public class LanguageActivity extends BaseActivity {
 		LayoutUtils.setSize(m_btnStart, LayoutParams.MATCH_PARENT, 114, true);
 		m_btnStart.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 		
- 		LayoutUtils.setSize(m_chkAgree, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true);
- 		LayoutUtils.setMargin(m_chkAgree, 0, 86, 0, 0, true);
- 		m_chkAgree.setTextSize(ScreenAdapter.computeHeight(57)); 		
+		LayoutUtils.setMargin(findViewById(R.id.lay_license), 0, 86, 0, 0, true);
+		
+ 		LayoutUtils.setSize(m_chkAgree, LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT, true); 		
+ 		m_chkAgree.setTextSize(ScreenAdapter.computeHeight(57));
+ 		
+ 		m_txtAgree.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
  		
 	}
 	
@@ -92,7 +100,11 @@ public class LanguageActivity extends BaseActivity {
 		
 		Locale locale = LocaleFactory.getLocale();
 		
-		m_chkAgree.setText(locale.AgreeOption);
+		String mystring=new String(locale.AgreeOption);
+		SpannableString content = new SpannableString(mystring);
+		content.setSpan(new UnderlineSpan(), 0, mystring.length(), 0);
+		m_txtAgree.setText(content);
+		
 		m_btnStart.setText(locale.Start);
 	}
 	
@@ -121,12 +133,26 @@ public class LanguageActivity extends BaseActivity {
 				initData();
 			}
 		});
+		
+		m_txtAgree.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				gotoLicensePage();
+			}
+		});
 	}
 	
 	private void gotoLoginPage()
 	{
 		Bundle bundle = new Bundle();
 		ActivityManager.changeActivity(this, LoginActivity.class, bundle, true, null );		
+	}
+	
+	private void gotoLicensePage()
+	{
+		Bundle bundle = new Bundle();
+		ActivityManager.changeActivity(this, LicenseActivity.class, bundle, false, null );		
 	}
 
 }

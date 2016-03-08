@@ -1,0 +1,40 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:gravity="center_horizontal"
+    android:orientation="vertical" >
+    
+    <include
+        android:id="@+id/fragment_header"
+        layout="@layout/fragment_header" />
+    
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" 
+        >
+        <LinearLayout 
+            android:id="@+id/lay_container"
+            android:layout_width="match_parent"
+		    android:layout_height="wrap_content"
+		    android:gravity="center_horizontal"
+		    android:padding="20dip"		    
+		    android:orientation="vertical" >
+		    <TextView
+		        android:id="@+id/txt_title"
+		        android:layout_width="wrap_content"
+		        android:layout_height="wrap_content"
+		        android:text="每天用户注册协议"		
+		        android:textStyle="bold"         
+		        />
+            <TextView
+                android:id="@+id/txt_license"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"                
+                />
+            
+        </LinearLayout>
+    </ScrollView>
+   
+
+</LinearLayout>

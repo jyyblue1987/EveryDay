@@ -30,26 +30,36 @@
     </RadioGroup>
    	  
    	<common.component.ui.MyButton
-	        android:id="@+id/btn_start"
-		    android:layout_width="match_parent"
-	        android:layout_height="30dip"
-	        android:layout_marginTop="20dip"
-	        android:background="@drawable/button_orrange_bg"
-	        android:text="开始"
-	        android:textColor="@color/white" />
+        android:id="@+id/btn_start"
+	    android:layout_width="match_parent"
+        android:layout_height="30dip"
+        android:layout_marginTop="20dip"
+        android:background="@drawable/button_orrange_bg"
+        android:text="开始"
+        android:textColor="@color/white" />
    	  
-   	  
-
-   	  
-   	   
-	<common.component.ui.MyCheckBox
-	    android:id="@+id/chk_agree"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-		android:layout_marginTop="20dip"
-        android:button="@drawable/checkbox_selector"				
-	    android:text="ENGLISH"
-	    android:textSize="20dip" />
+   	<LinearLayout
+   	    android:id="@+id/lay_license"
+   		android:layout_width="wrap_content"
+   		android:layout_height="wrap_content"
+   		android:layout_marginTop="20dip"
+   		android:orientation="horizontal"
+   		android:gravity="center"     
+   	    >
+   	    <common.component.ui.MyCheckBox
+		    android:id="@+id/chk_agree"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"			
+	        android:button="@drawable/checkbox_selector"
+		    android:textSize="20dip" />
+   	    <common.component.ui.MyTextView
+   	        android:id="@+id/txt_agree"
+		    android:layout_width="wrap_content"
+		    android:layout_height="wrap_content"
+		    android:text="I agree to all the terms."
+		    android:textSize="20dip" /> 
+   	        />
+   	</LinearLayout>   	   
   	   
    	  
 </LinearLayout>

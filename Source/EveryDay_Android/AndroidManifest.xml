@@ -68,6 +68,7 @@
             android:configChanges="orientation|keyboard|keyboardHidden|screenSize"/>
         <activity android:name=".pages.RewardAppActivity" android:screenOrientation="portrait"/>
         <activity android:name=".pages.AdvertiseActivity" android:screenOrientation="portrait"/>
+        <activity android:name=".pages.LicenseActivity" android:screenOrientation="portrait"/>
         
         
         <activity android:name="common.image.crop.CropImage" 
