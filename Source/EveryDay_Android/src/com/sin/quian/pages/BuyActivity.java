@@ -32,6 +32,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
 import common.library.utils.DataUtils;
@@ -45,6 +46,23 @@ import common.network.utils.ResultCallBack;
 
 public class BuyActivity extends HeaderBarActivity implements IabBroadcastListener
 {
+	private static final String ITEM_SKU = "item";
+	private static final int	ITEM_SKU_COUNT = 6;
+	
+	private static int 	INAPP_TEST_MODE = 0; // 0: static reponse test, 1: real transaction
+	private static final String TEST_PURCHASED = "android.test.purchased";
+	private static final String TEST_CANCELED = "android.test.canceled";
+	private static final String TEST_REFUNDED = "android.text.refunded";
+	private static final String TEST_UNAVAILABLE = "android.test.item_unavailable";
+	
+	
+	int[] item_name = {
+			20, 60, 150, 360, 1000, 2500 	
+		};
+		
+	String[] item_price = {
+			"1.99", "4.99", "9.99", "19.99", "49.99", "99.99" 	
+		};
 	
 	ListView	m_listItems = null;
 	MyListAdapter	m_adapterItemList = null;
@@ -61,7 +79,6 @@ public class BuyActivity extends HeaderBarActivity implements IabBroadcastListen
 	static final String TAG = "EveryDay_Billing";
 	static final int RC_REQUEST = 10001;
 	
-	private static String BUY_ITEM_NAME = "item_name";
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -85,13 +102,7 @@ public class BuyActivity extends HeaderBarActivity implements IabBroadcastListen
 		initInAppBilling();
 		
 		m_listItems.setDivider(getResources().getDrawable(R.color.transparent));
-		String[] item_name = {
-				"20", "60", "150", "360", "1000", "2500" 	
-			};
-			
-		String[] item_price = {
-				"1.99", "4.99", "9.99", "19.99", "49.99", "99.99" 	
-			};
+
 		
 		List<JSONObject> list = new ArrayList<JSONObject>();
 		
@@ -122,7 +133,7 @@ public class BuyActivity extends HeaderBarActivity implements IabBroadcastListen
 	
 	private void initInAppBilling()
 	{
-		String billingKey = "CONSTRUCT_YOUR_KEY_AND_PLACE_IT_HERE";
+		String billingKey = "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEA4N4Lt239v/d6NdzIBXcCUz2FDkkYhnVwoBoVwgCnUSi1+/ophFGjf5g0LbdJUNA5tbB0EB7gY9ne/XVIUKzF1YFW+i3PNYD7lJaAFgqpid3AAlqStsh5uki2PtUngzV+oNo9xLdwQqAwdQ7+imlvnf7w7AegozcUgM7hscD4WYQ1jRreKqB/MV+KmkcRKE9FzAmwdYoYl0ZAqAV9oVnULkfZyiogOpjbnhM0m1O8Mej3xKvO4FV0tCs+FyJAqjr9pN24yI268Oj+uxkn3FF29GSpewdGUqDJ5Hk1XWymZvVghoigA+qO/UzrTXIAkuvaqjxlV7mhL9k5hxpiF9yUDQIDAQAB";
 		mHelper = new IabHelper(this, billingKey);
 		
 		
@@ -137,6 +148,8 @@ public class BuyActivity extends HeaderBarActivity implements IabBroadcastListen
                     // Oh noes, there was a problem.
                     return;
                 }
+                
+                Toast.makeText(BuyActivity.this, "Startup OK", Toast.LENGTH_LONG).show();
 
                 // Have we been disposed of in the meantime? If so, quit.
                 if (mHelper == null) return;
@@ -174,65 +187,46 @@ public class BuyActivity extends HeaderBarActivity implements IabBroadcastListen
 
             Log.d(TAG, "Query inventory was successful.");
 
-            /*
-             * Check for items we own. Notice that for each purchase, we check
-             * the developer payload to see if it's correct! See
-             * verifyDeveloperPayload().
-             */
+            // Check for gas delivery -- if we own gas, we should fill up the tank immediately
+            if( INAPP_TEST_MODE == 0 )
+            {	
+            	Purchase purchase = inventory.getPurchase(TEST_PURCHASED);
+                if (purchase != null && verifyDeveloperPayload(purchase)) {
+                    mHelper.consumeAsync(inventory.getPurchase(TEST_PURCHASED), mConsumeFinishedListener);                    
+                }               
+            }
+            else
+            {
+                for(int i = 0; i < ITEM_SKU_COUNT; i++ )
+                {
+                    Purchase purchase = inventory.getPurchase(ITEM_SKU + (i + 1));
+                    if (purchase != null && verifyDeveloperPayload(purchase)) {
+                        mHelper.consumeAsync(inventory.getPurchase(ITEM_SKU + (i + 1)), mConsumeFinishedListener);                    
+                    }                	
+                }            	
+            }
 
-            Purchase premiumPurchase = inventory.getPurchase(BUY_ITEM_NAME);
-//
-//            // First find out which subscription is auto renewing
-//            Purchase gasMonthly = inventory.getPurchase(SKU_INFINITE_GAS_MONTHLY);
-//            Purchase gasYearly = inventory.getPurchase(SKU_INFINITE_GAS_YEARLY);
-//            if (gasMonthly != null && gasMonthly.isAutoRenewing()) {
-//                mInfiniteGasSku = SKU_INFINITE_GAS_MONTHLY;
-//                mAutoRenewEnabled = true;
-//            } else if (gasYearly != null && gasYearly.isAutoRenewing()) {
-//                mInfiniteGasSku = SKU_INFINITE_GAS_YEARLY;
-//                mAutoRenewEnabled = true;
-//            } else {
-//                mInfiniteGasSku = "";
-//                mAutoRenewEnabled = false;
-//            }
-//
-//            // The user is subscribed if either subscription exists, even if neither is auto
-//            // renewing
-//            mSubscribedToInfiniteGas = (gasMonthly != null && verifyDeveloperPayload(gasMonthly))
-//                    || (gasYearly != null && verifyDeveloperPayload(gasYearly));
-//            Log.d(TAG, "User " + (mSubscribedToInfiniteGas ? "HAS" : "DOES NOT HAVE")
-//                    + " infinite gas subscription.");
-//            if (mSubscribedToInfiniteGas) mTank = TANK_MAX;
-//
-//            // Check for gas delivery -- if we own gas, we should fill up the tank immediately
-//            Purchase gasPurchase = inventory.getPurchase(SKU_GAS);
-//            if (gasPurchase != null && verifyDeveloperPayload(gasPurchase)) {
-//                Log.d(TAG, "We have gas. Consuming it.");
-//                mHelper.consumeAsync(inventory.getPurchase(SKU_GAS), mConsumeFinishedListener);
-//                return;
-//            }
-//
-//            updateUi();
-//            setWaitScreen(false);
             Log.d(TAG, "Initial inventory query finished; enabling main UI.");
         }
     };
 	
 	
-	private void onClickBuy(final int amount)
+	private void onClickBuy(int pos)
 	{
 		String payload = "";
 
 		try {
-			mHelper.launchPurchaseFlow(this, "Star Point", RC_REQUEST, mPurchaseFinishedListener, payload);			
-		} catch(Exception e) {
-			showLoadingProgress();
-			addPoint(amount);
+			if( INAPP_TEST_MODE == 0 )	// static test mode
+				mHelper.launchPurchaseFlow(this, TEST_PURCHASED, RC_REQUEST, mPurchaseFinishedListener, payload);
+			else
+				mHelper.launchPurchaseFlow(this, ITEM_SKU + (pos + 1), RC_REQUEST, mPurchaseFinishedListener, payload);
+		} catch(Exception e) {			
 		}
 	}
 	
 	private void addPoint(final int amount)
 	{
+		showLoadingProgress();
 		ServerManager.addPoint(AppContext.getUserID(), amount + "", new ResultCallBack() {
 		
 			@Override
@@ -275,19 +269,21 @@ public class BuyActivity extends HeaderBarActivity implements IabBroadcastListen
             }
 
             Log.d(TAG, "Purchase successful.");
-
-            if (purchase.getSku().equals(BUY_ITEM_NAME)) {
-                // bought 1/4 tank of gas. So consume it.
-                Log.d(TAG, "Purchase is gas. Starting gas consumption.");
-                mHelper.consumeAsync(purchase, mConsumeFinishedListener);
+            	
+            if( INAPP_TEST_MODE == 0 )
+            {
+                if (purchase.getSku().equals(TEST_PURCHASED) ) {
+                    Toast.makeText(BuyActivity.this, "Purchase is success", Toast.LENGTH_LONG).show();
+                    mHelper.consumeAsync(purchase, mConsumeFinishedListener);
+                }            	
             }
-//            else if (purchase.getSku().equals(SKU_PREMIUM)) {
-//                // bought the premium upgrade!
-//                Log.d(TAG, "Purchase is premium upgrade. Congratulating user.");
-//            }
-//            else if (purchase.getSku().equals(SKU_INFINITE_GAS_MONTHLY)
-//                    || purchase.getSku().equals(SKU_INFINITE_GAS_YEARLY)) {
-//            }
+            else
+            {
+                if (purchase.getSku().contains(ITEM_SKU) ) {
+                    Log.d(TAG, "Purchase is gas. Starting gas consumption.");
+                    mHelper.consumeAsync(purchase, mConsumeFinishedListener);
+                }            	
+            }
         }
     };
 	
@@ -295,9 +291,11 @@ public class BuyActivity extends HeaderBarActivity implements IabBroadcastListen
     IabHelper.OnConsumeFinishedListener mConsumeFinishedListener = new IabHelper.OnConsumeFinishedListener() {
         public void onConsumeFinished(Purchase purchase, IabResult result) {
             Log.d(TAG, "Consumption finished. Purchase: " + purchase + ", result: " + result);
-            hideProgress();
             // if we were disposed of in the meantime, quit.
-            if (mHelper == null) return;
+            if (mHelper == null)
+            {
+            	return;
+            }
 
             // We know this is the "gas" sku because it's the only one we consume,
             // so we don't check which sku was consumed. If you have more than one
@@ -306,7 +304,24 @@ public class BuyActivity extends HeaderBarActivity implements IabBroadcastListen
                 // successfully consumed, so we apply the effects of the item in our
                 // game world's logic, which in our case means filling the gas tank a bit
                 Log.d(TAG, "Consumption successful. Provisioning.");
-//                mTank = mTank == TANK_MAX ? TANK_MAX : mTank + 1;
+                
+                if( INAPP_TEST_MODE == 0 )
+                {
+                    if (purchase.getSku().equals(TEST_PURCHASED) ) {
+                    	MessageUtils.showMessageDialog(BuyActivity.this, "Item is consummed");
+                    }            	
+                }
+                else
+                {
+	                for(int i = 0; i < ITEM_SKU_COUNT; i++ )
+	                {
+	                	if( purchase.getSku().equals(ITEM_SKU_COUNT + (i + 1)) )
+	                	{
+	                		addPoint(item_name[i]);
+	                		break;
+	                	}
+	                }
+                }
             }
         }
     };
@@ -347,12 +362,44 @@ public class BuyActivity extends HeaderBarActivity implements IabBroadcastListen
         mHelper.queryInventoryAsync(mGotInventoryListener);
 	}
 	
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        Log.d(TAG, "onActivityResult(" + requestCode + "," + resultCode + "," + data);
+        if (mHelper == null) return;
+
+        // Pass on the activity result to the helper for handling
+        if (!mHelper.handleActivityResult(requestCode, resultCode, data)) {
+            // not handled, so handle it ourselves (here's where you'd
+            // perform any handling of activity results not related to in-app
+            // billing...
+            super.onActivityResult(requestCode, resultCode, data);
+        }
+        else {
+            Log.d(TAG, "onActivityResult handled by IABUtil.");
+        }
+    }
+    
 
 	@Override
 	public void onDestroy() {
 	   super.onDestroy();
-	   if (mHelper != null) mHelper.dispose();
-	   mHelper = null;
+
+	   try {
+		   // very important:
+	       if (mBroadcastReceiver != null) {
+	           unregisterReceiver(mBroadcastReceiver);
+	       }
+	
+	       // very important:
+	       Log.d(TAG, "Destroying helper.");
+	       if (mHelper != null) {
+	           mHelper.dispose();
+	           mHelper = null;
+	       }
+	   }catch(Exception e){
+		   e.printStackTrace();
+	   }
+
 	}
 	
 	class ItemListAdapter extends MyListAdapter {
@@ -388,11 +435,12 @@ public class BuyActivity extends HeaderBarActivity implements IabBroadcastListen
 			Locale locale = LocaleFactory.getLocale();
 			((Button)ViewHolder.get(rowView, R.id.btn_buy)).setText(locale.Buying);
 			
+			final int pos = position;
 			ViewHolder.get(rowView, R.id.btn_buy).setOnClickListener(new View.OnClickListener() {
 				
 				@Override
 				public void onClick(View v) {
-					onClickBuy(amount);
+					onClickBuy(pos);
 				}
 			});
 		}	

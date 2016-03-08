@@ -151,6 +151,14 @@ public class RegisterActivity extends HeaderBarActivity
 				onFinishActivity();				
 			}
 		});
+		
+		m_txtAgree.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				gotoLicensePage();
+			}
+		});
 	}
 	
 	private void onClickRegister()
@@ -212,6 +220,12 @@ public class RegisterActivity extends HeaderBarActivity
 		ActivityManager.getInstance().popAllActivity();
 		Bundle bundle = new Bundle();
 		ActivityManager.changeActivity(this, MainMenuActivity.class, bundle, false, null );
+	}
+	
+	private void gotoLicensePage()
+	{
+		Bundle bundle = new Bundle();
+		ActivityManager.changeActivity(this, LicenseActivity.class, bundle, false, null );		
 	}
 	
 }
