@@ -106,15 +106,15 @@ public class ProfileActivity extends BottomBarActivity
 			((TextView)findViewById(m_field_item[i]).findViewById(R.id.edit_content)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 		}
 		
-		LayoutUtils.setMargin(m_btnSave, 80, 60, 80, 0, true);
+		LayoutUtils.setMargin(m_btnSave, 60, 60, 60, 0, true);
 		LayoutUtils.setSize(m_btnSave, LayoutParams.MATCH_PARENT, 114, true);
 		m_btnSave.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 
-		LayoutUtils.setMargin(m_btnChangePassword, 80, 60, 80, 0, true);
+		LayoutUtils.setMargin(m_btnChangePassword, 60, 60, 60, 0, true);
 		LayoutUtils.setSize(m_btnChangePassword, LayoutParams.MATCH_PARENT, 114, true);
 		m_btnChangePassword.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 
-		LayoutUtils.setMargin(m_btnLogout, 80, 60, 80, 60, true);
+		LayoutUtils.setMargin(m_btnLogout, 60, 60, 60, 60, true);
 		LayoutUtils.setSize(m_btnLogout, LayoutParams.MATCH_PARENT, 114, true);
 		m_btnLogout.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 
