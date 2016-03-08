@@ -162,6 +162,7 @@ public class RegisterActivity extends HeaderBarActivity
 	private void register(String email, String password)
 	{
 		 DataUtils.savePreference(Const.USERNAME, email);
+		 DataUtils.savePreference(Const.EMAIL, email);
 		 DataUtils.savePreference(Const.PASSWORD, password);
 
 		 showLoadingProgress();

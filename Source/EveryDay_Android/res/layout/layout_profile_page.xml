@@ -21,51 +21,49 @@
             android:orientation="vertical" 
             >
             
-            <ImageView
-                android:id="@+id/img_profile_icon" 
-                android:layout_width="100dip"
-                android:layout_height="100dip"
-                android:src="@drawable/contact_icon" />
+            <LinearLayout
+                android:id="@+id/lay_photo"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal" 
+                android:background="@color/white"
+                >
+                <common.component.ui.MyTextView
+                    android:id="@+id/txt_photo"
+                    android:layout_width="0dip"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1.0" 
+                    android:text="头像"
+                    />
+                <ImageView
+	                android:id="@+id/img_profile_icon" 
+	                android:layout_width="60dip"
+	                android:layout_height="60dip"
+	                android:src="@drawable/contact_icon" />
+            </LinearLayout>            
             
-            <include
-		        android:id="@+id/fragment_profile_fullname"
-		        layout="@layout/fragment_label_edit" />
             
-            <include
-		        android:id="@+id/fragment_profile_username"
-		        layout="@layout/fragment_label_edit" />
-            
-		    <include
-		        android:id="@+id/fragment_profile_thumbnail"
-		        android:visibility="gone"
-		        layout="@layout/fragment_label_edit" />
-		    
-		    <include
-		        android:id="@+id/fragment_profile_email"
-		        layout="@layout/fragment_label_edit" />
-		    
-            <include
-		        android:id="@+id/fragment_profile_phonenumber"
-		        layout="@layout/fragment_label_edit" />
 
+            
             <include
-		        android:id="@+id/fragment_profile_birthday"
-		        layout="@layout/fragment_label_edit" />
-
+		        android:id="@+id/fragment_profile_username"		        
+		        layout="@layout/fragment_profile_label_edit" />
+            
             <include
                 android:id="@+id/fragment_profile_address"
-                layout="@layout/fragment_label_edit" />
+                layout="@layout/fragment_profile_label_edit" />
             
 		    <include
-		        android:id="@+id/fragment_profile_modifieddate"
-		        android:visibility="gone"
-		        layout="@layout/fragment_label_edit" />
+		        android:id="@+id/fragment_profile_language"
+		        android:clickable="true"
+		        layout="@layout/fragment_profile_label_label" />
 		    
 		    <common.component.ui.MyButton
 		        android:id="@+id/btn_profile_save"
 		        android:layout_width="100dip"
 		        android:layout_height="30dip"
-		        android:background="@drawable/button_greeen_bg"
+		        android:background="@drawable/button_orrange_bg"
 		        android:text="存储"
 		        android:textColor="@color/white" />     
 		          
@@ -73,23 +71,15 @@
 		        android:id="@+id/btn_profile_change"
 		        android:layout_width="100dip"
 		        android:layout_height="30dip"
-		        android:background="@drawable/button_greeen_bg"
+		        android:background="@drawable/button_orrange_bg"
 		        android:text="修改密码"
 		        android:textColor="@color/white" /> 
-		              
-		    <common.component.ui.MyButton
-		        android:id="@+id/btn_profile_buy"
-		        android:layout_width="100dip"
-		        android:layout_height="30dip"
-		        android:background="@drawable/button_greeen_bg"
-		        android:text="购买"
-		        android:textColor="@color/white" />       
-		    		    
+		              		    		    
 		    <common.component.ui.MyButton
 		        android:id="@+id/btn_profile_logout"
 		        android:layout_width="100dip"
 		        android:layout_height="30dip"
-		        android:background="@drawable/button_greeen_bg"
+		        android:background="@drawable/button_orrange_bg"
 		        android:text="退出"
 		        android:textColor="@color/white" />       
 		    		    
@@ -99,72 +89,7 @@
 
     </ScrollView>
     
-    <LinearLayout
-        android:id="@+id/lay_profile_1"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" 
-        android:layout_gravity="center_horizontal"
-        android:background="@color/orange">
-
-        <LinearLayout
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content" 
-            android:layout_gravity="center_vertical"
-	        android:layout_weight="0.33">
-        
-	        <ImageView
-	            android:id="@+id/img_profile_icon1"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:src="@drawable/hard" />
-	
-	        <common.component.ui.MyTextView
-	            android:id="@+id/text_profile_num1"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:textColor="@color/black" 
-	            android:text="100" />
-	   </LinearLayout>
-
-       <LinearLayout
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content" 
-            android:layout_gravity="center_vertical"
-	        android:layout_weight="0.33">
-	       <ImageView
-	           android:id="@+id/img_profile_icon2"
-	           android:layout_width="wrap_content"
-	           android:layout_height="wrap_content"
-	           android:src="@drawable/star" />
-	       <common.component.ui.MyTextView
-	           android:id="@+id/text_profile_num2"
-	           android:layout_width="wrap_content"
-	           android:layout_height="wrap_content"
-	           android:layout_gravity="center_vertical"
-	           android:textColor="@color/black" 
-	           android:text="200" />
-	    </LinearLayout>
-
-	   	<LinearLayout
-	        android:layout_width="wrap_content"
-	        android:layout_height="wrap_content" 
-            android:layout_gravity="center_vertical"
-	        android:layout_weight="0.33">
-	   
-	        <ImageView
-	            android:id="@+id/img_profile_icon3"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:src="@drawable/hard" />
-	
-	        <common.component.ui.MyTextView
-	            android:id="@+id/text_profile_num3"
-	            android:layout_width="wrap_content"
-	            android:layout_height="wrap_content"
-	            android:textColor="@color/black" 
-	            android:text="300" />
-	    </LinearLayout>
-	
-    </LinearLayout>
+    <include android:id="@+id/fragment_bottom"
+		layout="@layout/fragment_bottom" />
 
 </LinearLayout>

@@ -12,6 +12,8 @@ import com.sin.quian.network.ServerManager;
 import com.sin.quian.network.ServerTask;
 
 import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -36,7 +38,7 @@ import common.network.utils.LogicResult;
 import common.network.utils.ResultCallBack;
 
 
-public class ProfileActivity extends HeaderBarActivity
+public class ProfileActivity extends BottomBarActivity
 {
 	String			m_cameraTempPath = "";
 	String			m_cameraZoomTempPath = "";
@@ -44,41 +46,19 @@ public class ProfileActivity extends HeaderBarActivity
 	static int	PROFILE_PICK_GALLERY_CODE = 100;
 	static final int PHOTOZOOM = 20; 
 
-
-	private static int	BUY_POINT_CODE = 200;
-	
 	ImageView		m_imgPhotoIcon = null;
-	EditText 		m_editFullName = null;
 	EditText 		m_editUserName = null;
-	EditText 		m_editThumbnail = null;
-	EditText 		m_editEmail = null;
-	EditText 		m_editPhonenumber = null;
-	EditText 		m_editBirthday = null;
 	EditText 		m_editAddress = null;
-	EditText 		m_editModifiedData = null;
-	
-	ImageView		m_imgHard1 = null;
-	ImageView		m_imgHard2 = null;
-	ImageView		m_imgHard3 = null;
-	
-	MyTextView		m_txtHard1 = null;
-	MyTextView		m_txtHard2 = null;
-	MyTextView		m_txtHard3 = null;
+	TextView 		m_txtLanguage = null;
 	
 	MyButton		m_btnSave = null;
 	MyButton		m_btnChangePassword= null;
-	MyButton		m_btnBuy = null;
 	MyButton		m_btnLogout = null;
 	
 	int [] m_field_item = {
-		R.id.fragment_profile_fullname,
 		R.id.fragment_profile_username,
-		R.id.fragment_profile_thumbnail,
-		R.id.fragment_profile_email,
-		R.id.fragment_profile_phonenumber,
-		R.id.fragment_profile_birthday,
 		R.id.fragment_profile_address,
-		R.id.fragment_profile_modifieddate
+		R.id.fragment_profile_language
 	};
 	
 	boolean m_isChanged = false;
@@ -96,65 +76,36 @@ public class ProfileActivity extends HeaderBarActivity
 
 		m_imgPhotoIcon = (ImageView) findViewById(R.id.img_profile_icon);
 		
-		m_editFullName = (EditText) findViewById(R.id.fragment_profile_fullname).findViewById(R.id.edit_content);
 		m_editUserName = (EditText) findViewById(R.id.fragment_profile_username).findViewById(R.id.edit_content);
-		m_editThumbnail = (EditText) findViewById(R.id.fragment_profile_thumbnail).findViewById(R.id.edit_content);
-		m_editEmail = (EditText) findViewById(R.id.fragment_profile_email).findViewById(R.id.edit_content);
-		m_editPhonenumber = (EditText) findViewById(R.id.fragment_profile_phonenumber).findViewById(R.id.edit_content);
-		m_editBirthday = (EditText) findViewById(R.id.fragment_profile_birthday).findViewById(R.id.edit_content);
 		m_editAddress = (EditText) findViewById(R.id.fragment_profile_address).findViewById(R.id.edit_content);
-		m_editModifiedData = (EditText) findViewById(R.id.fragment_profile_modifieddate).findViewById(R.id.edit_content);
-
+		m_txtLanguage = (TextView) findViewById(R.id.fragment_profile_language).findViewById(R.id.edit_content);
+		
 		m_btnSave = (MyButton) findViewById(R.id.btn_profile_save);
 		m_btnChangePassword = (MyButton) findViewById(R.id.btn_profile_change);
-		m_btnBuy = (MyButton) findViewById(R.id.btn_profile_buy);
 		m_btnLogout = (MyButton) findViewById(R.id.btn_profile_logout);
 
-		m_imgHard1 = (ImageView) findViewById(R.id.img_profile_icon1);
-		m_imgHard2 = (ImageView) findViewById(R.id.img_profile_icon2);
-		m_imgHard3 = (ImageView) findViewById(R.id.img_profile_icon3);
-
-		m_txtHard1 = (MyTextView) findViewById(R.id.text_profile_num1);
-		m_txtHard2 = (MyTextView) findViewById(R.id.text_profile_num2);
-		m_txtHard3 = (MyTextView) findViewById(R.id.text_profile_num3);
-}
+	}
 	
 	protected void layoutControls()
 	{
 		super.layoutControls();
 		
-		LayoutUtils.setMargin(m_imgPhotoIcon, 0, 80, 0, 100, true);
-		LayoutUtils.setSize(m_imgPhotoIcon, 300, 300, true);
+		LayoutUtils.setPadding(findViewById(R.id.lay_photo), 60, 30, 60, 30, true);
+		LayoutUtils.setMargin(findViewById(R.id.txt_photo), 0, 0, 0, 0, true);
+		((TextView)findViewById(R.id.txt_photo)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
+		
+		LayoutUtils.setSize(m_imgPhotoIcon, 180, 180, true);
+		LayoutUtils.setMargin(m_imgPhotoIcon, 60, 0, 0, 0, true);
 
 		for(int i = 0; i < m_field_item.length; i++ )
 		{
-			LayoutUtils.setMargin(findViewById(m_field_item[i]), 80, 0, 80, 100, true);
-			LayoutUtils.setPadding(findViewById(m_field_item[i]).findViewById(R.id.lay_info), 20, 0, 20, 0, true);
+			LayoutUtils.setMargin(findViewById(m_field_item[i]), 0, 4, 0, 0, true);
+			LayoutUtils.setPadding(findViewById(m_field_item[i]).findViewById(R.id.lay_info), 60, 40, 60, 40, true);
 			
 			((TextView)findViewById(m_field_item[i]).findViewById(R.id.txt_label)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 			((TextView)findViewById(m_field_item[i]).findViewById(R.id.edit_content)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 		}
 		
-		LayoutUtils.setSize(findViewById(R.id.lay_profile_1),LayoutParams.MATCH_PARENT, 130, true);
-
-		LayoutUtils.setMargin(m_imgHard1, 70, 0, 0, 0, true);
-		LayoutUtils.setSize(m_imgHard1, 50, 50, true);
-		
-		LayoutUtils.setMargin(m_txtHard1, 20, 0, 0, 0, true);
-		m_txtHard1.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-
-		LayoutUtils.setMargin(m_imgHard2, 40, 0, 0, 0, true);
-		LayoutUtils.setSize(m_imgHard2, 50, 50, true);
-		
-		LayoutUtils.setMargin(m_txtHard2, 20, 0, 0, 0, true);
-		m_txtHard2.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-
-		LayoutUtils.setMargin(m_imgHard3, 40, 0, 0, 0, true);
-		LayoutUtils.setSize(m_imgHard3, 50, 50, true);
-		
-		LayoutUtils.setMargin(m_txtHard3, 20, 0, 0, 0, true);
-		m_txtHard3.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
-
 		LayoutUtils.setMargin(m_btnSave, 80, 60, 80, 0, true);
 		LayoutUtils.setSize(m_btnSave, LayoutParams.MATCH_PARENT, 114, true);
 		m_btnSave.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
@@ -162,10 +113,6 @@ public class ProfileActivity extends HeaderBarActivity
 		LayoutUtils.setMargin(m_btnChangePassword, 80, 60, 80, 0, true);
 		LayoutUtils.setSize(m_btnChangePassword, LayoutParams.MATCH_PARENT, 114, true);
 		m_btnChangePassword.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
-
-		LayoutUtils.setMargin(m_btnBuy, 80, 60, 80, 0, true);
-		LayoutUtils.setSize(m_btnBuy, LayoutParams.MATCH_PARENT, 114, true);
-		m_btnBuy.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 
 		LayoutUtils.setMargin(m_btnLogout, 80, 60, 80, 60, true);
 		LayoutUtils.setSize(m_btnLogout, LayoutParams.MATCH_PARENT, 114, true);
@@ -179,32 +126,20 @@ public class ProfileActivity extends HeaderBarActivity
 		m_btnRight.setVisibility(View.INVISIBLE);
 		m_txtPageTitle.setText("个人信息");
 		
-		((TextView) findViewById(R.id.fragment_profile_fullname).findViewById(R.id.txt_label)).setText("全名");
 		((TextView) findViewById(R.id.fragment_profile_username).findViewById(R.id.txt_label)).setText("用户名");
-		((TextView) findViewById(R.id.fragment_profile_thumbnail).findViewById(R.id.txt_label)).setText("缩图");
-		((TextView) findViewById(R.id.fragment_profile_email).findViewById(R.id.txt_label)).setText("邮箱");
-		((TextView) findViewById(R.id.fragment_profile_phonenumber).findViewById(R.id.txt_label)).setText("手机号码");
-		((TextView) findViewById(R.id.fragment_profile_birthday).findViewById(R.id.txt_label)).setText("生日");
 		((TextView) findViewById(R.id.fragment_profile_address).findViewById(R.id.txt_label)).setText("地址");
-		((TextView) findViewById(R.id.fragment_profile_modifieddate).findViewById(R.id.txt_label)).setText("修改日期");
+		((TextView) findViewById(R.id.fragment_profile_language).findViewById(R.id.txt_label)).setText("语言");
+				
+		showLanguage();
 		
 		JSONObject profile = AppContext.getProfile();
-		((TextView) findViewById(R.id.fragment_profile_fullname).findViewById(R.id.edit_content)).setText(profile.optString(Const.FULLNAME));
 		((TextView) findViewById(R.id.fragment_profile_username).findViewById(R.id.edit_content)).setText(profile.optString(Const.USERNAME));
-		((TextView) findViewById(R.id.fragment_profile_thumbnail).findViewById(R.id.edit_content)).setText(profile.optString(Const.THUMBNAIL));
-		((TextView) findViewById(R.id.fragment_profile_email).findViewById(R.id.edit_content)).setText(profile.optString(Const.EMAIL));
-		((TextView) findViewById(R.id.fragment_profile_phonenumber).findViewById(R.id.edit_content)).setText(profile.optString(Const.PHONENUMBER));
-		((TextView) findViewById(R.id.fragment_profile_birthday).findViewById(R.id.edit_content)).setText(profile.optString(Const.BIRTHDAY));
 		((TextView) findViewById(R.id.fragment_profile_address).findViewById(R.id.edit_content)).setText(profile.optString(Const.ADDRESS));
-		((TextView) findViewById(R.id.fragment_profile_modifieddate).findViewById(R.id.edit_content)).setText(profile.optString(Const.MODIFY_DATE));
 		
-		m_txtHard1.setText(profile.optString(Const.RECEIVE_NUM, "0"));
-		m_txtHard2.setText(profile.optString(Const.POINT_NUM, "0"));
-		m_txtHard3.setText(profile.optString(Const.SEND_NUM, "0"));
-
 		DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
 		ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + AppContext.getProfile().optString(Const.PHOTO, ""), m_imgPhotoIcon, options);
 
+		
 //		((EditText) findViewById(R.id.fragment_profile_email).findViewById(R.id.edit_content)).setInputType(InputType.TYPE_TEXT_VARIATION_EMAIL_ADDRESS);
 		
 	}
@@ -233,13 +168,7 @@ public class ProfileActivity extends HeaderBarActivity
 				onClickChange();				
 			}
 		});
-		m_btnBuy.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View paramView) {
-				onClickBuy();				
-			}
-		});
+		
 		m_btnLogout.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -247,8 +176,54 @@ public class ProfileActivity extends HeaderBarActivity
 				onClickLogout();				
 			}
 		});
+		
+		findViewById(R.id.fragment_profile_language).findViewById(R.id.txt_label).setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				onSelectLanguage();				
+			}
+		});
+		
+		findViewById(R.id.fragment_profile_language).findViewById(R.id.edit_content).setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				onSelectLanguage();				
+			}
+		});
+		
+
+	}
+	
+	private void showLanguage()
+	{
+		int selectLanguage = DataUtils.getPreference(Const.LANGUAGE, 0);
+		if( selectLanguage == 0 )  // chinese
+			m_txtLanguage.setText("简体中文");
+		else
+			m_txtLanguage.setText("ENGLISH");		
 	}
 
+	private void onSelectLanguage()
+	{
+		AlertDialog.Builder dialog = new AlertDialog.Builder(this);
+		
+		String items[] = {"简体中文", "ENGLISH"};
+		
+		int selectLanguage = DataUtils.getPreference(Const.LANGUAGE, 0);
+
+		dialog.setSingleChoiceItems(items, selectLanguage, new DialogInterface.OnClickListener() {			
+			public void onClick(DialogInterface dialog, int whichButton) {
+				DataUtils.savePreference(Const.LANGUAGE, whichButton);
+				showLanguage();
+				dialog.dismiss();
+			}
+		});
+		
+		AlertDialog alertDialog = dialog.create();
+		alertDialog.show();
+	}
 	private void upLoadPhotoIcon()
 	{
 		m_cameraTempPath = Environment.getExternalStorageDirectory() + "/";
@@ -260,54 +235,25 @@ public class ProfileActivity extends HeaderBarActivity
 	
 	private void onClickSave()
 	{
-		String fullname = ((TextView) findViewById(R.id.fragment_profile_fullname).findViewById(R.id.edit_content)).getText().toString();
 		final String username = ((TextView) findViewById(R.id.fragment_profile_username).findViewById(R.id.edit_content)).getText().toString();
-		String email = ((TextView) findViewById(R.id.fragment_profile_email).findViewById(R.id.edit_content)).getText().toString();
-		String phonenumber = ((TextView) findViewById(R.id.fragment_profile_phonenumber).findViewById(R.id.edit_content)).getText().toString();
-		String birthday = ((TextView) findViewById(R.id.fragment_profile_birthday).findViewById(R.id.edit_content)).getText().toString();
 		String address = ((TextView) findViewById(R.id.fragment_profile_address).findViewById(R.id.edit_content)).getText().toString();
-		String modified = ((TextView) findViewById(R.id.fragment_profile_modifieddate).findViewById(R.id.edit_content)).getText().toString();
 		
-		if( CheckUtils.isEmpty(fullname) )
-		{
-			MessageUtils.showMessageDialog(this, "请输入全名.");
-			return;
-		}
 		if( CheckUtils.isEmpty(username) )
 		{
 			MessageUtils.showMessageDialog(this, "请输入用户名.");
 			return;
 		}
 
-		if( CheckUtils.isEmpty(email) )
-		{
-			MessageUtils.showMessageDialog(this, "请输入用户邮箱.");
-			return;
-		}
-		if( CheckUtils.isEmpty(phonenumber) )
-		{
-			MessageUtils.showMessageDialog(this, "请输入用户的电话号码.");
-			return;
-		}
-		if( CheckUtils.isEmpty(birthday) )
-		{
-			MessageUtils.showMessageDialog(this, "请输入的用户的生日.");
-			return;
-		}
 		if( CheckUtils.isEmpty(address) )
 		{
 			MessageUtils.showMessageDialog(this, "请输入用户地址.");
 			return;
 		}
-//		if( CheckUtils.isEmpty(modified) )
-//		{
-//			MessageUtils.showMessageDialog(this, "请输入修改的日期.");
-//			return;
-//		}
 		
 		showLoadingProgress();
 
-		ServerManager.updateProfile(AppContext.getUserID(), username, fullname, email, phonenumber, birthday, address, new ResultCallBack() {
+		String email = DataUtils.getPreference(Const.EMAIL, "");
+		ServerManager.updateProfile(AppContext.getUserID(), username, email, address, new ResultCallBack() {
 			
 			@Override
 			public void doAction(LogicResult result) {
@@ -334,12 +280,6 @@ public class ProfileActivity extends HeaderBarActivity
 	{
 		Bundle bundle = new Bundle();
 		ActivityManager.changeActivity(ProfileActivity.this, ChangePasswordActivity.class, bundle, false, null );		
-	}
-	
-	private void onClickBuy(){
-		Bundle bundle = new Bundle();
-		ActivityManager.changeActivity(ProfileActivity.this, BuyActivity.class, bundle, false, BUY_POINT_CODE );		
-		
 	}
 	
 	private void onClickLogout(){
@@ -436,10 +376,6 @@ public class ProfileActivity extends HeaderBarActivity
 			processFile(m_cameraTempPath);
 		}	
 		
-		if (requestCode == BUY_POINT_CODE ) {
-			m_txtHard2.setText(AppContext.getProfile().optString(Const.POINT_NUM, "0"));
-		}	
-				
 		super.onActivityResult(requestCode,  resultCode, data);	
 	}
 	

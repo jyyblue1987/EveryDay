@@ -227,6 +227,7 @@ public class LoginActivity extends HeaderBarActivity
 	 private void login(final String username, final String password)
 	 {
 		 DataUtils.savePreference(Const.USERNAME, username);
+		 DataUtils.savePreference(Const.EMAIL, username);
 		 DataUtils.savePreference(Const.PASSWORD, password);
 			
 		 showLoadingProgress();
