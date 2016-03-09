@@ -221,6 +221,7 @@ public class BuyActivity extends HeaderBarActivity implements IabBroadcastListen
 			else
 				mHelper.launchPurchaseFlow(this, ITEM_SKU + (pos + 1), RC_REQUEST, mPurchaseFinishedListener, payload);
 		} catch(Exception e) {			
+			MessageUtils.showMessageDialog(this, "Your device does not support in app billing. Please check to install Google play service.");
 		}
 	}
 	
@@ -257,11 +258,15 @@ public class BuyActivity extends HeaderBarActivity implements IabBroadcastListen
     IabHelper.OnIabPurchaseFinishedListener mPurchaseFinishedListener = new IabHelper.OnIabPurchaseFinishedListener() {
         public void onIabPurchaseFinished(IabResult result, Purchase purchase) {
             Log.d(TAG, "Purchase finished: " + result + ", purchase: " + purchase);
-            hideProgress();
             // if we were disposed of in the meantime, quit.
-            if (mHelper == null) return;
+            if (mHelper == null)
+            {
+            	MessageUtils.showMessageDialog(BuyActivity.this, "You can't purchase this item.");
+            	return;
+            }
 
             if (result.isFailure()) {
+            	MessageUtils.showMessageDialog(BuyActivity.this, "You can't purchase this item.");
                 return;
             }
             if (!verifyDeveloperPayload(purchase)) {
@@ -294,6 +299,7 @@ public class BuyActivity extends HeaderBarActivity implements IabBroadcastListen
             // if we were disposed of in the meantime, quit.
             if (mHelper == null)
             {
+            	MessageUtils.showMessageDialog(BuyActivity.this, "You can't consume this item.");
             	return;
             }
 
@@ -323,6 +329,8 @@ public class BuyActivity extends HeaderBarActivity implements IabBroadcastListen
 	                }
                 }
             }
+            else
+            	MessageUtils.showMessageDialog(BuyActivity.this, "You can't consume this item.");
         }
     };
     /** Verifies the developer payload of a purchase. */
