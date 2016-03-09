@@ -10,6 +10,8 @@ import org.json.JSONObject;
 import com.handmark.pulltorefresh.library.PullToRefreshBase;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.Mode;
 import com.handmark.pulltorefresh.library.PullToRefreshBase.OnRefreshListener2;
+import com.nostra13.universalimageloader.core.DisplayImageOptions;
+import com.nostra13.universalimageloader.core.ImageLoader;
 import com.handmark.pulltorefresh.library.PullToRefreshListView;
 import com.sin.quian.AppContext;
 import com.sin.quian.Const;
@@ -18,17 +20,20 @@ import com.sin.quian.R;
 import com.sin.quian.locale.Locale;
 import com.sin.quian.locale.LocaleFactory;
 import com.sin.quian.network.ServerManager;
+import com.sin.quian.network.ServerTask;
 
 import android.content.Context;
 import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.TextView;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
+import common.image.load.ImageUtils;
 import common.library.utils.MyTime;
 import common.list.adapter.ItemCallBack;
 import common.list.adapter.MyListAdapter;
@@ -228,6 +233,10 @@ public class CommentListActivity extends HeaderBarActivity
 			((TextView)ViewHolder.get(rowView, R.id.txt_username)).setText(item.optString(Const.USERNAME, ""));
 			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setText(EveryDayUtils.getDate(item));
 			((TextView)ViewHolder.get(rowView, R.id.txt_content)).setText(item.optString(Const.CONTENT, ""));			
+			
+			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
+			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + item.optString(Const.PHOTO, ""), (ImageView)ViewHolder.get(rowView, R.id.img_contact_icon), options);
+
 			
 		}	
 	}

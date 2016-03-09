@@ -19,7 +19,7 @@
         android:orientation="vertical"
         android:background="@color/app_red_color"
         >
-        <ImageView
+        <common.component.ui.CircularImageView
             android:id="@+id/img_photo"
             android:layout_width="80dip"
             android:layout_height="80dip" 

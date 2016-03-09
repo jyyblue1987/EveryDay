@@ -2,6 +2,11 @@ package com.sin.quian;
 
 import org.json.JSONObject;
 
+import com.sin.quian.network.ServerManager;
+
+import common.network.utils.LogicResult;
+import common.network.utils.ResultCallBack;
+
 public class AppContext {
 	private static JSONObject g_MyProfile = new JSONObject();
 	
@@ -22,5 +27,19 @@ public class AppContext {
 			return "0";
 		
 		return g_MyProfile.optString("id", "0");
+	}
+	
+	public static void refreshProfile()
+	{
+		ServerManager.getProfile(AppContext.getUserID(), new ResultCallBack() {
+			
+			@Override
+			public void doAction(LogicResult result) {
+				if( result.mResult != LogicResult.RESULT_OK )
+					return;
+				
+				setProfile(result.getContentData());
+			}
+		});
 	}
 }

@@ -12,7 +12,7 @@ public class LocaleFactory {
 		}		
 		
 		locale.changeLocale();
-		g_nLanguage = 0;
+		g_nLanguage = lang;
 		
 		return locale;
 	}

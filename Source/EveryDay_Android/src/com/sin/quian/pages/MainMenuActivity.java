@@ -7,9 +7,11 @@ import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sin.quian.AppContext;
 import com.sin.quian.Const;
+import com.sin.quian.EveryDayUtils;
 import com.sin.quian.R;
 import com.sin.quian.locale.Locale;
 import com.sin.quian.locale.LocaleFactory;
+import com.sin.quian.network.ServerManager;
 import com.sin.quian.network.ServerTask;
 
 import android.content.Intent;
@@ -27,7 +29,10 @@ import common.design.layout.ScreenAdapter;
 import common.design.utils.ResourceUtils;
 import common.image.load.ImageUtils;
 import common.library.utils.MediaUtils;
+import common.library.utils.MessageUtils;
 import common.manager.activity.ActivityManager;
+import common.network.utils.LogicResult;
+import common.network.utils.ResultCallBack;
 
 
 public class MainMenuActivity extends HeaderBarActivity
@@ -137,6 +142,8 @@ public class MainMenuActivity extends HeaderBarActivity
 		((TextView)findViewById(R.id.txt_menu_topstar)).setText(locale.Favorite);
 		((TextView)findViewById(R.id.txt_menu_friends)).setText(locale.Friend);
 		((TextView)findViewById(R.id.txt_menu_personal)).setText(locale.PersonalCenter);		
+		
+		AppContext.refreshProfile();
 	}
 	
 	protected void initEvents()

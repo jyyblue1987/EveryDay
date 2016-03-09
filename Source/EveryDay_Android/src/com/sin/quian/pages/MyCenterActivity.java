@@ -148,6 +148,7 @@ public class MyCenterActivity extends BottomBarActivity
 		m_txtPageTitle.setText(locale.PersonalCenter);
 		
 		showProfile(AppContext.getProfile());
+		AppContext.refreshProfile();
 	}
 	
 	private void showProfile(JSONObject profile)

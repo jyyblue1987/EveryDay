@@ -311,7 +311,10 @@ public class HistoryListActivity extends HeaderBarActivity
 				}
 				try {
 					AppContext.getProfile().put(Const.POINT_NUM, res);
-					m_txtMyPointCount.setText(res + "");					
+					m_txtMyPointCount.setText(res + "");	
+					
+					int value = Integer.parseInt(m_txtStar.getText().toString());
+					m_txtStar.setText((value + ammount) + "");
 				} catch (JSONException e) {
 					e.printStackTrace();
 				}
@@ -349,7 +352,7 @@ public class HistoryListActivity extends HeaderBarActivity
 	private void showUserInfo()
 	{
 		m_txtName.setText(EveryDayUtils.getName(m_profile));
-		m_txtStar.setText(m_profile.optString(Const.SEND_NUM, "0"));
+		m_txtStar.setText(m_profile.optString(Const.POINT_NUM, "0"));
 		m_txtAddress.setText(m_profile.optString(Const.ADDRESS, ""));
 		
 		DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();

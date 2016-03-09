@@ -170,6 +170,8 @@ public class ProfileActivity extends BottomBarActivity
 		m_btnChangePassword.setText(locale.ChangePWD);
 		m_btnLogout.setText(locale.Logout);
 		m_btnAppReward.setText(locale.AppReward);
+		
+		AppContext.refreshProfile();
 	}
 	
 	protected void initEvents()
@@ -256,9 +258,9 @@ public class ProfileActivity extends BottomBarActivity
 		
 		int selectLanguage = DataUtils.getPreference(Const.LANGUAGE, 0);
 
-		dialog.setSingleChoiceItems(items, selectLanguage, new DialogInterface.OnClickListener() {			
+		dialog.setSingleChoiceItems(items, 1 - selectLanguage, new DialogInterface.OnClickListener() {			
 			public void onClick(DialogInterface dialog, int whichButton) {
-				DataUtils.savePreference(Const.LANGUAGE, whichButton);
+				DataUtils.savePreference(Const.LANGUAGE, 1 - whichButton);
 				showLanguage();
 				dialog.dismiss();
 			}

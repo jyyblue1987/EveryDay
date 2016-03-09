@@ -165,7 +165,7 @@ public class ForgotPasswordActivity extends HeaderBarActivity
 	private void onClickforgot()
 	{
 		String strEmail = m_editEmail.getText().toString();
-		String strPassword = m_editPassword.getText().toString();
+		final String strPassword = m_editPassword.getText().toString();
 		String strConfirm = m_editConfirmPassword.getText().toString();
 		String verifyCode = m_editVerifyCode.getText().toString();
 		if( CheckUtils.isEmpty(verifyCode) )
@@ -186,17 +186,11 @@ public class ForgotPasswordActivity extends HeaderBarActivity
 			public void doAction(LogicResult result) {
 				hideProgress();
 				
-	
 				if( result.mResult == LogicResult.RESULT_OK )	// ok
 				{
-					DataUtils.savePreference(Const.LOGIN_OK, "1");
-					AppContext.setProfile(result.getContentData());
-					MessageUtils.showMessageDialog(ForgotPasswordActivity.this, EveryDayUtils.getMessage(result.mMessage));
-					
-					return;
+					DataUtils.savePreference(Const.PASSWORD, strPassword);
 				}
 						
-				DataUtils.savePreference(Const.LOGIN_OK, "0");			
 				MessageUtils.showMessageDialog(ForgotPasswordActivity.this, EveryDayUtils.getMessage(result.mMessage));
 			}
 		});
