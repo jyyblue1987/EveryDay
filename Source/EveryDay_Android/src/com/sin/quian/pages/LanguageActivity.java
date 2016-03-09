@@ -12,6 +12,7 @@ import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
@@ -105,6 +106,12 @@ public class LanguageActivity extends BaseActivity {
 		content.setSpan(new UnderlineSpan(), 0, mystring.length(), 0);
 		m_txtAgree.setText(content);
 		
+		if( DataUtils.getPreference(Const.LICENSE_AGREE, 0) == 1 )
+		{
+			m_chkAgree.setVisibility(View.GONE);
+			m_txtAgree.setVisibility(View.GONE);
+		}
+		
 		m_btnStart.setText(locale.Start);
 	}
 	
@@ -134,6 +141,17 @@ public class LanguageActivity extends BaseActivity {
 			}
 		});
 		
+		m_chkAgree.getCheckBox().setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if( isChecked == true )
+					DataUtils.savePreference(Const.LICENSE_AGREE, 1);
+				else
+					DataUtils.savePreference(Const.LICENSE_AGREE, 0);
+			}
+		});
+		
 		m_txtAgree.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -145,6 +163,9 @@ public class LanguageActivity extends BaseActivity {
 	
 	private void gotoLoginPage()
 	{
+		if( DataUtils.getPreference(Const.LICENSE_AGREE, 0) == 0 )
+			return;
+		
 		Bundle bundle = new Bundle();
 		ActivityManager.changeActivity(this, LoginActivity.class, bundle, true, null );		
 	}

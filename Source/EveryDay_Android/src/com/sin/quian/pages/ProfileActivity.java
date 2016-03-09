@@ -134,7 +134,6 @@ public class ProfileActivity extends BottomBarActivity
 	{
 		super.initData();
 		m_btnRight.setVisibility(View.INVISIBLE);
-		m_txtPageTitle.setText("个人信息");
 		
 		((TextView) findViewById(R.id.fragment_profile_username).findViewById(R.id.txt_label)).setText("用户名");
 		((TextView) findViewById(R.id.fragment_profile_address).findViewById(R.id.txt_label)).setText("地址");
@@ -236,15 +235,15 @@ public class ProfileActivity extends BottomBarActivity
 	private void showLanguage()
 	{
 		int selectLanguage = DataUtils.getPreference(Const.LANGUAGE, 0);
-		if( selectLanguage == 0 )  // chinese
-		{
-			m_txtLanguage.setText("简体中文");
-			LocaleFactory.selectLocale(1);
-		}
-		else
+		if( selectLanguage == 0 )  // english
 		{
 			m_txtLanguage.setText("ENGLISH");
 			LocaleFactory.selectLocale(0);
+		}
+		else
+		{
+			m_txtLanguage.setText("简体中文");
+			LocaleFactory.selectLocale(1);
 		}
 		showLabels();
 	}

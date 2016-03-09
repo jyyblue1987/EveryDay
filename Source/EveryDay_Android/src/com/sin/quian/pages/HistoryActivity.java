@@ -142,9 +142,9 @@ public class HistoryActivity extends BottomBarActivity {
 			}
 		};
 		
-		int loginFlag = DataUtils.getPreference(Const.LOGIN_OK, 0);
+		String loginOK = DataUtils.getPreference(Const.LOGIN_OK, "0");
 		
-		if( loginFlag == 1 )
+		if( loginOK.equals("1") )
 			ServerManager.searchHistory(AppContext.getUserID(), m_nPageNum, m_editSearch.getText().toString(), callback);
 		else
 		{
@@ -170,9 +170,9 @@ public class HistoryActivity extends BottomBarActivity {
 			}
 		};
 		
-		int loginFlag = DataUtils.getPreference(Const.LOGIN_OK, 0);
+		String loginOK = DataUtils.getPreference(Const.LOGIN_OK, "0");
 		
-		if( loginFlag == 1 )
+		if( loginOK.equals("1") )
 			ServerManager.searchHistory(AppContext.getUserID(), m_nPageNum + 1, m_editSearch.getText().toString(), callback);
 		else
 			ServerManager.searchHistory(m_nPageNum + 1, m_editSearch.getText().toString(), callback);
@@ -234,9 +234,9 @@ public class HistoryActivity extends BottomBarActivity {
 	
 	private void gotoStageListPage(int pos)
 	{
-		int loginFlag = DataUtils.getPreference(Const.LOGIN_OK, 0);
+		String loginOK = DataUtils.getPreference(Const.LOGIN_OK, "0");
 		
-		if( loginFlag == 0 )
+		if( loginOK.equals("1") == false )
 			return;
 			
 		Bundle bundle = new Bundle();
@@ -366,8 +366,9 @@ public class HistoryActivity extends BottomBarActivity {
 			
 			((TextView)ViewHolder.get(rowView, R.id.txt_address)).setText(item.optString(Const.ADDRESS, ""));
 			
-			int loginFlag = DataUtils.getPreference(Const.LOGIN_OK, 0);
-			if( item.optInt(Const.CHECKFRIEND, 0) == 1 || loginFlag == 0 )
+			String loginOK = DataUtils.getPreference(Const.LOGIN_OK, "0");
+			
+			if( item.optInt(Const.CHECKFRIEND, 0) == 1 || loginOK.equals("1") == false )
 				ViewHolder.get(rowView, R.id.img_add_contact).setVisibility(View.GONE);
 			else
 				ViewHolder.get(rowView, R.id.img_add_contact).setVisibility(View.VISIBLE);

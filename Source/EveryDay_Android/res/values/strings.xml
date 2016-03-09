@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">每天</string>
+    <string name="app_name">EveryDay</string>
     <string name="hello_world">世界您好！</string>
     <string name="register">立即注册</string>
     <string name="forgot_password">忘记密码</string>

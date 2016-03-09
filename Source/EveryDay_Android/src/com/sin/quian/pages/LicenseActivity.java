@@ -52,7 +52,7 @@ public class LicenseActivity extends HeaderBarActivity
 		String license1 = getResources().getString(R.string.license1);
 		String license2 = getResources().getString(R.string.license2);
 		
-		m_txtContent.setText(license + "\r\n  " + license1 + "\r\n  " + license2);
+		m_txtContent.setText(license + "\r\n " + license1 + "\r\n " + license2);
 	}
 	
 }

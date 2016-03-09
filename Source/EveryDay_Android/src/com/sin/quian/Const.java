@@ -65,9 +65,6 @@ public class Const {
     public static final String LANGUAGE = "lang";
     
     public static final String REWARD_APP = "reward_app";
-    
-//    获得奖励
-//    去评论5星，获得500星星奖励！
-//    接受
-//    拒绝
+
+    public static final String LICENSE_AGREE = "license_agree";
 }

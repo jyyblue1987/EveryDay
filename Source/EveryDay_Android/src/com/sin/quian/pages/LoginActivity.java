@@ -228,9 +228,6 @@ public class LoginActivity extends HeaderBarActivity
 		Bundle bundle = new Bundle();
 		ActivityManager.changeActivity(LoginActivity.this, ForgotPasswordActivity.class, bundle, false, null );		
 	 }
-
-	
-	
 	 
 	 private void login(final String username, final String password)
 	 {

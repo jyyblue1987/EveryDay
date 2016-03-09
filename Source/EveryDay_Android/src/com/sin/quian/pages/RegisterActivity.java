@@ -13,6 +13,7 @@ import android.os.Bundle;
 import android.util.TypedValue;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -111,7 +112,12 @@ public class RegisterActivity extends HeaderBarActivity
 	protected void initData()
 	{
 		super.initData();
-	
+		
+		if( DataUtils.getPreference(Const.LICENSE_AGREE, 0) == 1 )
+		{
+			m_chkAgree.setVisibility(View.GONE);
+			m_txtAgree.setVisibility(View.GONE);
+		}	
 	}
 	
 	protected void showLabels()
@@ -159,10 +165,24 @@ public class RegisterActivity extends HeaderBarActivity
 				gotoLicensePage();
 			}
 		});
+		
+		m_chkAgree.getCheckBox().setOnCheckedChangeListener(new android.widget.CompoundButton.OnCheckedChangeListener() {
+			
+			@Override
+			public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+				if( isChecked == true )
+					DataUtils.savePreference(Const.LICENSE_AGREE, 1);
+				else
+					DataUtils.savePreference(Const.LICENSE_AGREE, 0);
+			}
+		});
 	}
 	
 	private void onClickRegister()
 	{
+		if( DataUtils.getPreference(Const.LICENSE_AGREE, 0) == 0 )
+			return;
+
 		String email = m_editEmail.getText().toString();
 		String password = m_editPassword.getText().toString();
 		String confirmpassword = m_editConfirmPassword.getText().toString();
