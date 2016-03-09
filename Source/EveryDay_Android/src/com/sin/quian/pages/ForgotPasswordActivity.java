@@ -156,9 +156,13 @@ public class ForgotPasswordActivity extends HeaderBarActivity
 			
 			@Override
 			public void doAction(LogicResult result) {
-				hideProgress();				
+				hideProgress();			
+				if( result.mResult != LogicResult.RESULT_OK )	// ok
+				{
+					MessageUtils.showMessageDialog(ForgotPasswordActivity.this, "Server is not responding");
+				}
 				
-				MessageUtils.showMessageDialog(ForgotPasswordActivity.this, EveryDayUtils.getMessage(result.mMessage));				
+				MessageUtils.showMessageDialog(ForgotPasswordActivity.this, "Verify code has been sent to your email, Please check your email and input verify code.");				
 			}
 		});
 	}
@@ -186,12 +190,13 @@ public class ForgotPasswordActivity extends HeaderBarActivity
 			public void doAction(LogicResult result) {
 				hideProgress();
 				
-				if( result.mResult == LogicResult.RESULT_OK )	// ok
+				if( result.mResult != LogicResult.RESULT_OK )	// ok
 				{
-					DataUtils.savePreference(Const.PASSWORD, strPassword);
+					MessageUtils.showMessageDialog(ForgotPasswordActivity.this, EveryDayUtils.getMessage(result.mMessage));					
 				}
-						
-				MessageUtils.showMessageDialog(ForgotPasswordActivity.this, EveryDayUtils.getMessage(result.mMessage));
+				
+				DataUtils.savePreference(Const.PASSWORD, strPassword);					
+				MessageUtils.showMessageDialog(ForgotPasswordActivity.this, "Password has been changed successfully.");
 			}
 		});
 
