@@ -49,10 +49,7 @@ public class LicenseActivity extends HeaderBarActivity
 		m_txtPageTitle.setText("用户服务协议");
 		
 		String license = getResources().getString(R.string.license);
-		String license1 = getResources().getString(R.string.license1);
-		String license2 = getResources().getString(R.string.license2);
-		
-		m_txtContent.setText(license + "\r\n " + license1 + "\r\n " + license2);
+		m_txtContent.setText(license);
 	}
 	
 }
