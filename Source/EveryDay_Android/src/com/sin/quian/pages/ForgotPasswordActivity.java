@@ -109,7 +109,7 @@ public class ForgotPasswordActivity extends HeaderBarActivity
 		m_btnSendVerify.setText(locale.SendVerify);
 		
 		m_editPassword.setHint(locale.PasswordText);
-		m_editConfirmPassword.setHint(locale.ConfirmPW);
+		m_editConfirmPassword.setHint(locale.AgainPW);
 		
 		m_btnChange.setText(locale.ChangePW);	
 		
