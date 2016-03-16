@@ -270,8 +270,9 @@ public class ContactListActivity extends BottomBarActivity {
 		{
 			final JSONObject item = getItem(position);
 			
-			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.img_photo), 30, 30, 0, 30, true);
-			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_photo), 200, 200, true);
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_photo), 30, 30, 0, 30, true);
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_level), 200, 200, true);
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_photo), 140, 140, true);
 			
 			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_right_info), 40, 0, 30, 0, true);
 			
@@ -285,11 +286,12 @@ public class ContactListActivity extends BottomBarActivity {
 			((TextView)ViewHolder.get(rowView, R.id.txt_star)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
 
 			// show info
+			((ImageView)ViewHolder.get(rowView, R.id.img_level)).setBackgroundResource(EveryDayUtils.getLevelImage(item));
 			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
 			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + item.optString(Const.PHOTO, ""), (ImageView)ViewHolder.get(rowView, R.id.img_photo), options);
 
 			
-			((TextView)ViewHolder.get(rowView, R.id.txt_name)).setText(item.optString(Const.USERNAME, ""));
+			((TextView)ViewHolder.get(rowView, R.id.txt_name)).setText(EveryDayUtils.getName(item));
 			((TextView)ViewHolder.get(rowView, R.id.txt_star)).setText(item.optString(Const.POINT_NUM, "0"));
 			((TextView)ViewHolder.get(rowView, R.id.txt_address)).setText(item.optString(Const.ADDRESS, ""));			
 
