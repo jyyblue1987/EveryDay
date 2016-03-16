@@ -23,6 +23,7 @@ import com.sin.quian.network.ServerManager;
 import com.sin.quian.network.ServerTask;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.TypedValue;
@@ -37,7 +38,6 @@ import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
 import common.image.load.ImageUtils;
 import common.library.utils.MediaUtils;
-import common.library.utils.MyTime;
 import common.list.adapter.ItemCallBack;
 import common.list.adapter.MyListAdapter;
 import common.list.adapter.ViewHolder;
@@ -46,6 +46,8 @@ import common.network.utils.LogicResult;
 import common.network.utils.ResultCallBack;
 
 public class UserActivity extends BottomBarActivity {
+	private static int	HISTORY_LIST_CODE = 201;
+	
 	PullToRefreshListView			m_listPullItems = null;
 	ListView						m_listItems = null;
 	TextView						m_txtEmptyView = null;
@@ -255,7 +257,19 @@ public class UserActivity extends BottomBarActivity {
 		JSONObject item = m_adapteruserList.getItem(pos - 1);
 		Bundle bundle = new Bundle();	
 		bundle.putString(INTENT_EXTRA, item.toString());
-		ActivityManager.changeActivity(this, HistoryListActivity.class, bundle, false, null );
+		ActivityManager.changeActivity(this, HistoryListActivity.class, bundle, false, HISTORY_LIST_CODE );
+	}
+	
+	@Override
+	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+		if (resultCode == 0)
+			return;		
+		
+		if (requestCode == HISTORY_LIST_CODE ) {
+			getUserList();
+		}	
+
+		super.onActivityResult(requestCode, resultCode, data);	
 	}
 	
 	class BlogListAdapter extends MyListAdapter {

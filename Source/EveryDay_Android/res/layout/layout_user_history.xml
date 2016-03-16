@@ -21,11 +21,24 @@
             android:gravity="center_vertical"
             android:background="@drawable/edit_bg"
             >
-            <common.component.ui.CircularImageView
-                android:id="@+id/img_photo"
-                android:layout_width="80dip"
-                android:layout_height="80dip" 
-                android:src="@drawable/contact_icon" />
+	        <RelativeLayout
+	            android:layout_width="wrap_content"
+	            android:layout_height="wrap_content" 
+	            >
+		        <ImageView
+		            android:id="@+id/img_level"
+		            android:layout_width="80dip"
+		            android:layout_height="80dip"
+		            android:background="@drawable/main_photobg2" 
+		            />
+		        <common.component.ui.CircularImageView
+		            android:id="@+id/img_photo"
+		            android:layout_width="60dip"
+		            android:layout_height="60dip" 
+		            android:layout_centerInParent="true"
+		            android:src="@drawable/contact_icon"
+	            	/>    
+	        </RelativeLayout>
             <LinearLayout
                 android:id="@+id/lay_right_info"
                 android:layout_width="match_parent"
@@ -91,72 +104,7 @@
 		    android:text="没有用户."
 		    />
     </LinearLayout>
-	<LinearLayout
-	    android:layout_width="match_parent"
-	    android:layout_height="wrap_content"
-	    android:orientation="vertical" 
-	    >
-	    <LinearLayout
-	        android:layout_width="match_parent"
-	        android:layout_height="wrap_content"
-	        android:background="@color/gray" 
-	        >	        
-	    </LinearLayout>
-	    
-	   	<LinearLayout
-	 	    android:id="@+id/lay_my_info"
-	 	    android:layout_width="match_parent"
-	 	    android:layout_height="wrap_content"
-	 	    android:orientation="horizontal"
-	 	    android:gravity="center_vertical"
-	 	    android:background="@color/app_color"
-	 	    >
-	 	    <ImageView
-		        android:id="@+id/img_add_contact"
-		        android:layout_width="30dip"
-		        android:layout_height="30dip"
-		        android:src="@drawable/add_friend_selector" 
-		        />
-	 	    <LinearLayout
-	 	        android:layout_width="0dip"
-	 	        android:layout_height="wrap_content"
-	 	        android:layout_weight="1.0"
-	 	        android:orientation="horizontal"
-	 	        android:gravity="center" 
-	 	        >
-	 	        <ImageView
-			        android:id="@+id/img_my_point"
-			        android:layout_width="50dip"
-			        android:layout_height="50dip"
-			        android:src="@drawable/star"
-			        />
-		        <common.component.ui.MyTextView
-		            android:id="@+id/txt_my_point"
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:text="100"
-		            />
-	 	    </LinearLayout>
-	 	    <LinearLayout
-	 	        android:layout_width="wrap_content"
-	 	        android:layout_height="wrap_content"
-	 	        android:orientation="horizontal"
-	 	        android:gravity="center" 
-	 	        >
-	 	        <ImageView
-			        android:id="@+id/img_my_receive_point"
-			        android:layout_width="50dip"
-			        android:layout_height="50dip"
-			        android:src="@drawable/emoji_1f49b"
-			        />
-		        <common.component.ui.MyTextView
-		            android:id="@+id/txt_my_receive_point"
-		            android:layout_width="wrap_content"
-		            android:layout_height="wrap_content"
-		            android:text="100"
-		            />
-	 	    </LinearLayout>
-	 	</LinearLayout>
-	    
-	</LinearLayout>
+	<include android:id="@+id/fragment_bottom"
+		layout="@layout/fragment_bottom_addcontact" />
+    
 </LinearLayout>

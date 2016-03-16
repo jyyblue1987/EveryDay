@@ -22,16 +22,15 @@ import com.sin.quian.locale.LocaleFactory;
 import com.sin.quian.network.ServerManager;
 import com.sin.quian.network.ServerTask;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.InputType;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
-import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -39,12 +38,8 @@ import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
 import common.image.load.ImageUtils;
 import common.library.utils.AlgorithmUtils;
-import common.library.utils.CheckUtils;
 import common.library.utils.MediaUtils;
 import common.library.utils.MessageUtils;
-import common.library.utils.MessageUtils.OnButtonClickListener;
-import common.library.utils.MyTime;
-import common.library.utils.OnAlertClickListener;
 import common.list.adapter.ItemCallBack;
 import common.list.adapter.MyListAdapter;
 import common.list.adapter.ViewHolder;
@@ -53,12 +48,13 @@ import common.network.utils.LogicResult;
 import common.network.utils.ResultCallBack;
 
 
-public class HistoryListActivity extends HeaderBarActivity
+public class HistoryListActivity extends BottomBarActivity
 {
 	private static int	STAGE_LIST_CODE = 201;
 	
 	String			m_cameraTempPath = "";
 	
+	ImageView		m_imgLevel = null;
 	ImageView 		m_imgPhoto = null;
 	TextView 		m_txtName = null;	
 	
@@ -67,11 +63,6 @@ public class HistoryListActivity extends HeaderBarActivity
 	TextView 		m_txtAddress = null;
 	
 	ImageView 		m_imgAddContact = null;
-	ImageView 		m_imgMyReceive = null;
-	TextView 		m_txtMyReceiveCount = null;
-	ImageView 		m_imgMyPoint = null;
-	TextView 		m_txtMyPointCount = null;
-
 
 
 	PullToRefreshListView		m_listPullItems = null;
@@ -80,6 +71,8 @@ public class HistoryListActivity extends HeaderBarActivity
 	
 	HistoryListAdapter			m_adapterHistoryList = null;
 	int							m_nPageNum = 0;
+	
+	boolean						m_bIsChanged = false;
 	
 	JSONObject					m_profile = null;
 	@Override
@@ -95,6 +88,7 @@ public class HistoryListActivity extends HeaderBarActivity
 
 		m_txtEmptyView = (TextView) findViewById(R.id.txt_empty_view);
 		
+		m_imgLevel = (ImageView) findViewById(R.id.img_level);
 		m_imgPhoto = (ImageView) findViewById(R.id.img_photo);
 		m_txtName = (TextView) findViewById(R.id.txt_name);
 		m_imgStar = (ImageView) findViewById(R.id.img_star);
@@ -102,11 +96,7 @@ public class HistoryListActivity extends HeaderBarActivity
 		
 		m_txtAddress = (TextView) findViewById(R.id.txt_address);
 		
-		m_imgAddContact = (ImageView) findViewById(R.id.img_add_contact);
-		m_imgMyPoint = (ImageView) findViewById(R.id.img_my_point);
-		m_txtMyPointCount = (TextView) findViewById(R.id.txt_my_point);
-		m_imgMyReceive = (ImageView) findViewById(R.id.img_my_receive_point);
-		m_txtMyReceiveCount = (TextView) findViewById(R.id.txt_my_receive_point);
+		m_imgAddContact = (ImageView) findViewById(R.id.fragment_bottom).findViewById(R.id.img_add_contact);
 
 		m_listPullItems = (PullToRefreshListView)findViewById(R.id.list_items);
 		m_listItems = m_listPullItems.getRefreshableView();
@@ -128,7 +118,8 @@ public class HistoryListActivity extends HeaderBarActivity
 		LayoutUtils.setMargin(findViewById(R.id.lay_user_info), 30, 30, 30, 0, true);
 		LayoutUtils.setPadding(findViewById(R.id.lay_user_info), 40, 20, 40, 20, true);
 		
-		LayoutUtils.setSize(m_imgPhoto, 200, 200, true);
+		LayoutUtils.setSize(m_imgLevel, 200, 200, true);
+		LayoutUtils.setSize(m_imgPhoto, 140, 140, true);
 		
 		LayoutUtils.setMargin(findViewById(R.id.lay_right_info), 40, 0, 0, 0, true);
 		
@@ -149,13 +140,6 @@ public class HistoryListActivity extends HeaderBarActivity
 		
 		LayoutUtils.setSize(m_imgAddContact, 80, 80, true);
 
-		LayoutUtils.setSize(m_imgMyPoint, 55, 55, true);		
-		LayoutUtils.setMargin(m_txtMyPointCount, 20, 0, 0, 0, true);
-		m_txtMyPointCount.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(40));
-
-		LayoutUtils.setSize(m_imgMyReceive, 55, 55, true);		
-		LayoutUtils.setMargin(m_txtMyReceiveCount, 20, 0, 0, 0, true);
-		m_txtMyReceiveCount.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(40));
 
 	}
 
@@ -177,14 +161,12 @@ public class HistoryListActivity extends HeaderBarActivity
 		}
 		
 		
-		m_txtName.setText(m_profile.optString(Const.USERNAME, ""));
-		m_txtMyReceiveCount.setText(m_profile.optString(Const.SEND_NUM, ""));
+		m_txtName.setText(EveryDayUtils.getName(m_profile));
 		
 		m_listPullItems.setMode(Mode.PULL_FROM_END);
 		
-		m_nPageNum = 0;
-		showUserInfo();
-		showMyPointInfo();
+		m_bIsChanged = false;
+		
 		getHistoryList();		
 	}
 	
@@ -197,6 +179,7 @@ public class HistoryListActivity extends HeaderBarActivity
 		else
 			m_txtPageTitle.setText(locale.StarTitle);
 		
+		showUserInfo();
 	}
 	protected void initEvents()
 	{ 
@@ -229,22 +212,6 @@ public class HistoryListActivity extends HeaderBarActivity
 			}
 		});
 		
-		m_imgMyPoint.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-			
-			}
-		});
-		
-		m_txtMyPointCount.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				m_imgMyPoint.performClick();				
-			}
-		});
-		
 		m_imgAddContact.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
@@ -271,6 +238,8 @@ public class HistoryListActivity extends HeaderBarActivity
 					return;
 				}
 				MessageUtils.showMessageDialog(HistoryListActivity.this, "此用户添加到您的联系人列表.");
+				m_bIsChanged = true;
+				m_imgAddContact.setVisibility(View.GONE);
 			}
 		});
 	}
@@ -289,16 +258,14 @@ public class HistoryListActivity extends HeaderBarActivity
 		m_txtStar.setText(m_profile.optString(Const.POINT_NUM, "0"));
 		m_txtAddress.setText(m_profile.optString(Const.ADDRESS, ""));
 		
+		m_imgLevel.setBackgroundResource(EveryDayUtils.getLevelImage(m_profile));
 		DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
 		ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + m_profile.optString(Const.PHOTO, ""), m_imgPhoto, options);
-	}
-	
-	private void showMyPointInfo()
-	{
-		if( m_profile.optInt(Const.CHECKFRIEND, 0) == 1 )
-			m_imgAddContact.setVisibility(View.INVISIBLE);
-		m_txtMyPointCount.setText(AppContext.getProfile().optString(Const.POINT_NUM, "0"));
-		m_txtMyReceiveCount.setText(AppContext.getProfile().optString(Const.RECEIVE_NUM, "0"));
+		
+		if( m_profile.optInt(Const.CHECKFRIEND, 0) != 1 )
+			LayoutUtils.setMargin(m_imgAdvertise, 180, 0, 0, 0, true);
+		else
+			m_imgAddContact.setVisibility(View.GONE);
 	}
 	
 	public void getHistoryList() {
@@ -392,6 +359,16 @@ public class HistoryListActivity extends HeaderBarActivity
 		ActivityManager.changeActivity(this, StageListActivity.class, bundle, false, STAGE_LIST_CODE );			
 	}
 	
+	protected void gotoBackPage()
+	{
+		Intent intent = new Intent();
+		if( m_bIsChanged == true )
+			setResult(Activity.RESULT_OK, intent);
+		else
+			setResult(Activity.RESULT_CANCELED, intent);
+        onFinishActivity();				
+	}
+	
 	protected void gotoNextPage()
 	{
 		gotoProfilePage();
@@ -428,7 +405,6 @@ public class HistoryListActivity extends HeaderBarActivity
 			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_history_content), 30, 30, 30, 0, true);
 			
 			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_history_preview), LayoutParams.MATCH_PARENT, 500, true);
-			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 45);
 			
 			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_video_icon), 150, 150, true);
 		
@@ -449,8 +425,12 @@ public class HistoryListActivity extends HeaderBarActivity
 			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_comment), 5, 0, 0, 0, true);
 			((TextView)ViewHolder.get(rowView, R.id.txt_comment)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 30);
 			
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_history), 30, 10, 30, 10, true);
+			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 45);
+			
+			
 			// show info
-			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.default_image_bg).build();
+			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.default_back_bg).build();
 			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + MediaUtils.getThumnail(item.optString(Const.THUMBNAIL, "")), (ImageView)ViewHolder.get(rowView, R.id.img_history_preview), options);
 			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setText(item.optString(Const.CONTENT, ""));
 			
@@ -462,7 +442,7 @@ public class HistoryListActivity extends HeaderBarActivity
 			
 			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setText(EveryDayUtils.getDate(item));
 			
-			((TextView)ViewHolder.get(rowView, R.id.txt_star)).setText(item.optString(Const.POINT_NUM, "0"));
+			((TextView)ViewHolder.get(rowView, R.id.txt_star)).setText(item.optString(Const.RECEIVE_NUM, "0"));
 			((TextView)ViewHolder.get(rowView, R.id.txt_comment)).setText(item.optString(Const.COMMENT_COUNT, "0"));
 
 		}	
