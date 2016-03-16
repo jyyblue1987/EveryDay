@@ -1,5 +1,6 @@
 package com.sin.quian;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.sin.quian.network.ServerManager;
@@ -39,6 +40,11 @@ public class AppContext {
 					return;
 				
 				setProfile(result.getContentData());
+				try {
+					g_MyProfile.put(Const.PHOTO, g_MyProfile.optString(Const.THUMBNAIL, ""));
+				} catch (JSONException e) {
+					e.printStackTrace();
+				}
 			}
 		});
 	}	
