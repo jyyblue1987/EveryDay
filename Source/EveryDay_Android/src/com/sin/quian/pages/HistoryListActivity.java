@@ -233,7 +233,7 @@ public class HistoryListActivity extends HeaderBarActivity
 			
 			@Override
 			public void onClick(View v) {
-				onClickSendPoint();
+			
 			}
 		});
 		
@@ -254,73 +254,7 @@ public class HistoryListActivity extends HeaderBarActivity
 		});
 	}
 	
-	private void onClickSendPoint()
-	{
-		EditText input = MessageUtils.showEditDialog(this, "请输入的金额点.", new OnAlertClickListener() {
-			
-			@Override
-			public void onInputText(final String text) {
-				MessageUtils.showDialogYesNo(HistoryListActivity.this, "您真的想要向该用户发送星星?", new OnButtonClickListener() {
-					
-					@Override
-					public void onOkClick() {
-						sendPoint(text);
-						
-					}
-					
-					@Override
-					public void onCancelClick() {
-						// TODO Auto-generated method stub
-						
-					}
-				});				
-			}
-		});		
-		
-		input.setInputType(InputType.TYPE_CLASS_NUMBER);
-	}
 	
-	private void sendPoint(String text)
-	{
-		if( CheckUtils.isEmpty(text) )
-		{
-			MessageUtils.showMessageDialog(this, "请输入星星数");
-			return;
-		}
-		
-		final int ammount = Integer.valueOf(text);
-		
-		int myPointCount = AppContext.getProfile().optInt(Const.POINT_NUM, 0);
-		if( ammount > myPointCount )
-		{
-			MessageUtils.showMessageDialog(this, "您的输入值必须小于 " + myPointCount );
-			return;
-		}
-		
-		final int res = myPointCount - ammount;
-		showLoadingProgress();
-		ServerManager.sendPoint(AppContext.getUserID(), m_profile.optString(Const.ID, "0"), ammount + "", new ResultCallBack() {
-			
-			@Override
-			public void doAction(LogicResult result) {
-				hideProgress();
-				if( result.mResult != LogicResult.RESULT_OK )
-				{
-					MessageUtils.showMessageDialog(HistoryListActivity.this, EveryDayUtils.getMessage(result.mMessage));
-					return;
-				}
-				try {
-					AppContext.getProfile().put(Const.POINT_NUM, res);
-					m_txtMyPointCount.setText(res + "");	
-					
-					int value = Integer.parseInt(m_txtStar.getText().toString());
-					m_txtStar.setText((value + ammount) + "");
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
-			}
-		});
-	}
 	
 	private void onClickAddContact()
 	{

@@ -45,9 +45,10 @@ public class Locale {
     public String Review = "Reivew";
     public String Send = "Send";
     public String ReviewList = "Reivew List";
-    public String Like = "Like";
+    public String Like = "Appreciate";
     public String Liked = "Liked";
     public String Publish = "Publish";
+    public String AddComment = "Review";
     public String OK = "Ok";
     public String Cancel = "Cancel";
     public String Buying = "Buy";

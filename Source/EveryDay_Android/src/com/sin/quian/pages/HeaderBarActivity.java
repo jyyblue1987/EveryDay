@@ -90,4 +90,9 @@ public class HeaderBarActivity extends BaseActivity {
 	{
 	}
 	
+	@Override 
+	public void onBackPressed( ) {	
+		gotoBackPage();
+	}
+	
 }

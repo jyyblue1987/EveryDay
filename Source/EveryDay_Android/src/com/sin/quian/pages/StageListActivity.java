@@ -25,10 +25,12 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.TypedValue;
 import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -65,8 +67,8 @@ public class StageListActivity extends HeaderBarActivity
 	ImageView	m_imgCommentIcon = null;
 	TextView	m_txtCommentInput = null;
 	
-	ImageView	m_imgLikeCountIcon = null;
-	TextView	m_txtLikeCount = null;
+	ImageView	m_imgReceiveCountIcon = null;
+	TextView	m_txtReceiveCount = null;
 	ImageView	m_imgCommentCountIcon = null;
 	TextView	m_txtCommentCount = null;
 	
@@ -95,8 +97,8 @@ public class StageListActivity extends HeaderBarActivity
 		m_imgCommentIcon = (ImageView) findViewById(R.id.img_comment_icon);
 		m_txtCommentInput = (TextView) findViewById(R.id.txt_comment_input);
 	
-		m_imgLikeCountIcon = (ImageView) findViewById(R.id.img_like_count_icon);
-		m_txtLikeCount = (TextView) findViewById(R.id.txt_like_count);
+		m_imgReceiveCountIcon = (ImageView) findViewById(R.id.img_receive_count_icon);
+		m_txtReceiveCount = (TextView) findViewById(R.id.txt_receive_count);
 		m_imgCommentCountIcon = (ImageView) findViewById(R.id.img_comment_count_icon);
 		m_txtCommentCount = (TextView) findViewById(R.id.txt_comment_count);
 		
@@ -118,20 +120,20 @@ public class StageListActivity extends HeaderBarActivity
 		LayoutUtils.setPadding(findViewById(R.id.lay_stage_action), 20, 40, 20, 30, true);
 		
 		LayoutUtils.setMargin(findViewById(R.id.lay_input_action), 0, 0, padding, 0, true);
-		LayoutUtils.setSize(m_imgLikeIcon, iconsize, iconsize, true);
-		m_txtLike.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontsize);
-		LayoutUtils.setMargin(m_txtLike, padding, 0, 0, 0, true);
 		
-		LayoutUtils.setMargin(findViewById(R.id.img_divider), padding, 0, 0, 0, true);
 		LayoutUtils.setSize(m_imgCommentIcon, iconsize, iconsize, true);
 		LayoutUtils.setMargin(m_imgCommentIcon, padding, 0, 0, 0, true);
 		m_txtCommentInput.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontsize);
 		LayoutUtils.setMargin(m_txtCommentInput, padding, 0, 0, 0, true);
 		
+		LayoutUtils.setSize(m_imgLikeIcon, iconsize, iconsize, true);
+		m_txtLike.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontsize);
+		LayoutUtils.setMargin(m_txtLike, padding, 0, 0, 0, true);
+		
 		LayoutUtils.setMargin(findViewById(R.id.lay_count), padding, padding, padding, padding, true);
-		LayoutUtils.setSize(m_imgLikeCountIcon, iconsize, iconsize, true);
-		m_txtLikeCount.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontsize);
-		LayoutUtils.setMargin(m_txtLikeCount, padding, 0, 0, 0, true);
+		LayoutUtils.setSize(m_imgReceiveCountIcon, iconsize, iconsize, true);
+		m_txtReceiveCount.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontsize);
+		LayoutUtils.setMargin(m_txtReceiveCount, padding, 0, 0, 0, true);
 		
 		LayoutUtils.setSize(m_imgCommentCountIcon, iconsize, iconsize, true);
 		LayoutUtils.setMargin(m_imgCommentCountIcon, padding, 0, 0, 0, true);
@@ -173,6 +175,9 @@ public class StageListActivity extends HeaderBarActivity
 			
 			findViewById(R.id.lay_input_action).setVisibility(View.GONE);
 			findViewById(R.id.lay_count).setVisibility(View.GONE);
+			m_imgLikeIcon.setVisibility(View.GONE);
+			m_txtLike.setVisibility(View.GONE);
+			
 			
 			showLoadingProgress();
 			ServerManager.getTempStages(AppContext.getUserID(), new ResultCallBack() {
@@ -192,8 +197,10 @@ public class StageListActivity extends HeaderBarActivity
 			
 			findViewById(R.id.lay_input_action).setVisibility(View.GONE);
 			m_btnPublish.setVisibility(View.GONE);
+			m_imgLikeIcon.setVisibility(View.GONE);
+			m_txtLike.setVisibility(View.GONE);
 			
-			m_txtLikeCount.setText(m_historyInfo.optString(Const.LIKE_COUNT, "0"));
+			m_txtReceiveCount.setText(m_historyInfo.optString(Const.RECEIVE_NUM, "0"));			
 			m_txtCommentCount.setText(m_historyInfo.optString(Const.COMMENT_COUNT, "0"));
 			String hno = m_historyInfo.optString(Const.ID, "0");
 			showLoadingProgress();
@@ -212,14 +219,9 @@ public class StageListActivity extends HeaderBarActivity
 		{
 			m_btnPublish.setVisibility(View.GONE);
 			
-			if( m_historyInfo.optInt(Const.FAVORITED_FLAG, 0) == 0 )				
-				m_txtLike.setText(locale.Like);
-			else				
-				m_txtLike.setText(locale.Liked);
-			
 			m_txtPageTitle.setText(EveryDayUtils.getName(m_historyInfo));
 			
-			m_txtLikeCount.setText(m_historyInfo.optString(Const.LIKE_COUNT, "0"));
+			m_txtReceiveCount.setText(m_historyInfo.optString(Const.RECEIVE_NUM, "0"));
 			m_txtCommentCount.setText(m_historyInfo.optString(Const.COMMENT_COUNT, "0"));
 			String hno = m_historyInfo.optString(Const.ID, "0");
 			showLoadingProgress();
@@ -235,6 +237,14 @@ public class StageListActivity extends HeaderBarActivity
 		}
 		
 		m_btnPublish.setText(locale.Publish);
+	}
+	
+	protected void showLabels()
+	{	
+		Locale locale = LocaleFactory.getLocale();
+		
+		m_txtCommentInput.setText(locale.AddComment);
+		m_txtLike.setText(locale.Like);
 	}
 	
 	private void showStageList(JSONArray array)
@@ -276,11 +286,19 @@ public class StageListActivity extends HeaderBarActivity
 			}
 		});
 		
+		m_imgLikeIcon.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				onClickSendPoint();
+			}
+		});
+		
 		m_txtLike.setOnClickListener(new View.OnClickListener() {
 			
 			@Override
 			public void onClick(View v) {
-				addLike();
+				onClickSendPoint();
 			}
 		});
 	}
@@ -302,42 +320,68 @@ public class StageListActivity extends HeaderBarActivity
 		ActivityManager.changeActivity(this, CommentDetailActivity.class, bundle, false, COMMENT_REQUEST_CODE);	
 	}
 	
-	private void addLike()
+	private void onClickSendPoint()
 	{
-		if( m_historyInfo.optInt(Const.FAVORITED_FLAG, 0) != 0 )
+		EditText input = MessageUtils.showEditDialog(this, "请输入的金额点.", new OnAlertClickListener() {
+			
+			@Override
+			public void onInputText(final String text) {
+				MessageUtils.showDialogYesNo(StageListActivity.this, "您真的想要向该用户发送星星?", new OnButtonClickListener() {
+					
+					@Override
+					public void onOkClick() {
+						sendPoint(text);
+						
+					}
+					
+					@Override
+					public void onCancelClick() {
+						// TODO Auto-generated method stub
+						
+					}
+				});				
+			}
+		});		
+		
+		input.setInputType(InputType.TYPE_CLASS_NUMBER);
+	}
+	
+	private void sendPoint(String text)
+	{
+		if( CheckUtils.isEmpty(text) )
 		{
-			MessageUtils.showMessageDialog(this, "你已赞这段历史.");
+			MessageUtils.showMessageDialog(this, "请输入星星数");
 			return;
 		}
-				
+		
+		final int amount = Integer.valueOf(text);
+		
+		int myPointCount = AppContext.getProfile().optInt(Const.POINT_NUM, 0);
+		if( amount > myPointCount )
+		{
+			MessageUtils.showMessageDialog(this, "您的输入值必须小于 " + myPointCount );
+			return;
+		}
+		
 		showLoadingProgress();
-		ServerManager.addLike(AppContext.getUserID(), m_historyInfo.optString(Const.ID, "0"), new ResultCallBack() {
+		ServerManager.sendPoint(AppContext.getUserID(), m_historyInfo.optString(Const.HUSERNO, "0"), m_historyInfo.optString(Const.ID, "0"), amount + "", new ResultCallBack() {
 			
 			@Override
 			public void doAction(LogicResult result) {
 				hideProgress();
-				if(result.mResult != LogicResult.RESULT_OK)
+				if( result.mResult != LogicResult.RESULT_OK )
 				{
 					MessageUtils.showMessageDialog(StageListActivity.this, EveryDayUtils.getMessage(result.mMessage));
 					return;
 				}
-				
-				try {
-					m_bIsChanged = true;
-					m_historyInfo.put(Const.FAVORITED_FLAG, 1);
-					Locale locale = LocaleFactory.getLocale();
-					m_txtLike.setText(locale.Liked);
-					
-					int likeCount = m_historyInfo.optInt(Const.LIKE_COUNT, 0);
-					likeCount++;
-					m_historyInfo.put(Const.LIKE_COUNT, likeCount);
-					m_txtLikeCount.setText(likeCount + "");
-				} catch (JSONException e) {
-					e.printStackTrace();
-				}
+				EveryDayUtils.sendPoint(AppContext.getProfile(), amount);
+				EveryDayUtils.receivePoint(m_historyInfo, amount);
+				m_txtReceiveCount.setText(m_historyInfo.optString(Const.RECEIVE_NUM, "0"));
+				m_bIsChanged = true;
 			}
 		});
 	}
+	
 	
 	private void onRemoveStage(final int pos)
 	{
@@ -520,7 +564,7 @@ public class StageListActivity extends HeaderBarActivity
 			String time = EveryDayUtils.getDateForStage(item);
 			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setText(time);
 			
-			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.default_image_bg).build();
+			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.default_back_bg).build();
 			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + MediaUtils.getThumnail(item.optString(Const.THUMBNAIL, "")), (ImageView)ViewHolder.get(rowView, R.id.img_history_preview), options);
 			((TextView)ViewHolder.get(rowView, R.id.txt_history)).setText(item.optString(Const.CONTENT, ""));
 			

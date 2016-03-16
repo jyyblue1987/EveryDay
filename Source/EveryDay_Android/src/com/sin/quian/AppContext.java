@@ -41,5 +41,6 @@ public class AppContext {
 				setProfile(result.getContentData());
 			}
 		});
-	}
+	}	
+	
 }

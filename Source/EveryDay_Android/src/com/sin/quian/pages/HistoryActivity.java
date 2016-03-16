@@ -116,7 +116,7 @@ public class HistoryActivity extends BottomBarActivity {
 	{
 		Locale locale = LocaleFactory.getLocale();
 		
-		m_txtPageTitle.setText(locale.Recent);
+		m_txtPageTitle.setText(locale.RecentTitle);
 		
 		m_editSearch.setHint(locale.SearchKey);
 	}
@@ -389,7 +389,7 @@ public class HistoryActivity extends BottomBarActivity {
 			
 			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setText(EveryDayUtils.getDate(item));
 			
-			((TextView)ViewHolder.get(rowView, R.id.txt_star)).setText(item.optString(Const.POINT_NUM, "0"));
+			((TextView)ViewHolder.get(rowView, R.id.txt_star)).setText(item.optString(Const.RECEIVE_NUM, "0"));
 			((TextView)ViewHolder.get(rowView, R.id.txt_comment)).setText(item.optString(Const.COMMENT_COUNT, "0"));
 			
 			final int pos = position;

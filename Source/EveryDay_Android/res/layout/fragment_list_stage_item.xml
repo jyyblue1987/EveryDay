@@ -40,20 +40,19 @@
 		    android:layout_width="match_parent"
 		    android:layout_height="150dip"
 		    android:scaleType="centerCrop"
-		    android:src="@drawable/default_image_bg"		    
+		    android:src="@drawable/default_back_bg"		    
 		    />
 	    <TextView
 		    android:id="@+id/txt_history"
 		    android:layout_width="match_parent"
-		    android:layout_height="wrap_content"
-		    android:layout_alignParentBottom="true"
+		    android:layout_height="wrap_content"		    
 		    android:paddingLeft="10dip"
 		    android:paddingRight="10dip"
+		    android:layout_below="@id/img_history_preview"
 		    android:maxLines="3" 
 		    android:ellipsize="end"
 		    android:text="我很高兴"
-		    android:textColor="@color/white"
-		    android:background="#BB000000" 
+		    android:textColor="@color/app_grey_color"		     
 		    />   	 
 		<ImageView
 	        android:id="@+id/img_video_icon"

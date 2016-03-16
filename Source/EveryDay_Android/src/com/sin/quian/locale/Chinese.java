@@ -47,9 +47,10 @@ public class Chinese extends Locale {
         Review = "写评论";
         Send = "发送";
         ReviewList = "评论榜";
-        Like = "好评";
+        Like = "赞赏";
         Liked = "已评";
         Publish = "发表";
+        AddComment = "留言";
         OK = "确认";
         Cancel = "取消";
         Buying = "购买";

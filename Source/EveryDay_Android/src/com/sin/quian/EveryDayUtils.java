@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
+import org.json.JSONException;
 import org.json.JSONObject;
 
 import com.sin.quian.locale.LocaleFactory;
@@ -116,5 +117,44 @@ public class EveryDayUtils {
 			return R.drawable.main_photobg5;
 		
 		return R.drawable.main_photobg6;
+	}
+	
+	public static void sendPoint(JSONObject profile, int amount)
+	{
+		if( profile == null )
+			return;
+		
+		if( amount < 0 )
+			return;
+		
+		int point = profile.optInt(Const.POINT_NUM, 0);
+		int sendPoint = profile.optInt(Const.SEND_NUM, 0);
+		
+		if( amount > point )
+			amount = point;
+		
+		try {
+			profile.put(Const.POINT_NUM, point - amount);
+			profile.put(Const.SEND_NUM, sendPoint + amount);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}		
+	}
+	
+	public static void receivePoint(JSONObject profile, int amount)
+	{
+		if( profile == null )
+			return;
+		
+		if( amount < 0 )
+			return;
+		
+		int point = profile.optInt(Const.RECEIVE_NUM, 0);
+		
+		try {
+			profile.put(Const.RECEIVE_NUM, point + amount);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}		
 	}
 }

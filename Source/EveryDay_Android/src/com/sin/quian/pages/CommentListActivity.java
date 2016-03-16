@@ -219,8 +219,9 @@ public class CommentListActivity extends HeaderBarActivity
 		{
 			final JSONObject item = getItem(position);
 			
-			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_contact_icon), 150, 150, true);
-			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.img_contact_icon), 40, 40, 0, 40, true);
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_level), 150, 150, true);
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_photo), 120, 120, true);
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_photo), 40, 40, 0, 40, true);
 			
 			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_content), 40, 40, 40, 40, true);
 			
@@ -230,12 +231,13 @@ public class CommentListActivity extends HeaderBarActivity
 			((TextView)ViewHolder.get(rowView, R.id.txt_content)).setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 			
 			// show info
-			((TextView)ViewHolder.get(rowView, R.id.txt_username)).setText(item.optString(Const.USERNAME, ""));
+			((TextView)ViewHolder.get(rowView, R.id.txt_username)).setText(EveryDayUtils.getName(item));
 			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setText(EveryDayUtils.getDate(item));
 			((TextView)ViewHolder.get(rowView, R.id.txt_content)).setText(item.optString(Const.CONTENT, ""));			
 			
+			((ImageView)ViewHolder.get(rowView, R.id.img_level)).setBackgroundResource(EveryDayUtils.getLevelImage(item));
 			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
-			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + item.optString(Const.PHOTO, ""), (ImageView)ViewHolder.get(rowView, R.id.img_contact_icon), options);
+			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + item.optString(Const.PHOTO, ""), (ImageView)ViewHolder.get(rowView, R.id.img_photo), options);
 
 			
 		}	
