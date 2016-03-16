@@ -109,6 +109,8 @@ public class CommentListActivity extends HeaderBarActivity
 		Locale locale = LocaleFactory.getLocale();
 		
 		m_txtPageTitle.setText(locale.ReviewList);		
+		
+		m_txtEmptyView.setText(locale.EmptyReview);
 	}
 	
 	

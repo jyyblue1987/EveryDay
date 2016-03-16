@@ -5,8 +5,8 @@ public class Locale {
     public String Start = "Start";
     public String AgreeOption = "I agree to all the terms.";
     public String Login = "Login";
-    public String EmailText = "Please input your email";
-    public String PasswordText = "Please input your password";
+    public String EmailText = "Please input email";
+    public String PasswordText = "Please input password";
     public String Register = "Register now";
     public String ForgotPw = "Forgot Password";
     public String FastLogin = "Fast Login";
@@ -25,6 +25,7 @@ public class Locale {
     public String Recent = "Recent";
     public String Favorite = "Star Page";
     public String Friend = "Friend";
+    public String EmptyFriend = "There is no friend list.";
     public String PersonalCenter = "Personal center";
     public String Camera = "Camera";
     public String Gallery = "Photos";
@@ -44,9 +45,10 @@ public class Locale {
     public String Language = "Language";
     public String LanguageText = "English";
     public String Review = "Reivew";
+    public String EmptyReview = "There is no review list.";
     public String Send = "Send";
     public String SendPoint = "Send";
-    public String ReviewList = "Reivew List";
+    public String ReviewList = "Review List";
     public String Like = "Appreciate";
     public String Liked = "Liked";
     public String Publish = "Publish";

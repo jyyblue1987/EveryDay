@@ -436,7 +436,7 @@ public class BuyActivity extends HeaderBarActivity implements IabBroadcastListen
 			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.btn_buy), 150, 70, true);
 			
 			((TextView)ViewHolder.get(rowView, R.id.txt_item_name)).setText(item.optString(ITEM_NAME, ""));
-			((TextView)ViewHolder.get(rowView, R.id.txt_item_price)).setText(item.optString(ITEM_PRICE, ""));
+			((TextView)ViewHolder.get(rowView, R.id.txt_item_price)).setText(item.optString(ITEM_PRICE, "") + "$");
 			
 			final int amount = Integer.valueOf(item.optString(ITEM_NAME, "100"));
 			

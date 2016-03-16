@@ -27,6 +27,7 @@ public class Chinese extends Locale {
         Recent = "最新";
         Favorite = "明星页";
         Friend = "好友";
+        EmptyFriend = "没有好友列表.";        
         PersonalCenter = "个人中心";
         Camera = "相机";
         Gallery = "画廊";
@@ -46,6 +47,7 @@ public class Chinese extends Locale {
         Language = "语言";
         LanguageText = "简体中文";
         Review = "写评论";
+        EmptyReview = "关于这段历史没有评论.";
         Send = "发送";
         SendPoint = "送出";
         ReviewList = "评论榜";

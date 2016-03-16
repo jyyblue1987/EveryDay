@@ -85,9 +85,6 @@ public class ContactListActivity extends BottomBarActivity {
 	{
 		super.initData();
 		
-		m_txtPageTitle.setText("好友");
-		m_txtEmptyView.setText("没有联系人列表.");
-		
 		getContactList();	
 	}
 	
@@ -95,7 +92,8 @@ public class ContactListActivity extends BottomBarActivity {
 	{
 		Locale locale = LocaleFactory.getLocale();
 		
-		m_txtPageTitle.setText(locale.Friend);		
+		m_txtPageTitle.setText(locale.Friend);
+		m_txtEmptyView.setText(locale.EmptyFriend);
 	}
 	
 	private void getContactList()
