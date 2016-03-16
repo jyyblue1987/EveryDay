@@ -12,12 +12,24 @@
 	    android:orientation="vertical"
 	    android:gravity="center_horizontal"
 	    >
-	    <common.component.ui.CircularImageView
-	        android:id="@+id/img_photo"
-	        android:layout_width="70dip"
-	        android:layout_height="70dip"
-	        android:src="@drawable/contact_icon" 
-	        />
+	    <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" 
+            >
+	        <ImageView
+	            android:id="@+id/img_level"
+	            android:layout_width="70dip"
+	            android:layout_height="70dip"
+	            android:background="@drawable/main_photobg2" 
+	            />
+	        <common.component.ui.CircularImageView
+	            android:id="@+id/img_photo"
+	            android:layout_width="55dip"
+	            android:layout_height="55dip" 
+	            android:layout_centerInParent="true"
+	            android:src="@drawable/contact_icon"
+            	/>    
+        </RelativeLayout>	    
 	    <common.component.ui.MyTextView
 	        android:id="@+id/txt_address"
 	        android:layout_width="50dip" 

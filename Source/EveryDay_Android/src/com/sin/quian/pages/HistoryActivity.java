@@ -86,7 +86,7 @@ public class HistoryActivity extends BottomBarActivity {
 		super.layoutControls();
 		
 		LayoutUtils.setMargin(findViewById(R.id.lay_search_bar), 60, 20, 60, 0, true);
-		LayoutUtils.setPadding(findViewById(R.id.lay_search_bar), 65, 36, 40, 36, true);
+		LayoutUtils.setPadding(findViewById(R.id.lay_search_bar), 30, 20, 25, 20, true);
 		
 		m_editSearch.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(57));
 		
@@ -325,7 +325,8 @@ public class HistoryActivity extends BottomBarActivity {
 			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_photo), 65, 35, 0, 35, true);
 			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_gallery), 65, 60, 65, 35, true);
 			
-			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_photo), 200, 200, true);
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_level), 200, 200, true);
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_photo), 140, 140, true);
 			
 			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.txt_address), 190, LayoutParams.WRAP_CONTENT, true);
 			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_address), 0, 30, 0, 0, true);
@@ -361,6 +362,7 @@ public class HistoryActivity extends BottomBarActivity {
 			((TextView)ViewHolder.get(rowView, R.id.txt_comment)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 30);
 			
 			// Data
+			((ImageView)ViewHolder.get(rowView, R.id.img_level)).setBackgroundResource(EveryDayUtils.getLevelImage(item));
 			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
 			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + item.optString(Const.PHOTO, ""), (ImageView)ViewHolder.get(rowView, R.id.img_photo), options);
 			
@@ -376,8 +378,8 @@ public class HistoryActivity extends BottomBarActivity {
 			ViewHolder.get(rowView, R.id.txt_rank).setVisibility(View.GONE);
 			
 			((TextView)ViewHolder.get(rowView, R.id.txt_name)).setText(EveryDayUtils.getName(item));
-			((TextView)ViewHolder.get(rowView, R.id.txt_desc)).setText(item.optString(Const.TITLE, ""));
-			options = ImageUtils.buildUILOption(R.drawable.default_image_bg).build();
+			((TextView)ViewHolder.get(rowView, R.id.txt_desc)).setText(item.optString(Const.CONTENT, ""));
+			options = ImageUtils.buildUILOption(R.drawable.default_back_bg).build();
 			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + MediaUtils.getThumnail(item.optString(Const.THUMBNAIL, "")), (ImageView)ViewHolder.get(rowView, R.id.img_gallery), options);
 			
 			if( MediaUtils.isVideoFile(item.optString(Const.THUMBNAIL, "")) == false )
