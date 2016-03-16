@@ -7,6 +7,8 @@ import com.sin.quian.AppContext;
 import com.sin.quian.Const;
 import com.sin.quian.EveryDayUtils;
 import com.sin.quian.R;
+import com.sin.quian.locale.Locale;
+import com.sin.quian.locale.LocaleFactory;
 import com.sin.quian.network.ServerManager;
 
 import android.app.Activity;
@@ -41,6 +43,14 @@ public class CommentDetailActivity extends HeaderBarActivity
 		m_editContent = (EditText) findViewById(R.id.edit_content);
 	}
 
+	protected void layoutControls()
+	{
+		super.layoutControls();
+		
+		LayoutUtils.setPadding(m_editContent, 60, 100, 60, 100, true);
+		m_editContent.setTextSize(TypedValue.COMPLEX_UNIT_PX, 45);
+	
+	}
 	protected void initData()
 	{
 		super.initData();
@@ -51,9 +61,15 @@ public class CommentDetailActivity extends HeaderBarActivity
 		m_btnRight.setBackgroundResource(R.drawable.complete_icon);
 		LayoutUtils.setSize(m_btnRight, 55, 48, true);
 		
-		LayoutUtils.setPadding(m_editContent, 20, 20, 20, 20, true);
-		m_editContent.setTextSize(TypedValue.COMPLEX_UNIT_PX, 45);
 	}
+	
+	protected void showLabels()
+	{
+		Locale locale = LocaleFactory.getLocale();
+		
+		m_txtPageTitle.setText(locale.Review);
+	}
+	
 	
 	private void uploadVideoThumbnail(String path, String name)
 	{
