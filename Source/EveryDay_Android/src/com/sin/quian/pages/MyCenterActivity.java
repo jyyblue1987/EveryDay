@@ -54,13 +54,18 @@ import common.network.utils.ResultCallBack;
 public class MyCenterActivity extends BottomBarActivity
 {
 	String			m_cameraTempPath = "";
+	String			m_zoomTempPath = "";
+	ImageView 		m_imgLevel = null;
 	ImageView 		m_imgPhoto = null;
 	TextView 		m_txtName = null;
 	
 	private static int	PICK_GALLERY_CODE = 100;
+	private static int	PHOTO_ZOOM_CODE = 150;
+	
 	private static int	COMMENT_REQUEST_CODE = 200;
 	private static int	STAGE_LIST_CODE = 201;
 	private static int	PROFILE_CHANGE_CODE = 202;
+	
 	
 	ImageView 		m_imgStar = null;
 	TextView 		m_txtStar = null;
@@ -83,6 +88,7 @@ public class MyCenterActivity extends BottomBarActivity
 	{
 		super.findViews();
 
+		m_imgLevel = (ImageView) findViewById(R.id.img_level);
 		m_imgPhoto = (ImageView) findViewById(R.id.img_photo);
 		m_txtName = (TextView) findViewById(R.id.txt_name);
 		m_imgStar = (ImageView) findViewById(R.id.img_star);
@@ -106,7 +112,8 @@ public class MyCenterActivity extends BottomBarActivity
 		LayoutUtils.setMargin(findViewById(R.id.lay_user_info), 30, 30, 30, 0, true);
 		LayoutUtils.setPadding(findViewById(R.id.lay_user_info), 40, 20, 40, 20, true);
 		
-		LayoutUtils.setSize(m_imgPhoto, 200, 200, true);
+		LayoutUtils.setSize(m_imgLevel, 200, 200, true);
+		LayoutUtils.setSize(m_imgPhoto, 140, 140, true);
 		
 		LayoutUtils.setMargin(findViewById(R.id.lay_right_info), 40, 0, 0, 0, true);
 		
@@ -157,6 +164,7 @@ public class MyCenterActivity extends BottomBarActivity
 		m_txtStar.setText(profile.optString(Const.POINT_NUM, "0"));
 		m_txtAddress.setText(profile.optString(Const.ADDRESS, ""));
 		
+		m_imgLevel.setBackgroundResource(EveryDayUtils.getLevelImage(profile));
 		DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
 		ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + profile.optString(Const.PHOTO, ""), m_imgPhoto, options);
 	}
@@ -311,6 +319,9 @@ public class MyCenterActivity extends BottomBarActivity
 	{
 		m_cameraTempPath = Environment.getExternalStorageDirectory() + "/";
 		m_cameraTempPath += "camera_temp";
+		m_zoomTempPath = Environment.getExternalStorageDirectory() + "/";
+		m_zoomTempPath += "zoom_temp.jpg";
+		
 
 		MediaUtils.showCameraGalleryPage(this, PICK_GALLERY_CODE, m_cameraTempPath);
 	}
@@ -380,15 +391,12 @@ public class MyCenterActivity extends BottomBarActivity
 		if (resultCode == 0)
 			return;		
 		
-		m_cameraTempPath = Environment.getExternalStorageDirectory() + "/";
-		m_cameraTempPath += "camera_temp";
-		
 		if( requestCode == PICK_GALLERY_CODE + 1 )
 		{
 			Uri selectedImage = data.getData();			
 			String picturePath = MediaUtils.getPathFromURI(this, selectedImage);
 			
-			processFile(picturePath);
+			MediaUtils.startPhotoZoom(this, picturePath, m_zoomTempPath, 300, 1.5f, PHOTO_ZOOM_CODE);			
 		}
 		
 		if (requestCode == PICK_GALLERY_CODE + 3 ) {
@@ -399,12 +407,17 @@ public class MyCenterActivity extends BottomBarActivity
 		}	
 
 		if (requestCode == PICK_GALLERY_CODE ) {
-			processFile(m_cameraTempPath + ".jpg");
+			MediaUtils.startPhotoZoom(this, m_cameraTempPath + ".jpg", m_zoomTempPath, 300, 1.5f, PHOTO_ZOOM_CODE);
 		}	
 		
 		if (requestCode == PICK_GALLERY_CODE + 2 ) { 
 			processFile(m_cameraTempPath + ".mp4");
 		}	
+		
+		if( requestCode == PHOTO_ZOOM_CODE )
+		{
+			processFile(m_zoomTempPath);
+		}
 		
 		if (requestCode == COMMENT_REQUEST_CODE ) {
 			getHistoryList();
@@ -440,7 +453,7 @@ public class MyCenterActivity extends BottomBarActivity
 			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.img_delete), 50, 0, 0, 0, true);
 			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_delete), 50, 60, true);			
 			
-			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_stage_list), 0, 30, 0, 0, true);
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_stage_list), 0, 0, 0, 0, true);
 			
 			int [] lay_gallery_array = {
 					R.id.lay_gallery_1,

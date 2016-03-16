@@ -3,6 +3,7 @@ package com.sin.quian.pages;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -177,6 +178,7 @@ public class StageListActivity extends HeaderBarActivity
 			findViewById(R.id.lay_count).setVisibility(View.GONE);
 			m_imgLikeIcon.setVisibility(View.GONE);
 			m_txtLike.setVisibility(View.GONE);
+			m_layRight.setVisibility(View.INVISIBLE);
 			
 			
 			showLoadingProgress();
@@ -446,8 +448,12 @@ public class StageListActivity extends HeaderBarActivity
 			MessageUtils.showMessageDialog(this, "Please input title.");
 			return;
 		}
+		
+		Random r = new Random();
+		final int levelnum = r.nextInt(6) + 1;
+		
 		showLoadingProgress();
-		ServerManager.addHistory(AppContext.getUserID(), text, new ResultCallBack() {
+		ServerManager.addHistory(AppContext.getUserID(), text, levelnum, new ResultCallBack() {
 			
 			@Override
 			public void doAction(LogicResult result) {
@@ -457,6 +463,8 @@ public class StageListActivity extends HeaderBarActivity
 					MessageUtils.showMessageDialog(StageListActivity.this, EveryDayUtils.getMessage(result.mMessage));
 					return;
 				}
+				
+				EveryDayUtils.addPoint(AppContext.getProfile(), levelnum);
 				
 				m_bIsChanged = true;
 				gotoBackPage();

@@ -134,7 +134,7 @@ public class MainMenuActivity extends HeaderBarActivity
 		
 		JSONObject profile = AppContext.getProfile();
 		m_txtUserName.setText(EveryDayUtils.getName(profile));
-		m_txtPointCount.setText(EveryDayUtils.getTotalCount(profile) + "");
+		m_txtPointCount.setText(profile.optString(Const.POINT_NUM, "0"));
 		
 		m_imgLevel.setBackgroundResource(EveryDayUtils.getLevelImage(profile));
 		DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();

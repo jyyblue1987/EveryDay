@@ -228,6 +228,20 @@ public class MediaUtils {
         activity.startActivityForResult(intent, requestCode);
 	}
 	
+	public static void startPhotoZoom(Activity activity, String  picturePath, String outputPath, int iconSize, float ratio, int requestCode ) {
+	    Intent intent = new Intent(activity, CropImage.class);
+	    
+	    // here you have to pass absolute path to your file		
+	    intent.putExtra("image-path", picturePath);
+	    intent.putExtra("save-path", outputPath);
+	    intent.putExtra("scale", true);
+		intent.putExtra("outputX", (int)(iconSize * ratio));
+		intent.putExtra("outputY", iconSize);
+        intent.putExtra("aspectX", (int)(10 * ratio));
+        intent.putExtra("aspectY", 10);
+        activity.startActivityForResult(intent, requestCode);
+	}
+	
 	public static boolean isVideoFile(String filename)
 	{
 		if( CheckUtils.isEmpty(filename) )

@@ -141,6 +141,23 @@ public class EveryDayUtils {
 		}		
 	}
 	
+	public static void addPoint(JSONObject profile, int amount)
+	{
+		if( profile == null )
+			return;
+		
+		if( amount < 0 )
+			return;
+		
+		int point = profile.optInt(Const.POINT_NUM, 0);
+	
+		try {
+			profile.put(Const.POINT_NUM, point + amount);
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}		
+	}
+	
 	public static void receivePoint(JSONObject profile, int amount)
 	{
 		if( profile == null )

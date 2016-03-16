@@ -60,7 +60,6 @@
 	  	    android:id="@+id/lay_stage_list"
 	  	    android:layout_width="match_parent"
 	  	    android:layout_height="wrap_content"
-	  	    android:layout_marginTop="10dip"
 	  	    android:orientation="horizontal" 
 	  	    >
 	  	    <RelativeLayout
