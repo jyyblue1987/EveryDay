@@ -11,7 +11,6 @@ import com.sin.quian.EveryDayUtils;
 import com.sin.quian.R;
 import com.sin.quian.locale.Locale;
 import com.sin.quian.locale.LocaleFactory;
-import com.sin.quian.network.ServerManager;
 import com.sin.quian.network.ServerTask;
 
 import android.content.Intent;
@@ -29,10 +28,7 @@ import common.design.layout.ScreenAdapter;
 import common.design.utils.ResourceUtils;
 import common.image.load.ImageUtils;
 import common.library.utils.MediaUtils;
-import common.library.utils.MessageUtils;
 import common.manager.activity.ActivityManager;
-import common.network.utils.LogicResult;
-import common.network.utils.ResultCallBack;
 
 
 public class MainMenuActivity extends HeaderBarActivity
@@ -41,6 +37,7 @@ public class MainMenuActivity extends HeaderBarActivity
 	private static int	COMMENT_REQUEST_CODE = 200;
 	private static int	BUY_POINT_CODE = 201;
 	
+	ImageView		m_imgLevel = null;
 	ImageView		m_imgPhoto = null;
 	TextView		m_txtUserName = null;
 	TextView		m_txtPointCount = null;
@@ -62,6 +59,7 @@ public class MainMenuActivity extends HeaderBarActivity
 	{
 		super.findViews();
 		
+		m_imgLevel = (ImageView) findViewById(R.id.img_level);
 		m_imgPhoto = (ImageView) findViewById(R.id.img_photo);
 		m_txtUserName = (TextView) findViewById(R.id.txt_username);
 		m_txtPointCount = (TextView) findViewById(R.id.txt_point_count);
@@ -79,9 +77,12 @@ public class MainMenuActivity extends HeaderBarActivity
 		
 		LayoutUtils.setSize(findViewById(R.id.lay_main_head), LayoutParams.MATCH_PARENT, ScreenAdapter.getDeviceHeight() / 3, false);
 		
-		LayoutUtils.setSize(m_imgPhoto, 300, 300, true);
+		
 		LayoutUtils.setMargin(findViewById(R.id.lay_user_info), 0, 40, 0, 0, true);
 		
+		LayoutUtils.setSize(m_imgLevel, 300, 300, true);
+		LayoutUtils.setSize(m_imgPhoto, 210, 210, true);
+				
 		m_txtUserName.setTextSize(TypedValue.COMPLEX_UNIT_PX, ScreenAdapter.computeHeight(50));
 		
 		LayoutUtils.setMargin(findViewById(R.id.img_star), 50, 0, 0, 0, true);
@@ -132,9 +133,10 @@ public class MainMenuActivity extends HeaderBarActivity
 		m_txtPageTitle.setText(locale.EveryDay);
 		
 		JSONObject profile = AppContext.getProfile();
-		m_txtUserName.setText(profile.optString(Const.USERNAME, ""));
-		m_txtPointCount.setText(profile.optInt(Const.POINT_NUM, 0) + "");
+		m_txtUserName.setText(EveryDayUtils.getName(profile));
+		m_txtPointCount.setText(EveryDayUtils.getTotalCount(profile) + "");
 		
+		m_imgLevel.setBackgroundResource(EveryDayUtils.getLevelImage(profile));
 		DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
 		ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + profile.optString(Const.PHOTO, ""), m_imgPhoto, options);
 		

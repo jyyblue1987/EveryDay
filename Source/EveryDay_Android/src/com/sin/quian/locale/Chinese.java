@@ -20,9 +20,9 @@ public class Chinese extends Locale {
         ConfirmPW = "确认密码";
         RegisterText = "注册";
         ReadAgree = "我已阅读并同意";
-        AllTerms = "《每天所有条款与协议》";
-        EveryDay = "每天";
-        EveryDayPicture = "每天一图";
+        AllTerms = "《每日所有条款与协议》";
+        EveryDay = "每日";
+        EveryDayPicture = "每日一图";
         Recent = "最新";
         Favorite = "明星页";
         Friend = "好友";

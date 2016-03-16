@@ -90,4 +90,31 @@ public class EveryDayUtils {
 		}
 		return time;
 	}
+	
+	public static int getTotalCount(JSONObject profile)
+	{
+		if( profile == null )
+			return 0;
+		
+		int count = profile.optInt(Const.POINT_NUM, 0) + profile.optInt(Const.SEND_NUM, 0);
+		return count;
+	}
+	
+	public static int getLevelImage(JSONObject profile)
+	{
+		int count = getTotalCount(profile);
+		if( count < 100 )
+			return R.drawable.main_photobg1;
+		
+		if( count < 500 )
+			return R.drawable.main_photobg2;
+		if( count < 1000 )
+			return R.drawable.main_photobg3;
+		if( count < 3000 )
+			return R.drawable.main_photobg4;
+		if( count < 5000 )
+			return R.drawable.main_photobg5;
+		
+		return R.drawable.main_photobg6;
+	}
 }
