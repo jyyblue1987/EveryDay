@@ -322,8 +322,7 @@ public class MyCenterActivity extends BottomBarActivity
 		m_zoomTempPath = Environment.getExternalStorageDirectory() + "/";
 		m_zoomTempPath += "zoom_temp.jpg";
 		
-
-		MediaUtils.showCameraGalleryPage(this, PICK_GALLERY_CODE, m_cameraTempPath);
+		EveryDayUtils.showCameraGalleryPage(this, PICK_GALLERY_CODE, m_cameraTempPath);
 	}
 	
 	private void onRemoveHistory(final int pos)

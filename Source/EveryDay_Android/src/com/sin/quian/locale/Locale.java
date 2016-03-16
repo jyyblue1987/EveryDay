@@ -1,6 +1,7 @@
 package com.sin.quian.locale;
 
 public class Locale {
+	public String Loading = "Please wait";
     public String Start = "Start";
     public String AgreeOption = "I agree to all the terms.";
     public String Login = "Login";
@@ -67,7 +68,7 @@ public class Locale {
     public String AppRewardMessage = "To comment on the 5 star, 500 star award!";
     public String Allow = "Allow";
     public String NoAllow = "Not Allow";
-    
+    public String GainPointMessage = "Congratulations on getting %d star";
     
     
     public void changeLocale()

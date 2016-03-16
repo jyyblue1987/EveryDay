@@ -57,60 +57,6 @@ public class MediaUtils {
 	private static final String VIDEO_UNSPECIFIED = "video/*";
 	private static final String AUDIO_UNSPECIFIED = "audio/*";
 	
-	
-	public static void showCameraGalleryPage(final Context context, final int requestCode, final String output)
-	{
-		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-
-		String items[] = {"拍张照片", "从库提取照片", "拍张视频", "从库提取视频"};
-		
-		dialog.setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {			
-			public void onClick(DialogInterface dialog, int whichButton) {
-				picture_mode = whichButton;						
-				if (picture_mode == 0) {
-					doTakePhotoFromCamera(context, requestCode, output+".jpg" );
-				} else if (picture_mode == 1) {
-					doTakePhotoFromGallery(context, requestCode + 1 );
-				} else if (picture_mode == 2) {
-					doTakeVideoFromCamera(context, requestCode + 2, output+".mp4" );
-				}else if (picture_mode == 3) {
-					doTakeVideoFromGallery(context, requestCode + 3);
-				}
-				dialog.dismiss();
-			}
-		});
-			
-		dialog.create();
-		AlertDialog alertDialog = dialog.show();
-		
-		alertDialog.show();
-		alertDialog.setCanceledOnTouchOutside(true);
-	}
-	
-	public static void showProfileCameraGalleryPage(final Context context, final int requestCode, final String output)
-	{
-		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
-
-		String items[] = {"Camera", "Gallery"};
-		
-		dialog.setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {			
-			public void onClick(DialogInterface dialog, int whichButton) {
-				picture_mode = whichButton;						
-				if (picture_mode == 0) {
-					doTakePhotoFromCamera(context, requestCode, output );
-				} else if (picture_mode == 1) {
-					doTakePhotoFromGallery(context, requestCode + 1 );
-				}
-				dialog.dismiss();
-			}
-		});
-			
-		dialog.create();
-		AlertDialog alertDialog = dialog.show();
-		
-		alertDialog.show();
-		alertDialog.setCanceledOnTouchOutside(true);
-	}
 	public static void doTakeVideoFromCamera(Context context, int requestCode, String output )
 	{
 		Activity activity = (Activity) context;

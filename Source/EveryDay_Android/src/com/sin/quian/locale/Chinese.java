@@ -3,6 +3,7 @@ package com.sin.quian.locale;
 public class Chinese extends Locale {	
     public void changeLocale()
     {
+    	Loading = "请稍等";
         Start = "开始";
         AgreeOption = "同意所有条款的选项";
         Login = "登录";
@@ -60,7 +61,7 @@ public class Chinese extends Locale {
         InputPublishTitle = "请输入发表题目";
         Bonus = "获得奖励";
         Save = "保存";
-        Logout = "登出";
+        Logout = "退出";
         ChangePWD = "修改密码";
         OldPWDLabel = "旧密码:";
         NewPWDLabel = "新的密码:";
@@ -69,6 +70,7 @@ public class Chinese extends Locale {
         AppRewardMessage = "去评论5星，获得500星星奖励！";
         Allow = "接受";
         NoAllow = "拒绝";
+        GainPointMessage = "恭喜你获得了%d颗";
     }
     
 //    [Global sharedGlobal].arrStart = [NSArray arrayWithObjects:@"开始", @"Start", nil];

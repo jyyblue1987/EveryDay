@@ -7,9 +7,14 @@ import java.util.Date;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import com.sin.quian.locale.Locale;
 import com.sin.quian.locale.LocaleFactory;
 
+import android.app.AlertDialog;
+import android.content.Context;
+import android.content.DialogInterface;
 import common.library.utils.CheckUtils;
+import common.library.utils.MediaUtils;
 import common.library.utils.MyTime;
 
 public class EveryDayUtils {
@@ -173,5 +178,64 @@ public class EveryDayUtils {
 		} catch (JSONException e) {
 			e.printStackTrace();
 		}		
+	}
+	
+	static int picture_mode = 0;
+	
+	public static void showCameraGalleryPage(final Context context, final int requestCode, final String output)
+	{
+		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+
+		Locale locale = LocaleFactory.getLocale();
+
+		String items[] = {locale.Camera, locale.Gallery, locale.Video};
+		
+		dialog.setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {			
+			public void onClick(DialogInterface dialog, int whichButton) {
+				picture_mode = whichButton;						
+				if (picture_mode == 0) {
+					MediaUtils.doTakePhotoFromCamera(context, requestCode, output+".jpg" );
+				} else if (picture_mode == 1) {
+					MediaUtils.doTakePhotoFromGallery(context, requestCode + 1 );
+				} else if (picture_mode == 2) {
+					MediaUtils.doTakeVideoFromCamera(context, requestCode + 2, output+".mp4" );
+				}else if (picture_mode == 3) {
+					MediaUtils.doTakeVideoFromGallery(context, requestCode + 3);
+				}
+				dialog.dismiss();
+			}
+		});
+			
+		dialog.create();
+		AlertDialog alertDialog = dialog.show();
+		
+		alertDialog.show();
+		alertDialog.setCanceledOnTouchOutside(true);
+	}
+	
+	public static void showPicturePage(final Context context, final int requestCode, final String output)
+	{
+		AlertDialog.Builder dialog = new AlertDialog.Builder(context);
+
+		Locale locale = LocaleFactory.getLocale();
+		String items[] = {locale.Camera, locale.Gallery};
+		
+		dialog.setSingleChoiceItems(items, 0, new DialogInterface.OnClickListener() {			
+			public void onClick(DialogInterface dialog, int whichButton) {
+				picture_mode = whichButton;						
+				if (picture_mode == 0) {
+					MediaUtils.doTakePhotoFromCamera(context, requestCode, output );
+				} else if (picture_mode == 1) {
+					MediaUtils.doTakePhotoFromGallery(context, requestCode + 1 );
+				}
+				dialog.dismiss();
+			}
+		});
+			
+		dialog.create();
+		AlertDialog alertDialog = dialog.show();
+		
+		alertDialog.show();
+		alertDialog.setCanceledOnTouchOutside(true);
 	}
 }

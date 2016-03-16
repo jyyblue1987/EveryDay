@@ -36,6 +36,7 @@ public class MainMenuActivity extends HeaderBarActivity
 	private static int	PICK_GALLERY_CODE = 100;
 	private static int	COMMENT_REQUEST_CODE = 200;
 	private static int	BUY_POINT_CODE = 201;
+	private static int	PHOTO_ZOOM_CODE = 150;
 	
 	ImageView		m_imgLevel = null;
 	ImageView		m_imgPhoto = null;
@@ -47,6 +48,7 @@ public class MainMenuActivity extends HeaderBarActivity
 	ImageView 		m_imgBuyIcon = null;
 
 	String			m_cameraTempPath = "";
+	String			m_zoomTempPath = "";
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -264,8 +266,10 @@ public class MainMenuActivity extends HeaderBarActivity
 	{
 		m_cameraTempPath = Environment.getExternalStorageDirectory() + "/";
 		m_cameraTempPath += "camera_temp";//.jpg
-
-		MediaUtils.showCameraGalleryPage(this, PICK_GALLERY_CODE, m_cameraTempPath);
+		m_zoomTempPath = Environment.getExternalStorageDirectory() + "/";
+		m_zoomTempPath += "zoom_temp.jpg";
+		
+		EveryDayUtils.showCameraGalleryPage(this, PICK_GALLERY_CODE, m_cameraTempPath);
 	}
 	
 
@@ -291,15 +295,13 @@ public class MainMenuActivity extends HeaderBarActivity
 	protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 		if (resultCode == 0)
 			return;		
-		m_cameraTempPath = Environment.getExternalStorageDirectory() + "/";
-		m_cameraTempPath += "camera_temp";
 		
 		if( requestCode == PICK_GALLERY_CODE + 1 )
 		{
 			Uri selectedImage = data.getData();			
 			String picturePath = MediaUtils.getPathFromURI(this, selectedImage);
 			
-			processFile(picturePath);
+			MediaUtils.startPhotoZoom(this, picturePath, m_zoomTempPath, 300, 1.5f, PHOTO_ZOOM_CODE);
 		}
 		
 		if (requestCode == PICK_GALLERY_CODE + 3 ) {
@@ -310,13 +312,17 @@ public class MainMenuActivity extends HeaderBarActivity
 		}	
 		
 		if (requestCode == PICK_GALLERY_CODE ) {
-			processFile(m_cameraTempPath + ".jpg");
+			MediaUtils.startPhotoZoom(this, m_cameraTempPath + ".jpg", m_zoomTempPath, 300, 1.5f, PHOTO_ZOOM_CODE);
 		}	
 		
 		if (requestCode == PICK_GALLERY_CODE + 2 ) {
 			processFile(m_cameraTempPath + ".mp4");
 		}	
 		
+		if( requestCode == PHOTO_ZOOM_CODE )
+		{
+			processFile(m_zoomTempPath);
+		}
 
 		if (requestCode == COMMENT_REQUEST_CODE ) {
 			Log.e("MainMenu", "gotoPersonalCenterPage");

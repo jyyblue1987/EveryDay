@@ -9,6 +9,7 @@ import org.json.JSONObject;
 import com.nostra13.universalimageloader.core.DisplayImageOptions;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.sin.quian.AppContext;
+import com.sin.quian.EveryDayUtils;
 import com.sin.quian.R;
 import com.sin.quian.locale.Locale;
 import com.sin.quian.locale.LocaleFactory;
@@ -27,6 +28,7 @@ import android.widget.ImageView;
 import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
 import common.image.load.ImageUtils;
+import common.library.utils.MessageUtils;
 import common.list.adapter.ItemCallBack;
 import common.list.adapter.MyPagerAdapter;
 import common.network.utils.LogicResult;
@@ -78,6 +80,11 @@ public class AdvertiseActivity extends HeaderBarActivity {
 				{
 					return;
 				}
+				
+				EveryDayUtils.addPoint(AppContext.getProfile(), 1);
+				
+				Locale locale = LocaleFactory.getLocale();
+				MessageUtils.showMessageDialog(AdvertiseActivity.this, String.format(locale.GainPointMessage, 1));
 				
 				showAdvertiseList(result.getContentArray());				
 			}

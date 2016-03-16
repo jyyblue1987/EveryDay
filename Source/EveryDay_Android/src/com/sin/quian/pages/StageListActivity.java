@@ -466,8 +466,22 @@ public class StageListActivity extends HeaderBarActivity
 				
 				EveryDayUtils.addPoint(AppContext.getProfile(), levelnum);
 				
-				m_bIsChanged = true;
-				gotoBackPage();
+				Locale locale = LocaleFactory.getLocale();
+				MessageUtils.showMessageDialog(StageListActivity.this, String.format(locale.GainPointMessage, levelnum), new OnButtonClickListener() {
+					
+					@Override
+					public void onOkClick() {
+						gotoBackPage();						
+					}
+					
+					@Override
+					public void onCancelClick() {
+						// TODO Auto-generated method stub
+						
+					}
+				} );
+				
+				m_bIsChanged = true;				
 			}
 		});
 	}

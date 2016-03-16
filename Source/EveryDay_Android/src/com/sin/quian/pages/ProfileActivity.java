@@ -275,7 +275,7 @@ public class ProfileActivity extends BottomBarActivity
 		m_cameraTempPath += "camera_temp.jpg";
 		
 		// communication between ProfileActivity and mediaUtils
-		MediaUtils.showProfileCameraGalleryPage(this, PROFILE_PICK_GALLERY_CODE, m_cameraTempPath);// PROFILE_PICK_GALLERY_CODE: request code
+		EveryDayUtils.showPicturePage(this, PROFILE_PICK_GALLERY_CODE, m_cameraTempPath);// PROFILE_PICK_GALLERY_CODE: request code
 	}
 	
 	private void onClickSave()

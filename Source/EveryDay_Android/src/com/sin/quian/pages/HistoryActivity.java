@@ -38,6 +38,7 @@ import common.design.layout.LayoutUtils;
 import common.design.layout.ScreenAdapter;
 import common.design.utils.ResourceUtils;
 import common.image.load.ImageUtils;
+import common.library.utils.ActionUtils;
 import common.library.utils.AlgorithmUtils;
 import common.library.utils.DataUtils;
 import common.library.utils.MediaUtils;
@@ -108,6 +109,7 @@ public class HistoryActivity extends BottomBarActivity {
 		
 		m_txtPageTitle.setText("最新更新");
 		
+		ActionUtils.closeSoftKeyboard(m_editSearch, this);
 		getHistoryList();
 			
 	}

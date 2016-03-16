@@ -1,5 +1,7 @@
 package com.sin.quian.pages;
 
+import com.sin.quian.locale.Locale;
+import com.sin.quian.locale.LocaleFactory;
 import com.sin.quian.mvp.BaseView;
 
 import android.app.Activity;
@@ -112,8 +114,7 @@ public class BaseActivity extends Activity implements BaseView {
 	@Override
 	public void initProgress() {
        progressDialog = new ProgressDialog(this);
-        progressDialog.setTitle("加载");
-        progressDialog.setMessage("请稍等...");
+        progressDialog.setMessage("请稍等");
         progressDialog.setIndeterminate(true);
         progressDialog.setCancelable(false);
 	}
@@ -160,7 +161,8 @@ public class BaseActivity extends Activity implements BaseView {
     
     public void showLoadingProgress()
     {
-    	showProgress("加载", "请稍等");
+    	Locale locale = LocaleFactory.getLocale();
+    	showProgress("", locale.Loading);
     }
     
     protected void showLabels()
