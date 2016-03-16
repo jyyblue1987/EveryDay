@@ -571,7 +571,7 @@ public class StageListActivity extends HeaderBarActivity
 			final JSONObject item = getItem(position);
 			
 			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_time), 30, 20, 0, 30, true);
-			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 30);
+			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 40);
 			
 			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_remove), 70, 80, true);
 			

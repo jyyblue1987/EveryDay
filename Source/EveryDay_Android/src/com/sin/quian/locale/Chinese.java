@@ -3,14 +3,14 @@ package com.sin.quian.locale;
 public class Chinese extends Locale {	
     public void changeLocale()
     {
-    	Loading = "请稍等";
+    	Loading = "请等待";
         Start = "开始";
         AgreeOption = "同意所有条款的选项";
         Login = "登录";
-        EmailText = "请输入油箱";
+        EmailText = "请输入邮箱";
         PasswordText = "请输入密码";
         Register = "立即注册";
-        ForgotPw = "忘记蔤码";
+        ForgotPw = "忘记密码";
         FastLogin = "快捷登录";
         FirstUse = "先用用看";
         SendVerify = "发送验证码";

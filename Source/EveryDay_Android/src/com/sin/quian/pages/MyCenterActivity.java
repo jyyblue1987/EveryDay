@@ -441,7 +441,7 @@ public class MyCenterActivity extends BottomBarActivity
 			
 			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_time), 30, 20, 0, 30, true);
 			
-			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 30);
+			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 40);
 			
 			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.img_camera), 0, 30, 0, 0, true);
 			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_camera), 80, 70, true);

@@ -160,6 +160,7 @@ public class ForgotPasswordActivity extends HeaderBarActivity
 				if( result.mResult != LogicResult.RESULT_OK )	// ok
 				{
 					MessageUtils.showMessageDialog(ForgotPasswordActivity.this, "Server is not responding");
+					return;
 				}
 				
 				MessageUtils.showMessageDialog(ForgotPasswordActivity.this, "Verify code has been sent to your email, Please check your email and input verify code.");				
