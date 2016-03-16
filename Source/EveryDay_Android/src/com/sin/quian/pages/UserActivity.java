@@ -145,7 +145,10 @@ public class UserActivity extends BottomBarActivity {
 			m_listItems.setVisibility(View.VISIBLE);
 			m_listPullItems.setVisibility(View.VISIBLE);
 
-			m_adapteruserList = new BlogListAdapter(this, list, R.layout.fragment_list_blog, null);
+			if( m_nSortMode == 0 )
+				m_adapteruserList = new SendListAdapter(this, list, R.layout.fragment_list_sendsort, null);
+			else
+				m_adapteruserList = new BlogListAdapter(this, list, R.layout.fragment_list_blog, null);
 			
 			m_listItems.setAdapter(m_adapteruserList);
 		}		
@@ -246,6 +249,9 @@ public class UserActivity extends BottomBarActivity {
 	
 	private void gotoHistoryPage(int pos)
 	{
+		if( m_nSortMode == 0 )
+			return;
+		
 		JSONObject item = m_adapteruserList.getItem(pos - 1);
 		Bundle bundle = new Bundle();	
 		bundle.putString(INTENT_EXTRA, item.toString());
@@ -265,7 +271,8 @@ public class UserActivity extends BottomBarActivity {
 			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_photo), 65, 35, 0, 35, true);
 			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_gallery), 65, 60, 65, 35, true);
 			
-			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_photo), 200, 200, true);
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_level), 200, 200, true);
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_photo), 140, 140, true);
 			
 			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.txt_address), 190, LayoutParams.WRAP_CONTENT, true);
 			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_address), 0, 30, 0, 0, true);
@@ -294,7 +301,7 @@ public class UserActivity extends BottomBarActivity {
 			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.img_star), 20, 0, 0, 0, true);
 			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_star), 38, 38, true);
 			
-			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_star), 5, 0, 0, 0, true);
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_star), 10, 0, 30, 0, true);
 			((TextView)ViewHolder.get(rowView, R.id.txt_star)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 30);
 			
 			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.img_comment), 20, 0, 0, 0, true);
@@ -303,7 +310,11 @@ public class UserActivity extends BottomBarActivity {
 			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_comment), 5, 0, 0, 0, true);
 			((TextView)ViewHolder.get(rowView, R.id.txt_comment)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 30);
 			
+			ViewHolder.get(rowView, R.id.img_comment).setVisibility(View.GONE);
+			ViewHolder.get(rowView, R.id.txt_comment).setVisibility(View.GONE);
+			
 			// Data
+			((ImageView)ViewHolder.get(rowView, R.id.img_level)).setBackgroundResource(EveryDayUtils.getLevelImage(item));
 			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
 			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + item.optString(Const.PHOTO, ""), (ImageView)ViewHolder.get(rowView, R.id.img_photo), options);
 			
@@ -317,7 +328,7 @@ public class UserActivity extends BottomBarActivity {
 			
 			((TextView)ViewHolder.get(rowView, R.id.txt_name)).setText(EveryDayUtils.getName(item));
 			((TextView)ViewHolder.get(rowView, R.id.txt_desc)).setText(item.optString(Const.TITLE, ""));
-			options = ImageUtils.buildUILOption(R.drawable.default_image_bg).build();
+			options = ImageUtils.buildUILOption(R.drawable.default_back_bg).build();
 			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PATH + MediaUtils.getThumnail(item.optString(Const.THUMBNAIL, "")), (ImageView)ViewHolder.get(rowView, R.id.img_gallery), options);
 			
 			if( MediaUtils.isVideoFile(item.optString(Const.THUMBNAIL, "")) == false )
@@ -325,13 +336,61 @@ public class UserActivity extends BottomBarActivity {
 			else
 				ViewHolder.get(rowView, R.id.img_video_icon).setVisibility(View.VISIBLE);
 			
-			String time = item.optString(Const.MODIFY_DATE, MyTime.getCurrentTime());
-			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setText(time);
+			((TextView)ViewHolder.get(rowView, R.id.txt_time)).setText(EveryDayUtils.getDate(item));
 			
-			((TextView)ViewHolder.get(rowView, R.id.txt_star)).setText(item.optString(Const.POINT_NUM, "0"));
+			((TextView)ViewHolder.get(rowView, R.id.txt_star)).setText(item.optString(Const.RECEIVE_NUM, "0"));
 			((TextView)ViewHolder.get(rowView, R.id.txt_comment)).setText(item.optString(Const.COMMENT_COUNT, "0"));
 		}	
 	}
 
+	class SendListAdapter extends MyListAdapter {
+		public SendListAdapter(Context context, List<JSONObject> data,
+			int resource, ItemCallBack callback) {
+			super(context, data, resource, callback);
+		}
+		@Override
+		protected void loadItemViews(View rowView, int position)
+		{
+			final JSONObject item = getItem(position);
+			
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_photo), 65, 35, 0, 35, true);
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_gallery), 65, 60, 65, 35, true);
+			
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_level), 200, 200, true);
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_photo), 140, 140, true);
+			
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_rank), 0, 10, 0, 0, true);
+			((TextView)ViewHolder.get(rowView, R.id.txt_rank)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 65);
+			
+			((TextView)ViewHolder.get(rowView, R.id.txt_name)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 50);
+			
+			// blog info(time, point, comment count)
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.lay_blog_info), 0, 50, 0, 0, true);
+						
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.img_star), 20, 0, 0, 0, true);
+			LayoutUtils.setSize(ViewHolder.get(rowView, R.id.img_star), 38, 38, true);
+
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_send_label), 20, 0, 0, 0, true);
+			((TextView)ViewHolder.get(rowView, R.id.txt_send_label)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 30);
+
+			LayoutUtils.setMargin(ViewHolder.get(rowView, R.id.txt_star), 40, 0, 0, 0, true);
+			((TextView)ViewHolder.get(rowView, R.id.txt_star)).setTextSize(TypedValue.COMPLEX_UNIT_PX, 30);
+			
+			// Data
+			((ImageView)ViewHolder.get(rowView, R.id.img_level)).setBackgroundResource(EveryDayUtils.getLevelImage(item));
+			DisplayImageOptions options = ImageUtils.buildUILOption(R.drawable.contact_icon).build();
+			ImageLoader.getInstance().displayImage(ServerTask.SERVER_UPLOAD_PHOTO_PATH + item.optString(Const.PHOTO, ""), (ImageView)ViewHolder.get(rowView, R.id.img_photo), options);
+			
+			((TextView)ViewHolder.get(rowView, R.id.txt_rank)).setText(String.format("%02d", position + 1));
+			if( position > 0 )
+				((TextView)ViewHolder.get(rowView, R.id.txt_rank)).setTextColor(Color.GRAY);
+			else
+				((TextView)ViewHolder.get(rowView, R.id.txt_rank)).setTextColor(Color.rgb(208, 0, 0));
+			
+			((TextView)ViewHolder.get(rowView, R.id.txt_name)).setText(EveryDayUtils.getName(item));
+			
+			((TextView)ViewHolder.get(rowView, R.id.txt_star)).setText(item.optString(Const.SEND_NUM, "0"));
+		}	
+	}
 	
 }

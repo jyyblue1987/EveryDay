@@ -44,6 +44,7 @@ public class Locale {
     public String LanguageText = "English";
     public String Review = "Reivew";
     public String Send = "Send";
+    public String SendPoint = "Send";
     public String ReviewList = "Reivew List";
     public String Like = "Appreciate";
     public String Liked = "Liked";
@@ -66,6 +67,8 @@ public class Locale {
     public String AppRewardMessage = "To comment on the 5 star, 500 star award!";
     public String Allow = "Allow";
     public String NoAllow = "Not Allow";
+    
+    
     
     public void changeLocale()
     {

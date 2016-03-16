@@ -46,6 +46,7 @@ public class Chinese extends Locale {
         LanguageText = "简体中文";
         Review = "写评论";
         Send = "发送";
+        SendPoint = "送出";
         ReviewList = "评论榜";
         Like = "赞赏";
         Liked = "已评";
