@@ -404,6 +404,9 @@ public class UserActivity extends BottomBarActivity {
 			((TextView)ViewHolder.get(rowView, R.id.txt_name)).setText(EveryDayUtils.getName(item));
 			
 			((TextView)ViewHolder.get(rowView, R.id.txt_star)).setText(item.optString(Const.SEND_NUM, "0"));
+			
+			Locale locale = LocaleFactory.getLocale();
+			((TextView)ViewHolder.get(rowView, R.id.txt_send_label)).setText(locale.SendPoint);
 		}	
 	}
 	
